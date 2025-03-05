@@ -8,7 +8,6 @@ import acme.client.components.basis.AbstractEntity;
 import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.ValidNumber;
-import acme.client.components.validation.ValidScore;
 import acme.client.components.validation.ValidString;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +25,7 @@ public class Task extends AbstractEntity {
 	private TaskType			type;
 
 	@Mandatory
-	@ValidString(max = 255)
+	@ValidString(min = 1, max = 255)
 	@Automapped
 	private String				description;
 
@@ -36,7 +35,7 @@ public class Task extends AbstractEntity {
 	private int					priority;
 
 	@Mandatory
-	@ValidScore
+	@ValidNumber(min = 0, max = 1000)
 	@Automapped
-	private Double				estimatedDuration;
+	private Integer				estimatedDuration;
 }
