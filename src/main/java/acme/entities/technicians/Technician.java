@@ -22,17 +22,17 @@ public class Technician extends AbstractEntity {
 	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
-	@ValidString(pattern = "^[A-Z]{2-3}\\d{6}$")
+	@ValidString(min = 8, max = 9, pattern = "^[A-Z]{2-3}\\d{6}$")
 	@Column(unique = true)
 	private String				licenseNumber;
 
 	@Mandatory
-	@ValidString(pattern = "^\\+?\\d{6,15}$")
+	@ValidString(min = 6, max = 15, pattern = "^\\+?\\d{6,15}$")
 	@Automapped
 	private String				phoneNumber;
 
 	@Mandatory
-	@ValidString(max = 50)
+	@ValidString(min = 1, max = 50)
 	@Automapped
 	private String				specialisation;
 
@@ -42,12 +42,12 @@ public class Technician extends AbstractEntity {
 	private Boolean				healthTestPassed;
 
 	@Mandatory
-	@ValidNumber
+	@ValidNumber(min = 0, max = 120)
 	@Automapped
 	private Integer				yearsOfexperience;
 
 	@Optional
-	@ValidString(max = 255)
+	@ValidString(min = 0, max = 255)
 	@Automapped
 	private String				certifications;
 }
