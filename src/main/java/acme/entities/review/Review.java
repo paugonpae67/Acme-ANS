@@ -24,7 +24,7 @@ public class Review extends AbstractEntity {
 	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
-	@ValidString(max = 50)
+	@ValidString(min = 1, max = 50)
 	@Automapped
 	private String				namePerson;
 
@@ -34,17 +34,17 @@ public class Review extends AbstractEntity {
 	private Date				moment;
 
 	@Mandatory
-	@ValidString(max = 50)
+	@ValidString(min = 1, max = 50)
 	@Automapped
 	private String				subject;
 
 	@Mandatory
-	@ValidString(max = 255)
+	@ValidString(min = 1, max = 255)
 	@Automapped
 	private String				text;
 
 	@Optional
-	@ValidNumber(max = 10)
+	@ValidNumber(min = 0, max = 10)
 	@Automapped
 	private double				score;
 
@@ -52,5 +52,32 @@ public class Review extends AbstractEntity {
 	@Valid
 	@Automapped
 	private boolean				recommended;
+
+	//Relationships
+
+	/*
+	 * @Mandatory
+	 * 
+	 * @Valid
+	 * 
+	 * @ManyToOne(optional = false)
+	 * private Service service;
+	 * 
+	 * 
+	 * @Mandatory
+	 * 
+	 * @Valid
+	 * 
+	 * @ManyToOne(optional = false)
+	 * private Flight flight;
+	 * 
+	 * 
+	 * @Mandatory
+	 * 
+	 * @Valid
+	 * 
+	 * @ManyToOne(optional = false)
+	 * private Airline airline;
+	 */
 
 }
