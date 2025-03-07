@@ -1,5 +1,5 @@
 
-package acme.entities.technicians;
+package acme.realms;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,7 +34,7 @@ public class Technician extends AbstractEntity {
 	@Mandatory
 	@ValidString(min = 1, max = 50)
 	@Automapped
-	private String				specialisation;
+	private String				specialization;
 
 	@Mandatory
 	@Valid
