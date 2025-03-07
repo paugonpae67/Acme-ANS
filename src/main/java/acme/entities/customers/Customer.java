@@ -50,4 +50,11 @@ public class Customer extends AbstractEntity {
 	@Automapped
 	private Integer				earnedPoints;
 
+	//Relationships ---------------------------------------------------------
+
+	//@Mandatory
+	//@Valid
+	//@ManyToOne(optional = false)
+	//private Flight flight;
+
 }
