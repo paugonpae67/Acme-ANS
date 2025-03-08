@@ -17,6 +17,7 @@ import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidMoney;
 import acme.client.components.validation.ValidString;
+import acme.constraints.ValidNextInspectionDue;
 import acme.realms.Technician;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +40,7 @@ public class MaintenanceRecord extends AbstractEntity {
 	private MaintenanceStatus	status;
 
 	@Mandatory
-	@ValidMoment
+	@ValidNextInspectionDue
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				nextInspectionDue;
 
