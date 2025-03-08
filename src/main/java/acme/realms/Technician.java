@@ -22,7 +22,7 @@ public class Technician extends AbstractRole {
 	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
-	@ValidString(min = 8, max = 9, pattern = "^[A-Z]{2-3}\\d{6}$")
+	@ValidString(min = 8, max = 9, pattern = "^[A-Z]{2,3}\\d{6}$")
 	@Column(unique = true)
 	private String				licenseNumber;
 
