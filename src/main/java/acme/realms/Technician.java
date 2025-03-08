@@ -5,7 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.Valid;
 
-import acme.client.components.basis.AbstractEntity;
+import acme.client.components.basis.AbstractRole;
 import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Technician extends AbstractEntity {
+public class Technician extends AbstractRole {
 
 	private static final long	serialVersionUID	= 1L;
 
@@ -44,7 +44,7 @@ public class Technician extends AbstractEntity {
 	@Mandatory
 	@ValidNumber(min = 0, max = 120)
 	@Automapped
-	private Integer				yearsOfexperience;
+	private Integer				yearsOfExperience;
 
 	@Optional
 	@ValidString(min = 0, max = 255)
