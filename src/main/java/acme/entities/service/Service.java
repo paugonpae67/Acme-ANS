@@ -24,7 +24,6 @@ public class Service extends AbstractEntity {
 
 	@Mandatory
 	@ValidUrl
-	@Automapped
 	private String				picture;
 
 	@Mandatory
