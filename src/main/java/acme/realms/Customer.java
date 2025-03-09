@@ -1,5 +1,5 @@
 
-package acme.entities.customers;
+package acme.realms;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,6 +55,6 @@ public class Customer extends AbstractEntity {
 	//@Mandatory
 	//@Valid
 	//@ManyToOne(optional = false)
-	//private Flight flight;
+	//private Flight				flight;
 
 }
