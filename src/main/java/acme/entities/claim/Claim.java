@@ -25,12 +25,13 @@ public class Claim extends AbstractEntity {
 	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
-	@ValidMoment(past = true)
+	@ValidMoment(past = true, min = "2000/01/01 00:00:00")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				registrationMoment;
 
 	@Mandatory
 	@ValidEmail
+	@ValidString(min = 1, max = 255)
 	@Automapped
 	private String				passengerEmail;
 
@@ -47,7 +48,7 @@ public class Claim extends AbstractEntity {
 	@Mandatory
 	@Valid
 	@Automapped
-	private Boolean				indicator;
+	private Boolean				accepted;
 
 	//Relations
 	/*
