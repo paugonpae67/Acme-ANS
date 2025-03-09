@@ -43,14 +43,14 @@ public class AssistanceAgent extends AbstractRole {
 	private Date				moment;
 
 	@Optional
-	@ValidString(min = 0, max = 255)
+	@ValidString(max = 255)
 	@Automapped
 	private String				briefBio;
 
 	@Optional
 	@ValidMoney
 	@Automapped
-	private Money				money;
+	private Money				salary;
 
 	@Optional
 	@ValidUrl
