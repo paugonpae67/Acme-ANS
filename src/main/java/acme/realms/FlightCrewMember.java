@@ -1,13 +1,11 @@
 
-package acme.entities.flightCrewMembers;
+package acme.realms;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
-import acme.client.components.basis.AbstractEntity;
+import acme.client.components.basis.AbstractRole;
 import acme.client.components.datatypes.Money;
 import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
@@ -15,15 +13,13 @@ import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoney;
 import acme.client.components.validation.ValidNumber;
 import acme.client.components.validation.ValidString;
-import acme.entities.aircrafts.Aircraft;
-import acme.entities.flightAssignment.FlightAssignment;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
-public class FlightCrewMembers extends AbstractEntity {
+public class FlightCrewMember extends AbstractRole {
 
 	private static final long		serialVersionUID	= 1L;
 
@@ -48,7 +44,7 @@ public class FlightCrewMembers extends AbstractEntity {
 	private Money					salary;
 
 	@Optional
-	@ValidNumber
+	@ValidNumber(min = 0, max = 120)
 	@Automapped
 	private Integer					yearsOfExperience;
 
@@ -58,16 +54,6 @@ public class FlightCrewMembers extends AbstractEntity {
 	private FlightCrewMemberStatus	availabilityStatus;
 
 	//Relationships
-
-	@Mandatory
-	@Valid
-	@ManyToOne(optional = false)
-	private Aircraft				aircraft;
-
-	@Mandatory
-	@Valid
-	@OneToOne(optional = false)
-	private FlightAssignment		flightAssignment;
 
 	/*
 	 * @Mandatory
