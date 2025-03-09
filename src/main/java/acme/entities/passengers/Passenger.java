@@ -3,7 +3,6 @@ package acme.entities.passengers;
 
 import java.sql.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,7 +36,7 @@ public class Passenger extends AbstractEntity {
 
 	@Mandatory
 	@ValidString(pattern = "^[A-Z0-9]{6,9}$")
-	@Column(unique = true)
+	@Automapped
 	private String				passportNumber;
 
 	@Mandatory
