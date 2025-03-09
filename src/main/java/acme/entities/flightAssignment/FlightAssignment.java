@@ -27,7 +27,7 @@ public class FlightAssignment extends AbstractEntity {
 	private static final long		serialVersionUID	= 1L;
 
 	@Optional
-	@ValidString(min = 1, max = 255)
+	@ValidString(min = 0, max = 255)
 	@Automapped
 	private String					remarks;
 
