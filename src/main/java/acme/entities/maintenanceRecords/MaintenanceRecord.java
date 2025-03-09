@@ -17,14 +17,16 @@ import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidMoney;
 import acme.client.components.validation.ValidString;
-import acme.constraints.ValidNextInspectionDue;
+import acme.constraints.ValidMaintenanceRecord;
 import acme.realms.Technician;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@ValidMaintenanceRecord
 @Entity
+
 public class MaintenanceRecord extends AbstractEntity {
 
 	private static final long	serialVersionUID	= 1L;
@@ -40,7 +42,7 @@ public class MaintenanceRecord extends AbstractEntity {
 	private MaintenanceStatus	status;
 
 	@Mandatory
-	@ValidNextInspectionDue
+	@ValidMoment
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				nextInspectionDue;
 
