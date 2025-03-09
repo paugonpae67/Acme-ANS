@@ -23,6 +23,8 @@ import lombok.Setter;
 @Entity
 public class TrackingLogs extends AbstractEntity {
 
+	private static final long	serialVersionUID	= 1L;
+
 	@Mandatory
 	@ValidMoment(past = true)
 	@Temporal(TemporalType.TIMESTAMP)
