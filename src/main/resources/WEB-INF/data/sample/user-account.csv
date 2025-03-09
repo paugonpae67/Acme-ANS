@@ -11,3 +11,8 @@ user-account-technician-03,true,"UserIdentity{name: 'Mari', surname: 'Pepi', ema
 user-account-customer-01,true,"UserIdentity{name: 'Laura', surname: 'Gazquez', email: 'laura@acme.com'}",customer1,customer1
 user-account-customer-02,true,"UserIdentity{name: 'Helena', surname: 'Perez', email: 'helena@acme.com'}",customer2,customer2
 user-account-customer-03,true,"UserIdentity{name: 'Rosana', surname: 'Martinez', email: 'rosana@acme.com'}",customer3,customer3
+user-account-flighCrewMember-05,true,"UserIdentity{name: 'Iñigo', surname: 'Paez', email: 'iñigo@acme.com'}",member,member
+user-account-flighCrewMember-04,true,"UserIdentity{name: 'Rafael', surname: 'Fernandez', email: 'rafael@acme.com'}",member4,member4
+user-account-flighCrewMember-03,true,"UserIdentity{name: 'William', surname: 'Esposito', email: 'william@acme.com'}",member3,member3
+user-account-flighCrewMember-02,true,"UserIdentity{name: 'Diana', surname: 'Montoya', email: 'diana@acme.com'}",member2,member2
+user-account-flighCrewMember-01,true,"UserIdentity{name: 'Angela', surname: 'Garcia', email: 'angela@acme.com'}",member1,member1

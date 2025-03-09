@@ -1,0 +1,6 @@
+key,key:userAccount,employeeCode,phoneNumber,languageSkills,salary,yearsOfExperience,availabilityStatus
+flightCrewMember-01,user-account-flighCrewMember-01,AG123456,603279810,Español,EUR 80000.00,2,AVAILABLE
+flightCrewMember-02,user-account-flighCrewMember-02,DM234567,987657845,"Alemán, Inglés",EUR 70000.00,3,ON_LEAVE
+flightCrewMember-03,user-account-flighCrewMember-03,WE125436,768952467,Portugués,EUR 60000.00,1,ON_VACATION
+flightCrewMember-04,user-account-flighCrewMember-04,RF235690,123784690,Chino,EUR 90000.00,5,ON_VACATION
+flightCrewMember-05,user-account-flighCrewMember-05,IP238948,45769830,"Español, Francés",EUR 70000.00,2,AVAILABLE
