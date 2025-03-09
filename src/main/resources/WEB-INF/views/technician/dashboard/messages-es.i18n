@@ -1,0 +1,24 @@
+# messages-es.i18n
+#
+# Copyright (C) 2012-2025 Rafael Corchuelo.
+#
+# In keeping with the traditional purpose of furthering education and research, it is
+# the policy of the copyright owner to permit non-commercial use and redistribution of
+# this software. It has been tested carefully, but it is not guaranteed for any particular
+# purposes.  The copyright owner does not offer any warranties or representations, nor do
+# they accept any liabilities with respect to them.
+
+technician.dashboard.form.title = Panel de indicadores de técnico
+
+technician.dashboard.form.label.number-maintenance-record = Número de registros de mantenimiento
+technician.dashboard.form.label.record-with-nearest-inspection-due= Registro de mantenimiento con fecha de inspección más próxima
+technician.dashboard.form.label.top-5-Aircraft-with-most-task= Aeronaves con mayor número de tareas
+technician.dashboard.form.label.average-estimated-cost-last-year= Promedio del coste estimado el último año
+technician.dashboard.form.label.minimum-estimated-cost-last-year= Mínimo coste estimado el último año
+technician.dashboard.form.label.maximum-estimated-cost-last-year= Máximo coste estimado el último año
+technician.dashboard.form.label.STDDEV-estimated-cost-last-year= Desviación estándar del coste estimado el último año
+technician.dashboard.form.label.average-estimated-duration-task= Promedio de la duración estimada de las tareas asociadas
+technician.dashboard.form.label.minimum-estimated-duration-task= Mínimo de la duración estimada de las tareas asociadas
+technician.dashboard.form.label.maximum-estimated-duration-task= Máximo de la duración estimada de las tareas asociadas
+technician.dashboard.form.label.STDDEV-estimated-duration-task= Desviación estándar de la duración estimada de las tareas asociadas
+
