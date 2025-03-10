@@ -1,17 +1,24 @@
 
 package acme.entities.airlines;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.Valid;
 
 import acme.client.components.basis.AbstractEntity;
+import acme.client.components.mappings.Automapped;
+import acme.client.components.validation.Mandatory;
+import acme.client.components.validation.Optional;
+import acme.client.components.validation.ValidEmail;
+import acme.client.components.validation.ValidMoment;
+import acme.client.components.validation.ValidString;
+import acme.client.components.validation.ValidUrl;
+import acme.entities.airports.Airport;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,28 +27,46 @@ import lombok.Setter;
 @Setter
 public class Airline extends AbstractEntity {
 
-	@NotBlank
-	@Size(max = 50)
-	private String		name;
+	private static final long	serialVersionUID	= 1L;
 
-	@NotBlank
-	@Pattern(regexp = "^[A-Z]{2}X$")
+	@Mandatory
+	@ValidString(min = 1, max = 50)
+	@Automapped
+	private String				name;
+
+	@Mandatory
+	@ValidString(min = 3, max = 3, pattern = "^[A-Z]{3}$")
 	@Column(unique = true)
-	private String		iataCode;
+	private String				iataCode;
 
-	@NotBlank
-	private String		website;
+	@Mandatory
+	@ValidUrl
+	@Automapped
+	private String				website;
 
-	@NotBlank
-	@Pattern(regexp = "LUXURY|STANDARD|LOW-COST")
-	private String		type;
+	@Mandatory
+	@Valid
+	@Automapped
+	private AirlineType			type;
 
-	@Past
-	private LocalDate	foundationMoment;
+	@Mandatory
+	@ValidMoment(past = true)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date				foundationMoment;
 
-	@Email
-	private String		email;
+	@Optional
+	@ValidEmail
+	@Automapped
+	private String				email;
 
-	@Pattern(regexp = "^\\+?\\d{6,15}$")
-	private String		phoneNumber;
+	@Optional
+	@ValidString(pattern = "^\\+?\\d{6,15}$")
+	@Automapped
+	private String				phoneNumber;
+
+	// Relations
+	@Mandatory
+	@Valid
+	@ManyToOne(optional = false)
+	private Airport				airport;
 }
