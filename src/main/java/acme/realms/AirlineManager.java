@@ -49,6 +49,8 @@ public class AirlineManager extends AbstractRole {
 	@Automapped
 	private String				picture;
 
+	// Relations
+
 	@Mandatory
 	@Valid
 	@ManyToOne(optional = false)
