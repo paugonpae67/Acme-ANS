@@ -26,7 +26,7 @@ public class TrackingLogs extends AbstractEntity {
 	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
-	@ValidMoment(past = true)
+	@ValidMoment(min = "2000/01/01  00:00:00")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				lastUpdateMoment;
 
