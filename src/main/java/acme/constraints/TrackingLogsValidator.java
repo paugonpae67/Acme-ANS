@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import acme.client.components.validation.AbstractValidator;
 import acme.client.components.validation.Validator;
 import acme.entities.trackingLogs.TrackingLogStatus;
-import acme.entities.trackingLogs.TrackingLogs;
-import acme.entities.trackingLogs.TrackingLogsRepository;
+import acme.entities.trackingLogs.TrackingLog;
+import acme.entities.trackingLogs.TrackingLogRepository;
 
 @Validator
-public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, TrackingLogs> {
+public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, TrackingLog> {
 
 	@Autowired
-	private TrackingLogsRepository trackingLogsRepository;
+	private TrackingLogRepository trackingLogsRepository;
 
 
 	@Override
@@ -24,7 +24,7 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 	}
 
 	@Override
-	public boolean isValid(final TrackingLogs trackingLog, final ConstraintValidatorContext context) {
+	public boolean isValid(final TrackingLog trackingLog, final ConstraintValidatorContext context) {
 		assert context != null;
 
 		boolean result = false;

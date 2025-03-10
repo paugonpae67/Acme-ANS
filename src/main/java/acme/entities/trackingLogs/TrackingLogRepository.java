@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import acme.client.repositories.AbstractRepository;
 
 @Repository
-public interface TrackingLogsRepository extends AbstractRepository {
+public interface TrackingLogRepository extends AbstractRepository {
 
-	@Query("select t.resolutionPercentage from TrackingLogs t where t.resolutionPercentage <= resolutionPorcentage")
+	@Query("select t.resolutionPercentage from TrackingLog t where t.resolutionPercentage <= resolutionPorcentage")
 	Double findResolutionPercentageSmaller(Double resolutionPorcentage);
 }
