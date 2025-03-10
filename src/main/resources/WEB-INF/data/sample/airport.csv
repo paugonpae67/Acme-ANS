@@ -1,0 +1,7 @@
+key,name,iataCode,operationalScope,country,city,website,email,phoneNumber
+Airport-01,Q,ASD,REGIONAL,A,Villa del Horizonte Resplandeciente de Amanecer,http://example.org/a/b?,a@b.e.es,123456754
+Airport-02,FR,QWE,REGIONAL,AS,Villa del Horizonte Resplandeciente del Amanecer,ftp://a.b,lorem-ipsum@dolor.sit.amet.consectetur.adipiscing.elit.sed.do.eiusmod.tempor.incididunt.ut.labore.et.dolore.magna.aliqua.Ut.enim.ad.minim.veniam.quis.nostrud.exercitation.ullamco.laboris.nisi.ut.aliquip.ex.ea.commodo.consequat.duis.aute.irure.doloris.edu,+1234567864
+Airport-03,SVQ,ZXC,DOMESTIC,Alemania,Colonia,http://www.lorem-ipsum.org/dolor/sit.html,a@b.esx,098765432123456
+Airport-04,天堂之翼国际机场,RTY,INTERNATIONAL,天堂之,际机场,http://example.org/a/b?,a@b.e,+123456789012341
+Airport-05,Aeropuerto Internacional del Paraíso Tropical Azul,BNM,DOMESTIC,República Federativa de los Estados del Sol Dorado,Ma,http://lorem.com/ipsum,null,+123456
+Airport-06,Aeropuerto Internacional de Paraíso Tropical Azul,UIO,INTERNATIONAL,República Federativa de los Estados de Sol Dorado,M,null,acm@lorem-ipsum.org,123456
