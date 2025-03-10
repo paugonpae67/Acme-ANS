@@ -1,0 +1,7 @@
+key,name,iataCode,website,type,foundationMoment,email,phoneNumber,key:airport
+Airline-01,A,ABC,http://lorem.com/ipsum,LUXURY,2022/07/30 00:00,acme@lorem-ipsum.org,+123456,Airport-01
+Airline-02,AE,DEF,http://www.lorem-ipsum.org/dolor/sit.html,STANDARD,2022/07/29 00:00,a@b.e,+123456789012345,Airport-01
+Airline-03,Aerolinea Internacional de Vuelos Exclusivos del S,GHI,https://www.lorem-ipsum.org,LOW_COST,2022/07/29 23:59,a@b.es,123451,Airport-01
+Airline-04,Aerolinea Internacional de Vuelos Exclusivos de S,JKL,ftp://a.b,LUXURY,2000/01/01 12:12,a@b.esx,123456789012323,Airport-02
+Airline-05,Aerolínea España,MNO,http://example.org/a/b?,STANDARD,2000/01/01 00:00,lorem-ipsum@dolor.sit.amet.consectetur.adipiscing.elit.sed.do.eiusmod.tempor.incididunt.ut.labore.et.dolore.magna.aliqua.Ut.enim.ad.minim.veniam.quis.nostrud.exercitation.ullamco.laboris.nisi.ut.aliquip.ex.ea.commodo.consequat.duis.aute.irure.doloris.edu,null,Airport-02
+Airline-06,देवनागर,PQR,http://example.org/a/b?,LOW_COST,2000/01/01 12:12,null,12345678,Airport-02
