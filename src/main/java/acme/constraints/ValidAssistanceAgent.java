@@ -11,7 +11,7 @@ import javax.validation.Payload;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ServiceValidator.class)
+@Constraint(validatedBy = AssistanceAgentValidator.class)
 
 public @interface ValidAssistanceAgent {
 
