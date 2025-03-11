@@ -1,5 +1,5 @@
 
-package acme.entities.bookings;
+package acme.entities.airlines;
 
 import java.util.Date;
 
@@ -11,59 +11,62 @@ import javax.persistence.TemporalType;
 import javax.validation.Valid;
 
 import acme.client.components.basis.AbstractEntity;
-import acme.client.components.datatypes.Money;
 import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
+import acme.client.components.validation.ValidEmail;
 import acme.client.components.validation.ValidMoment;
-import acme.client.components.validation.ValidMoney;
 import acme.client.components.validation.ValidString;
-import acme.realms.Customer;
+import acme.client.components.validation.ValidUrl;
+import acme.entities.airports.Airport;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
-@Entity
-public class Booking extends AbstractEntity {
+public class Airline extends AbstractEntity {
 
 	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
-	@ValidString(pattern = "^[A-Z0-9]{6,8}$")
+	@ValidString(min = 1, max = 50)
+	@Automapped
+	private String				name;
+
+	@Mandatory
+	@ValidString(min = 3, max = 3, pattern = "^[A-Z]{3}$")
 	@Column(unique = true)
-	private String				locatorCode;
+	private String				iataCode;
+
+	@Mandatory
+	@ValidUrl
+	@Automapped
+	private String				website;
+
+	@Mandatory
+	@Valid
+	@Automapped
+	private AirlineType			type;
 
 	@Mandatory
 	@ValidMoment(past = true)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				purchaseMoment;
-
-	@Mandatory
-	@Valid
-	@Automapped
-	private TravelClass			travelClass;
-
-	@Mandatory
-	@ValidMoney
-	@Automapped
-	private Money				price;
+	private Date				foundationMoment;
 
 	@Optional
-	@ValidString(min = 4, max = 4)
+	@ValidEmail
 	@Automapped
-	private String				lastNibble;
+	private String				email;
 
-	//Relationships ---------------------------------------------------------
+	@Optional
+	@ValidString(pattern = "^\\+?\\d{6,15}$")
+	@Automapped
+	private String				phoneNumber;
 
-	//@Mandatory
-	//@Valid
-	//@ManyToOne(optional = false)
-	//private Flight				flight;
-
+	// Relations
 	@Mandatory
 	@Valid
 	@ManyToOne(optional = false)
-	private Customer			customer;
-
+	private Airport				airport;
 }

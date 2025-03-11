@@ -8,3 +8,14 @@ user-account-provider-03,true,"UserIdentity{name: 'Antonia', surname: 'אבטי�
 user-account-technician-01,true,"UserIdentity{name: 'Paula', surname: 'Apellido', email: 'paulaApellido@acme.com'}",technician1,technician1
 user-account-technician-02,true,"UserIdentity{name: 'Alejandra', surname: 'Gomez', email: 'alejandraGomez@acme.com'}",technician2,technician2
 user-account-technician-03,true,"UserIdentity{name: 'Mari', surname: 'Pepi', email: 'mariPepi@acme.com'}",technician3,technician3
+user-account-customer-01,true,"UserIdentity{name: 'Laura', surname: 'Gazquez', email: 'laura@acme.com'}",customer1,customer1
+user-account-customer-02,true,"UserIdentity{name: 'Helena', surname: 'Perez', email: 'helena@acme.com'}",customer2,customer2
+user-account-customer-03,true,"UserIdentity{name: 'Rosana', surname: 'Martinez', email: 'rosana@acme.com'}",customer3,customer3
+user-account-flighCrewMember-05,true,"UserIdentity{name: 'Iñigo', surname: 'Paez', email: 'iñigo@acme.com'}",member,member
+user-account-flighCrewMember-04,true,"UserIdentity{name: 'Rafael', surname: 'Fernandez', email: 'rafael@acme.com'}",member4,member4
+user-account-flighCrewMember-03,true,"UserIdentity{name: 'William', surname: 'Esposito', email: 'william@acme.com'}",member3,member3
+user-account-flighCrewMember-02,true,"UserIdentity{name: 'Diana', surname: 'Montoya', email: 'diana@acme.com'}",member2,member2
+user-account-flighCrewMember-01,true,"UserIdentity{name: 'Angela', surname: 'Garcia', email: 'angela@acme.com'}",member1,member1
+user-account-assistanceAgent-01,true,"UserIdentity{name: 'Pablo', surname: 'López', email: 'pabloLopez@acme.com'}",agent1,agent1
+user-account-assistanceAgent-02,true,"UserIdentity{name: 'Juan', surname: 'Espinosa', email: 'juanEspinosa@acme.com'}",agent2,agent2
+user-account-assistanceAgent-03,true,"UserIdentity{name: 'David', surname: 'Pérez', email: 'davidPerez@acme.com'}",manager3,manager3

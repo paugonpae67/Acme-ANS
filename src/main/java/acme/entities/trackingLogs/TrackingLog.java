@@ -1,10 +1,9 @@
 
-package acme.entities.flightAssignment;
+package acme.entities.trackingLogs;
 
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -14,53 +13,41 @@ import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoment;
+import acme.client.components.validation.ValidScore;
 import acme.client.components.validation.ValidString;
-import acme.realms.FlightCrewMember;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @Entity
-public class FlightAssignment extends AbstractEntity {
+public class TrackingLog extends AbstractEntity {
 
-	private static final long		serialVersionUID	= 1L;
-
-	@Optional
-	@ValidString(min = 0, max = 255)
-	@Automapped
-	private String					remarks;
+	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
 	@ValidMoment
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date					moment;
+	private Date				lastUpdateMoment;
+
+	@Mandatory
+	@ValidString(min = 1, max = 50)
+	@Automapped
+	private String				step;
+
+	@Mandatory
+	@ValidScore
+	@Automapped
+	private Double				resolutionPercentage;
 
 	@Mandatory
 	@Valid
 	@Automapped
-	private FlightAssignmentStatus	currentStatus;
+	private TrackingLogStatus	status;
 
-	@Mandatory
-	@Valid
+	@Optional
+	@ValidString(min = 0, max = 255)
 	@Automapped
-	private FlightAssignmentDuty	duty;
-
-	//Relationships
-
-	@Mandatory
-	@Valid
-	@ManyToOne(optional = false)
-	private FlightCrewMember		flightCrewMembers;
-
-	/*
-	 * @Mandatory
-	 * 
-	 * @Valid
-	 * 
-	 * @ManyToOne(optional = false)
-	 * private Leg leg;
-	 * 
-	 */
+	private String				resolution;
 
 }

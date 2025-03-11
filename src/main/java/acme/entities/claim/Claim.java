@@ -1,5 +1,5 @@
 
-package acme.entities.flightAssignment;
+package acme.entities.claim;
 
 import java.util.Date;
 
@@ -12,55 +12,49 @@ import javax.validation.Valid;
 import acme.client.components.basis.AbstractEntity;
 import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
-import acme.client.components.validation.Optional;
+import acme.client.components.validation.ValidEmail;
 import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidString;
-import acme.realms.FlightCrewMember;
+import acme.realms.AssistanceAgent;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @Entity
-public class FlightAssignment extends AbstractEntity {
+public class Claim extends AbstractEntity {
 
-	private static final long		serialVersionUID	= 1L;
-
-	@Optional
-	@ValidString(min = 0, max = 255)
-	@Automapped
-	private String					remarks;
+	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
-	@ValidMoment
+	@ValidMoment(past = true)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date					moment;
+	private Date				registrationMoment;
+
+	@Mandatory
+	@ValidEmail
+	@ValidString(min = 1, max = 255)
+	@Automapped
+	private String				passengerEmail;
+
+	@Mandatory
+	@ValidString(min = 1, max = 255)
+	@Automapped
+	private String				description;
 
 	@Mandatory
 	@Valid
 	@Automapped
-	private FlightAssignmentStatus	currentStatus;
+	private ClaimType			type;
 
 	@Mandatory
 	@Valid
 	@Automapped
-	private FlightAssignmentDuty	duty;
+	private Boolean				accepted;
 
-	//Relationships
-
+	//Relations
 	@Mandatory
 	@Valid
 	@ManyToOne(optional = false)
-	private FlightCrewMember		flightCrewMembers;
-
-	/*
-	 * @Mandatory
-	 * 
-	 * @Valid
-	 * 
-	 * @ManyToOne(optional = false)
-	 * private Leg leg;
-	 * 
-	 */
-
+	private AssistanceAgent		assistanceAgent;
 }

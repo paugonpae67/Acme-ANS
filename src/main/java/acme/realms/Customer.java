@@ -1,22 +1,24 @@
 
-package acme.entities.customers;
+package acme.realms;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import acme.client.components.basis.AbstractEntity;
+import acme.client.components.basis.AbstractRole;
 import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidNumber;
 import acme.client.components.validation.ValidString;
+import acme.constraints.ValidCustomer;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@ValidCustomer
 @Entity
-public class Customer extends AbstractEntity {
+public class Customer extends AbstractRole {
 
 	private static final long	serialVersionUID	= 1L;
 
@@ -46,7 +48,7 @@ public class Customer extends AbstractEntity {
 	private String				country;
 
 	@Optional
-	@ValidNumber(min = 0, max = 500000, integer = 6, fraction = 0)
+	@ValidNumber(min = 0, max = 500000)
 	@Automapped
 	private Integer				earnedPoints;
 
@@ -55,6 +57,6 @@ public class Customer extends AbstractEntity {
 	//@Mandatory
 	//@Valid
 	//@ManyToOne(optional = false)
-	//private Flight flight;
+	//private Flight				flight;
 
 }
