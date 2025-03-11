@@ -25,7 +25,7 @@ public class AssistanceAgentValidator extends AbstractValidator<ValidAssistanceA
 		else {
 			String name = assistanceAgent.getIdentity().getName();
 			String surname = assistanceAgent.getIdentity().getSurname();
-			if (assistanceAgent.getEmployeeCode() == null || !assistanceAgent.getEmployeeCode().matches("^[A-Z]{2-3}\\d{6}$"))
+			if (assistanceAgent.getEmployeeCode() == null || !assistanceAgent.getEmployeeCode().matches("^[A-Z]{2,3}\\d{6}$"))
 				super.state(context, false, "*", "acme.validation.employee-code.format");
 			else {
 				String employeeCode = assistanceAgent.getEmployeeCode();
