@@ -1,0 +1,7 @@
+key,model,registrationNumber,capacity,cargoWeight,status,details,key:airline
+Aircraft-01,A,12345678900987654321123456789009876543211234567890,255,50000,ACTIVE_SERVICE,null,Airline-01
+Aircraft-02,AM,1234567890098765432112345678900987654321123456789,254,49999,ACTIVE_SERVICE,a,Airline-02
+Aircraft-03,long,236585,100,3678,UNDER_MAINTENANCE,is new,Airline-02
+Aircraft-04,Aeronave Comercial Ultraeficiente del Futuro VX-90,1,1,2000,UNDER_MAINTENANCE,Avion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvio,Airline-01
+Aircraft-05,Aeronave Comercial Ultraeficiente del Futuro VX-9,12,2,2001,UNDER_MAINTENANCE,Avion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion azulAvion,Airline-03
+Aircraft-06,초고효율 상업용,1234,67,2345,UNDER_MAINTENANCE,초고효율 상업용,Airline-01
