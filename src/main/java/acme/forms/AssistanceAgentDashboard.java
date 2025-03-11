@@ -15,7 +15,7 @@ public class AssistanceAgentDashboard extends AbstractForm {
 
 	Double						numberofClaimsResolvedSuccessfully;
 	Double						numberofClaimsRejected;
-	List<Integer>				top3MonthsHighestNumberClaims;
+	List<String>				top3MonthsHighestNumberClaims;
 	Double						avergeNumberLogsClaimsHave;
 	Integer						minimumNumberLogsClaimsHave;
 	Integer						maximumNumberLogsClaimsHave;
