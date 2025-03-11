@@ -27,4 +27,5 @@ public class AdministratorDashboard extends AbstractForm {
 	Review						minimumReviewsOver10weeks;
 	Review						maximumReviewsOver10weeks;
 	Double						stddevReviewsOver10weeks;
+
 }
