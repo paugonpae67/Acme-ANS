@@ -1,0 +1,2 @@
+key,locatorCode,purchaseMoment,travelClass,price,lastNibble,key:customer
+booking-01,ABC123,2024/12/31 23:59,ECONOMY,1000000.00 XXX,9999,customer-01
