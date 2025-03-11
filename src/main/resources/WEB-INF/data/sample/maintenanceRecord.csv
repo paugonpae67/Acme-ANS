@@ -14,7 +14,8 @@ maintenanceMoment-12,2024/07/01 23:59,PENDING,2100/08/01 20:30,EUR 0,Lorem ipsum
 maintenanceMoment-13,2024/07/01 23:59,PENDING,2100/08/01 20:30,EUR 1,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,technician-01,Aircraft-01
 maintenanceMoment-14,2024/07/01 23:59,PENDING,2100/08/01 20:30,EUR 999999,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,technician-01,Aircraft-01
 maintenanceMoment-15,2024/07/01 23:59,PENDING,2100/08/01 20:30,EUR 1000000,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,technician-01,Aircraft-01
-maintenanceMoment-16,2024/07/01 23:59,PENDING,2100/08/01 20:30,EUR 500,,technician-01,Aircraft-01
+maintenanceMoment-16,2024/07/01 23:59,PENDING,2100/08/01 20:30,EUR 500,null,technician-01,Aircraft-01
+maintenanceMoment-17,2024/07/01 23:59,PENDING,2100/08/01 20:30,EUR 500,"",technician-01,Aircraft-01
 maintenanceMoment-17,2024/07/01 23:59,PENDING,2100/08/01 20:30,EUR 500,L,technician-01,Aircraft-01
 maintenanceMoment-18,2024/07/01 23:59,PENDING,2100/08/01 20:30,EUR 500,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor*,technician-01,Aircraft-01
 maintenanceMoment-19,2024/07/01 23:59,PENDING,2100/08/01 20:30,EUR 500,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor,technician-01,Aircraft-01
