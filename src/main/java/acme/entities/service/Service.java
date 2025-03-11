@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import acme.client.components.basis.AbstractEntity;
+import acme.client.components.datatypes.Money;
 import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
@@ -30,6 +31,7 @@ public class Service extends AbstractEntity {
 
 	@Mandatory
 	@ValidUrl
+	@Automapped
 	private String				picture;
 
 	@Mandatory
@@ -40,11 +42,10 @@ public class Service extends AbstractEntity {
 	@Optional
 	@ValidString(pattern = "^[A-Z]{4}-[0-9]{2}$")
 	@Column(unique = true)
-	@Automapped
 	private String				promotionCode;
 
 	@Optional
 	@ValidScore
 	@Automapped
-	private Double				money;
+	private Money				money;
 }
