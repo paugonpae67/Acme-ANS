@@ -36,11 +36,6 @@ master.menu.consumer = Consumer
 master.menu.consumer.favourite-link = Favourite link
 
 
-# master.menu.technician ##########################################################
-
-master.menu.technician = Technician
-master.menu.technician.dashboard= Dashboard
-
 # master.menu.user-account ####################################################
 
 master.menu.user-account = Account
