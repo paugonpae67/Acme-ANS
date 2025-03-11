@@ -1,0 +1,3 @@
+key,key:userAccount,employeeCode,spokenLanguages,moment,briefBio,salary,photo
+assistanceAgent-01,user-account-assistanceAgent-01,AB123456,English;Spanish;French,2021/01/01 10:00,Software engineer with 5 years of experience in Java,45000.00 USD,https://example.com/profile.jpg
+assistanceAgent-02,user-account-assistanceAgent-02,XYZ654321,German;Italian,2020/11/25 09:15,Project manager with expertise in Agile methodologies.,60000.00 EUR,null
