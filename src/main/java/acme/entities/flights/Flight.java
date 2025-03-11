@@ -1,8 +1,11 @@
 
 package acme.entities.flights;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 
 import acme.client.components.basis.AbstractEntity;
@@ -12,6 +15,8 @@ import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoney;
 import acme.client.components.validation.ValidString;
+import acme.client.helpers.SpringHelper;
+import acme.entities.legs.LegRepository;
 import acme.realms.AirlineManager;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,9 +26,6 @@ import lombok.Setter;
 @Setter
 public class Flight extends AbstractEntity {
 
-	/**
-	 * 
-	 */
 	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
@@ -46,12 +48,45 @@ public class Flight extends AbstractEntity {
 	@Automapped
 	private String				description;
 
-	//Derived Attributes
+	// Derived attributes 
+
+
+	@Transient
+	public Date getScheduledDeparture() {
+		LegRepository repository = SpringHelper.getBean(LegRepository.class);
+		return repository.findFirstScheduledDeparture(this.getId()).orElse(null);
+	}
+
+	@Transient
+	public Date getScheduledArrival() {
+		LegRepository repository = SpringHelper.getBean(LegRepository.class);
+		return repository.findLastScheduledArrival(this.getId()).orElse(null);
+	}
+
+	@Transient
+	public String getOriginCity() {
+		LegRepository repository = SpringHelper.getBean(LegRepository.class);
+		return repository.findFirstOriginCity(this.getId()).orElse("");
+	}
+
+	@Transient
+	public String getDestinationCity() {
+		LegRepository repository = SpringHelper.getBean(LegRepository.class);
+		return repository.findLastDestinationCity(this.getId()).orElse("");
+	}
+
+	@Transient
+	public Integer getNumberOfLayovers() {
+		LegRepository repository = SpringHelper.getBean(LegRepository.class);
+		return repository.numberOfLayovers(this.getId());
+	}
 
 	// Relationships
+
+
 	@Mandatory()
 	@Valid()
 	@ManyToOne(optional = false)
-	private AirlineManager		manager;
+	private AirlineManager manager;
 
 }
