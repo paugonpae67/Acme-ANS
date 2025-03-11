@@ -21,12 +21,12 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class TrackingLogs extends AbstractEntity {
+public class TrackingLog extends AbstractEntity {
 
 	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
-	@ValidMoment(min = "2000/01/01  00:00:00")
+	@ValidMoment
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				lastUpdateMoment;
 
