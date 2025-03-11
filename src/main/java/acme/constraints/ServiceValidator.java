@@ -39,7 +39,8 @@ public class ServiceValidator extends AbstractValidator<ValidService, Service> {
 				super.state(context, false, "*", "acme.validation.promotion-code.format");
 			else {
 				String lastTwo = service.getPromotionCode().substring(service.getPromotionCode().length() - 2);
-				super.state(context, lastTwo.equals(lastTwoDigitsOfYear), "*", "acme.validation.promotion-code.year-mismatch");
+				if (!lastTwo.equals(lastTwoDigitsOfYear))
+					super.state(context, false, "*", "acme.validation.promotion-code.year-mismatch");
 			}
 		}
 		result = !super.hasErrors(context);

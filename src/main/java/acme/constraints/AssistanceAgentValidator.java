@@ -28,14 +28,16 @@ public class AssistanceAgentValidator extends AbstractValidator<ValidAssistanceA
 			if (assistanceAgent.getEmployeeCode() == null || !assistanceAgent.getEmployeeCode().matches("^[A-Z]{2,3}\\d{6}$"))
 				super.state(context, false, "*", "acme.validation.employee-code.format");
 			else {
+
 				String employeeCode = assistanceAgent.getEmployeeCode();
 				char employeeCodeFirstChar = Character.toUpperCase(employeeCode.charAt(0));
 				char employeeCodeSecondChar = Character.toUpperCase(employeeCode.charAt(1));
 				char nameFirstChar = Character.toUpperCase(name.charAt(0));
 				char surnameFirstChar = Character.toUpperCase(surname.charAt(0));
-
-				super.state(context, !(employeeCodeFirstChar == nameFirstChar), "*", "acme.validation.employee-code.initial-mismatch");
-				super.state(context, !(employeeCodeSecondChar == surnameFirstChar), "*", "acme.validation.employee-code.initial-mismatch");
+				if (!(employeeCodeFirstChar == nameFirstChar))
+					super.state(context, false, "*", "javax.validation.constraints.not-coherence.message");
+				if (!(employeeCodeSecondChar == surnameFirstChar))
+					super.state(context, false, "*", "jacme.validation.employee-code.initial-mismatch");
 			}
 		}
 		result = !super.hasErrors(context);
