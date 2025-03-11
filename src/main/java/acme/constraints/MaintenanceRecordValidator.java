@@ -30,7 +30,7 @@ public class MaintenanceRecordValidator extends AbstractValidator<ValidMaintenan
 			Date minimumNextInspectionDue;
 			boolean correctNextInspectionDue;
 			minimumNextInspectionDue = MomentHelper.deltaFromMoment(maintenanceRecord.getMaintenanceMoment(), 1, ChronoUnit.MINUTES);
-			correctNextInspectionDue = MomentHelper.isAfterOrEqual(maintenanceRecord.getNextInspectionDue(), minimumNextInspectionDue);
+			correctNextInspectionDue = MomentHelper.isAfterOrEqual(maintenanceRecord.getNextInspection(), minimumNextInspectionDue);
 
 			super.state(context, correctNextInspectionDue, "*", "acme.validation.job.deadline.message");
 		}
