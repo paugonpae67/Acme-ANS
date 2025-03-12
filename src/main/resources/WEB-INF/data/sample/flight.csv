@@ -1,0 +1,35 @@
+key,tag,indication,cost,description,key:manager
+
+# Base Entity
+flight-00,Standard Flight,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
+
+# Variantes del atributo 'tag'
+flight-01,The Fastest Route,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
+flight-02,The Cheapest Option,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
+flight-03,Non-Stop Flight,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
+flight-04,Luxury Experience,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
+flight-05,Business Class Deal,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
+flight-06,Scenic Mountain View,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
+flight-07,Economy with Free Meal,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
+flight-08,Shortest Duration,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
+flight-09,Best Price Guaranteed,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
+flight-10,Extra Baggage Included,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
+
+# Variantes del atributo 'indication'
+flight-11,Standard Flight,NOT_SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
+
+# Variantes del atributo 'cost'
+flight-12,Standard Flight,SELF_TRANSFER,USD 0.00,Standard commercial flight,manager-01
+flight-13,Standard Flight,SELF_TRANSFER,USD 1000000.00,Standard commercial flight,manager-01
+flight-14,Standard Flight,SELF_TRANSFER,EUR 999999.99,Standard commercial flight,manager-01
+
+# Variantes del atributo 'description'
+flight-15,Standard Flight,SELF_TRANSFER,USD 500.00,"",manager-01
+flight-16,Standard Flight,SELF_TRANSFER,USD 500.00,A,manager-01
+flight-17,Standard Flight,SELF_TRANSFER,USD 500.00,"Comfortable flight with extra legroom",manager-01
+flight-18,Standard Flight,SELF_TRANSFER,USD 500.00,"Includes access to VIP lounge",manager-01
+flight-19,Standard Flight,SELF_TRANSFER,USD 500.00,"Direct flight with no layovers",manager-01
+
+# Variantes del atributo 'key:manager'
+flight-20,Standard Flight,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-02
+flight-21,Standard Flight,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-03

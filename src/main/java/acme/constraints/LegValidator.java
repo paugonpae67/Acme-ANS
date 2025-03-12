@@ -28,6 +28,17 @@ public class LegValidator implements ConstraintValidator<ValidLeg, Leg> {
 
 		boolean isValid = true;
 
+		// Validar que el flightNumber comience con el código IATA de la aerolínea del avión
+		if (leg.getAircraft() != null && leg.getAircraft().getAirline() != null) {
+			String airlineIataCode = leg.getAircraft().getAirline().getIataCode();
+			boolean validFlightNumber = leg.getFlightNumber() != null && leg.getFlightNumber().startsWith(airlineIataCode) && leg.getFlightNumber().length() == 7;
+
+			if (!validFlightNumber) {
+				this.addConstraintViolation(context, "java.validation.leg.flightNumber.message");
+				isValid = false;
+			}
+		}
+
 		// Validar que haya al menos 1 minuto entre la salida y la llegada
 		if (leg.getScheduledDeparture() != null && leg.getScheduledArrival() != null) {
 			long departure = leg.getScheduledDeparture().getTime();
