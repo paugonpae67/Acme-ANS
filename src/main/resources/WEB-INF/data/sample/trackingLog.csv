@@ -16,11 +16,11 @@ trackingLog-11,2012/07/02 0:00,Lorem ipsum dolor sit ame,50.00,PENDING,Lorem ips
 trackingLog-12,2012/07/02 0:00,Lorem ipsum dolor sit ame,0.00,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,Claim-01
 trackingLog-13,2012/07/02 0:00,Lorem ipsum dolor sit ame,0.01,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,Claim-01
 trackingLog-14,2012/07/02 0:00,Lorem ipsum dolor sit ame,99.99,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,Claim-01
-trackingLog-15,2012/07/02 0:00,Lorem ipsum dolor sit ame,100.00,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,Claim-01
+trackingLog-15,2012/07/02 0:00,Lorem ipsum dolor sit ame,100.00,ACCEPTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,Claim-01
 #status
 trackingLog-16,2012/07/02 0:00,Lorem ipsum dolor sit amet,50.00,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,Claim-01
-trackingLog-17,2012/07/02 0:00,Lorem ipsum dolor sit amet,50.00,ACCEPTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,Claim-01
-trackingLog-18,2012/07/02 0:00,Lorem ipsum dolor sit amet,50.00,REJECTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,Claim-01
+trackingLog-17,2012/07/02 0:00,Lorem ipsum dolor sit amet,100.00,ACCEPTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,Claim-01
+trackingLog-18,2012/07/02 0:00,Lorem ipsum dolor sit amet,100.00,REJECTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,Claim-01
 #resolution
 trackingLog-19,2012/07/02 0:00,Lorem ipsum dolor sit amet,50.00,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,Claim-01
 trackingLog-20,2012/07/02 0:00,Lorem ipsum dolor sit amet,50.00,PENDING,L,Claim-01
