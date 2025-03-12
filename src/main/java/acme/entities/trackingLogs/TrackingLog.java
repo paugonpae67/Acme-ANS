@@ -16,12 +16,14 @@ import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidScore;
 import acme.client.components.validation.ValidString;
+import acme.constraints.ValidTrackingLogs;
 import acme.entities.claim.Claim;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
+@ValidTrackingLogs
 @Entity
 public class TrackingLog extends AbstractEntity {
 
