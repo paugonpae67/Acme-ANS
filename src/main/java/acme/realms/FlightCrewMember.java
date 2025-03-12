@@ -14,12 +14,15 @@ import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoney;
 import acme.client.components.validation.ValidNumber;
 import acme.client.components.validation.ValidString;
+import acme.constraints.ValidPhone;
+import acme.constraints.ValidUserIdentifier;
 import acme.entities.airlines.Airline;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@ValidUserIdentifier
 @Entity
 public class FlightCrewMember extends AbstractRole {
 
@@ -31,7 +34,7 @@ public class FlightCrewMember extends AbstractRole {
 	private String					employeeCode;
 
 	@Mandatory
-	@ValidString(pattern = "^\\+?\\d{6,15}$")
+	@ValidPhone
 	@Automapped
 	private String					phoneNumber;
 
