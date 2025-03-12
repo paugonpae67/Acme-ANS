@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
@@ -18,6 +19,7 @@ import org.hibernate.validator.constraints.Length;
 @Constraint(validatedBy = {})
 @ReportAsSingleViolation
 
+@NotBlank
 @Length(min = 6, max = 16)
 @Pattern(regexp = "^\\+?\\d{6,15}$")
 public @interface ValidPhone {
