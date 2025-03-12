@@ -25,6 +25,3 @@ task-19,MAINTENANCE,5,500,洛伦·伊普森,technician-01
 task-20,MAINTENANCE,5,500,<marquee>Hacked</marquee>,technician-01
 task-21,MAINTENANCE,5,500,<script>alert(‘Hacked!’);</script>,technician-01
 task-22,MAINTENANCE,5,500,' or 'A' = 'A ,technician-01
-#key:technician
-task-23,MAINTENANCE,5,500,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,technician-02
-task-24,MAINTENANCE,5,500,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,technician-03
