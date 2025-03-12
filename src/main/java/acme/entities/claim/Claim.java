@@ -52,7 +52,6 @@ public class Claim extends AbstractEntity {
 	@Automapped
 	private Boolean				accepted;
 
-	//Relations
 	@Mandatory
 	@Valid
 	@ManyToOne(optional = false)
