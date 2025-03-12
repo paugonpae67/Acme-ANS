@@ -1,6 +1,8 @@
 
 package acme.constraints;
 
+import java.util.List;
+
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +33,18 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 		if (trackingLog == null)
 			super.state(context, false, "*", "javax.validation.constraints.NotNull.message");
 		else {
-			//if (this.trackingLogsRepository.findLatestResolutionPercentageByClaim(trackingLog.getClaim().getId()) > trackingLog.getResolutionPercentage())
-			//super.state(context, false, "*", "javax.validation.constraints.not-less-percentage.message");
+			List<TrackingLog> latestTrackingLogOpt = this.trackingLogsRepository.findLatestTrackingLogByClaim(trackingLog.getClaim().getId()).get();
+
+			if (latestTrackingLogOpt.get(0).getResolutionPercentage() > trackingLog.getResolutionPercentage())
+				super.state(context, false, "*", "javax.validation.constraints.not-less-percentage.message");
+
 			if ((trackingLog.getStatus().equals(TrackingLogStatus.ACCEPTED) || trackingLog.getStatus().equals(TrackingLogStatus.REJECTED)) && trackingLog.getResolutionPercentage() != 100)
 				super.state(context, false, "*", "javax.validation.constraints.not-coherence.message");
-			if (!trackingLog.getStatus().equals(TrackingLogStatus.PENDING) && trackingLog.getResolution().isEmpty())
+			if (!trackingLog.getStatus().equals(TrackingLogStatus.PENDING) && (trackingLog.getResolution() == null || trackingLog.getResolution().isEmpty()))
 				super.state(context, false, "*", "javax.validation.constraints.must-be-written-resolution.message");
-			if (trackingLog.getStatus().equals(TrackingLogStatus.PENDING) && trackingLog.getResolutionPercentage() == 100)
-				super.state(context, false, "*", "javax.validation.constraints.not-coherence.message");
+			if (trackingLog.getResolution() != null)
+				if (trackingLog.getStatus().equals(TrackingLogStatus.PENDING) && trackingLog.getResolutionPercentage() == 100)
+					super.state(context, false, "*", "javax.validation.constraints.not-coherence.message");
 		}
 		result = !super.hasErrors(context);
 
