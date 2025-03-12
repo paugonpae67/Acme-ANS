@@ -34,8 +34,10 @@ public class AssistanceAgentValidator extends AbstractValidator<ValidAssistanceA
 				char nameFirstChar = Character.toUpperCase(name.charAt(0));
 				char surnameFirstChar = Character.toUpperCase(surname.charAt(0));
 
-				super.state(context, !(employeeCodeFirstChar == nameFirstChar), "*", "acme.validation.employee-code.initial-mismatch");
-				super.state(context, !(employeeCodeSecondChar == surnameFirstChar), "*", "acme.validation.employee-code.initial-mismatch");
+				if (!(employeeCodeFirstChar == nameFirstChar))
+					super.state(context, false, "*", "acme.validation.employee-code.initial-mismatch");
+				else if (!(employeeCodeSecondChar == surnameFirstChar))
+					super.state(context, false, "*", "acme.validation.employee-code.initial-mismatch");
 			}
 		}
 		result = !super.hasErrors(context);
