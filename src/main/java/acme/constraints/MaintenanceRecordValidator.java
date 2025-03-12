@@ -9,7 +9,7 @@ import javax.validation.ConstraintValidatorContext;
 import acme.client.components.validation.AbstractValidator;
 import acme.client.components.validation.Validator;
 import acme.client.helpers.MomentHelper;
-import acme.entities.maintenanceRecords.MaintenanceRecord;
+import acme.entities.aircrafts.MaintenanceRecord;
 
 @Validator
 public class MaintenanceRecordValidator extends AbstractValidator<ValidMaintenanceRecord, MaintenanceRecord> {

@@ -1,5 +1,5 @@
 
-package acme.entities.tasks;
+package acme.entities.aircrafts;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
