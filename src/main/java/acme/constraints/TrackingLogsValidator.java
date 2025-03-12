@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.validation.AbstractValidator;
 import acme.client.components.validation.Validator;
-import acme.entities.trackingLogs.TrackingLogStatus;
 import acme.entities.trackingLogs.TrackingLog;
 import acme.entities.trackingLogs.TrackingLogRepository;
+import acme.entities.trackingLogs.TrackingLogStatus;
 
 @Validator
 public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, TrackingLog> {
@@ -30,9 +30,9 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 		boolean result = false;
 		if (trackingLog == null)
 			super.state(context, false, "*", "javax.validation.constraints.NotNull.message");
-		else if (this.trackingLogsRepository.findResolutionPercentageSmaller(trackingLog.getResolutionPercentage()) != null) {
-
-		} else {
+		else {
+			if (this.trackingLogsRepository.findLatestResolutionPercentageByClaim(trackingLog.getClaim().getId()) > trackingLog.getResolutionPercentage())
+				super.state(context, false, "*", "javax.validation.constraints.not-less-percentage.message");
 			if ((trackingLog.getStatus().equals(TrackingLogStatus.ACCEPTED) || trackingLog.getStatus().equals(TrackingLogStatus.REJECTED)) && trackingLog.getResolutionPercentage() != 100)
 				super.state(context, false, "*", "javax.validation.constraints.not-coherence.message");
 			if (!trackingLog.getStatus().equals(TrackingLogStatus.PENDING) && trackingLog.getResolution().isEmpty())
