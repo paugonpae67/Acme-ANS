@@ -14,6 +14,8 @@ import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidNumber;
 import acme.client.components.validation.ValidString;
 import acme.entities.flightAssignment.FlightAssignment;
+import acme.entities.flights.Flight;
+import acme.realms.AssistanceAgent;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,7 +36,7 @@ public class ActivityLog extends AbstractEntity {
 	private String				description;
 
 	@Mandatory
-	@ValidNumber(min = 0, max = 10)
+	@ValidNumber(min = 0, max = 10, integer = 2)
 	@Automapped
 	private Integer				saverityLevel;
 
@@ -50,20 +52,14 @@ public class ActivityLog extends AbstractEntity {
 	@ManyToOne(optional = false)
 	private FlightAssignment	flightAssignment;
 
-	/*
-	 * @Mandatory
-	 * 
-	 * @Valid
-	 * 
-	 * @ManyToOne(optional=false)
-	 * private Flight flight;
-	 * 
-	 * @Mandatory
-	 * 
-	 * @Valid
-	 * 
-	 * @ManyToOne(optional=false)
-	 * private AssistanceAgent assistanceAgent;
-	 */
+	@Mandatory
+	@Valid
+	@ManyToOne(optional = false)
+	private Flight				flight;
+
+	@Mandatory
+	@Valid
+	@ManyToOne(optional = false)
+	private AssistanceAgent		assistanceAgent;
 
 }
