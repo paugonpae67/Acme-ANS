@@ -1,5 +1,25 @@
-key,remarks,moment,currentStatus,duty,key:flightCrewMembers
-flightAssignment-01,A good pilot,2024/01/01 10:00,CONFIRMED,PILOT,flightCrewMember-01
-flightAssignment-02,A good copilot,2024/01/01 10:00,CONFIRMED,CO_PILOT,flightCrewMember-02
-flightAssignment-03,Doing a good job,2024/01/01 10:00,PENDING,LEAD_ATTENDANT,flightCrewMember-03
-flightAssignment-04,Nice person,2024/02/19 10:00,CANCELLED,CABIN_ATTENDANT,flightCrewMember-04
+key,duty,remarks,moment,currentStatus,key:flightCrewMembers
+#duty,"","","","","",""
+flightAssignment-01,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01
+flightAssignment-02,CO_PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-02
+flightAssignment-03,LEAD_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-03
+flightAssignment-04,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-04
+#remarks,"","","","","",""
+flightAssignment-05,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01
+flightAssignment-06,PILOT,L,2024/01/01 10:00,CONFIRMED,flightCrewMember-01
+flightAssignment-07,PILOT,Lo,2024/01/01 10:00,CONFIRMED,flightCrewMember-01
+flightAssignment-08,PILOT,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",2024/01/01 10:00,CONFIRMED,flightCrewMember-01
+flightAssignment-09,PILOT,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor*",2024/01/01 10:00,CONFIRMED,flightCrewMember-01
+flightAssignment-10,PILOT,洛伦·伊普森,2024/01/01 10:00,CONFIRMED,flightCrewMember-01
+flightAssignment-11,PILOT,' or 'A' = 'A,2024/01/01 10:00,CONFIRMED,flightCrewMember-01
+flightAssignment-12,PILOT,<script>alert(‘Hacked!’);</script>,2024/01/01 10:00,CONFIRMED,flightCrewMember-01
+#moment,"","","","","",""
+flightAssignment-13,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01
+flightAssignment-14,PILOT,Lorem ipsum dolor sit ame,2025/01/01 00:00,CONFIRMED,flightCrewMember-01
+flightAssignment-15,PILOT,Lorem ipsum dolor sit ame,2024/12/31 23:59,CONFIRMED,flightCrewMember-01
+flightAssignment-16,PILOT,Lorem ipsum dolor sit ame,2000/01/01 00:00,CONFIRMED,flightCrewMember-01
+flightAssignment-17,PILOT,Lorem ipsum dolor sit ame,2000/01/01 00:01,CONFIRMED,flightCrewMember-01
+#currentStatus,"","","","","",""
+flightAssignment-18,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01
+flightAssignment-19,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,PENDING,flightCrewMember-01
+flightAssignment-20,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CANCELLED,flightCrewMember-01
