@@ -33,14 +33,10 @@ public class ServiceValidator extends AbstractValidator<ValidService, Service> {
 
 			int currentYear = calendar.get(Calendar.YEAR);
 
-			String lastTwoDigitsOfYear = String.valueOf(currentYear).substring(2);
-
-			if (service.getPromotionCode() == null || !service.getPromotionCode().matches("^[A-Z]{4}-[0-9]{2}$"))
-				super.state(context, false, "*", "acme.validation.promotion-code.format");
-			else {
+			if (service.getPromotionCode() != null) {
+				String lastTwoDigitsOfYear = String.valueOf(currentYear).substring(2);
 				String lastTwo = service.getPromotionCode().substring(service.getPromotionCode().length() - 2);
-				if (!lastTwo.equals(lastTwoDigitsOfYear))
-					super.state(context, false, "*", "acme.validation.promotion-code.year-mismatch");
+				super.state(context, lastTwo.equals(lastTwoDigitsOfYear), "*", "acme.validation.promotion-code.year-mismatch");
 			}
 		}
 		result = !super.hasErrors(context);
