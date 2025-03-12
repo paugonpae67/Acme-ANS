@@ -9,14 +9,14 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-@Constraint(validatedBy = FlightNumberValidator.class)
+@Constraint(validatedBy = LegValidator.class)
 @Target({
-	ElementType.FIELD, ElementType.METHOD
+	ElementType.TYPE
 })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidFlightNumber {
+public @interface ValidLeg {
 
-	String message() default "{acme.validation.flight-number}";
+	String message() default "{acme.validation.leg}";
 
 	Class<?>[] groups() default {};
 

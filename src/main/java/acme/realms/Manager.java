@@ -27,7 +27,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ValidUserIdentifier
-public class AirlineManager extends AbstractRole {
+public class Manager extends AbstractRole {
 
 	private static final long	serialVersionUID	= 1L;
 
@@ -42,7 +42,7 @@ public class AirlineManager extends AbstractRole {
 	private Integer				yearsOfExperience;
 
 	@Mandatory
-	@ValidMoment(min = "2000/01/01 00:00:00", past = true)
+	@ValidMoment(past = true)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dateOfBirth;
 
