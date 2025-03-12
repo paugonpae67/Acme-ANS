@@ -19,14 +19,14 @@ import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidMoney;
 import acme.client.components.validation.ValidString;
 import acme.client.components.validation.ValidUrl;
-import acme.constraints.ValidAssistanceAgent;
+import acme.constraints.ValidUserIdentifier;
 import acme.entities.airlines.Airline;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@ValidAssistanceAgent
+@ValidUserIdentifier
 @Entity
 public class AssistanceAgent extends AbstractRole {
 

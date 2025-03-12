@@ -10,13 +10,13 @@ import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidNumber;
 import acme.client.components.validation.ValidString;
-import acme.constraints.ValidCustomer;
+import acme.constraints.ValidUserIdentifier;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@ValidCustomer
+@ValidUserIdentifier
 @Entity
 public class Customer extends AbstractRole {
 
