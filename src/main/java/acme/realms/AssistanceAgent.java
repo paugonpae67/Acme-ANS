@@ -19,6 +19,7 @@ import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidMoney;
 import acme.client.components.validation.ValidString;
 import acme.client.components.validation.ValidUrl;
+import acme.constraints.ValidLongText;
 import acme.constraints.ValidUserIdentifier;
 import acme.entities.airlines.Airline;
 import lombok.Getter;
@@ -33,12 +34,12 @@ public class AssistanceAgent extends AbstractRole {
 	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
-	@ValidString(min = 8, max = 9, pattern = "^[A-Z]{2,3}\\d{6}$")
+	@ValidString(pattern = "^[A-Z]{2,3}\\d{6}$")
 	@Column(unique = true)
 	private String				employeeCode;
 
 	@Mandatory
-	@ValidString(min = 1, max = 255)
+	@ValidLongText
 	@Automapped
 	private String				spokenLanguages;
 
