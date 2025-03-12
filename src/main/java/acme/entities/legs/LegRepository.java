@@ -2,6 +2,7 @@
 package acme.entities.legs;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +27,6 @@ public interface LegRepository extends AbstractRepository {
 	@Query(value = "SELECT l.arrival_airport_city FROM leg l WHERE l.flight_id = :flightId ORDER BY l.scheduled_arrival DESC LIMIT 1", nativeQuery = true)
 	Optional<String> findLastDestinationCity(@Param("flightId") int flightId);
 
+	@Query("SELECT l FROM Leg l WHERE l.flight.id = :flightId " + "AND l.id <> :legId " + "AND ((l.scheduledDeparture < :scheduledArrival AND l.scheduledArrival > :scheduledDeparture))")
+	List<Leg> findOverlappingLegs(Integer flightId, Date scheduledDeparture, Date scheduledArrival, Integer legId);
 }
