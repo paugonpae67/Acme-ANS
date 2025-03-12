@@ -61,7 +61,6 @@ public class AssistanceAgent extends AbstractRole {
 	@ValidUrl
 	private String				photo;
 
-	//Relationships
 	@Mandatory
 	@Valid
 	@ManyToOne(optional = false)
