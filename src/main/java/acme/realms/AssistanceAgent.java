@@ -45,7 +45,7 @@ public class AssistanceAgent extends AbstractRole {
 	private Date				moment;
 
 	@Optional
-	@ValidString(max = 255)
+	@ValidString(min = 0, max = 255)
 	@Automapped
 	private String				briefBio;
 
