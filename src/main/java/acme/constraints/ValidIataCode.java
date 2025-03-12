@@ -20,15 +20,14 @@ import org.hibernate.validator.constraints.Length;
 @ReportAsSingleViolation
 
 @NotBlank
-@Length(min = 6, max = 16)
-@Pattern(regexp = "^\\+?\\d{6,15}$")
-public @interface ValidPhone {
+@Length(min = 3, max = 3)
+@Pattern(regexp = "^[A-Z]{3}$")
+public @interface ValidIataCode {
 
 	// Standard validation properties -----------------------------------------
 
-	String message() default "";
+	String message() default "{acme.validation.header.message}";
 
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};
-
 }

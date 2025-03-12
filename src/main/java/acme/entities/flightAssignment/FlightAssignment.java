@@ -32,7 +32,7 @@ public class FlightAssignment extends AbstractEntity {
 	private String					remarks;
 
 	@Mandatory
-	@ValidMoment
+	@ValidMoment(past = true)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date					moment;
 
@@ -52,15 +52,13 @@ public class FlightAssignment extends AbstractEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	private FlightCrewMember		flightCrewMembers;
-
 	/*
+	 * 
 	 * @Mandatory
 	 * 
 	 * @Valid
 	 * 
 	 * @ManyToOne(optional = false)
 	 * private Leg leg;
-	 * 
 	 */
-
 }
