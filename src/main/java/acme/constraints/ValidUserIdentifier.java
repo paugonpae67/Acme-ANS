@@ -11,9 +11,9 @@ import javax.validation.Payload;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = AssistanceAgentValidator.class)
+@Constraint(validatedBy = UserIdentifierValidator.class)
 
-public @interface ValidAssistanceAgent {
+public @interface ValidUserIdentifier {
 
 	String message() default "";
 
