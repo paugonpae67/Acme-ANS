@@ -1,12 +1,14 @@
 key,key:userAccount,identifier,phoneNumber,physicalAddress,city,country,earnedPoints
-#phoneNumber
+#BaseEntity
+customer-00,user-account-customer-01,LGA928374,+1234567890,Calle Sol 5,Huelva,España,100
+#Variaciones del atributo phoneNumber
 customer-01,user-account-customer-01,LGB928374,123456,Calle Sol 5,Huelva,España,100
 customer-02,user-account-customer-01,LGC182736,+123456,Calle Sol 5,Huelva,España,100
 customer-03,user-account-customer-01,LGD563920,987654321012345,Calle Sol 5,Huelva,España,100
 customer-04,user-account-customer-01,LGE817263,+987654321012345,Calle Sol 5,Huelva,España,100
 customer-05,user-account-customer-01,LGF091827,123456789,Calle Sol 5,Huelva,España,100
 customer-06,user-account-customer-01,LGG364829,+123456789,Calle Sol 5,Huelva,España,100
-#physicalAddress
+#Variaciones del atributo physicalAddress
 customer-07,user-account-customer-01,LGH123456,+1234567890,Lorem ipsum dolor sit amet consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,Huelva,España,100
 customer-08,user-account-customer-01,LGI123456,+1234567890,L,Huelva,España,100
 customer-09,user-account-customer-01,LGK123456,+1234567890,Lo,Huelva,España,100
@@ -18,7 +20,7 @@ customer-14,user-account-customer-02,HPO123456,+1234567890,洛伦·伊普森,Hue
 customer-15,user-account-customer-02,HPP123456,+1234567890,<marquee>Hacked</marquee>,Huelva,España,100
 customer-16,user-account-customer-02,HPQ123456,+1234567890,<script>alert(‘Hacked!’);</script>,Huelva,España,100
 customer-17,user-account-customer-02,HPR123456,+1234567890,' or 'A' = 'A,Huelva,España,100
-#city
+#Variaciones del atributo city
 customer-18,user-account-customer-01,LGS123456,+1234567890,Calle Sol 5,Lorem ipsum dolor sit ame,España,100
 customer-19,user-account-customer-01,LGT123456,+1234567890,Calle Sol 5,L,España,100
 customer-20,user-account-customer-01,LGU123456,+1234567890,Calle Sol 5,Lo,España,100
@@ -30,7 +32,7 @@ customer-25,user-account-customer-02,HP987652,+1234567890,Calle Sol 5,洛伦·�
 customer-26,user-account-customer-02,HP987653,+1234567890,Calle Sol 5,<marquee>Hacked</marquee>,España,100
 customer-27,user-account-customer-02,HP987654,+1234567890,Calle Sol 5,<script>alert(‘Hacked!’);</script>,España,100
 customer-28,user-account-customer-02,HP987655,+1234567890,Calle Sol 5,' or 'A' = 'A ,España,100
-#country
+#Variaciones del atributo country
 customer-29,user-account-customer-01,LG987656,+1234567890,Calle Sol 5,Huelva,Lorem ipsum dolor sit ame,100
 customer-30,user-account-customer-01,LG987657,+1234567890,Calle Sol 5,Huelva,L,100
 customer-31,user-account-customer-01,LG987658,+1234567890,Calle Sol 5,Huelva,Lo,100
@@ -42,7 +44,7 @@ customer-36,user-account-customer-02,HP123463,+1234567890,Calle Sol 5,Huelva,洛
 customer-37,user-account-customer-02,HP123464,+1234567890,Calle Sol 5,Huelva,<marquee>Hacked</marquee>,100
 customer-38,user-account-customer-02,HP123465,+1234567890,Calle Sol 5,Huelva,<script>alert(‘Hacked!’);</script>,100
 customer-39,user-account-customer-02,HP123466,+1234567890,Calle Sol 5,Huelva,' or 'A' = 'A ,100
-#earnedPoints
+#Variaciones del atributo earnedPoints
 customer-40,user-account-customer-01,LG123467,+1234567890,Calle Sol 5,Huelva,España,0
 customer-41,user-account-customer-01,LG123468,+1234567890,Calle Sol 5,Huelva,España,1
 customer-42,user-account-customer-01,LG123469,+1234567890,Calle Sol 5,Huelva,España,500000
