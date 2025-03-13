@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>464</x>
+      <y>248</y>
+      <w>464</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Role&gt;&gt;
+Technician
+--
++licenseNumber: String {Mandatory, ValidLicenseNumber, Column(unique = true)} 
++phoneNumber: String {Mandatory, ValidPhone, Automapped}
++specialization: String {Mandatory,ValidShortText, Automapped}
++healthTestPassed: Boolean {Mandatory, Valid, Automapped}
++yearsOfexperience: Integer {Mandatory, ValidNumber(min=0, max=120), Automapped}
++certifications: String {Optional, ValidString(min=0, max=255), Automapped} 
+bg=PINK</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>24</x>
+      <y>584</y>
+      <w>496</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+Task
+--
++type: TaskType {Mandatory, Valid, Automapped} 
++description: String {Mandatory, ValidLongText, Automapped}
++priority: Integer {Mandatory, ValidNumber(min=0, max=10),Automapped}
++estimatedDuration: Integer (Mandatory, ValidNumber(min=0, max=1000), Automapped)
+
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>752</x>
+      <y>568</y>
+      <w>688</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+MaintenanceRecord {ValidMaintenanceRecord}
+--
++maintenanceMoment: Date {Mandatory, ValidMoment(past=true), Temporal(TIMESTAMP)}
++status: MaintenanceStatus {Mandatory, Valid, Automapped}
++nextInspectionDue: Date {Mandatory, ValidMoment, Temporal(TIMESTAMP)}
++estimatedCost: Money {Mandatory, ValidMoney, Automapped}
++notes: String {Optional, ValidString(min=0, max=255), Automapped}
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>488</x>
+      <y>0</y>
+      <w>168</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+TaskType
+--
+MAINTENANCE
+INSPECTION
+REPAIR
+SYSTEM_CHECK
+bg=GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>280</x>
+      <y>0</y>
+      <w>168</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+MaintenanceStatus
+--
+PENDING
+IN_PROGRESS
+COMPLETED
+bg=GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>544</x>
+      <y>808</y>
+      <w>168</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+InvolvedIn
+--
+
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>920</x>
+      <y>352</y>
+      <w>256</w>
+      <h>232</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1= *
+m2=1
+
+are registered by
+</panel_attributes>
+    <additional_attributes>300.0;270.0;140.0;140.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>352</x>
+      <y>392</y>
+      <w>144</w>
+      <h>208</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=   *
+m2=1
+
+are made by</panel_attributes>
+    <additional_attributes>10.0;240.0;60.0;110.0;160.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>376</x>
+      <y>680</y>
+      <w>184</w>
+      <h>184</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=*
+m2=1
+
+Involves
+</panel_attributes>
+    <additional_attributes>210.0;210.0;10.0;160.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>704</x>
+      <y>688</y>
+      <w>208</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=   *
+m2=1
+
+involved In
+</panel_attributes>
+    <additional_attributes>10.0;220.0;230.0;180.0;230.0;10.0</additional_attributes>
+  </element>
+</diagram>

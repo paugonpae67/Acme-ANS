@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <help_text/>
+  <zoom_level>6</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>174</x>
+      <y>132</y>
+      <w>402</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Rol&gt;&gt;
+FlightCrewMember {ValidUserIdentifier}
+--
++ employeeCode: String { Mandatory, ValidString(pattern = "^[A-Z]{2-3}\d{6}$"), Column(unique=true) }
++ phoneNumber: String {Mandatory, ValidPhone, Automapped } 
++ languageSkills: String {Mandatory, ValidLongText, Automapped}
++ availabilityStatus:  AvaliabilityStatus {Mandatory, Valid, Automapped}
++ salary: Money {Mandatory, ValidMoney, Automapped}
++ yearsOfExperience: Integer {Optional, ValidNumber(min=0, max=120), Automapped}
+
+
+fg=BLACK
+bg=PINK</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>156</x>
+      <y>306</y>
+      <w>336</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+FlightAssignment
+--
++ duty: Duty {Mandatory, Valid, Automapped} 
++ moment: Date {Mandatory, ValidMoment(past=true), Temporal(TIMESTAMP)}
++ currentStatus: currentStatus {Mandatory, Valid, Automapped}
++ remarks: String {Optional, ValidLongText, Automapped}
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>570</x>
+      <y>240</y>
+      <w>354</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+ActivityLog
+--
++ typeOfIncident: String { Mandatory, ValidShortText, Automapped}
++ description: String {Mandatory, ValidLongText, Automapped } 
++ saverityLevel: integer {Mandatory, ValidNumber(min=0, max= 10), Automapped}
++ registrationMoment: Date {Optional, ValidMoment(past=true), Temporal(TIMESTAMP)}
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>366</x>
+      <y>216</y>
+      <w>72</w>
+      <h>102</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-x
+m1=1
+m2=*
+AssignedTo ^</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>486</x>
+      <y>306</y>
+      <w>258</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-x
+m1=1
+m2=*
+LogsAssignment ◄</panel_attributes>
+    <additional_attributes>10.0;90.0;410.0;90.0;410.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>612</x>
+      <y>114</y>
+      <w>126</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+Duty
+--
+PILOT
+CO-PILOT
+LEAD ATTENDANT
+CABIN ATTENDANT
+bg=LIGHT_GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>762</x>
+      <y>114</y>
+      <w>126</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+CurrentStatus
+--
+CONFIRMED
+PENDING
+CANCELLED
+bg=LIGHT_GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>906</x>
+      <y>114</y>
+      <w>126</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+AvaliabilityStatus
+--
+AVAILABLE
+ON VACATION
+ON LEAVE
+bg=LIGHT_GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
