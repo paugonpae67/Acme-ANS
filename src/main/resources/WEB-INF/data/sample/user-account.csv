@@ -22,3 +22,5 @@ user-account-assistanceAgent-03,true,"UserIdentity{name: 'David', surname: 'Pér
 user-account-manager-01,true,"UserIdentity{name: 'Carlos', surname: 'Fernandez', email: 'carlos@acme.com'}",manager1,manager1
 user-account-manager-02,true,"UserIdentity{name: 'Sofia', surname: 'Rodero', email: 'sofia@acme.com'}",manager2,manager2
 user-account-manager-03,true,"UserIdentity{name: 'Isabel', surname: 'Ruiz', email: 'isabel@acme.com'}",manager3,manager3
+user-account-administrator1,true,"UserIdentity{name: 'Javier', surname: 'Ruiz', email: 'javier@acme.com'}",administrator1,administrator1
+user-account-administrator2,true,"UserIdentity{name: 'Marcos', surname: 'Ruiz', email: 'marcos@acme.com'}",administrator2,administrator2
