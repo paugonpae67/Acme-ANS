@@ -10,7 +10,9 @@ import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidNumber;
 import acme.client.components.validation.ValidString;
+import acme.constraints.ValidLongText;
 import acme.constraints.ValidPhone;
+import acme.constraints.ValidShortText;
 import acme.constraints.ValidUserIdentifier;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,17 +36,17 @@ public class Customer extends AbstractRole {
 	private String				phoneNumber;
 
 	@Mandatory
-	@ValidString(min = 1, max = 255)
+	@ValidLongText
 	@Automapped
 	private String				physicalAddress;
 
 	@Mandatory
-	@ValidString(min = 1, max = 50)
+	@ValidShortText
 	@Automapped
 	private String				city;
 
 	@Mandatory
-	@ValidString(min = 1, max = 50)
+	@ValidShortText
 	@Automapped
 	private String				country;
 
@@ -52,12 +54,5 @@ public class Customer extends AbstractRole {
 	@ValidNumber(min = 0, max = 500000)
 	@Automapped
 	private Integer				earnedPoints;
-
-	//Relationships ---------------------------------------------------------
-
-	//@Mandatory
-	//@Valid
-	//@ManyToOne(optional = false)
-	//private Flight				flight;
 
 }
