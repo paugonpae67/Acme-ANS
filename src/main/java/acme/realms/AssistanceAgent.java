@@ -60,6 +60,7 @@ public class AssistanceAgent extends AbstractRole {
 
 	@Optional
 	@ValidUrl
+	@Automapped
 	private String				photo;
 
 	@Mandatory

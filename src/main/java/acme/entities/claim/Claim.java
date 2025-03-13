@@ -1,6 +1,7 @@
 
 package acme.entities.claim;
 
+import java.beans.Transient;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -14,7 +15,12 @@ import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.ValidEmail;
 import acme.client.components.validation.ValidMoment;
+import acme.client.helpers.SpringHelper;
 import acme.constraints.ValidLongText;
+import acme.entities.legs.Leg;
+import acme.entities.trackingLogs.TrackingLog;
+import acme.entities.trackingLogs.TrackingLogRepository;
+import acme.entities.trackingLogs.TrackingLogStatus;
 import acme.realms.AssistanceAgent;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,7 +39,6 @@ public class Claim extends AbstractEntity {
 
 	@Mandatory
 	@ValidEmail
-	@ValidLongText
 	@Automapped
 	private String				passengerEmail;
 
@@ -47,13 +52,22 @@ public class Claim extends AbstractEntity {
 	@Automapped
 	private ClaimType			type;
 
-	@Mandatory
-	@Valid
-	@Automapped
-	private Boolean				accepted;
+
+	@Transient
+	public TrackingLogStatus getStatus() {
+		TrackingLogRepository repository = SpringHelper.getBean(TrackingLogRepository.class);
+		TrackingLog tracking = repository.findLatestTrackingLogByClaim(this.getId()).get().get(0);
+		return tracking.getStatus();
+	}
+
 
 	@Mandatory
 	@Valid
 	@ManyToOne(optional = false)
-	private AssistanceAgent		assistanceAgent;
+	private AssistanceAgent	assistanceAgent;
+
+	@Mandatory
+	@Valid
+	@ManyToOne
+	private Leg				leg;
 }
