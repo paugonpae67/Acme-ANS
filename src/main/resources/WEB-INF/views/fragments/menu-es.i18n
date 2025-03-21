@@ -35,6 +35,12 @@ master.menu.provider.favourite-link = Enlace favorito
 master.menu.consumer = Consumidor
 master.menu.consumer.favourite-link = Enlace favorito
 
+# master.menu.maintenanceRecord ####################################################
+master.menu.maintenanceRecord = Registro de mantenimiento
+master.menu.maintenanceRecord.list = Lista de registros de mantenimiento 
+master.menu.maintenanceRecord.create = Crear
+master.menu.maintenanceRecord.publish = Publicar
+
 # master.menu.user-account ####################################################
 
 master.menu.user-account = Cuenta

@@ -1,0 +1,30 @@
+# messages-en.i18n
+#
+# Copyright (C) 2012-2025 Rafael Corchuelo.
+#
+# In keeping with the traditional purpose of furthering education and research, it is
+# the policy of the copyright owner to permit non-commercial use and redistribution of
+# this software. It has been tested carefully, but it is not guaranteed for any particular
+# purposes.  The copyright owner does not offer any warranties or representations, nor do
+# they accept any liabilities with respect to them.
+
+technician.maintenanceRecord.form.title = MaintenanceRecord Details
+technician.maintenanceRecord.list.title = Listing of maintenanceRecords
+
+technician.maintenanceRecord.form.label.maintenanceMoment = Moment:
+technician.maintenanceRecord.form.label.status = Status:
+technician.maintenanceRecord.form.label.nextInspection = Next Inspection
+technician.maintenanceRecord.form.label.estimatedCost = Estimated Cost
+technician.maintenanceRecord.form.label.notes = Notes (Optional)
+
+technician.maintenanceRecord.form.button.create = Create		
+technician.maintenanceRecord.form.button.update = Update
+
+
+technician.maitenanceRecord.list.label.maintenanceMoment = Moment
+technician.maitenanceRecord.list.label.status = Status
+technician.maitenanceRecord.list.label.nextInspection= Next Inspection
+technician.maitenanceRecord.list.label.estimatedCost = Estimated Cost
+technician.maitenanceRecord.list.label.notes = Notes 
+
+technician.maintenanceRecord.list.button.create = Create
