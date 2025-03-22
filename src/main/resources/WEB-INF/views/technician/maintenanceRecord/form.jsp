@@ -4,11 +4,11 @@
 <%@taglib prefix="acme" uri="http://acme-framework.org/"%>
 
 <acme:form> 
-	<acme:input-moment code="technician.maintenanceRecord.form.label.maintenanceMoment" path="ticker"/>
-	<acme:input-select code="technician.maintenanceRecord.form.label.status" path="contractor" choices="${contractors}"/>	
-	<acme:input-moment code="technician.maintenanceRecord.form.label.nextInspection" path="title"/>
-	<acme:input-money code="technician.maintenanceRecord.form.label.estimatedCost" path="deadline"/>
-	<acme:input-textbox code="technician.maintenanceRecord.form.label.notes" path="salary"/>
+	<acme:input-moment code="technician.maintenanceRecord.form.label.maintenanceMoment" path="maintenanceMoment"/>
+	<acme:input-select code="technician.maintenanceRecord.form.label.status" path="status" choices="${statuses}"/>	
+	<acme:input-moment code="technician.maintenanceRecord.form.label.nextInspection" path="nextInspection"/>
+	<acme:input-money code="technician.maintenanceRecord.form.label.estimatedCost" path="estimatedCost"/>
+	<acme:input-textbox code="technician.maintenanceRecord.form.label.notes" path="notes"/>
 
 	<jstl:choose>	 
 		<jstl:when test="${acme:anyOf(_command, 'show|update|publish')}">

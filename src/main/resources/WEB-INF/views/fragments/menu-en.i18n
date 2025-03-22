@@ -38,8 +38,6 @@ master.menu.consumer.favourite-link = Favourite link
 # master.menu.maintenanceRecord ####################################################
 master.menu.maintenanceRecord = Maintenance Record
 master.menu.maintenanceRecord.list = Maintenance Record List
-master.menu.maintenanceRecord.create = Create
-master.menu.maintenanceRecord.publish = Publish
 
 # master.menu.user-account ####################################################
 
