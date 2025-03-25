@@ -10,7 +10,6 @@ import acme.client.components.views.SelectChoices;
 import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
-import acme.entities.aircrafts.Aircraft;
 import acme.entities.aircrafts.MaintenanceRecord;
 import acme.entities.aircrafts.MaintenanceStatus;
 import acme.realms.Technician;
@@ -32,17 +31,17 @@ public class TechnicianCreateMaintenanceRecordService extends AbstractGuiService
 		MaintenanceRecord maintenanceRecord;
 		Technician technician;
 		Date currentMoment;
-		int aircraftId;
-		Aircraft aircraft;
+		//int aircraftId;
+		//Aircraft aircraft;
 
 		technician = (Technician) super.getRequest().getPrincipal().getActiveRealm();
 		currentMoment = MomentHelper.getCurrentMoment();
-		aircraftId = super.getRequest().getData("aircraft", int.class);
-		aircraft = this.repository.findaircraftById(aircraftId);
+		//aircraftId = super.getRequest().getData("aircraft", int.class);
+		//aircraft = this.repository.findaircraftById(aircraftId);
 
 		maintenanceRecord = new MaintenanceRecord();
 		maintenanceRecord.setMaintenanceMoment(currentMoment);
-		maintenanceRecord.setAircraft(aircraft);
+		//maintenanceRecord.setAircraft(aircraft);
 		maintenanceRecord.setTechnician(technician);
 		maintenanceRecord.setStatus(MaintenanceStatus.PENDING);
 		super.getBuffer().addData(maintenanceRecord);

@@ -43,8 +43,8 @@
 		<acme:menu-option code="master.menu.consumer" access="hasRealm('Consumer')">
 			<acme:menu-suboption code="master.menu.consumer.favourite-link" action="http://www.example.com/"/>
 		</acme:menu-option>
-		<acme:menu-option code="master.menu.maintenanceRecord" access="hasRealm('Technician')">
-			<acme:menu-suboption code="master.menu.maintenanceRecord.list" action="/technician/maintenanceRecord/list"/>
+		<acme:menu-option code="master.menu.maintenance-record" access="hasRealm('Technician')">
+			<acme:menu-suboption code="master.menu.maintenance-record.list" action="/technician/maintenance-record/list"/>
 		</acme:menu-option>
 	</acme:menu-left>
 

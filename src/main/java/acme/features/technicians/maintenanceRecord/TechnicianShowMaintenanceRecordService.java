@@ -53,13 +53,8 @@ public class TechnicianShowMaintenanceRecordService extends AbstractGuiService<T
 		SelectChoices choices;
 		Dataset dataset;
 
-		tasksInvolves = this.repository.findTasksInvolved(maintenanceRecord.getId());
-
-		choices = SelectChoices.from(tasksInvolves, "description", null);
-
 		dataset = super.unbindObject(maintenanceRecord, "maintenanceMoment", "status", "nextInspection", //
 			"estimatedCost", "notes");
-		dataset.put("tasksInvolves", choices);
 
 		super.getResponse().addData(dataset);
 	}
