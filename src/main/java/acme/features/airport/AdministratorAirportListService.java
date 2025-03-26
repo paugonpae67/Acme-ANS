@@ -12,10 +12,10 @@ import acme.client.services.GuiService;
 import acme.entities.airports.Airport;
 
 @GuiService
-public class AirportListService extends AbstractGuiService<Administrator, Airport> {
+public class AdministratorAirportListService extends AbstractGuiService<Administrator, Airport> {
 
 	@Autowired
-	private AirportRepository airportRepository;
+	private AdministratorAirportRepository airportRepository;
 
 
 	@Override

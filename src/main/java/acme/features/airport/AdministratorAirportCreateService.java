@@ -12,10 +12,10 @@ import acme.entities.airports.Airport;
 import acme.entities.airports.OperationalType;
 
 @GuiService
-public class AirportCreateService extends AbstractGuiService<Administrator, Airport> {
+public class AdministratorAirportCreateService extends AbstractGuiService<Administrator, Airport> {
 
 	@Autowired
-	private AirportRepository airportRepository;
+	private AdministratorAirportRepository airportRepository;
 
 
 	@Override
@@ -38,10 +38,11 @@ public class AirportCreateService extends AbstractGuiService<Administrator, Airp
 
 	@Override
 	public void validate(final Airport airport) {
+		Airport existAirport = this.airportRepository.findAirportByIataCode(airport.getIataCode());
 		boolean confirmation;
-
 		confirmation = super.getRequest().getData("confirmation", boolean.class);
 		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
+		super.state(existAirport == null, "iataCode", "administrator.airport.form.error.duplicateIata");
 	}
 
 	@Override

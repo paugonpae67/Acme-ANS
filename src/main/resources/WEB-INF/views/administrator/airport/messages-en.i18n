@@ -19,3 +19,6 @@ administrator.airport.list.label.iataCode = IATA  code
 administrator.airport.list.label.city = city
 
 administrator.airport.list.button.create = Create
+
+administrator.airport.form.error.duplicateIata = This IATA code already exists
+administrator.airport.form.error.invalidPhoneNumber = It is not a valid phone number

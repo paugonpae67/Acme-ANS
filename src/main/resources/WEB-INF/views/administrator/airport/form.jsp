@@ -14,10 +14,13 @@
 	<acme:input-textbox code="administrator.airport.form.label.phoneNumber" path="phoneNumber"/>
 
  	<jstl:choose>
- 		<jstl:when test="${acme:anyOf(_command, 'show|create|update')}">
+ 		<jstl:when test="${acme:anyOf(_command, 'show|update')}">
+ 		<acme:input-checkbox code="administrator.airport.form.label.confirmation" path="confirmation"/>
+ 			<acme:submit code="administrator.airport.form.button.update" action="/administrator/airport/update"/>
+ 		</jstl:when>
+ 		<jstl:when test="${acme:anyOf(_command, 'create')}">
  			<acme:input-checkbox code="administrator.airport.form.label.confirmation" path="confirmation"/>
  			<acme:submit code="administrator.airport.form.button.create" action="/administrator/airport/create"/>
- 			<acme:submit code="administrator.airport.form.button.update" action="/administrator/airport/update"/>
  		</jstl:when>	
  	</jstl:choose>
 	

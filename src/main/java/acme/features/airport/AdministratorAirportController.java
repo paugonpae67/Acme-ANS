@@ -11,19 +11,19 @@ import acme.client.controllers.GuiController;
 import acme.entities.airports.Airport;
 
 @GuiController
-public class AirportController extends AbstractGuiController<Administrator, Airport> {
+public class AdministratorAirportController extends AbstractGuiController<Administrator, Airport> {
 
 	@Autowired
-	private AirportListService		listService;
+	private AdministratorAirportListService		listService;
 
 	@Autowired
-	private AirportShowService		showService;
+	private AdministratorAirportShowService		showService;
 
 	@Autowired
-	private AirportCreateService	createService;
+	private AdministratorAirportCreateService	createService;
 
 	@Autowired
-	private AirportUpdateService	updateService;
+	private AdministratorAirportUpdateService	updateService;
 
 
 	@PostConstruct
