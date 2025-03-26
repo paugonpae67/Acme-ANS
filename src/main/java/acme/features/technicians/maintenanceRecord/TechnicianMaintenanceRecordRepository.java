@@ -12,7 +12,7 @@ import acme.entities.aircrafts.MaintenanceRecord;
 @Repository
 public interface TechnicianMaintenanceRecordRepository extends AbstractRepository {
 
-	@Query("select mr from MaintenanceRecord mr where mr.technician.id =:technicianId")
+	@Query("select mr from MaintenanceRecord mr where mr.technician.id = :technicianId")
 	Collection<MaintenanceRecord> findMaintenanceRecordByTechnicianId(int technicianId);
 
 	@Query("select mr from MaintenanceRecord mr where mr.id =:maintenanceRecordId")
