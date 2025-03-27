@@ -8,10 +8,4 @@
 # purposes.  The copyright owner does not offer any warranties or representations, nor do
 # they accept any liabilities with respect to them.
 
-authenticated.consumer.form.title = Detalles de consumidor
-
-authenticated.consumer.form.label.company = Compañía
-authenticated.consumer.form.label.sector = Sector
-
-authenticated.consumer.form.button.create = Registrar
-authenticated.consumer.form.button.update = Actualizar
+authenticated.claim.list.title = Detalles de los registros

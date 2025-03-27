@@ -1,0 +1,28 @@
+# messages-es.i18n
+#
+# Copyright (C) 2012-2025 Rafael Corchuelo.
+#
+# In keeping with the traditional purpose of furthering education and research, it is
+# the policy of the copyright owner to permit non-commercial use and redistribution of
+# this software. It has been tested carefully, but it is not guaranteed for any particular
+# purposes.  The copyright owner does not offer any warranties or representations, nor do
+# they accept any liabilities with respect to them.
+
+assistance-agent.claim.list.title = Lista de los registros finalizados
+assistance-agent.claim.form.title = Detalles de los registros
+assistance-agent.claim.list-undergoing.title = Lista de los registros en proceso
+
+assistanceAgent.claim.list-finish.label.registrationMoment = Momento del Registro
+assistanceAgent.claim.list-finish.label.passengerEmail = Correo del Pasajero
+assistanceAgent.claim.list-finish.label.description = Descripción
+assistanceAgent.claim.list-finish.label.type = Tipo
+
+assistanceAgent.claim.form.label.registrationMoment = Momento del Registro:
+assistanceAgent.claim.form.label.passengerEmail = Correo del Pasajero:
+assistanceAgent.claim.form.label.description = Descripción:
+assistanceAgent.claim.form.label.type = Tipo:
+
+assistanceAgent.claim.list-undergoing.label.registrationMoment = Momento del Registro
+assistanceAgent.claim.list-undergoing.label.passengerEmail = Correo del Pasajero
+assistanceAgent.claim.list-undergoing.label.description = Descripción
+assistanceAgent.claim.list-undergoing.label.type = Tipo

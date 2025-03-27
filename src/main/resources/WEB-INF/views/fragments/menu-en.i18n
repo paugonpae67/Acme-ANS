@@ -35,6 +35,12 @@ master.menu.provider.favourite-link = Favourite link
 master.menu.consumer = Consumer
 master.menu.consumer.favourite-link = Favourite link
 
+# master.menu.claim ##########################################################
+
+master.menu.claim = Claim
+master.menu.claim.list-finish = List of Finished Claim
+master.menu.claim.list-undergoing = List of Undergoing Claim
+
 # master.menu.user-account ####################################################
 
 master.menu.user-account = Account
