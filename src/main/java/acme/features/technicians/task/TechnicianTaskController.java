@@ -14,22 +14,22 @@ import acme.realms.Technician;
 public class TechnicianTaskController extends AbstractGuiController<Technician, Task> {
 
 	@Autowired
-	private TechnicianListTaskService		listService;
+	private TechnicianTaskListService		listService;
 
 	@Autowired
-	private TechnicianShowTaskService		showService;
+	private TechnicianTaskShowService		showService;
 
 	@Autowired
-	private TechnicianCreateTaskService		createService;
+	private TechnicianTaskCreateService		createService;
 
 	@Autowired
-	private TechnicianUpdateTaskService		updateService;
+	private TechnicianTaskUpdateService		updateService;
 
 	@Autowired
-	private TechnicianPublishTaskService	publishService;
+	private TechnicianTaskPublishService	publishService;
 
 	@Autowired
-	private TechnicianDeleteTaskService		deleteService;
+	private TechnicianTaskDeleteService		deleteService;
 
 
 	@PostConstruct

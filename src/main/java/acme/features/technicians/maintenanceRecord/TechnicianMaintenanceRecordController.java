@@ -14,25 +14,29 @@ import acme.realms.Technician;
 public class TechnicianMaintenanceRecordController extends AbstractGuiController<Technician, MaintenanceRecord> {
 
 	@Autowired
-	private TechnicianListMaintenanceRecordService		listService;
+	private TechnicianMaintenanceRecordListService		listService;
 
 	@Autowired
-	private TechnicianShowMaintenanceRecordService		showService;
+	private TechnicianMaintenanceRecordShowService		showService;
 
 	@Autowired
-	private TechnicianCreateMaintenanceRecordService	createService;
+	private TechnicianMaintenanceRecordCreateService	createService;
 
 	@Autowired
-	private TechnicianUpdateMaintenanceRecordService	updateService;
+	private TechnicianMaintenanceRecordUpdateService	updateService;
 
 	@Autowired
-	private TechnicianPublishMaintenanceRecordService	publishService;
+	private TechnicianMaintenanceRecordPublishService	publishService;
+
+	@Autowired
+	private TechnicianMaintenanceRecordDeleteService	deleteService;
 
 
 	@PostConstruct
 	protected void initialise() {
 		super.addBasicCommand("list", this.listService);
 		super.addBasicCommand("show", this.showService);
+		super.addBasicCommand("delete", this.deleteService);
 		super.addBasicCommand("create", this.createService);
 		super.addBasicCommand("update", this.updateService);
 		super.addCustomCommand("publish", "update", this.publishService);

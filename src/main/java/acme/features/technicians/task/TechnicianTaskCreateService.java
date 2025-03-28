@@ -10,7 +10,7 @@ import acme.entities.aircrafts.Task;
 import acme.realms.Technician;
 
 @GuiService
-public class TechnicianDeleteTaskService extends AbstractGuiService<Technician, Task> {
+public class TechnicianTaskCreateService extends AbstractGuiService<Technician, Task> {
 
 	@Autowired
 	private TechnicianTaskRepository repository;
@@ -18,32 +18,24 @@ public class TechnicianDeleteTaskService extends AbstractGuiService<Technician, 
 
 	@Override
 	public void authorise() {
-		boolean status;
-		int taskId;
-		Task task;
-		Technician technician;
-
-		taskId = super.getRequest().getData("id", int.class);
-		task = this.repository.findTaskById(taskId);
-		technician = task == null ? null : task.getTechnician();
-		status = task != null && super.getRequest().getPrincipal().hasRealm(technician); //añadir si ya esta publicada no se pued borrar
-
-		super.getResponse().setAuthorised(status);
+		super.getResponse().setAuthorised(true);
 	}
 
 	@Override
 	public void load() {
 		Task task;
-		int id;
+		Technician technician;
 
-		id = super.getRequest().getData("id", int.class);
-		task = this.repository.findTaskById(id);
+		technician = (Technician) super.getRequest().getPrincipal().getActiveRealm();
+
+		task = new Task();
+		task.setTechnician(technician);
 
 		super.getBuffer().addData(task);
 	}
+
 	@Override
 	public void bind(final Task task) {
-
 		super.bindObject(task, "type", "description", "priority", "estimatedDuration");
 	}
 
@@ -51,17 +43,17 @@ public class TechnicianDeleteTaskService extends AbstractGuiService<Technician, 
 	public void validate(final Task task) {
 		;
 	}
+
 	@Override
 	public void perform(final Task task) {
-
-		this.repository.delete(task);
+		this.repository.save(task);
 	}
-
 	@Override
 	public void unbind(final Task task) {
-
 		Dataset dataset;
+
 		dataset = super.unbindObject(task, "type", "description", "priority", "estimatedDuration");
+
 		super.getResponse().addData(dataset);
 	}
 }

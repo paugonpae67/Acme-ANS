@@ -36,9 +36,10 @@ master.menu.provider.favourite-link = Enlace favorito
 master.menu.consumer = Consumidor
 master.menu.consumer.favourite-link = Enlace favorito
 
-# master.menu.maintenance-record ####################################################
-master.menu.maintenance-record = Registro de mantenimiento
-master.menu.maintenance-record.list = Lista de registros de mantenimiento 
+# master.menu.technician ####################################################
+master.menu.technician = Técnico
+master.menu.maintenanceRecord.list = Lista de registros de mantenimiento 
+master.menu.task.list = Lista de tareas
 
 # master.menu.user-account ####################################################
 

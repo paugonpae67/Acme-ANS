@@ -4,13 +4,15 @@ package acme.features.technicians.maintenanceRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.aircrafts.MaintenanceRecord;
+import acme.entities.aircrafts.MaintenanceStatus;
 import acme.realms.Technician;
 
 @GuiService
-public class TechnicianPublishMaintenanceRecordService extends AbstractGuiService<Technician, MaintenanceRecord> {
+public class TechnicianMaintenanceRecordShowService extends AbstractGuiService<Technician, MaintenanceRecord> {
 
 	@Autowired
 	private TechnicianMaintenanceRecordRepository repository;
@@ -26,10 +28,11 @@ public class TechnicianPublishMaintenanceRecordService extends AbstractGuiServic
 		masterId = super.getRequest().getData("id", int.class);
 		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
 		technician = maintenanceRecord == null ? null : maintenanceRecord.getTechnician();
-		status = super.getRequest().getPrincipal().hasRealm(technician) || maintenanceRecord != null;
+		status = super.getRequest().getPrincipal().hasRealm(technician) && maintenanceRecord != null;
 
 		super.getResponse().setAuthorised(status);
 	}
+
 	@Override
 	public void load() {
 		MaintenanceRecord maintenanceRecord;
@@ -40,29 +43,18 @@ public class TechnicianPublishMaintenanceRecordService extends AbstractGuiServic
 
 		super.getBuffer().addData(maintenanceRecord);
 	}
-	@Override
-	public void bind(final MaintenanceRecord maintenanceRecord) {
 
-		super.bindObject(maintenanceRecord, "maintenanceMoment", "status", "nextInspection", //
-			"estimatedCost", "notes");
-	}
-
-	@Override
-	public void validate(final MaintenanceRecord maintenanceRecord) {
-		;
-	}
-	@Override
-	public void perform(final MaintenanceRecord maintenanceRecord) {
-		this.repository.save(maintenanceRecord);
-	}
 	@Override
 	public void unbind(final MaintenanceRecord maintenanceRecord) {
 
+		SelectChoices choices;
 		Dataset dataset;
 
-		dataset = super.unbindObject(maintenanceRecord, "maintenanceMoment", "status", "nextInspection", //
-			"estimatedCost", "notes");
-
+		choices = SelectChoices.from(MaintenanceStatus.class, maintenanceRecord.getStatus());
+		dataset = super.unbindObject(maintenanceRecord, "maintenanceMoment", "nextInspection", "estimatedCost", "notes", "draftMode");
+		dataset.put("status", choices.getSelected().getKey());
+		dataset.put("statuses", choices);
+		dataset.put("aircraft", maintenanceRecord.getAircraft().getRegistrationNumber());
 		super.getResponse().addData(dataset);
 	}
 

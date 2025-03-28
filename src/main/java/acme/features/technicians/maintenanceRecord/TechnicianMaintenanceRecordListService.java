@@ -12,7 +12,7 @@ import acme.entities.aircrafts.MaintenanceRecord;
 import acme.realms.Technician;
 
 @GuiService
-public class TechnicianListMaintenanceRecordService extends AbstractGuiService<Technician, MaintenanceRecord> {
+public class TechnicianMaintenanceRecordListService extends AbstractGuiService<Technician, MaintenanceRecord> {
 
 	@Autowired
 	private TechnicianMaintenanceRecordRepository repository;
@@ -38,8 +38,9 @@ public class TechnicianListMaintenanceRecordService extends AbstractGuiService<T
 	public void unbind(final MaintenanceRecord maintenanceRecord) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(maintenanceRecord, "maintenanceMoment", "status", "nextInspection", //
-			"estimatedCost", "notes");
+		dataset = super.unbindObject(maintenanceRecord, "maintenanceMoment", "status", "nextInspection", "estimatedCost", "notes");
+		dataset.put("aircraft", maintenanceRecord.getAircraft().getRegistrationNumber());
+		super.addPayload(dataset, maintenanceRecord);
 		super.getResponse().addData(dataset);
 	}
 

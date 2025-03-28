@@ -12,7 +12,7 @@ import acme.entities.aircrafts.Task;
 import acme.realms.Technician;
 
 @GuiService
-public class TechnicianListTaskService extends AbstractGuiService<Technician, Task> {
+public class TechnicianTaskListService extends AbstractGuiService<Technician, Task> {
 
 	@Autowired
 	private TechnicianTaskRepository repository;

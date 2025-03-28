@@ -6,15 +6,14 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
-import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
+import acme.entities.aircrafts.InvolvedIn;
 import acme.entities.aircrafts.MaintenanceRecord;
-import acme.entities.aircrafts.Task;
 import acme.realms.Technician;
 
 @GuiService
-public class TechnicianShowMaintenanceRecordService extends AbstractGuiService<Technician, MaintenanceRecord> {
+public class TechnicianMaintenanceRecordDeleteService extends AbstractGuiService<Technician, MaintenanceRecord> {
 
 	@Autowired
 	private TechnicianMaintenanceRecordRepository repository;
@@ -30,7 +29,7 @@ public class TechnicianShowMaintenanceRecordService extends AbstractGuiService<T
 		masterId = super.getRequest().getData("id", int.class);
 		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
 		technician = maintenanceRecord == null ? null : maintenanceRecord.getTechnician();
-		status = super.getRequest().getPrincipal().hasRealm(technician) || maintenanceRecord != null;
+		status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealm(technician);
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -45,16 +44,29 @@ public class TechnicianShowMaintenanceRecordService extends AbstractGuiService<T
 
 		super.getBuffer().addData(maintenanceRecord);
 	}
+	@Override
+	public void bind(final MaintenanceRecord maintenanceRecord) {
+
+		super.bindObject(maintenanceRecord, "maintenanceMoment", "status", "nextInspection", "estimatedCost", "notes");
+	}
 
 	@Override
-	public void unbind(final MaintenanceRecord maintenanceRecord) {
+	public void validate(final MaintenanceRecord maintenanceRecord) {
+		;
+	}
+	@Override
+	public void perform(final MaintenanceRecord maintenanceRecord) {
+		Collection<InvolvedIn> relationsInvolvedIn;
 
-		Collection<Task> tasksInvolves;
-		SelectChoices choices;
+		relationsInvolvedIn = this.repository.findMaintenanceRecordInvolvedIn(maintenanceRecord.getId());
+		this.repository.deleteAll(relationsInvolvedIn);
+		this.repository.delete(maintenanceRecord);
+	}
+	@Override
+	public void unbind(final MaintenanceRecord maintenanceRecord) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(maintenanceRecord, "maintenanceMoment", "status", "nextInspection", //
-			"estimatedCost", "notes");
+		dataset = super.unbindObject(maintenanceRecord, "maintenanceMoment", "status", "nextInspection", "estimatedCost", "notes");
 
 		super.getResponse().addData(dataset);
 	}

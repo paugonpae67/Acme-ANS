@@ -10,7 +10,7 @@ import acme.entities.aircrafts.MaintenanceRecord;
 import acme.realms.Technician;
 
 @GuiService
-public class TechnicianUpdateMaintenanceRecordService extends AbstractGuiService<Technician, MaintenanceRecord> {
+public class TechnicianMaintenanceRecordPublishService extends AbstractGuiService<Technician, MaintenanceRecord> {
 
 	@Autowired
 	private TechnicianMaintenanceRecordRepository repository;
@@ -26,7 +26,7 @@ public class TechnicianUpdateMaintenanceRecordService extends AbstractGuiService
 		masterId = super.getRequest().getData("id", int.class);
 		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
 		technician = maintenanceRecord == null ? null : maintenanceRecord.getTechnician();
-		status = super.getRequest().getPrincipal().hasRealm(technician) || maintenanceRecord != null;
+		status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealm(technician);
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -37,7 +37,6 @@ public class TechnicianUpdateMaintenanceRecordService extends AbstractGuiService
 
 		id = super.getRequest().getData("id", int.class);
 		maintenanceRecord = this.repository.findMaintenanceRecordById(id);
-
 		super.getBuffer().addData(maintenanceRecord);
 	}
 	@Override
@@ -53,6 +52,7 @@ public class TechnicianUpdateMaintenanceRecordService extends AbstractGuiService
 	}
 	@Override
 	public void perform(final MaintenanceRecord maintenanceRecord) {
+		maintenanceRecord.setDraftMode(false);
 		this.repository.save(maintenanceRecord);
 	}
 	@Override
@@ -60,8 +60,7 @@ public class TechnicianUpdateMaintenanceRecordService extends AbstractGuiService
 
 		Dataset dataset;
 
-		dataset = super.unbindObject(maintenanceRecord, "maintenanceMoment", "status", "nextInspection", //
-			"estimatedCost", "notes");
+		dataset = super.unbindObject(maintenanceRecord, "maintenanceMoment", "status", "nextInspection", "estimatedCost", "notes");
 
 		super.getResponse().addData(dataset);
 	}

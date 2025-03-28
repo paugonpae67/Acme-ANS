@@ -37,8 +37,9 @@ master.menu.consumer = Consumer
 master.menu.consumer.favourite-link = Favourite link
 
 # master.menu.maintenance-record ####################################################
-master.menu.maintenance-record = Maintenance Record
-master.menu.maintenance-record.list = Maintenance Record List
+master.menu.technician = Technician
+master.menu.maintenanceRecord.list = Maintenance Record List
+master.menu.task.list = Task list
 
 # master.menu.user-account ####################################################
 
