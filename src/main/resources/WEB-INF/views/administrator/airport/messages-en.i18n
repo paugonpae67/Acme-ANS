@@ -1,0 +1,24 @@
+administrator.airport.form.title = Detalles de anuncios
+administrator.airport.list.title = Lista de anuncios
+
+administrator.airport.form.label.name = Name:
+administrator.airport.form.label.iataCode = IATA code
+administrator.airport.form.label.city = City
+administrator.airport.form.label.country = Country
+administrator.airport.form.label.operationalScope = operational type
+administrator.airport.form.label.website = website
+administrator.airport.form.label.email = email
+administrator.airport.form.label.phoneNumber = phone
+
+administrator.airport.form.button.create = Create
+administrator.airport.form.button.update = Update
+administrator.airport.form.label.confirmation= Confirmation
+ 
+administrator.airport.list.label.name = name
+administrator.airport.list.label.iataCode = IATA  code
+administrator.airport.list.label.city = city
+
+administrator.airport.list.button.create = Create
+
+administrator.airport.form.error.duplicateIata = This IATA code already exists
+administrator.airport.form.error.invalidPhoneNumber = It is not a valid phone number

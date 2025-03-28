@@ -34,6 +34,8 @@
 			<acme:menu-suboption code="master.menu.administrator.populate-db-sample" action="/administrator/system/populate-sample"/>			
 			<acme:menu-separator/>
 			<acme:menu-suboption code="master.menu.administrator.shut-system-down" action="/administrator/system/shut-down"/>
+			<acme:menu-separator/>
+			<acme:menu-suboption code="master.menu.administrator.list" action="/administrator/airport/list"/>
 		</acme:menu-option>
 
 		<acme:menu-option code="master.menu.provider" access="hasRealm('Provider')">
@@ -43,9 +45,13 @@
 		<acme:menu-option code="master.menu.consumer" access="hasRealm('Consumer')">
 			<acme:menu-suboption code="master.menu.consumer.favourite-link" action="http://www.example.com/"/>
 		</acme:menu-option>
+<<<<<<< HEAD
 		<acme:menu-option code="master.menu.maintenance-record" access="hasRealm('Technician')">
 			<acme:menu-suboption code="master.menu.maintenance-record.list" action="/technician/maintenance-record/list"/>
 		</acme:menu-option>
+=======
+		
+>>>>>>> refs/remotes/origin/main
 	</acme:menu-left>
 
 	<acme:menu-right>		
