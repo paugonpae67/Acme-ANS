@@ -17,6 +17,9 @@
 	<acme:input-textarea code="technician.maintenance-record.form.label.notes" path="notes"/>
 
 	<jstl:choose>	 
+		<jstl:when test="${acme:anyOf(_command, 'show') && draftMode == false}">
+		<acme:button code="technician.maintenance-record.form.button.involved-in" action="/technician/involved-in/list?masterId=${id}"/>
+		</jstl:when>
 		<jstl:when test="${acme:anyOf(_command, 'show|update|publish') && draftMode == true}">
 			<acme:button code="technician.maintenance-record.form.button.involved-in" action="/technician/involved-in/list?masterId=${id}"/>
 			<acme:submit code="technician.maintenance-record.form.button.update" action="/technician/maintenance-record/update"/>

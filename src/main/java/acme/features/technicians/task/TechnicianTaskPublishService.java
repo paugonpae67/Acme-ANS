@@ -26,7 +26,7 @@ public class TechnicianTaskPublishService extends AbstractGuiService<Technician,
 		taskId = super.getRequest().getData("id", int.class);
 		task = this.repository.findTaskById(taskId);
 		technician = task == null ? null : task.getTechnician();
-		status = task != null && super.getRequest().getPrincipal().hasRealm(technician);
+		status = task != null && task.isDraftMode() && super.getRequest().getPrincipal().hasRealm(technician);
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -54,6 +54,7 @@ public class TechnicianTaskPublishService extends AbstractGuiService<Technician,
 
 	@Override
 	public void perform(final Task task) {
+		task.setDraftMode(false);
 		this.repository.save(task);
 	}
 	@Override

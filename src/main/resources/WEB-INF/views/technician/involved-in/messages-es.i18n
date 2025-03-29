@@ -1,0 +1,17 @@
+
+
+
+technician.involved-in.form.title = Detalles de la Tarea
+technician.involved-in.list.title = Lista de Tareas
+
+
+technician.involved-in.form.label.type = Tipo
+technician.involved-in.form.label.description = Descripción
+technician.involved-in.form.label.priority = Prioridad
+technician.involved-in.form.label.estimateDuration = Duración estimada
+
+technician.involved-in.form.button.delete = Eliminar
+
+technician.involved-in.list.label.description = Descripción de la Tarea
+technician.involved-in.list.label.priority = Prioridad de la Tarea
+technician.involved-in.list.button.create = Añadir Tarea

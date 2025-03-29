@@ -9,6 +9,7 @@ import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.aircrafts.InvolvedIn;
+import acme.entities.aircrafts.MaintenanceRecord;
 import acme.realms.Technician;
 
 @GuiService
@@ -20,7 +21,15 @@ public class TaskInvolvedInMaintenanceRecordListService extends AbstractGuiServi
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		boolean status;
+		int masterId;
+		MaintenanceRecord maintenanceRecord;
+
+		masterId = super.getRequest().getData("masterId", int.class);
+		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
+		status = maintenanceRecord != null && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician());
+
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
@@ -28,9 +37,8 @@ public class TaskInvolvedInMaintenanceRecordListService extends AbstractGuiServi
 		int masterId;
 		Collection<InvolvedIn> involvedIn;
 
-		masterId = super.getRequest().getData("id", int.class);
+		masterId = super.getRequest().getData("masterId", int.class);
 		involvedIn = this.repository.findInvolvedInByMaintenanceRecord(masterId);
-
 		super.getBuffer().addData(involvedIn);
 	}
 
@@ -38,11 +46,10 @@ public class TaskInvolvedInMaintenanceRecordListService extends AbstractGuiServi
 	public void unbind(final InvolvedIn involvedIn) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(involvedIn, "");
-		dataset.put("maintenanceRecord", involvedIn.getMaintenanceRecord());
-		dataset.put("task", involvedIn.getTask());
+		dataset = super.unbindObject(involvedIn, "task", "maintenanceRecord");
+		dataset.put("description", involvedIn.getTask().getDescription());
+		dataset.put("priority", involvedIn.getTask().getPriority());
 		super.addPayload(dataset, involvedIn);
-
 		super.getResponse().addData(dataset);
 	}
 

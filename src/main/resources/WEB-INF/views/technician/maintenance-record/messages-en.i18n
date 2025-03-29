@@ -27,3 +27,5 @@ technician.maintenance-record.list.label.nextInspection= Next Inspection
 technician.maintenance-record.list.label.aircraft = Aircraft
 
 technician.maintenance-record.list.button.create = Create
+
+technician.maintenance-record.publish.error.no-publish-task= There are task  no publish

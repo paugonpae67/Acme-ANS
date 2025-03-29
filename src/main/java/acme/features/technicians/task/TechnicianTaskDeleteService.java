@@ -1,11 +1,14 @@
 
 package acme.features.technicians.task;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
+import acme.entities.aircrafts.InvolvedIn;
 import acme.entities.aircrafts.Task;
 import acme.realms.Technician;
 
@@ -26,7 +29,7 @@ public class TechnicianTaskDeleteService extends AbstractGuiService<Technician, 
 		taskId = super.getRequest().getData("id", int.class);
 		task = this.repository.findTaskById(taskId);
 		technician = task == null ? null : task.getTechnician();
-		status = task != null && super.getRequest().getPrincipal().hasRealm(technician); //añadir si ya esta publicada no se pued borrar
+		status = task != null && task.isDraftMode() && super.getRequest().getPrincipal().hasRealm(technician);
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -53,7 +56,10 @@ public class TechnicianTaskDeleteService extends AbstractGuiService<Technician, 
 	}
 	@Override
 	public void perform(final Task task) {
+		Collection<InvolvedIn> relationsInvolvedIn;
 
+		relationsInvolvedIn = this.repository.findTaskInvolvedIn(task.getId());
+		this.repository.deleteAll(relationsInvolvedIn);
 		this.repository.delete(task);
 	}
 

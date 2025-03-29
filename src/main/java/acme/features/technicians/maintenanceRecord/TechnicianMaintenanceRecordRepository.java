@@ -10,6 +10,7 @@ import acme.client.repositories.AbstractRepository;
 import acme.entities.aircrafts.Aircraft;
 import acme.entities.aircrafts.InvolvedIn;
 import acme.entities.aircrafts.MaintenanceRecord;
+import acme.entities.aircrafts.Task;
 
 @Repository
 public interface TechnicianMaintenanceRecordRepository extends AbstractRepository {
@@ -25,5 +26,8 @@ public interface TechnicianMaintenanceRecordRepository extends AbstractRepositor
 
 	@Query("select i from InvolvedIn i where i.maintenanceRecord.id = :id")
 	Collection<InvolvedIn> findMaintenanceRecordInvolvedIn(int id);
+
+	@Query("select i.task from InvolvedIn i where i.maintenanceRecord.id = :id")
+	Collection<Task> findTaskInvolvedInMaintenanceRecord(int id);
 
 }

@@ -1,12 +1,15 @@
 
 package acme.features.technicians.maintenanceRecord;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.aircrafts.MaintenanceRecord;
+import acme.entities.aircrafts.Task;
 import acme.realms.Technician;
 
 @GuiService
@@ -26,6 +29,7 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 		masterId = super.getRequest().getData("id", int.class);
 		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
 		technician = maintenanceRecord == null ? null : maintenanceRecord.getTechnician();
+
 		status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealm(technician);
 
 		super.getResponse().setAuthorised(status);
@@ -48,8 +52,18 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 
 	@Override
 	public void validate(final MaintenanceRecord maintenanceRecord) {
-		;
+
+		Collection<Task> tasksInvolvedIn = this.repository.findTaskInvolvedInMaintenanceRecord(maintenanceRecord.getId());
+
+		boolean hasPublishedTasks = tasksInvolvedIn.stream().anyMatch(task -> !task.isDraftMode());
+		boolean allTasksNotDraft = tasksInvolvedIn.stream().allMatch(task -> !task.isDraftMode());
+
+		boolean valid = !tasksInvolvedIn.isEmpty() && hasPublishedTasks && allTasksNotDraft;
+
+		if (!valid)
+			super.state(valid, "*", "technician.maintenance-record.publish.error.no-publish-task");
 	}
+
 	@Override
 	public void perform(final MaintenanceRecord maintenanceRecord) {
 		maintenanceRecord.setDraftMode(false);
