@@ -38,7 +38,9 @@ master.menu.consumer.favourite-link = Favourite link
 # master.menu.FlightAssignment ##########################################################
 
 master.menu.flight-assignment = Flight Assignment
-master.menu.flight-assignment.list = Flight Assignment List
+master.menu.flight-assignment.list-past = Completed Flight Assignment List
+master.menu.flight-assignment.list-future = Planned Flight Assignment List
+
 
 # master.menu.user-account ####################################################
 

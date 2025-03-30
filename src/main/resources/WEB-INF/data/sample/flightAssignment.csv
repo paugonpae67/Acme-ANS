@@ -27,3 +27,4 @@ flightAssignment-23,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,f
 flightAssignment-21,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-01
 flightAssignment-22,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-01
 flightAssignment-20,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CANCELLED,flightCrewMember-01,leg-02
+flightAssignment-24,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CANCELLED,flightCrewMember-01,leg-08

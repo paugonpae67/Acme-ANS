@@ -10,7 +10,7 @@ leg-04,AAA4005,2024/06/14 05:20,2024/06/14 07:35,CANCELLED,flight-03,Airport-04,
 leg-05,AAA1010,2024/06/15 06:00,2024/06/15 08:30,ON_TIME,flight-04,Airport-05,Airport-06,Aircraft-01
 leg-06,AAA2011,2024/06/16 12:45,2024/06/16 15:10,DELAYED,flight-05,Airport-06,Airport-07,Aircraft-01
 leg-07,AAA3012,2024/06/17 09:00,2024/06/17 09:01,ON_TIME,flight-06,Airport-07,Airport-08,Aircraft-01
-leg-08,AAA4013,2024/06/18 18:50,2024/06/18 21:25,CANCELLED,flight-07,Airport-08,Airport-09,Aircraft-01
+leg-08,AAA4013,2024/06/18 18:50,2025/06/18 21:25,CANCELLED,flight-07,Airport-08,Airport-09,Aircraft-01
 # Variantes del atributo 'status'
 leg-09,AAA1020,2024/06/19 13:30,2024/06/19 16:00,ON_TIME,flight-08,Airport-09,Airport-10,Aircraft-01
 leg-10,AAA2021,2024/06/20 05:15,2024/06/20 07:50,DELAYED,flight-09,Airport-10,Airport-01,Aircraft-01
