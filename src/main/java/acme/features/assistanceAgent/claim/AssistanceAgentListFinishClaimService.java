@@ -39,7 +39,7 @@ public class AssistanceAgentListFinishClaimService extends AbstractGuiService<As
 	public void unbind(final Claim claim) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "description", "type");
+		dataset = super.unbindObject(claim, "registrationMoment", "description", "type");
 		super.getResponse().addData(dataset);
 	}
 

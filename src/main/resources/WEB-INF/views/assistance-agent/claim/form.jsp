@@ -7,8 +7,8 @@
 	<acme:input-textbox code="assistanceAgent.claim.form.label.registrationMoment" path="registrationMoment"/>
 	<acme:input-textbox code="assistanceAgent.claim.form.label.passengerEmail" path="passengerEmail"/>
 	<acme:input-textbox code="assistanceAgent.claim.form.label.description" path="description"/>
-	<acme:input-textbox code="assistanceAgent.claim.form.label.type" path="type"/>
-	<acme:input-textbox code="assistanceAgent.claim.form.label.leg" path="leg"/>
+	<acme:input-select code="assistanceAgent.claim.form.label.type" path="type" choices="${types}" />
+	<acme:input-select code="assistanceAgent.claim.form.label.leg" path="leg" choices="${legs}" />
 	
 	<jstl:if test="${_command == 'create'}">
 		<acme:submit code="assistanceAgent.claim.form.button.create" action="/assistance-agent/claim/create"/>

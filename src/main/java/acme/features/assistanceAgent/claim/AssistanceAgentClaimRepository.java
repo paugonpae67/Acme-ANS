@@ -17,7 +17,7 @@ import acme.realms.AssistanceAgent;
 @Repository
 public interface AssistanceAgentClaimRepository extends AbstractRepository {
 
-	@Query("SELECT c FROM Claim c " + "JOIN TrackingLog t ON t.claim.id = c.id " + "WHERE c.assistanceAgent.id = :id " + "AND t.status IN ('ACCEPTED', 'REJECTED')")
+	@Query("SELECT t.claim FROM TrackingLog t WHERE (t.status = 'ACCEPTED' OR t.status = 'REJECTED')")
 	List<Claim> findCompletedClaimsByAssistanceAgent(@Param("id") int id);
 
 	@Query("select c from Claim c where c.id=:claimId")
@@ -32,7 +32,7 @@ public interface AssistanceAgentClaimRepository extends AbstractRepository {
 	@Query("SELECT l FROM Leg l WHERE (l.departureAirport.id = :airportId OR l.arrivalAirport.id = :airportId)")
 	Collection<Leg> findLegByAirport(int airportId);
 
-	@Query("SELECT a.airport FROM Airline a WHERE a.id = :id")
+	@Query("SELECT distinct(a.airport) FROM Airline a WHERE a.id = :id")
 	Airport findAirportOfAirlineByAssistanceAgentId(int id);
 
 	@Query("SELECT a FROM AssistanceAgent a WHERE a.id = :id")

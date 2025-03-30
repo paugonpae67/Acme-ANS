@@ -11,6 +11,7 @@ import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.airports.Airport;
 import acme.entities.claim.Claim;
+import acme.entities.claim.ClaimType;
 import acme.entities.legs.Leg;
 import acme.realms.AssistanceAgent;
 
@@ -63,18 +64,23 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 	public void unbind(final Claim claim) {
 		int assistanceAgentId;
 		Collection<Leg> legs;
-		SelectChoices choices;
+		SelectChoices choicesLeg;
 		Dataset dataset;
+		SelectChoices types;
+
+		types = SelectChoices.from(ClaimType.class, claim.getType());
 
 		assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		AssistanceAgent assistanceAgent = this.repository.findAssistanceAgentById(assistanceAgentId);
 		Airport a = this.repository.findAirportOfAirlineByAssistanceAgentId(assistanceAgent.getAirline().getId());
 		legs = this.repository.findLegByAirport(a.getId());
-		choices = SelectChoices.from(legs, "id", claim.getLeg());
 
-		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "description", "type");
-		dataset.put("leg", choices.getSelected().getKey());
-		//dataset.put("legs", choices);
+		choicesLeg = SelectChoices.from(legs, "flightNumber", claim.getLeg());
+
+		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "description", "type", "leg");
+		dataset.put("types", types);
+		dataset.put("leg", choicesLeg.getSelected().getKey());
+		dataset.put("legs", choicesLeg);
 
 		super.getResponse().addData(dataset);
 	}
