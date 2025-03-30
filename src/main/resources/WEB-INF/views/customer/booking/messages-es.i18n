@@ -1,0 +1,25 @@
+customer.booking.form.title = Detalles de reserva
+customer.booking.list.title = Lista de tus reservas
+
+customer.booking.form.label.locatorCode = Código localizador
+customer.booking.form.label.purchaseMoment = Momento de compra
+customer.booking.form.label.travelClass = Clase
+customer.booking.form.label.price = Precio
+customer.booking.form.label.lastNibble = Últimos 4 dígitos de tarjeta
+customer.booking.form.label.flight = Vuelo
+ 
+customer.booking.list.label.locatorCode = Código localizador
+customer.booking.list.label.purchaseMoment = Momento de compra
+customer.booking.list.label.travelClass = Tipo de clase
+customer.booking.list.label.flight = Vuelo
+
+customer.booking.list.button.create = Crear
+customer.booking.form.button.create = Crear
+customer.booking.form.show.passengers = Mostrar pasajeros actuales de la reserva
+customer.booking.form.add.passenger = Añadir pasajero/s a la reserva
+customer.booking.form.button.update = Actualizar reserva
+customer.booking.form.button.publish = Publicar reserva
+
+customer.booking.form.error.duplicateLocatorCode = Este código localizador ya está en uso
+acme.validation.lastNibble.message  = Este campo es necesario para poder publicar una reserva 
+
