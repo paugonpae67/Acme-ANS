@@ -35,6 +35,8 @@
 			<acme:menu-separator/>
 			<acme:menu-suboption code="master.menu.administrator.shut-system-down" action="/administrator/system/shut-down"/>
 			<acme:menu-separator/>
+			<acme:menu-suboption code="master.menu.administrator.aircraft.list" action="/administrator/aircraft/list"/>
+			<acme:menu-separator/>
 			<acme:menu-suboption code="master.menu.administrator.list" action="/administrator/airport/list"/>
 		</acme:menu-option>
 		
