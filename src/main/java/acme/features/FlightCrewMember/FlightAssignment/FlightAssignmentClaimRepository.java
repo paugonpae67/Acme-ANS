@@ -13,6 +13,9 @@ import acme.entities.flightAssignment.FlightAssignment;
 @Repository
 public interface FlightAssignmentClaimRepository extends AbstractRepository {
 
+	@Query("select f from FlightAssignment f where f.id = :id ")
+	FlightAssignment findAssignmentById(int id);
+
 	@Query("select f from FlightAssignment f where f.flightCrewMembers.id = :id AND f.leg.scheduledArrival > :date ")
 	Collection<FlightAssignment> findFlightAssignmentInFuture(int id, Date date);
 

@@ -35,7 +35,7 @@ public class FlightAssignmentListPastService extends AbstractGuiService<FlightCr
 		int flightCrewMemberId;
 
 		flightCrewMemberId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		Collection<FlightAssignment> assignmentsPast = this.repository.findFlightAssignmentInPast(flightCrewMemberId, MomentHelper.getClock().getCurrentMoment());
+		Collection<FlightAssignment> assignmentsPast = this.repository.findFlightAssignmentInPast(flightCrewMemberId, MomentHelper.getCurrentMoment());
 
 		super.getBuffer().addData(assignmentsPast);
 

@@ -21,6 +21,9 @@ public class FlightAssignmentController extends AbstractGuiController<FlightCrew
 	@Autowired
 	private FlightAssignmentListFutureService	FuturelistService;
 
+	@Autowired
+	private FlightAssignmentShow				showService;
+
 	// Constructors -----------------------------------------------------------
 
 
@@ -28,6 +31,7 @@ public class FlightAssignmentController extends AbstractGuiController<FlightCrew
 	protected void initialise() {
 		super.addCustomCommand("list-past", "list", this.PastlistService);
 		super.addCustomCommand("list-future", "list", this.FuturelistService);
+		super.addBasicCommand("show", this.showService);
 	}
 
 }

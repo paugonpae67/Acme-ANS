@@ -35,7 +35,7 @@ public class FlightAssignmentListFutureService extends AbstractGuiService<Flight
 		int flightCrewMemberId;
 
 		flightCrewMemberId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		Collection<FlightAssignment> assignmentsFuture = this.repository.findFlightAssignmentInFuture(flightCrewMemberId, MomentHelper.getClock().getCurrentMoment());
+		Collection<FlightAssignment> assignmentsFuture = this.repository.findFlightAssignmentInFuture(flightCrewMemberId, MomentHelper.getCurrentMoment());
 
 		super.getBuffer().addData(assignmentsFuture);
 

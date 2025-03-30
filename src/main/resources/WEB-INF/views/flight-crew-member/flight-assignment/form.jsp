@@ -1,32 +1,33 @@
-<%--
-- form.jsp
--
-- Copyright (C) 2012-2025 Rafael Corchuelo.
--
-- In keeping with the traditional purpose of furthering education and research, it is
-- the policy of the copyright owner to permit non-commercial use and redistribution of
-- this software. It has been tested carefully, but it is not guaranteed for any particular
-- purposes.  The copyright owner does not offer any warranties or representations, nor do
-- they accept any liabilities with respect to them.
---%>
-
 <%@page%>
 
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="acme" uri="http://acme-framework.org/"%>
 
 <acme:form>
-	<acme:input-textbox code="employer.application.form.label.ticker" path="ticker" readonly="true" />
-	<acme:input-textbox code="employer.application.form.label.moment" path="moment" readonly="true" />
-	<acme:input-textarea code="employer.application.form.label.statement" path="statement" readonly="true" />
-	<acme:input-textarea code="employer.application.form.label.skills" path="skills" readonly="true" />
-	<acme:input-textarea code="employer.application.form.label.qualifications" path="qualifications" readonly="true" />
-
-	<acme:input-select path="status" code="employer.application.form.label.status" choices="${statuses}" readonly="${acme:anyOf(status, 'ACCEPTED|REJECTED')}" />
 	
-	<jstl:if test="${acme:anyOf(_command, 'show|update') && !acme:anyOf(status, 'ACCEPTED|REJECTED')}">
-		<acme:submit code="employer.application.form.button.update" action="/employer/application/update" />
-	</jstl:if>
+	<h5><acme:print code="flight.message.assignment" /></h5>
+	
+	<acme:input-moment code="FlightCrewMember.FlightAssignment.form.label.moment" path="moment"/>
+	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.currentStatus" path="currentStatus"/>
+	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.duty" path="duty"/>
+	<acme:input-textarea code="FlightCrewMember.FlightAssignment.form.label.remarks" path="remarks"/>
+	
+	<h5><acme:print code="flight.message.legs" /></h5>
+	
+	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.flightNumber" path="flightNumber"/>
+	<acme:input-moment code="FlightCrewMember.FlightAssignment.form.label.scheduledArrival" path="scheduledArrival"/>
+	<acme:input-moment code="FlightCrewMember.FlightAssignment.form.label.scheduledDeparture" path="scheduledDeparture"/>
+	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.status" path="status"/>	
+	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.Duration" path="Duration"/>
+	
+	
+	<h5><acme:print code="flight.message.member" /></h5>
+	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.employeeCode" path="employeeCode"/>
+	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.phoneNumber" path="phoneNumber"/>
+	<acme:input-textarea code="FlightCrewMember.FlightAssignment.form.label.languageSkills" path="languageSkills"/>
+	<acme:input-double code="FlightCrewMember.FlightAssignment.form.label.salary" path="salary"/>
+	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.yearsOfExperience" path="yearsOfExperience"/>
+	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.availabilityStatus" path="availabilityStatus"/>
+	
+	
 </acme:form>
-
-
