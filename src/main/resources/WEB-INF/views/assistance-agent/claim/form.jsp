@@ -15,6 +15,6 @@
 	</jstl:if>
 	
 	<jstl:if test="${_command == 'update'}">
-		<acme:submit code="assistanceAgent.consumer.form.button.update" action="/authenticated/consumer/update"/>
+		<acme:submit code="assistanceAgent.claim.form.button.update" action="/assistance-agent/claim/update"/>
 	</jstl:if>
 </acme:form>
