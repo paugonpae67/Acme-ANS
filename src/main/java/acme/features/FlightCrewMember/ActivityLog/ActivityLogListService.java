@@ -9,6 +9,7 @@ import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.activityLog.ActivityLog;
+import acme.entities.flightAssignment.FlightAssignment;
 import acme.realms.FlightCrewMember;
 
 @GuiService
@@ -26,16 +27,23 @@ public class ActivityLogListService extends AbstractGuiService<FlightCrewMember,
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		boolean status;
+		int masterId;
+		FlightAssignment flightAssignment;
+
+		masterId = super.getRequest().getData("masterId", int.class);
+		flightAssignment = this.repository.findAssignmentById(masterId);
+		status = flightAssignment != null && super.getRequest().getPrincipal().hasRealm(flightAssignment.getFlightCrewMembers());
+
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
 	public void load() {
 		int flightAssignemnetId;
 
-		flightAssignemnetId = super.getRequest().getData("id", int.class);
+		flightAssignemnetId = super.getRequest().getData("masterId", int.class);
 		Collection<ActivityLog> assignments = this.repository.findActivityLogByFlightAssignment(flightAssignemnetId);
-		System.out.print("flightAssignemnetId " + flightAssignemnetId);//Debug
 		super.getBuffer().addData(assignments);
 
 	}

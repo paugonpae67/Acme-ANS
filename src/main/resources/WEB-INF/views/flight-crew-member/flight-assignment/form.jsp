@@ -4,6 +4,8 @@
 <%@taglib prefix="acme" uri="http://acme-framework.org/"%>
 
 <acme:form>
+
+	<acme:hidden-data path="flightAssignmentId"/>
 	
 	<h5><acme:print code="flight.message.assignment" /></h5>
 	
@@ -29,11 +31,12 @@
 	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.yearsOfExperience" path="yearsOfExperience"/>
 	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.availabilityStatus" path="availabilityStatus"/>
 	
-	<h6><acme:print code="flight.message.activity" /></h6>
-	<acme:list >
-    	<acme:list-column code="FlightCrewMember.ActivityLog.list.label.typeOfIncident" path="typeOfIncident" width="10%"/>
-    	<acme:list-column code="FlightCrewMember.ActivityLog.list.label.registrationMoment" path="registrationMoment" width="10%"/>
-    	<acme:list-column code="FlightCrewMember.ActivityLog.list.label.saverityLevel" path="saverityLevel" width="10%"/>    
-	</acme:list>
+	
+	<jstl:choose>	 
+		<jstl:when test="${acme:anyOf(_command, 'show')}">
+		<acme:button code="flight-crew-member.flight-assignment.form.button.activity-log" action="/flight-crew-member/activity-log/list?masterId=${id}"/>
+		</jstl:when>
+	</jstl:choose>
+		
 	
 </acme:form>

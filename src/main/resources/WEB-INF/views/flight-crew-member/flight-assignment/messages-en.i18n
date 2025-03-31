@@ -46,3 +46,5 @@ FlightCrewMember.FlightAssignment.form.label.salary= Salary
 FlightCrewMember.FlightAssignment.form.label.yearsOfExperience= Years Of Experience
 FlightCrewMember.FlightAssignment.form.label.availabilityStatus = Availability Status
 
+
+flight-crew-member.flight-assignment.form.button.activity-log = Activities Logs Records
