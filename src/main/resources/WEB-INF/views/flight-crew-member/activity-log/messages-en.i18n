@@ -9,9 +9,13 @@
 # they accept any liabilities with respect to them.
 
 flight-crew-member.activity-log.list.title = List of Activity Log
-
+flight-crew-member.activity-log.form.title = Details of Activity Log
 
 FlightCrewMember.ActivityLog.list.label.typeOfIncident = Type Of Incident
 FlightCrewMember.ActivityLog.list.label.registrationMoment = Registration Moment
 FlightCrewMember.ActivityLog.list.label.saverityLevel = Saverety Level
 
+FlightCrewMember.ActivityLog.form.label.typeOfIncident = Type Of Incident
+FlightCrewMember.ActivityLog.form.label.registrationMoment= Registration Moment
+FlightCrewMember.ActivityLog.form.label.saverityLevel = Saverety Level
+FlightCrewMember.ActivityLog.form.label.description= Description

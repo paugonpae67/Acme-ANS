@@ -19,4 +19,7 @@ public interface ActivityLogClaimRepository extends AbstractRepository {
 	@Query("select f from FlightAssignment f where f.id = :id ")
 	FlightAssignment findAssignmentById(int id);
 
+	@Query("select f from ActivityLog f where f.id = :id ")
+	ActivityLog findActivityLogById(int id);
+
 }
