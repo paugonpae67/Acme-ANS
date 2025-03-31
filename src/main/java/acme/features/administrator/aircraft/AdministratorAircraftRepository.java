@@ -19,7 +19,6 @@ public interface AdministratorAircraftRepository extends AbstractRepository {
 	@Query("SELECT a FROM Aircraft a")
 	Collection<Aircraft> findAllAircrafts();
 
-	//esta query debería estar en airline
 	@Query("SELECT airline FROM Airline airline")
 	Collection<Airline> findAllAirlines();
 }

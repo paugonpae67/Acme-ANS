@@ -11,7 +11,6 @@ import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.aircrafts.Aircraft;
-import acme.entities.aircrafts.AircraftStatus;
 import acme.entities.airlines.Airline;
 
 @GuiService
@@ -27,7 +26,8 @@ public class AdministratorAircraftShowService extends AbstractGuiService<Adminis
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class);
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
@@ -44,18 +44,14 @@ public class AdministratorAircraftShowService extends AbstractGuiService<Adminis
 
 	@Override
 	public void unbind(final Aircraft aircraft) {
-		SelectChoices statusChoices;
 		Dataset dataset;
 
 		Collection<Airline> airlines = this.repository.findAllAirlines();
 		SelectChoices airlineChoices = SelectChoices.from(airlines, "iataCode", aircraft.getAirline());
 
-		statusChoices = SelectChoices.from(AircraftStatus.class, aircraft.getStatus());
-
-		dataset = super.unbindObject(aircraft, "model", "registrationNumber", "capacity", "cargoWeight", "status", "details", "airline");
+		dataset = super.unbindObject(aircraft, "model", "registrationNumber", "capacity", "cargoWeight", "status", "details", "airline", "disabled");
 		dataset.put("confirmation", false);
-		dataset.put("statuses", statusChoices);
-		dataset.put("airlines", airlineChoices);
+		dataset.put("airlinesOptions", airlineChoices);
 
 		super.getResponse().addData(dataset);
 	}

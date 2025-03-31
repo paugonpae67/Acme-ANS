@@ -27,7 +27,8 @@ public class AdministratorAircraftCreateService extends AbstractGuiService<Admin
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class);
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
@@ -51,6 +52,10 @@ public class AdministratorAircraftCreateService extends AbstractGuiService<Admin
 
 	@Override
 	public void perform(final Aircraft aircraft) {
+		if (aircraft.getStatus().equals(AircraftStatus.ACTIVE_SERVICE))
+			aircraft.setDisabled(false);
+		else if (aircraft.getStatus().equals(AircraftStatus.UNDER_MAINTENANCE))
+			aircraft.setDisabled(true);
 		this.repository.save(aircraft);
 	}
 
@@ -64,10 +69,10 @@ public class AdministratorAircraftCreateService extends AbstractGuiService<Admin
 
 		statusChoices = SelectChoices.from(AircraftStatus.class, aircraft.getStatus());
 
-		dataset = super.unbindObject(aircraft, "model", "registrationNumber", "capacity", "cargoWeight", "status", "details", "airline");
+		dataset = super.unbindObject(aircraft, "model", "registrationNumber", "capacity", "cargoWeight", "status", "details", "airline", "disabled");
 		dataset.put("confirmation", false);
-		dataset.put("statuses", statusChoices);
-		dataset.put("airlines", airlineChoices);
+		dataset.put("statusOptions", statusChoices);
+		dataset.put("airlinesOptions", airlineChoices);
 
 		super.getResponse().addData(dataset);
 	}

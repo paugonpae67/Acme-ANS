@@ -18,10 +18,12 @@ administrator.aircraft.form.label.cargoWeight = Cargo Weight
 administrator.aircraft.form.label.status = Status:
 administrator.aircraft.form.label.airline = Airline IATA Code:
 administrator.aircraft.form.label.details = Details (Optional):
-administrator.aircraft.form.label.confirmation = Confirm that the aircraft is correct.
+administrator.aircraft.form.label.confirmation = I confirm that the aircraft data is correct.
 
 administrator.aircraft.form.button.create = Create
 administrator.aircraft.form.button.update = Update
+administrator.aircraft.form.button.disable = Disable
+administrator.aircraft.form.button.enable = Enable
 
 administrator.aircraft.list.label.model = Model
 administrator.aircraft.list.label.capacity = Capacity
