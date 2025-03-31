@@ -29,5 +29,11 @@
 	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.yearsOfExperience" path="yearsOfExperience"/>
 	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.availabilityStatus" path="availabilityStatus"/>
 	
+	<h6><acme:print code="flight.message.activity" /></h6>
+	<acme:list >
+    	<acme:list-column code="FlightCrewMember.ActivityLog.list.label.typeOfIncident" path="typeOfIncident" width="10%"/>
+    	<acme:list-column code="FlightCrewMember.ActivityLog.list.label.registrationMoment" path="registrationMoment" width="10%"/>
+    	<acme:list-column code="FlightCrewMember.ActivityLog.list.label.saverityLevel" path="saverityLevel" width="10%"/>    
+	</acme:list>
 	
 </acme:form>
