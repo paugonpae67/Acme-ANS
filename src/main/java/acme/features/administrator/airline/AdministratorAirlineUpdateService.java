@@ -36,6 +36,9 @@ public class AdministratorAirlineUpdateService extends AbstractGuiService<Admini
 
 	@Override
 	public void bind(final Airline airline) {
+
+		int airportId = super.getRequest().getData("airport", int.class);
+		airline.setAirport(this.repository.findAirportById(airportId));
 		super.bindObject(airline, "name", "iataCode", "foundationMoment", "website", "type", "email", "phoneNumber");
 	}
 
@@ -59,11 +62,14 @@ public class AdministratorAirlineUpdateService extends AbstractGuiService<Admini
 		Dataset dataset;
 
 		SelectChoices types = SelectChoices.from(AirlineType.class, airline.getType());
+		SelectChoices airports = SelectChoices.from(this.repository.findAllAirports(), "name", airline.getAirport());
 
-		dataset = super.unbindObject(airline, "name", "iataCode", "foundationMoment", "website", "type", "email", "phoneNumber");
+		dataset = super.unbindObject(airline, "name", "iataCode", "foundationMoment", "website", "type", "email", "phoneNumber", "airport");
 
 		dataset.put("types", types);
+		dataset.put("airports", airports);
 
 		super.getResponse().addData(dataset);
 	}
+
 }

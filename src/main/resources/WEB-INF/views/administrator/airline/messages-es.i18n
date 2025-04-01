@@ -19,6 +19,7 @@ administrator.airline.form.label.website = Página web
 administrator.airline.form.label.type = Tipo
 administrator.airline.form.label.email = Correo electrónico
 administrator.airline.form.label.phoneNumber = Número de telefono
+administrator.airline.form.label.airport = Aeropuerto
 
 administrator.airline.form.label.confirmation = Confirmar
 

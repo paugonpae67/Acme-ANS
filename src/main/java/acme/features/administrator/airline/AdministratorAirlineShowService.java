@@ -39,10 +39,12 @@ public class AdministratorAirlineShowService extends AbstractGuiService<Administ
 		Dataset dataset;
 
 		SelectChoices types = SelectChoices.from(AirlineType.class, airline.getType());
+		SelectChoices airports = SelectChoices.from(this.repository.findAllAirports(), "name", airline.getAirport());
 
-		dataset = super.unbindObject(airline, "name", "iataCode", "foundationMoment", "website", "type", "email", "phoneNumber");
+		dataset = super.unbindObject(airline, "name", "iataCode", "foundationMoment", "website", "type", "email", "phoneNumber", "airport");
 
 		dataset.put("types", types);
+		dataset.put("airports", airports);
 
 		super.getResponse().addData(dataset);
 	}
