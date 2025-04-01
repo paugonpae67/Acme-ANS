@@ -1,7 +1,7 @@
 key,name,picture,avgDwellTime,promotionCode,money
 #name,"","","","",""
 Service-01,Lorem ipsum dolor sit ame,http://lorem.com/ipsum,10.00,AABB-25,50.00
-Service-02,L,http://lorem.com/ipsum,10.00,AACC-25,50.00
+Service-02,Lorem ipsum dolor sit ame,http://lorem.com/ipsum,10.00,AACC-25,50.00
 Service-03,Lo,http://lorem.com/ipsum,10.00,AADD-25,50.00
 Service-04,"Lorem ipsum dolor sit amet. consectetur adipiscin",http://lorem.com/ipsum,10.00,AAEE-25,50.00
 Service-05,"Lorem ipsum dolor sit amet. consectetur adipiscing",http://lorem.com/ipsum,10.00,AAFF-25,50.00
@@ -11,8 +11,8 @@ Service-08,' or 'A' = 'A,http://lorem.com/ipsum,10.00,AAII-25,50.00
 #picture,"","","","",""
 Service-09,Lorem ipsum dolor sit ame,http://lorem.com/ipsum,10.00,AAJJ-25,50.00
 Service-10,Lorem ipsum dolor sit ame,http://www.lorem-ipsum.org/dolor/sit/amet/consectetur/adipiscing/elit/sed/do/eiusmod/tempor/incididunt/ut/labore/et/dolore/magna/aliqua/Ut/enim/ad/minim/veniam/quis/nostrud/exercitation/ullamco/laboris/nisi/ut/aliquip/ex/ea/commodo/consequat/duis/aute/X,10.00,AAKK-25,50.00
-Service-11,Lorem ipsum dolor sit ame,http://www.lorem-ipsum.org/dolor/sit.html#dolor,10.00,AAAA-25,50.00
-Service-12,Lorem ipsum dolor sit ame,http://example.org/a/b?a&b,10.00,BBBB-25,50.00
+Service-11,Lorem ipsum dolor sit ame,https://png.pngtree.com/png-clipart/20200709/original/pngtree-restaurant-logos-png-png-image_3600190.jpg,10.00,AAAA-25,50.00
+Service-12,Lorem ipsum dolor sit ame,https://png.pngtree.com/png-clipart/20200727/original/pngtree-restaurant-logo-design-vector-template-png-image_5441058.jpg,10.00,BBBB-25,50.00
 Service-13,Lorem ipsum dolor sit ame,http://example.org?a=1&b=2,10.00,CCCC-25,50.00
 Service-14,Lorem ipsum dolor sit ame,ftp://a.b,10.00,DDDD-25,50.00
 #avgDwellTime,"","","","",""

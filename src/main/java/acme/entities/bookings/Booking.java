@@ -51,26 +51,30 @@ public class Booking extends AbstractEntity {
 	@Automapped
 	private String				lastNibble;
 
+	@Mandatory
+	@Automapped
+	private boolean				draftMode;
+
 	//Derived attributes  ---------------------------------------------------
 
 
 	@Transient
-	private Money getPrice() {
+	public Money getPrice() {
+		Money res = new Money();
+		Flight flight = this.getFlight();
+
 		BookingRecordRepository bookingRecordRepository = SpringHelper.getBean(BookingRecordRepository.class);
 		Integer passengersNumber = bookingRecordRepository.countPassengersByBooking(this.getId());
 
-		if (passengersNumber != null && this.flight != null) {
-			double totalCost = this.flight.getCost().getAmount() * passengersNumber;
-			Money money = new Money();
-			money.setAmount(totalCost);
-			money.setCurrency(this.flight.getCost().getCurrency());
-			return money;
+		if (flight != null) {
+			Money flightCost = flight.getCost();
+			res.setAmount(flightCost.getAmount() * passengersNumber);
+			res.setCurrency(flightCost.getCurrency());
 		} else {
-			Money money = new Money();
-			money.setAmount(0.0);
-			money.setCurrency(this.flight.getCost().getCurrency());
-			return money;
+			res.setAmount(0.00);
+			res.setCurrency("EUR");
 		}
+		return res;
 	}
 
 	//Relationships ---------------------------------------------------------
