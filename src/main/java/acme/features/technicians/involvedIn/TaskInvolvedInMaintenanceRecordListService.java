@@ -46,11 +46,24 @@ public class TaskInvolvedInMaintenanceRecordListService extends AbstractGuiServi
 	public void unbind(final InvolvedIn involvedIn) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(involvedIn, "task", "maintenanceRecord");
-		dataset.put("description", involvedIn.getTask().getDescription());
+		dataset = super.unbindObject(involvedIn);
+		dataset.put("task", involvedIn.getTask().getDescription());
 		dataset.put("priority", involvedIn.getTask().getPriority());
 		super.addPayload(dataset, involvedIn);
 		super.getResponse().addData(dataset);
+	}
+
+	@Override
+	public void unbind(final Collection<InvolvedIn> involvedIns) {
+		int masterId;
+		MaintenanceRecord maintenanceRecord;
+		final boolean showCreate;
+		masterId = super.getRequest().getData("masterId", int.class);
+		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
+		showCreate = maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician());
+
+		super.getResponse().addGlobal("masterId", masterId);
+		super.getResponse().addGlobal("showCreate", showCreate);
 	}
 
 }

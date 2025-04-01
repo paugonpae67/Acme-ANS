@@ -23,36 +23,43 @@ public class TaskInvolvedInMaintenanceRecordCreateService extends AbstractGuiSer
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		boolean status;
+		int masterId;
+		MaintenanceRecord maintenanceRecord;
+
+		masterId = super.getRequest().getData("masterId", int.class);
+		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
+		status = maintenanceRecord != null && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician());
+
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
 	public void load() {
-		InvolvedIn object;
+		InvolvedIn involvedIn;
 		int masterId;
 		MaintenanceRecord maintenanceRecord;
 
-		masterId = super.getRequest().getData("id", int.class);
+		masterId = super.getRequest().getData("masterId", int.class);
 		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
 
-		object = new InvolvedIn();
-		object.setTask(null);
-		object.setMaintenanceRecord(maintenanceRecord);
+		involvedIn = new InvolvedIn();
+		involvedIn.setTask(null);
+		involvedIn.setMaintenanceRecord(maintenanceRecord);
 
-		super.getBuffer().addData(object);
+		super.getBuffer().addData(involvedIn);
 	}
 
 	@Override
 	public void bind(final InvolvedIn involvedIn) {
 
-		MaintenanceRecord maintenanceRecord;
 		Task task;
 		int taskId;
 
-		super.bindObject(involvedIn, "");
-
 		taskId = super.getRequest().getData("task", int.class);
 		task = this.repository.findTaskById(taskId);
+
+		super.bindObject(involvedIn);
 		involvedIn.setTask(task);
 	}
 
@@ -73,10 +80,11 @@ public class TaskInvolvedInMaintenanceRecordCreateService extends AbstractGuiSer
 		SelectChoices choices;
 		Dataset dataset;
 
-		tasks = this.repository.findTasksPublished();
-		choices = SelectChoices.from(tasks, "type", involvedIn.getTask());
+		tasks = this.repository.findTasksDisponibles();
+		choices = SelectChoices.from(tasks, "description", involvedIn.getTask());
 
-		dataset = super.unbindObject(involvedIn, "task");
+		dataset = super.unbindObject(involvedIn);
+		dataset.put("masterId", super.getRequest().getData("masterId", int.class));
 		dataset.put("task", choices.getSelected().getKey());
 		dataset.put("tasks", choices);
 

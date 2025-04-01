@@ -4,12 +4,10 @@ package acme.features.technicians.involvedIn;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
-import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.aircrafts.InvolvedIn;
 import acme.entities.aircrafts.Task;
-import acme.entities.aircrafts.TaskType;
 import acme.realms.Technician;
 
 @GuiService
@@ -27,7 +25,8 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 
 		id = super.getRequest().getData("id", int.class);
 		involvedIn = this.repository.findInvolvedInById(id);
-		status = involvedIn != null;
+		status = involvedIn != null && super.getRequest().getPrincipal().hasRealm(involvedIn.getMaintenanceRecord().getTechnician());
+		;
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -43,9 +42,14 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 	}
 	@Override
 	public void bind(final InvolvedIn involvedIn) {
-		super.bindObject(involvedIn, "task", "maintenanceRecord");
-		involvedIn.setTask(involvedIn.getTask());
-		involvedIn.setMaintenanceRecord(involvedIn.getMaintenanceRecord());
+		int taskId;
+		Task task;
+
+		taskId = super.getRequest().getData("task", int.class);
+		task = this.repository.findTaskById(taskId);
+
+		super.bindObject(involvedIn);
+		involvedIn.setTask(task);
 	}
 
 	@Override
@@ -60,16 +64,8 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 	@Override
 	public void unbind(final InvolvedIn involvedIn) {
 		Dataset dataset;
-		SelectChoices choices;
-		Task task = involvedIn.getTask();
-
-		choices = SelectChoices.from(TaskType.class, task.getType());
-		dataset = super.unbindObject(involvedIn, "task");
-		dataset.put("description", involvedIn.getTask().getDescription());
-		dataset.put("type", choices.getSelected().getKey());
-		dataset.put("types", choices);
-		dataset.put("priority", involvedIn.getTask().getPriority());
-		dataset.put("estimatedDuration", involvedIn.getTask().getEstimatedDuration());
+		dataset = super.unbindObject(involvedIn);
+		dataset.put("task", involvedIn.getTask().getDescription());
 
 		super.getResponse().addData(dataset);
 	}

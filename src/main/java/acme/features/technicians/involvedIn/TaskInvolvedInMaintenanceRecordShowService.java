@@ -1,6 +1,8 @@
 
 package acme.features.technicians.involvedIn;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
@@ -8,8 +10,8 @@ import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.aircrafts.InvolvedIn;
+import acme.entities.aircrafts.MaintenanceRecord;
 import acme.entities.aircrafts.Task;
-import acme.entities.aircrafts.TaskType;
 import acme.realms.Technician;
 
 @GuiService
@@ -46,16 +48,18 @@ public class TaskInvolvedInMaintenanceRecordShowService extends AbstractGuiServi
 	public void unbind(final InvolvedIn involvedIn) {
 		Dataset dataset;
 		SelectChoices choices;
-		Task task = involvedIn.getTask();
+		Collection<Task> tasks;
+		MaintenanceRecord maintenanceRecord = involvedIn.getMaintenanceRecord();
 
-		choices = SelectChoices.from(TaskType.class, task.getType());
-		dataset = super.unbindObject(involvedIn, "task");
-		dataset.put("description", involvedIn.getTask().getDescription());
-		dataset.put("type", choices.getSelected().getKey());
-		dataset.put("types", choices);
+		tasks = this.repository.findTasksDisponibles();
+		choices = SelectChoices.from(tasks, "description", involvedIn.getTask());
+
+		dataset = super.unbindObject(involvedIn);
+		dataset.put("tasks", choices);
+		dataset.put("task", choices.getSelected().getKey());
 		dataset.put("priority", involvedIn.getTask().getPriority());
-		dataset.put("estimatedDuration", involvedIn.getTask().getEstimatedDuration());
-
+		dataset.put("technician", involvedIn.getTask().getTechnician().getLicenseNumber());
+		dataset.put("draftMode", maintenanceRecord.isDraftMode());
 		super.getResponse().addData(dataset);
 	}
 

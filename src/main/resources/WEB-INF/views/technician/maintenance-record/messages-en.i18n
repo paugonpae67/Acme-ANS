@@ -1,7 +1,7 @@
 
 
-technician.maintenance-record.form.title = MaintenanceRecord Details
-technician.maintenance-record.list.title = Listing of maintenanceRecords
+technician.maintenance-record.form.title = Maintenance Record Details
+technician.maintenance-record.list.title = Listing of Maintenance Records
 
 technician.maintenance-record.form.label.maintenanceMoment = Moment
 technician.maintenance-record.form.label.status = Status
@@ -28,4 +28,4 @@ technician.maintenance-record.list.label.aircraft = Aircraft
 
 technician.maintenance-record.list.button.create = Create
 
-technician.maintenance-record.publish.error.no-publish-task= There are task  no publish
+

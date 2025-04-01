@@ -1,11 +1,13 @@
 
 package acme.features.technicians.maintenanceRecord;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.components.views.SelectChoices;
 import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
@@ -43,12 +45,11 @@ public class TechnicianMaintenanceRecordCreateService extends AbstractGuiService
 	public void bind(final MaintenanceRecord maintenanceRecord) {
 		Date currentMoment;
 		Aircraft aircraft;
-		String aircraftRegistrationNumber;
 
-		aircraftRegistrationNumber = super.getRequest().getData("aircraft", String.class);
-		aircraft = this.repository.findAircraftByRegistrationNumber(aircraftRegistrationNumber);
+		aircraft = super.getRequest().getData("aircraft", Aircraft.class);
+
 		currentMoment = MomentHelper.getCurrentMoment();
-		super.bindObject(maintenanceRecord, "", "nextInspection", "estimatedCost", "notes");
+		super.bindObject(maintenanceRecord, "nextInspection", "estimatedCost", "notes");
 		maintenanceRecord.setMaintenanceMoment(currentMoment);
 		maintenanceRecord.setAircraft(aircraft);
 		maintenanceRecord.setStatus(MaintenanceStatus.PENDING);
@@ -66,11 +67,15 @@ public class TechnicianMaintenanceRecordCreateService extends AbstractGuiService
 	public void unbind(final MaintenanceRecord maintenanceRecord) {
 
 		Dataset dataset;
-		//SelectChoices choices;
-		//choices = SelectChoices.from(MaintenanceStatus.class, maintenanceRecord.getStatus());
+		SelectChoices aircrafts;
+		Collection<Aircraft> aircraftsCollection;
+
+		aircraftsCollection = this.repository.findAircrafts();
+		aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
+
 		dataset = super.unbindObject(maintenanceRecord, "nextInspection", "estimatedCost", "notes", "draftMode");
-		dataset.put("aircraft", "");
-		//dataset.put("statuses", choices);
+		dataset.put("aircrafts", aircrafts);
+		dataset.put("aircraft", aircrafts.getSelected().getKey());
 
 		super.getResponse().addData(dataset);
 	}

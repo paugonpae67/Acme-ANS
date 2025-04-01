@@ -20,9 +20,6 @@ public class TaskInvolvedInMaintenanceRecordController extends AbstractGuiContro
 	private TaskInvolvedInMaintenanceRecordDeleteService	deleteService;
 
 	@Autowired
-	private TaskInvolvedInMaintenanceRecordUpdateService	updateService;
-
-	@Autowired
 	private TaskInvolvedInMaintenanceRecordListService		listService;
 
 	@Autowired
@@ -34,7 +31,6 @@ public class TaskInvolvedInMaintenanceRecordController extends AbstractGuiContro
 		super.addBasicCommand("list", this.listService);
 		super.addBasicCommand("show", this.showService);
 		super.addBasicCommand("create", this.createService);
-		super.addBasicCommand("update", this.updateService);
 		super.addBasicCommand("delete", this.deleteService);
 	}
 }

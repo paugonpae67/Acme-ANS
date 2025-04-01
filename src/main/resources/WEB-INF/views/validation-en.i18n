@@ -1,0 +1,13 @@
+
+acme.validation.maintenanceRecord.NotNull = The maintenance record cannot be null
+acme.validation.maintenanceRecord.nextInspectionNotNull = The next inspection date cannot be null
+acme.validation.maintenanceRecord.DateCorrect = Next inspection date must be after moment date
+
+acme.validation.involved-in.task = To publish a maintenance record it must have at least one task and all his task must be publish.
+acme.validation.confirmation.message = It must be confirm
+acme.validation.airport.form.error.duplicateIata = This IATA code already exists
+acme.validation.error.phoneNumber= It is not a valid phone number
+acme.validation.error = The format is incorrect
+acme.validation.maintenanceRecord.formatIata = The format of iata code must be 3 capital letters
+acme.validation.longText= The length must be between 1 and 255 characters
+acme.validation.shortText= The length must be between 1 and 50 characters

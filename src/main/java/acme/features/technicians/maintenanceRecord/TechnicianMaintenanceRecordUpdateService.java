@@ -1,6 +1,7 @@
 
 package acme.features.technicians.maintenanceRecord;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,10 +51,9 @@ public class TechnicianMaintenanceRecordUpdateService extends AbstractGuiService
 	public void bind(final MaintenanceRecord maintenanceRecord) {
 		Date currentMoment;
 		Aircraft aircraft;
-		String aircraftRegistrationNumber;
 
-		aircraftRegistrationNumber = super.getRequest().getData("aircraft", String.class);
-		aircraft = this.repository.findAircraftByRegistrationNumber(aircraftRegistrationNumber);
+		aircraft = super.getRequest().getData("aircraft", Aircraft.class);
+
 		currentMoment = MomentHelper.getCurrentMoment();
 		super.bindObject(maintenanceRecord, "status", "nextInspection", "estimatedCost", "notes");
 		maintenanceRecord.setMaintenanceMoment(currentMoment);
@@ -73,11 +73,20 @@ public class TechnicianMaintenanceRecordUpdateService extends AbstractGuiService
 
 		Dataset dataset;
 		SelectChoices choices;
+
+		SelectChoices aircrafts;
+		Collection<Aircraft> aircraftsCollection;
+
+		aircraftsCollection = this.repository.findAircrafts();
+		aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
+
 		choices = SelectChoices.from(MaintenanceStatus.class, maintenanceRecord.getStatus());
 		dataset = super.unbindObject(maintenanceRecord, "maintenanceMoment", "nextInspection", "estimatedCost", "notes", "draftMode");
 		dataset.put("status", choices.getSelected().getKey());
 		dataset.put("statuses", choices);
-		dataset.put("aircraft", maintenanceRecord.getAircraft().getRegistrationNumber());
+
+		dataset.put("aircrafts", aircrafts);
+		dataset.put("aircraft", aircrafts.getSelected().getKey());
 		super.getResponse().addData(dataset);
 	}
 

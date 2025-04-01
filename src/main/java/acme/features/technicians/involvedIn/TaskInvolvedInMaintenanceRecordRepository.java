@@ -20,8 +20,8 @@ public interface TaskInvolvedInMaintenanceRecordRepository extends AbstractRepos
 	@Query("select t from Task t where t.id = :taskId")
 	Task findTaskById(int taskId);
 
-	@Query("select t from Task t where t.draftMode = false")
-	Collection<Task> findTasksPublished();
+	@Query("select t from Task t")
+	Collection<Task> findTasksDisponibles();
 
 	@Query("select i from InvolvedIn i where i.id = :id")
 	InvolvedIn findInvolvedInById(int id);

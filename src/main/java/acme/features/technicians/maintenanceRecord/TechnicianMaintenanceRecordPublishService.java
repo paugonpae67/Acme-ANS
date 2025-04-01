@@ -61,7 +61,7 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 		boolean valid = !tasksInvolvedIn.isEmpty() && hasPublishedTasks && allTasksNotDraft;
 
 		if (!valid)
-			super.state(valid, "*", "technician.maintenance-record.publish.error.no-publish-task");
+			super.state(valid, "*", "acme.validation.involved-in.task");
 	}
 
 	@Override

@@ -1,17 +1,18 @@
 
 
-technician.involved-in.form.title = Task form
-technician.involved-in.list.title = Listing of tasks
 
 
-technician.involved-in.form.label.type = Type
-technician.involved-in.form.label.description = Description
+technician.involved-in.form.title = Involved In Form
+technician.involved-in.list.title = Listing of Involved In
+
+technician.involved-in.form.label.task = Task
 technician.involved-in.form.label.priority = Priority
-technician.involved-in.form.label.estimateDuration = Estimated Duration
+technician.involved-in.form.label.technician = License number of Technician
 
-
+technician.involved-in.form.button.create = Create
 technician.involved-in.form.button.delete = Delete
 
-technician.involved-in.list.label.description = Task Description
-technician.involved-in.list.label.priority = Task Priority
-technician.involved-in.list.button.create = Add Task
+technician.involved-in.list.label.task = Task
+technician.involved-in.list.label.priority = Priority
+
+technician.involved-in.list.button.create = Create
