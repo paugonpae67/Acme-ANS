@@ -7,13 +7,13 @@ administrator.airline.form.title = Airline
 # Airline list
 
 administrator.airline.list.label.name = Name
-administrator.airline.list.label.iata = IATA code
+administrator.airline.list.label.iataCode = IATA code
 administrator.airline.list.label.foundationMoment = Foundation moment
 
 # Airline form
 
 administrator.airline.form.label.name = Name
-administrator.airline.form.label.iata = IATA code
+administrator.airline.form.label.iataCode = IATA code
 administrator.airline.form.label.foundationMoment = Foundation moment
 administrator.airline.form.label.website = Website
 administrator.airline.form.label.type = Type

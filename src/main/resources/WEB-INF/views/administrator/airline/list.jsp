@@ -5,7 +5,7 @@
 
 <acme:list>
 	<acme:list-column code='administrator.airline.list.label.name' path="name" width="25%"/>
-	<acme:list-column code='administrator.airline.list.label.iata' path="IATA" width="25%"/>
+	<acme:list-column code='administrator.airline.list.label.iataCode' path="iataCode" width="25%"/>
 	<acme:list-column code='administrator.airline.list.label.foundationMoment' path="foundationMoment" width="25%"/>
 </acme:list>
 
