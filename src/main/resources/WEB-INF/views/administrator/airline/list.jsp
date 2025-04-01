@@ -1,15 +1,12 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="acme" uri="http://acme-framework.org/" %>
+<%@page%>
+
+<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="acme" uri="http://acme-framework.org/"%>
 
 <acme:list>
-    <acme:list-column path="name" code="airline.name" />
-    <acme:list-column path="iataCode" code="airline.iata-code" />
-    <acme:list-column path="website" code="airline.website" />
-    <acme:list-column path="type" code="airline.type" />
-    <acme:list-column path="foundationMoment" code="airline.foundation-moment" />
-    <acme:list-column path="email" code="airline.email" />
-    <acme:list-column path="phoneNumber" code="airline.phone-number" />
-    <acme:list-column path="hub.name" code="airline.hub" />
+	<acme:list-column code='administrator.airline.list.label.name' path="name" width="25%"/>
+	<acme:list-column code='administrator.airline.list.label.iata' path="IATA" width="25%"/>
+	<acme:list-column code='administrator.airline.list.label.foundationMoment' path="foundationMoment" width="25%"/>
 </acme:list>
 
-<acme:button code="airline.create" action="/administrator/airline/create" />
+<acme:button code="administrator.airline.list.button.create" action="/administrator/airline/create"/>

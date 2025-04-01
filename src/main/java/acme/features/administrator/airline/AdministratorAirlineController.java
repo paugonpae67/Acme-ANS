@@ -14,16 +14,16 @@ import acme.entities.airlines.Airline;
 public class AdministratorAirlineController extends AbstractGuiController<Administrator, Airline> {
 
 	@Autowired
-	protected AdministratorAirlineListService	listService;
+	private AdministratorAirlineListService		listService;
 
 	@Autowired
-	protected AdministratorAirlineShowService	showService;
+	private AdministratorAirlineShowService		showService;
 
 	@Autowired
-	protected AdministratorAirlineCreateService	createService;
+	private AdministratorAirlineCreateService	createService;
 
 	@Autowired
-	protected AdministratorAirlineUpdateService	updateService;
+	private AdministratorAirlineUpdateService	updateService;
 
 
 	@PostConstruct

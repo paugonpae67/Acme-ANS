@@ -1,23 +1,21 @@
 
 package acme.features.administrator.airline;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
+import acme.client.components.models.Dataset;
 import acme.client.components.principals.Administrator;
-import acme.client.services.AbstractService;
+import acme.client.components.views.SelectChoices;
+import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.airlines.Airline;
 import acme.entities.airlines.AirlineType;
-import acme.entities.airports.Airport;
 
 @GuiService
-public class AdministratorAirlineCreateService extends AbstractService<Administrator, Airline> {
+public class AdministratorAirlineCreateService extends AbstractGuiService<Administrator, Airline> {
 
 	@Autowired
-	protected AdministratorAirlineRepository repository;
+	private AdministratorAirlineRepository repository;
 
 
 	@Override
@@ -27,21 +25,24 @@ public class AdministratorAirlineCreateService extends AbstractService<Administr
 
 	@Override
 	public void load() {
-		Airline airline = new Airline();
+		Airline airline;
+
+		airline = new Airline();
+
 		super.getBuffer().addData(airline);
 	}
 
 	@Override
 	public void bind(final Airline airline) {
-		int airportId = super.getRequest().getData("airport", int.class);
-		Airport airport = this.repository.findOneAirportById(airportId);
-		airline.setAirport(airport);
-
-		super.bindObject(airline, "name", "iataCode", "website", "type", "foundationMoment", "email", "phoneNumber");
+		super.bindObject(airline, "name", "iataCode", "foundationMoment", "website", "type", "email", "phoneNumber");
 	}
 
 	@Override
 	public void validate(final Airline airline) {
+		boolean confirmation;
+
+		confirmation = super.getRequest().getData("confirmation", boolean.class);
+		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
 
 	}
 
@@ -52,12 +53,14 @@ public class AdministratorAirlineCreateService extends AbstractService<Administr
 
 	@Override
 	public void unbind(final Airline airline) {
-		Collection<Airport> airports = this.repository.findAllAirports();
-		Collection<AirlineType> types = Arrays.asList(AirlineType.values());
+		Dataset dataset;
 
-		super.getResponse().addData("airports", airports);
-		super.getResponse().addData("types", types);
+		SelectChoices types = SelectChoices.from(AirlineType.class, airline.getType());
 
-		super.getResponse().addData(super.unbindObject(airline, "name", "iataCode", "website", "type", "foundationMoment", "email", "phoneNumber", "airport"));
+		dataset = super.unbindObject(airline, "name", "iataCode", "foundationMoment", "website", "type", "email", "phoneNumber");
+
+		dataset.put("types", types);
+
+		super.getResponse().addData(dataset);
 	}
 }

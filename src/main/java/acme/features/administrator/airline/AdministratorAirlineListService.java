@@ -5,16 +5,17 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import acme.client.components.models.Dataset;
 import acme.client.components.principals.Administrator;
-import acme.client.services.AbstractService;
+import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.airlines.Airline;
 
 @GuiService
-public class AdministratorAirlineListService extends AbstractService<Administrator, Airline> {
+public class AdministratorAirlineListService extends AbstractGuiService<Administrator, Airline> {
 
 	@Autowired
-	protected AdministratorAirlineRepository repository;
+	private AdministratorAirlineRepository repository;
 
 
 	@Override
@@ -24,14 +25,19 @@ public class AdministratorAirlineListService extends AbstractService<Administrat
 
 	@Override
 	public void load() {
-		Collection<Airline> airlines = this.repository.findAllAirlines();
+		Collection<Airline> airlines;
+
+		airlines = this.repository.findAllAirlines();
+
 		super.getBuffer().addData(airlines);
 	}
 
 	@Override
 	public void unbind(final Airline airline) {
-		assert airline != null;
+		Dataset dataset;
 
-		super.getResponse().addData(super.unbindObject(airline, "name", "iataCode", "website", "type", "foundationMoment", "email", "phoneNumber", "airport.name"));
+		dataset = super.unbindObject(airline, "name", "iataCode", "foundationMoment");
+
+		super.getResponse().addData(dataset);
 	}
 }
