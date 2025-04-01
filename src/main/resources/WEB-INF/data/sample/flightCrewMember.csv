@@ -2,6 +2,6 @@ key,key:userAccount,employeeCode,phoneNumber,languageSkills,salary,yearsOfExperi
 #userAccount,"","","","","","",""
 flightCrewMember-01,user-account-flighCrewMember-01,AG111111,123456,Lorem ipsum dolor sit ame,EUR 10000,2,AVAILABLE,Airline-01
 flightCrewMember-02,user-account-flighCrewMember-02,DM222222,123456,Lorem ipsum dolor sit ame,EUR 10000,2,AVAILABLE,Airline-01
-flightCrewMember-03,user-account-flighCrewMember-03,WE333333,123456,Lorem ipsum dolor sit ame,EUR 10000,2,AVAILABLE,Airline-01
-flightCrewMember-04,user-account-flighCrewMember-04,RF444444,123456,Lorem ipsum dolor sit ame,EUR 10000,2,AVAILABLE,Airline-01
+flightCrewMember-03,user-account-flighCrewMember-03,WE333333,123456,Lorem ipsum dolor sit ame,EUR 10000,2,ON_LEAVE,Airline-01
+flightCrewMember-04,user-account-flighCrewMember-04,RF444444,123456,Lorem ipsum dolor sit ame,EUR 10000,2,ON_VACATION,Airline-01
 flightCrewMember-05,user-account-flighCrewMember-05,IP555555,123456,Lorem ipsum dolor sit ame,EUR 10000,2,AVAILABLE,Airline-01

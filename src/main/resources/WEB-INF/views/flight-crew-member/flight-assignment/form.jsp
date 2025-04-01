@@ -9,32 +9,22 @@
 	
 	<h5><acme:print code="flight.message.assignment" /></h5>
 	
-	<acme:input-moment code="FlightCrewMember.FlightAssignment.form.label.moment" path="moment"/>
-	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.currentStatus" path="currentStatus"/>
-	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.duty" path="duty"/>
+	<acme:input-moment code="FlightCrewMember.FlightAssignment.form.label.moment" path="moment" readonly="true"/>
+	<acme:input-select code="FlightCrewMember.FlightAssignment.form.label.currentStatus" path="currentStatus" choices="${currentStatus}"/>
+	<acme:input-select code="FlightCrewMember.FlightAssignment.form.label.duty" path="duty" choices="${duty}"/>
 	<acme:input-textarea code="FlightCrewMember.FlightAssignment.form.label.remarks" path="remarks"/>
+	<acme:input-select code="FlightCrewMember.FlightAssignment.form.label.leg" path="leg" choices="${legs}"/>	
+	<acme:input-select code="FlightCrewMember.FlightAssignment.form.label.flightCrewMembers" path="flightCrewMembers" choices="${flightCrewMembers}"/>	
 	
-	<h5><acme:print code="flight.message.legs" /></h5>
-	
-	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.flightNumber" path="flightNumber"/>
-	<acme:input-moment code="FlightCrewMember.FlightAssignment.form.label.scheduledArrival" path="scheduledArrival"/>
-	<acme:input-moment code="FlightCrewMember.FlightAssignment.form.label.scheduledDeparture" path="scheduledDeparture"/>
-	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.status" path="status"/>	
-	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.Duration" path="Duration"/>
-	
-	
-	<h5><acme:print code="flight.message.member" /></h5>
-	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.employeeCode" path="employeeCode"/>
-	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.phoneNumber" path="phoneNumber"/>
-	<acme:input-textarea code="FlightCrewMember.FlightAssignment.form.label.languageSkills" path="languageSkills"/>
-	<acme:input-double code="FlightCrewMember.FlightAssignment.form.label.salary" path="salary"/>
-	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.yearsOfExperience" path="yearsOfExperience"/>
-	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.availabilityStatus" path="availabilityStatus"/>
 	
 	
 	<jstl:choose>	 
 		<jstl:when test="${acme:anyOf(_command, 'show')}">
 		<acme:button code="flight-crew-member.flight-assignment.form.button.activity-log" action="/flight-crew-member/activity-log/list?masterId=${id}"/>
+		</jstl:when>
+		<jstl:when test="${_command == 'create'}">
+			<acme:input-checkbox code="member.flight-assignment.form.label.confirmation" path="confirmation"/>
+			<acme:submit code="member.flight-assignment.form.button.create" action="/member/flight-assignment/create"/>
 		</jstl:when>
 	</jstl:choose>
 		

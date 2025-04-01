@@ -1,12 +1,18 @@
 
 package acme.features.FlightCrewMember.FlightAssignment;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.flightAssignment.FlightAssignment;
+import acme.entities.flightAssignment.FlightAssignmentDuty;
+import acme.entities.flightAssignment.FlightAssignmentStatus;
+import acme.entities.legs.Leg;
 import acme.realms.FlightCrewMember;
 
 @GuiService
@@ -44,21 +50,34 @@ public class FlightAssignmentShow extends AbstractGuiService<FlightCrewMember, F
 
 	@Override
 	public void unbind(final FlightAssignment assignment) {
+		int memberId;
+		Collection<Leg> legs;
+		SelectChoices legChoices;
+
+		Collection<FlightCrewMember> members;
+		SelectChoices memberChoices;
 		Dataset dataset;
 
-		dataset = super.unbindObject(assignment, "remarks", "moment", "currentStatus", "duty");
-		dataset.put("scheduledArrival", assignment.getLeg().getScheduledArrival());
-		dataset.put("flightNumber", assignment.getLeg().getFlightNumber());
-		dataset.put("scheduledDeparture", assignment.getLeg().getScheduledDeparture());
-		dataset.put("status", assignment.getLeg().getStatus());
-		dataset.put("Duration", assignment.getLeg().getDuration());
-		dataset.put("employeeCode", assignment.getFlightCrewMembers().getEmployeeCode());
-		dataset.put("phoneNumber", assignment.getFlightCrewMembers().getPhoneNumber());
-		dataset.put("languageSkills", assignment.getFlightCrewMembers().getLanguageSkills());
-		dataset.put("salary", assignment.getFlightCrewMembers().getSalary());
-		dataset.put("yearsOfExperience", assignment.getFlightCrewMembers().getYearsOfExperience());
-		dataset.put("availabilityStatus", assignment.getFlightCrewMembers().getAvailabilityStatus());
+		SelectChoices currentStatus;
+		SelectChoices duty;
 
+		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		legs = this.repository.findAllLegs();
+		members = this.repository.findAllAvailableMembers();
+
+		currentStatus = SelectChoices.from(FlightAssignmentStatus.class, assignment.getCurrentStatus());
+		duty = SelectChoices.from(FlightAssignmentDuty.class, assignment.getDuty());
+
+		legChoices = SelectChoices.from(legs, "flightNumber", assignment.getLeg());
+		memberChoices = SelectChoices.from(members, "employeeCode", assignment.getFlightCrewMembers());
+
+		dataset = super.unbindObject(assignment, "remarks", "moment", "currentStatus", "duty");
+		dataset.put("currentStatus", currentStatus);
+		dataset.put("duty", duty);
+		dataset.put("leg", legChoices.getSelected().getKey());
+		dataset.put("legs", legChoices);
+		dataset.put("flightCrewMember", memberChoices.getSelected().getKey());
+		dataset.put("flightCrewMember", memberChoices);
 		super.getResponse().addData(dataset);
 
 	}
