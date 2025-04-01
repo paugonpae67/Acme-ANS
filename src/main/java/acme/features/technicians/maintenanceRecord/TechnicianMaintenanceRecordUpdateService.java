@@ -51,7 +51,7 @@ public class TechnicianMaintenanceRecordUpdateService extends AbstractGuiService
 	public void bind(final MaintenanceRecord maintenanceRecord) {
 		Date currentMoment;
 		Aircraft aircraft;
-
+		System.out.print(maintenanceRecord);
 		aircraft = super.getRequest().getData("aircraft", Aircraft.class);
 
 		currentMoment = MomentHelper.getCurrentMoment();
@@ -76,7 +76,7 @@ public class TechnicianMaintenanceRecordUpdateService extends AbstractGuiService
 
 		SelectChoices aircrafts;
 		Collection<Aircraft> aircraftsCollection;
-
+		System.out.print(maintenanceRecord);
 		aircraftsCollection = this.repository.findAircrafts();
 		aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
 

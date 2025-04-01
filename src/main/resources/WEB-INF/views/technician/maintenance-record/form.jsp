@@ -7,10 +7,10 @@
 
      <acme:hidden-data path="maintenanceRecordId"/>
      
-     <jstl:if test="${_command == 'show'}">
+ 
 		<acme:input-moment code="technician.maintenance-record.form.label.maintenanceMoment" path="maintenanceMoment" readonly="true"/>
 		<acme:input-select path="status" code="technician.maintenance-record.form.label.status" choices="${statuses}"/>
-	</jstl:if>
+	
 	<acme:input-moment code="technician.maintenance-record.form.label.next-inspection" path="nextInspection" placeholder="technician.maintenance-record.form.placeholder.next-inspection"/>
 	<acme:input-select code="technician.maintenance-record.form.label.aircraft" path="aircraft" choices="${aircrafts}"/>
 	<acme:input-money code="technician.maintenance-record.form.label.estimated-cost" path="estimatedCost" placeholder="technician.maintenance-record.form.placeholder.estimated-cost"/>
