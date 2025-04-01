@@ -1,0 +1,17 @@
+
+
+
+technician.involved-in.form.title = Formulario
+technician.involved-in.list.title = Lista
+
+technician.involved-in.form.label.task = Tarea
+technician.involved-in.form.label.priority = Prioridad
+technician.involved-in.form.label.technician = Número de licencia del técnico
+
+technician.involved-in.form.button.create = Crear
+technician.involved-in.form.button.delete = Eliminar
+
+technician.involved-in.list.label.task = Tarea
+technician.involved-in.list.label.priority = Prioridad
+
+technician.involved-in.list.button.create = Crear

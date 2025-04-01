@@ -1,5 +1,5 @@
-administrator.airport.form.title = Detalles de anuncios
-administrator.airport.list.title = Lista de anuncios
+administrator.airport.form.title = Airport Details
+administrator.airport.list.title = List of Airport
 
 administrator.airport.form.label.name = Name:
 administrator.airport.form.label.iataCode = IATA code
@@ -19,6 +19,3 @@ administrator.airport.list.label.iataCode = IATA  code
 administrator.airport.list.label.city = city
 
 administrator.airport.list.button.create = Create
-
-administrator.airport.form.error.duplicateIata = This IATA code already exists
-administrator.airport.form.error.invalidPhoneNumber = It is not a valid phone number
