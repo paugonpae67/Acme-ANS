@@ -52,6 +52,10 @@ public class Claim extends AbstractEntity {
 	@Automapped
 	private ClaimType			type;
 
+	@Mandatory
+	@Automapped
+	private boolean				draftMode;
+
 
 	@Transient
 	public TrackingLogStatus getStatus() {

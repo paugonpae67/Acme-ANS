@@ -17,7 +17,7 @@ import acme.entities.trackingLogs.TrackingLogStatus;
 import acme.realms.AssistanceAgent;
 
 @GuiService
-public class AssistanceAgentShowClaimService extends AbstractGuiService<AssistanceAgent, Claim> {
+public class AssistanceAgentPublishClaimService extends AbstractGuiService<AssistanceAgent, Claim> {
 
 	@Autowired
 	private AssistanceAgentClaimRepository repository;
@@ -33,7 +33,7 @@ public class AssistanceAgentShowClaimService extends AbstractGuiService<Assistan
 		masterId = super.getRequest().getData("id", int.class);
 		claim = this.repository.findClaimById(masterId);
 		assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
-		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) || claim != null;
+		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent);
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -47,6 +47,22 @@ public class AssistanceAgentShowClaimService extends AbstractGuiService<Assistan
 		claim = this.repository.findClaimById(id);
 
 		super.getBuffer().addData(claim);
+	}
+
+	@Override
+	public void bind(final Claim claim) {
+		super.bindObject(claim, "registrationMoment", "passengerEmail", "description", "type", "leg");
+	}
+
+	@Override
+	public void validate(final Claim claim) {
+		;
+	}
+
+	@Override
+	public void perform(final Claim claim) {
+		claim.setDraftMode(false);
+		this.repository.save(claim);
 	}
 
 	@Override
@@ -75,8 +91,6 @@ public class AssistanceAgentShowClaimService extends AbstractGuiService<Assistan
 		dataset.put("leg", choicesLeg.getSelected().getKey());
 		dataset.put("legs", choicesLeg);
 		dataset.put("status", status);
-
 		super.getResponse().addData(dataset);
 	}
-
 }

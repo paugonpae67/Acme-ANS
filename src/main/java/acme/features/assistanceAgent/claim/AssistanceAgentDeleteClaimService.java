@@ -13,11 +13,12 @@ import acme.entities.airports.Airport;
 import acme.entities.claim.Claim;
 import acme.entities.claim.ClaimType;
 import acme.entities.legs.Leg;
+import acme.entities.trackingLogs.TrackingLog;
 import acme.entities.trackingLogs.TrackingLogStatus;
 import acme.realms.AssistanceAgent;
 
 @GuiService
-public class AssistanceAgentShowClaimService extends AbstractGuiService<AssistanceAgent, Claim> {
+public class AssistanceAgentDeleteClaimService extends AbstractGuiService<AssistanceAgent, Claim> {
 
 	@Autowired
 	private AssistanceAgentClaimRepository repository;
@@ -33,7 +34,7 @@ public class AssistanceAgentShowClaimService extends AbstractGuiService<Assistan
 		masterId = super.getRequest().getData("id", int.class);
 		claim = this.repository.findClaimById(masterId);
 		assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
-		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) || claim != null;
+		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) && (claim == null || claim.isDraftMode());
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -47,6 +48,25 @@ public class AssistanceAgentShowClaimService extends AbstractGuiService<Assistan
 		claim = this.repository.findClaimById(id);
 
 		super.getBuffer().addData(claim);
+	}
+
+	@Override
+	public void bind(final Claim claim) {
+		super.bindObject(claim, "registrationMoment", "passengerEmail", "description", "type", "leg");
+	}
+
+	@Override
+	public void validate(final Claim claim) {
+		;
+	}
+
+	@Override
+	public void perform(final Claim claim) {
+		Collection<TrackingLog> trackingLog;
+
+		trackingLog = this.repository.findTrackingLogsOfClaim(claim.getId());
+		this.repository.deleteAll(trackingLog);
+		this.repository.delete(claim);
 	}
 
 	@Override

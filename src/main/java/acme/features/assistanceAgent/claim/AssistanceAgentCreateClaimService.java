@@ -2,11 +2,13 @@
 package acme.features.assistanceAgent.claim;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
+import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.airports.Airport;
@@ -30,10 +32,14 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 	@Override
 	public void load() {
 		Claim claim;
+		Date registrationMoment;
 		AssistanceAgent assistanceAgent;
 
 		assistanceAgent = (AssistanceAgent) super.getRequest().getPrincipal().getActiveRealm();
+		registrationMoment = MomentHelper.getCurrentMoment();
+
 		claim = new Claim();
+		claim.setRegistrationMoment(registrationMoment);
 		claim.setAssistanceAgent(assistanceAgent);
 		super.getBuffer().addData(claim);
 	}
@@ -57,6 +63,11 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 
 	@Override
 	public void perform(final Claim claim) {
+		Date registrationMoment;
+
+		registrationMoment = MomentHelper.getCurrentMoment();
+		claim.setRegistrationMoment(registrationMoment);
+		claim.setDraftMode(true);
 		this.repository.save(claim);
 	}
 

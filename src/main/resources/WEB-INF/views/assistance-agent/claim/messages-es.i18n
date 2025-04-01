@@ -10,19 +10,23 @@
 
 assistance-agent.claim.list.title = Lista de los registros finalizados
 assistance-agent.claim.form.title = Detalles de los registros
-assistance-agent.claim.list-undergoing.title = Lista de los registros en proceso
 
 assistanceAgent.claim.list-finish.label.registrationMoment = Momento del Registro
 assistanceAgent.claim.list-finish.label.passengerEmail = Correo del Pasajero
 assistanceAgent.claim.list-finish.label.description = Descripción
 assistanceAgent.claim.list-finish.label.type = Tipo
+assistanceAgent.claim.form.label.status = Estados
 
 assistanceAgent.claim.form.label.registrationMoment = Momento del Registro:
 assistanceAgent.claim.form.label.passengerEmail = Correo del Pasajero:
 assistanceAgent.claim.form.label.description = Descripción:
 assistanceAgent.claim.form.label.type = Tipo:
+assistanceAgent.claim.form.label.status = Estados:
+assistanceAgent.claim.form.label.leg = Trazo:
 
-assistanceAgent.claim.list-undergoing.label.registrationMoment = Momento del Registro
-assistanceAgent.claim.list-undergoing.label.passengerEmail = Correo del Pasajero
-assistanceAgent.claim.list-undergoing.label.description = Descripción
-assistanceAgent.claim.list-undergoing.label.type = Tipo
+assistanceAgent.claim.list-undergoing.button.create = Crear
+assistanceAgent.claim.form.button.create = Crear
+assistanceAgent.claim.form.button.update = Actualizar
+assistanceAgent.claim.form.button.delete = Eliminar
+assistanceAgent.claim.form.button.publish = Publicar
+assistanceAgent.claim.form.button.tracking-log = Registro de seguimiento

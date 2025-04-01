@@ -24,7 +24,17 @@ public class AssistanceAgentUpdateClaimSerivce extends AbstractGuiService<Assist
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		boolean status;
+		int masterId;
+		Claim claim;
+		AssistanceAgent assistanceAgent;
+
+		masterId = super.getRequest().getData("id", int.class);
+		claim = this.repository.findClaimById(masterId);
+		assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
+		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) && (claim == null || claim.isDraftMode());
+
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
@@ -40,19 +50,18 @@ public class AssistanceAgentUpdateClaimSerivce extends AbstractGuiService<Assist
 
 	@Override
 	public void bind(final Claim claim) {
-		int legId;
 		Leg leg;
+		int id;
 
-		legId = super.getRequest().getData("leg", int.class);
-		leg = this.repository.findLegByLegId(legId);
-		super.bindObject(claim, "registrationMoment", "passengerEmail", "description", "type");
+		id = super.getRequest().getData("id", int.class);
+		leg = this.repository.findLegByClaimId(id);
+		super.bindObject(claim, "registrationMoment", "passengerEmail", "description", "type", "leg");
 		claim.setLeg(leg);
 
 	}
 
 	@Override
 	public void validate(final Claim claim) {
-		;
 	}
 
 	@Override
@@ -77,7 +86,8 @@ public class AssistanceAgentUpdateClaimSerivce extends AbstractGuiService<Assist
 
 		choicesLeg = SelectChoices.from(legs, "flightNumber", claim.getLeg());
 
-		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "description", "type", "leg");
+		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "description", "type");
+		dataset.put("type", types.getSelected().getKey());
 		dataset.put("types", types);
 		dataset.put("leg", choicesLeg.getSelected().getKey());
 		dataset.put("legs", choicesLeg);
