@@ -1,18 +1,18 @@
 
-package acme.features.airport;
-
-import java.util.Collection;
+package acme.features.administrator.airport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.components.principals.Administrator;
+import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.airports.Airport;
+import acme.entities.airports.OperationalType;
 
 @GuiService
-public class AdministratorAirportListService extends AbstractGuiService<Administrator, Airport> {
+public class AdministratorAirportShowService extends AbstractGuiService<Administrator, Airport> {
 
 	@Autowired
 	private AdministratorAirportRepository airportRepository;
@@ -25,17 +25,21 @@ public class AdministratorAirportListService extends AbstractGuiService<Administ
 
 	@Override
 	public void load() {
-		Collection<Airport> airports;
-		airports = this.airportRepository.findAllAirports();
-		super.getBuffer().addData(airports);
+		Airport airport;
+		int id;
+		id = super.getRequest().getData("id", int.class);
+		airport = this.airportRepository.findAirportById(id);
+		super.getBuffer().addData(airport);
 	}
 
 	@Override
 	public void unbind(final Airport airport) {
 		Dataset dataset;
+		SelectChoices choices;
 
+		choices = SelectChoices.from(OperationalType.class, airport.getOperationalScope());
 		dataset = super.unbindObject(airport, "name", "iataCode", "city", "country", "operationalScope", "website", "email", "phoneNumber");
-
+		dataset.put("scopes", choices);
 		super.getResponse().addData(dataset);
 	}
 
