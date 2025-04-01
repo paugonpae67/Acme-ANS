@@ -23,7 +23,7 @@ public @interface ValidLongText {
 
 	// Standard validation properties -----------------------------------------
 
-	String message() default "The length must be between 1 and 255 characters";
+	String message() default "{acme.validation.longText}";
 
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};

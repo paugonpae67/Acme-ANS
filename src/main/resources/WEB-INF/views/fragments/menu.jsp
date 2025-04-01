@@ -56,6 +56,11 @@
 		<acme:menu-option code="master.menu.consumer" access="hasRealm('Consumer')">
 			<acme:menu-suboption code="master.menu.consumer.favourite-link" action="http://www.example.com/"/>
 		</acme:menu-option>
+		<acme:menu-option code="master.menu.technician" access="hasRealm('Technician')">
+			<acme:menu-suboption code="master.menu.maintenanceRecord.list" action="/technician/maintenance-record/list"/>
+			<acme:menu-separator/>
+			<acme:menu-suboption code="master.menu.task.list" action="/technician/task/list"/>
+		</acme:menu-option>
 		
 	</acme:menu-left>
 
@@ -67,6 +72,8 @@
 			<acme:menu-suboption code="master.menu.user-account.become-consumer" action="/authenticated/consumer/create" access="!hasRealm('Consumer')"/>
 			<acme:menu-suboption code="master.menu.user-account.consumer-profile" action="/authenticated/consumer/update" access="hasRealm('Consumer')"/>
 		</acme:menu-option>
+		
+		
 	</acme:menu-right>
 </acme:menu-bar>
 

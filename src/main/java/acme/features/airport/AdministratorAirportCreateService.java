@@ -42,7 +42,7 @@ public class AdministratorAirportCreateService extends AbstractGuiService<Admini
 		boolean confirmation;
 		confirmation = super.getRequest().getData("confirmation", boolean.class);
 		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
-		super.state(existAirport == null, "iataCode", "administrator.airport.form.error.duplicateIata");
+		super.state(existAirport == null, "iataCode", "acme.validation.airport.form.error.duplicateIata");
 	}
 
 	@Override
