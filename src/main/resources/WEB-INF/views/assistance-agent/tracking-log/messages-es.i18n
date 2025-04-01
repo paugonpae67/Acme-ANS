@@ -9,20 +9,25 @@
 # they accept any liabilities with respect to them.
 
 assistance-agent.tracking-log.list.title = Lista de registro de seguimiento
-assistanceAgent.trackingLog.form.title = Details of Claims
+assistance-agent.tracking-log.form.title = Detalles de los registros de seguimiento
 
 assistanceAgent.trackingLog.list.label.lastUpdateMoment = Último momento de modificación
 assistanceAgent.trackingLog.list.label.step = Paso
 assistanceAgent.trackingLog.list.label.resolutionPercentage = Porcentaje de resolución
 assistanceAgent.trackingLog.list.label.status = Estado
 assistanceAgent.trackingLog.list.label.resolution = Resolucion
+assistanceAgent.trackingLog.form.label.claim = Registro
 
 assistanceAgent.trackingLog.form.label.lastUpdateMoment = Último momento de modificación:
 assistanceAgent.trackingLog.form.label.step = Paso:
 assistanceAgent.trackingLog.form.label.resolutionPercentage = Porcentaje de resolución:
 assistanceAgent.trackingLog.form.label.status = Estado:
 assistanceAgent.trackingLog.form.label.resolution = Resolucion:
+assistanceAgent.trackingLog.form.label.claim = Registro:
 
 assistanceAgent.trackingLog.form.button.create = Crear
 assistanceAgent.trackingLog.form.button.update = Modificar
 assistanceAgent.trackingLog.form.button.delete = Eliminar
+assistanceAgent.trackingLog.form.button.publish = Publicar
+
+assistanceAgent.trackingLog.list.button.create = Crear

@@ -24,6 +24,4 @@
 	<acme:list-payload path="payload"/>
 </acme:list>
 
-<jstl:if test="${showCreate}">
-	<acme:button code="employer.duty.list.button.create" action="/employer/duty/create?masterId=${masterId}"/>
-</jstl:if>
+<acme:button code="assistanceAgent.trackingLog.list.button.create" action="/assistance-agent/tracking-log/create"/>

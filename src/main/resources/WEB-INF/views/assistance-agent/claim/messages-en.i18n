@@ -30,3 +30,5 @@ assistanceAgent.claim.form.button.update = Update
 assistanceAgent.claim.form.button.delete = Delete
 assistanceAgent.claim.form.button.publish = Publish
 assistanceAgent.claim.form.button.tracking-log = Tracking Log
+
+assistanceAgent.claim.list-finish.button.create = Create

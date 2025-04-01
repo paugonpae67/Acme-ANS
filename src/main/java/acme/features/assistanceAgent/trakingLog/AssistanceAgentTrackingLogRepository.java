@@ -2,6 +2,8 @@
 package acme.features.assistanceAgent.trakingLog;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -24,5 +26,8 @@ public interface AssistanceAgentTrackingLogRepository extends AbstractRepository
 
 	@Query("select t.claim from TrackingLog t where t.id = :id")
 	Collection<Claim> findClaimByTrackingLog(int id);
+
+	@Query("SELECT t FROM TrackingLog t WHERE t.claim.id = :claimId ORDER BY t.lastUpdateMoment DESC")
+	Optional<List<TrackingLog>> findLatestTrackingLogByClaim(Integer claimId);
 
 }
