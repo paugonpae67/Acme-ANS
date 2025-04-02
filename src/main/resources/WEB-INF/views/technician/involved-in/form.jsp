@@ -8,6 +8,7 @@
 	<jstl:if test="${_command == 'show'}">	
 		<acme:input-integer code="technician.involved-in.form.label.priority" path="priority" readonly="true"/>
 		<acme:input-textbox code="technician.involved-in.form.label.technician" path="technician" readonly="true"/>
+		<acme:input-textbox code="technician.involved-in.form.label.description" path="description" readonly="true"/>
 	</jstl:if>
 	<jstl:choose>	 
 		<jstl:when test="${acme:anyOf(_command, 'show|delete') && draftMode}">

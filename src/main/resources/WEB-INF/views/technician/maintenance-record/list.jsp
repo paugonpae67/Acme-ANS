@@ -4,6 +4,7 @@
 <%@taglib prefix="acme" uri="http://acme-framework.org/"%>
 
 <acme:list>
+<acme:list-column code="technician.maintenance-record.list.label.ticker" path="ticker" width="25%"/>
 	<acme:list-column code="technician.maintenance-record.list.label.maintenanceMoment" path="maintenanceMoment" width="30%"/>
 	<acme:list-column code="technician.maintenance-record.list.label.status" path="status" width="20%"/>
 	<acme:list-column code="technician.maintenance-record.list.label.nextInspection" path="nextInspection" width="30%"/>

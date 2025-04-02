@@ -57,6 +57,8 @@ public class TaskInvolvedInMaintenanceRecordShowService extends AbstractGuiServi
 		dataset = super.unbindObject(involvedIn);
 		dataset.put("tasks", choices);
 		dataset.put("task", choices.getSelected().getKey());
+		dataset.put("ticker", involvedIn.getTask().getTicker());
+		dataset.put("description", involvedIn.getTask().getDescription());
 		dataset.put("priority", involvedIn.getTask().getPriority());
 		dataset.put("technician", involvedIn.getTask().getTechnician().getLicenseNumber());
 		dataset.put("draftMode", maintenanceRecord.isDraftMode());

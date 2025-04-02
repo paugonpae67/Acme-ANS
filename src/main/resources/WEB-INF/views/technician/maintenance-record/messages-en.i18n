@@ -29,3 +29,5 @@ technician.maintenance-record.list.label.aircraft = Aircraft
 technician.maintenance-record.list.button.create = Create
 
 
+technician.maintenance-record.form.label.ticker = Ticker
+technician.maintenance-record.list.label.ticker = Ticker

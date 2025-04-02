@@ -21,3 +21,5 @@ technician.task.list.label.estimated-duration= Estimated Duration
 technician.task.list.label.description = Description
 
 technician.task.list.button.create = Create
+technician.task.form.label.ticker=Ticker
+technician.task.list.label.ticker=Ticker

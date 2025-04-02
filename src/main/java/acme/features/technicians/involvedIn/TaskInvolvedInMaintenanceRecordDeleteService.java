@@ -43,17 +43,18 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 	}
 	@Override
 	public void bind(final InvolvedIn involvedIn) {
-		int taskId;
+		String taskId;
 		Task task;
 		MaintenanceRecord maintenanceRecord;
 		int masterId;
 		masterId = super.getRequest().getData("masterId", int.class);
 		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
-		taskId = super.getRequest().getData("task", int.class);
-		task = this.repository.findTaskById(taskId);
+		taskId = super.getRequest().getData("task", String.class);
+		task = this.repository.findTaskByTicker(taskId);
 
 		super.bindObject(involvedIn);
 		involvedIn.setTask(task);
+		involvedIn.setMaintenanceRecord(maintenanceRecord);
 	}
 
 	@Override

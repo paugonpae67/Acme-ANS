@@ -47,7 +47,8 @@ public class TaskInvolvedInMaintenanceRecordListService extends AbstractGuiServi
 		Dataset dataset;
 
 		dataset = super.unbindObject(involvedIn);
-		dataset.put("task", involvedIn.getTask().getDescription());
+		dataset.put("task", involvedIn.getTask().getType());
+		dataset.put("ticker", involvedIn.getTask().getTicker());
 		dataset.put("priority", involvedIn.getTask().getPriority());
 		super.addPayload(dataset, involvedIn);
 		super.getResponse().addData(dataset);

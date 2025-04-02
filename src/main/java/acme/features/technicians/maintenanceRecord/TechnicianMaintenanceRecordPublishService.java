@@ -56,7 +56,7 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 
 		aircraft = super.getRequest().getData("aircraft", Aircraft.class);
 		currentMoment = MomentHelper.getCurrentMoment();
-		super.bindObject(maintenanceRecord, "status", "nextInspection", "estimatedCost", "notes");
+		super.bindObject(maintenanceRecord, "ticker", "status", "nextInspection", "estimatedCost", "notes");
 		maintenanceRecord.setMaintenanceMoment(currentMoment);
 		maintenanceRecord.setAircraft(aircraft);
 	}
@@ -73,6 +73,10 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 
 		if (!valid)
 			super.state(valid, "*", "acme.validation.involved-in.task");
+
+		boolean existMaintenanceRecord = this.repository.findMaintenanceRecordByTicker(maintenanceRecord.getTicker()) == null;
+		super.state(existMaintenanceRecord, "ticker", "acme.validation.form.error.duplicateTicker");
+
 	}
 
 	@Override
@@ -91,7 +95,7 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 		aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
 
 		choices = SelectChoices.from(MaintenanceStatus.class, maintenanceRecord.getStatus());
-		dataset = super.unbindObject(maintenanceRecord, "maintenanceMoment", "nextInspection", "estimatedCost", "notes", "draftMode");
+		dataset = super.unbindObject(maintenanceRecord, "ticker", "maintenanceMoment", "nextInspection", "estimatedCost", "notes", "draftMode");
 		dataset.put("status", choices.getSelected().getKey());
 		dataset.put("statuses", choices);
 

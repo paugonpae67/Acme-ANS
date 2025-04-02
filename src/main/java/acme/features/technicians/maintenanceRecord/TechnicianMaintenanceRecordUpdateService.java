@@ -55,14 +55,15 @@ public class TechnicianMaintenanceRecordUpdateService extends AbstractGuiService
 		aircraft = super.getRequest().getData("aircraft", Aircraft.class);
 
 		currentMoment = MomentHelper.getCurrentMoment();
-		super.bindObject(maintenanceRecord, "status", "nextInspection", "estimatedCost", "notes");
+		super.bindObject(maintenanceRecord, "ticker", "status", "nextInspection", "estimatedCost", "notes");
 		maintenanceRecord.setMaintenanceMoment(currentMoment);
 		maintenanceRecord.setAircraft(aircraft);
 	}
 
 	@Override
 	public void validate(final MaintenanceRecord maintenanceRecord) {
-		;
+		boolean existMaintenanceRecord = this.repository.findMaintenanceRecordByTicker(maintenanceRecord.getTicker()) == null;
+		super.state(existMaintenanceRecord, "ticker", "acme.validation.form.error.duplicateTicker");
 	}
 	@Override
 	public void perform(final MaintenanceRecord maintenanceRecord) {
@@ -80,7 +81,7 @@ public class TechnicianMaintenanceRecordUpdateService extends AbstractGuiService
 		aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
 
 		choices = SelectChoices.from(MaintenanceStatus.class, maintenanceRecord.getStatus());
-		dataset = super.unbindObject(maintenanceRecord, "maintenanceMoment", "nextInspection", "estimatedCost", "notes", "draftMode");
+		dataset = super.unbindObject(maintenanceRecord, "ticker", "maintenanceMoment", "nextInspection", "estimatedCost", "notes", "draftMode");
 		dataset.put("status", choices.getSelected().getKey());
 		dataset.put("statuses", choices);
 

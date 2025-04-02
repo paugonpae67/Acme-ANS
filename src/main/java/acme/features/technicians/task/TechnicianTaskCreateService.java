@@ -39,12 +39,14 @@ public class TechnicianTaskCreateService extends AbstractGuiService<Technician, 
 
 	@Override
 	public void bind(final Task task) {
-		super.bindObject(task, "type", "description", "priority", "estimatedDuration");
+		super.bindObject(task, "ticker", "type", "description", "priority", "estimatedDuration");
 	}
 
 	@Override
 	public void validate(final Task task) {
-		;
+
+		boolean existTask = this.repository.findTaskByTicker(task.getTicker()) == null;
+		super.state(existTask, "ticker", "acme.validation.form.error.duplicateTicker");
 	}
 
 	@Override
@@ -56,7 +58,7 @@ public class TechnicianTaskCreateService extends AbstractGuiService<Technician, 
 		Dataset dataset;
 		SelectChoices choices;
 		choices = SelectChoices.from(TaskType.class, task.getType());
-		dataset = super.unbindObject(task, "type", "description", "priority", "estimatedDuration", "draftMode");
+		dataset = super.unbindObject(task, "ticker", "type", "description", "priority", "estimatedDuration", "draftMode");
 		dataset.put("tasks", choices);
 
 		super.getResponse().addData(dataset);

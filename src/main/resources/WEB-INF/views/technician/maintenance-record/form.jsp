@@ -6,7 +6,7 @@
 <acme:form> 
 
      <acme:hidden-data path="maintenanceRecordId"/>
-     
+     	<acme:input-textbox code="technician.maintenance-record.form.label.ticker" path="ticker"/>
 		<acme:input-moment code="technician.maintenance-record.form.label.maintenanceMoment" path="maintenanceMoment" readonly="true"/>
 
 		<jstl:if test="${_command != 'create'}">

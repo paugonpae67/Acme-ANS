@@ -20,7 +20,8 @@ public class AdministratorAirportCreateService extends AbstractGuiService<Admini
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class);
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
@@ -42,7 +43,7 @@ public class AdministratorAirportCreateService extends AbstractGuiService<Admini
 		boolean confirmation;
 		confirmation = super.getRequest().getData("confirmation", boolean.class);
 		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
-		super.state(existAirport == null, "iataCode", "acme.validation.airport.form.error.duplicateIata");
+		super.state(existAirport != null, "iataCode", "acme.validation.airport.form.error.duplicateIata");
 	}
 
 	@Override
