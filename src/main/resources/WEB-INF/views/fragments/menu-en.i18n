@@ -31,7 +31,8 @@ master.menu.administrator.list = Airport list
 # master.menu.customer ###################################################
 
 master.menu.customer = Customer
-master.menu.customer.list = Bookings list
+master.menu.customer.booking.list = Bookings list
+master.menu.customer.passenger.list = Passengers list
 
 # master.menu.provider ########################################################
 

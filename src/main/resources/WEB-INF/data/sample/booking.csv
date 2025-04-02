@@ -19,4 +19,7 @@ booking-14,ABC133,2012/06/24 14:30,ECONOMY,1234,customer-02,flight-01,true
 #Variaciones de la relación key:flight
 booking-15,ABC136,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-02,true
 booking-16,ABC137,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-20,true
-booking-17,ABC138,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-21,false
+booking-17,ABC138,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-21,true
+#Variaciones del atributo draftMode
+booking-18,ABC139,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-01,false
+

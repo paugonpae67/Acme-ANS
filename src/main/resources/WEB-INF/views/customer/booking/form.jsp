@@ -21,22 +21,20 @@
 	
 	
 	<jstl:choose>
+	
 		<jstl:when test="${acme:anyOf(_command, 'show|update|publish')}">
 			<jstl:if test="${draftMode}">
 				<acme:submit code="customer.booking.form.button.update" action="/customer/booking/update"/>
 				<acme:submit code="customer.booking.form.button.publish" action="/customer/booking/publish"/>
-				<acme:button code="customer.booking.form.add.passenger" action="/customer/booking-record/create?bookingId=${id}"/>
+				<acme:button code="customer.booking.form.button.booking-record" action="/customer/booking-record/list?bookingId=${id}"/>
 			</jstl:if>
 		</jstl:when>
 		
 		<jstl:when test="${_command == 'create'}">
 			<acme:submit code="customer.booking.form.button.create" action="/customer/booking/create"/>
-		</jstl:when>		
+		</jstl:when>	
+			
 	</jstl:choose>	
-	
-	<jstl:if test="${_command == 'show'}">
-		<acme:button code="customer.booking.form.show.passengers" action="/customer/passenger/list?bookingId=${id}"/>
-	</jstl:if>
 
 	
 	

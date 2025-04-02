@@ -8,17 +8,19 @@ customer.booking.form.label.price = Price:
 customer.booking.form.label.lastNibble = Last card nibble (Optional):
 customer.booking.form.label.flight= Flight:
 
+customer.booking.form.button.create = Create 
+customer.booking.form.show.passengers = Show actual passengers
+customer.booking.form.add.passenger = Add pasenger/s
+customer.booking.form.button.update = Update
+customer.booking.form.button.publish = Publish
+customer.booking.form.button.booking-record = Passengers
+
 customer.booking.list.label.locatorCode = Locator Code
 customer.booking.list.label.purchaseMoment = Purchase Moment
 customer.booking.list.label.travelClass = Travel Class
 customer.booking.list.label.flight = Flight
 
 customer.booking.list.button.create = Create
-customer.booking.form.button.create = Create 
-customer.booking.form.show.passengers = Show actual passengers of the booking
-customer.booking.form.add.passenger = Add pasenger/s to the booking
-customer.booking.form.button.update = Update booking
-customer.booking.form.button.publish = Publish booking
 
 customer.booking.form.error.duplicateLocatorCode = This locator code is already in use
 acme.validation.lastNibble.message  = This field is required to publish a booking

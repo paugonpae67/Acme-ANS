@@ -1,3 +1,18 @@
-customer.booking-record.form.title = Pasajeros de la reserva
+customer.booking-record.list.title = Pasajeros de la reserva
+customer.booking-record.form.title = Añadir un Pasajero a la Reserva
 
-customer.bookingRecord.list.label.passenger = Pasajero
+customer.booking-record.list.label.passengerName = Nombre completo
+customer.booking-record.list.label.passengerEmail = Correo electrónico
+
+customer.booking-record.form.button.create = Añadir Pasajero
+customer.booking-record.form.label.passenger = Nombre de pasajero:
+customer.booking-record.form.label.email = Correo electrónico de pasajero:
+ customer.booking-record.form.label.customer =  Pasajero creado por el customer:
+ 
+ customer.booking-record.form.label.booking = Pasajero perteneciente a la reserva:
+customer.booking-record.form.label.passengerName = Nombre completo del pasajero:
+customer.booking-record.form.label.passengerEmail = Correo electrónico del pasajero:
+customer.booking-record.form.label.customer = Identificador del cliente propietario del pasajero:
+customer.booking-record.form.label.isPublished = ¿Este pasajero está publicado?
+ 
+

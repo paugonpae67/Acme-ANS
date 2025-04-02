@@ -1,0 +1,49 @@
+
+package acme.features.customer.bookingRecord;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import acme.client.components.models.Dataset;
+import acme.client.services.AbstractGuiService;
+import acme.client.services.GuiService;
+import acme.entities.bookings.BookingRecord;
+import acme.realms.Customer;
+
+@GuiService
+public class CustomerBookingRecordShowService extends AbstractGuiService<Customer, BookingRecord> {
+
+	@Autowired
+	private CustomerBookingRecordRepository repository;
+
+
+	@Override
+	public void authorise() {
+		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+		super.getResponse().setAuthorised(status);
+	}
+
+	@Override
+	public void load() {
+		int bookingRecordId = super.getRequest().getData("id", int.class);
+		BookingRecord bookingRecord = this.repository.findBookingRecordById(bookingRecordId);
+
+		super.getBuffer().addData(bookingRecord);
+	}
+
+	@Override
+	public void unbind(final BookingRecord bookingRecord) {
+		Dataset dataset;
+
+		boolean isPassengerPublished = bookingRecord.getPassenger().isDraftMode() ? false : true;
+
+		dataset = super.unbindObject(bookingRecord);
+		dataset.put("bookingLocatorCode", bookingRecord.getBooking().getLocatorCode());
+		dataset.put("passengerName", bookingRecord.getPassenger().getFullName());
+		dataset.put("passengerEmail", bookingRecord.getPassenger().getEmail());
+		dataset.put("customerCreator", bookingRecord.getPassenger().getCustomer().getIdentifier());
+		dataset.put("passengerPublished", isPassengerPublished);
+
+		super.getResponse().addData(dataset);
+	}
+
+}
