@@ -20,7 +20,8 @@ public class TechnicianTaskCreateService extends AbstractGuiService<Technician, 
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override

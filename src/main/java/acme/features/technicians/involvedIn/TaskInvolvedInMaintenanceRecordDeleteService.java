@@ -7,6 +7,7 @@ import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.aircrafts.InvolvedIn;
+import acme.entities.aircrafts.MaintenanceRecord;
 import acme.entities.aircrafts.Task;
 import acme.realms.Technician;
 
@@ -44,7 +45,10 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 	public void bind(final InvolvedIn involvedIn) {
 		int taskId;
 		Task task;
-
+		MaintenanceRecord maintenanceRecord;
+		int masterId;
+		masterId = super.getRequest().getData("masterId", int.class);
+		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
 		taskId = super.getRequest().getData("task", int.class);
 		task = this.repository.findTaskById(taskId);
 

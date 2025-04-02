@@ -29,7 +29,7 @@ public class TaskInvolvedInMaintenanceRecordShowService extends AbstractGuiServi
 
 		id = super.getRequest().getData("id", int.class);
 		involvedIn = this.repository.findInvolvedInById(id);
-		status = involvedIn != null;
+		status = involvedIn != null && super.getRequest().getPrincipal().hasRealm(involvedIn.getMaintenanceRecord().getTechnician());
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -60,6 +60,7 @@ public class TaskInvolvedInMaintenanceRecordShowService extends AbstractGuiServi
 		dataset.put("priority", involvedIn.getTask().getPriority());
 		dataset.put("technician", involvedIn.getTask().getTechnician().getLicenseNumber());
 		dataset.put("draftMode", maintenanceRecord.isDraftMode());
+		dataset.put("masterId", involvedIn.getMaintenanceRecord().getId());
 		super.getResponse().addData(dataset);
 	}
 

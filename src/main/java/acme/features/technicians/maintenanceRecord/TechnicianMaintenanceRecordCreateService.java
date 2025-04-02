@@ -25,7 +25,8 @@ public class TechnicianMaintenanceRecordCreateService extends AbstractGuiService
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
@@ -47,7 +48,6 @@ public class TechnicianMaintenanceRecordCreateService extends AbstractGuiService
 		Aircraft aircraft;
 
 		aircraft = super.getRequest().getData("aircraft", Aircraft.class);
-		System.out.print(maintenanceRecord);
 		currentMoment = MomentHelper.getCurrentMoment();
 		super.bindObject(maintenanceRecord, "nextInspection", "estimatedCost", "notes");
 		maintenanceRecord.setMaintenanceMoment(currentMoment);
@@ -65,15 +65,17 @@ public class TechnicianMaintenanceRecordCreateService extends AbstractGuiService
 	}
 	@Override
 	public void unbind(final MaintenanceRecord maintenanceRecord) {
-
+		maintenanceRecord.setMaintenanceMoment(MomentHelper.getCurrentMoment());
 		Dataset dataset;
+		SelectChoices choices;
+		choices = SelectChoices.from(MaintenanceStatus.class, maintenanceRecord.getStatus());
 		SelectChoices aircrafts;
 		Collection<Aircraft> aircraftsCollection;
-		System.out.print(maintenanceRecord);
 		aircraftsCollection = this.repository.findAircrafts();
 		aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
-
-		dataset = super.unbindObject(maintenanceRecord, "nextInspection", "estimatedCost", "notes", "draftMode");
+		dataset = super.unbindObject(maintenanceRecord, "maintenanceMoment", "status", "nextInspection", "estimatedCost", "notes", "draftMode");
+		dataset.put("status", choices.getSelected().getKey());
+		dataset.put("statuses", choices);
 		dataset.put("aircrafts", aircrafts);
 		dataset.put("aircraft", aircrafts.getSelected().getKey());
 

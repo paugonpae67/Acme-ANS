@@ -2,14 +2,19 @@
 package acme.features.technicians.maintenanceRecord;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.components.views.SelectChoices;
+import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
+import acme.entities.aircrafts.Aircraft;
 import acme.entities.aircrafts.InvolvedIn;
 import acme.entities.aircrafts.MaintenanceRecord;
+import acme.entities.aircrafts.MaintenanceStatus;
 import acme.realms.Technician;
 
 @GuiService
@@ -47,7 +52,14 @@ public class TechnicianMaintenanceRecordDeleteService extends AbstractGuiService
 	@Override
 	public void bind(final MaintenanceRecord maintenanceRecord) {
 
-		super.bindObject(maintenanceRecord, "maintenanceMoment", "status", "nextInspection", "estimatedCost", "notes");
+		Date currentMoment;
+		Aircraft aircraft;
+
+		aircraft = super.getRequest().getData("aircraft", Aircraft.class);
+		currentMoment = MomentHelper.getCurrentMoment();
+		super.bindObject(maintenanceRecord, "status", "nextInspection", "estimatedCost", "notes");
+		maintenanceRecord.setMaintenanceMoment(currentMoment);
+		maintenanceRecord.setAircraft(aircraft);
 	}
 
 	@Override
@@ -65,9 +77,20 @@ public class TechnicianMaintenanceRecordDeleteService extends AbstractGuiService
 	@Override
 	public void unbind(final MaintenanceRecord maintenanceRecord) {
 		Dataset dataset;
+		SelectChoices choices;
 
-		dataset = super.unbindObject(maintenanceRecord, "maintenanceMoment", "status", "nextInspection", "estimatedCost", "notes");
+		SelectChoices aircrafts;
+		Collection<Aircraft> aircraftsCollection;
+		aircraftsCollection = this.repository.findAircrafts();
+		aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
 
+		choices = SelectChoices.from(MaintenanceStatus.class, maintenanceRecord.getStatus());
+		dataset = super.unbindObject(maintenanceRecord, "maintenanceMoment", "nextInspection", "estimatedCost", "notes", "draftMode");
+		dataset.put("status", choices.getSelected().getKey());
+		dataset.put("statuses", choices);
+
+		dataset.put("aircrafts", aircrafts);
+		dataset.put("aircraft", aircrafts.getSelected().getKey());
 		super.getResponse().addData(dataset);
 	}
 
