@@ -68,6 +68,8 @@ public class FlightAssignmentCreate extends AbstractGuiService<FlightCrewMember,
 		int memberId;
 		FlightCrewMember flightCrewMember;
 		memberId = super.getRequest().getData("flightCrewMember", int.class);
+		int assignmentId;
+		assignmentId = super.getRequest().getData("leg", int.class);
 
 		Collection<Leg> legs = this.repository.findLegsByFlightCrewMember(memberId);
 
@@ -78,11 +80,22 @@ public class FlightAssignmentCreate extends AbstractGuiService<FlightCrewMember,
 			boolean arriveComparation = MomentHelper.isInRange(flightAssignment.getLeg().getScheduledArrival(), arrive, departure);
 			boolean departureComparation = MomentHelper.isInRange(flightAssignment.getLeg().getScheduledDeparture(), arrive, departure);
 			if (!arriveComparation || !departureComparation) {
-				super.state(false, "member", "acme.validation.FlightAssignment.memberHasIncompatibleLegs.message");
+				super.state(false, "flightCrewMember", "acme.validation.FlightAssignment.memberHasIncompatibleLegs.message");
 				break;
 			}
 		}
 
+		Collection<FlightAssignment> assignment = this.repository.findFlightAssignmentByLegId(assignmentId);
+
+		for (FlightAssignment f : assignment)
+			if (f.getDuty().equals(FlightAssignmentDuty.PILOT)) {
+				super.state(!flightAssignment.getDuty().equals(FlightAssignmentDuty.PILOT), "duty", "acme.validation.FlightAssignment.memberHasPILOT.message");
+				break;
+
+			} else if (f.getDuty().equals(FlightAssignmentDuty.CO_PILOT)) {
+				super.state(!flightAssignment.getDuty().equals(FlightAssignmentDuty.CO_PILOT), "duty", "acme.validation.FlightAssignment.memberHasCOPILOT.message");
+				break;
+			}
 	}
 
 	@Override
