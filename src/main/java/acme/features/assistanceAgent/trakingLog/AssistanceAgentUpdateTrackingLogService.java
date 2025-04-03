@@ -62,10 +62,10 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 
 		if (trackingLog.getResolutionPercentage() < 100.0) {
 			valid = trackingLog.getStatus().equals(TrackingLogStatus.PENDING);
-			super.state(valid, "status", "assistanceAgent.trackingLog.form.error.wrongStatus");
+			super.state(!valid, "status", "acme.validation.trackingLog.form.error.wrongStatus");
 		} else {
 			valid = !trackingLog.getStatus().equals(TrackingLogStatus.PENDING);
-			super.state(valid, "status", "assistanceAgent.trackingLog.form.error.wrongStatus2");
+			super.state(valid, "status", "acme.validation.trackingLog.form.error.wrongStatus2");
 		}
 		if (trackingLog.getStatus().equals(TrackingLogStatus.ACCEPTED) || trackingLog.getStatus().equals(TrackingLogStatus.REJECTED)) {
 			valid = trackingLog.getResolution() != null && !trackingLog.getResolution().isBlank();

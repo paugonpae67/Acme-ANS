@@ -8,7 +8,7 @@
 # purposes.  The copyright owner does not offer any warranties or representations, nor do
 # they accept any liabilities with respect to them.
 
-assistanceAgent.claim.list-finish.title = List of Finished Claims
+assistanceAgent.claim.list-finish.title = List of Finished
 assistance-agent.claim.form.title = Details of Claims
 assistanceAgent.claim.list-undergoing.title = List of Undergoing Claims
 
