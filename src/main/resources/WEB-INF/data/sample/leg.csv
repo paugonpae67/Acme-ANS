@@ -34,3 +34,4 @@ leg-24,AAA1015,2025/02/01 22:01,2025/02/01 23:00,ON_TIME,true,flight-01,Airport-
 leg-25,AAA1016,2025/02/01 06:00,2025/02/01 07:00,ON_TIME,true,flight-01,Airport-01,Airport-03,Aircraft-02
 leg-21,AAA4044,2025/06/30 05:30,2025/06/30 07:40,ON_TIME,true,flight-20,Airport-10,Airport-01,Aircraft-03
 leg-22,AAA4045,2025/02/19 07:30,2025/2/19 11:40,ON_TIME,true,flight-21,Airport-10,Airport-01,Aircraft-03
+

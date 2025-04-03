@@ -1,0 +1,77 @@
+
+package acme.features.manager.flight;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import acme.client.components.models.Dataset;
+import acme.client.components.views.SelectChoices;
+import acme.client.services.AbstractGuiService;
+import acme.client.services.GuiService;
+import acme.entities.flights.Flight;
+import acme.entities.flights.FlightIndication;
+import acme.realms.Manager;
+
+@GuiService
+public class ManagerFlightShowService extends AbstractGuiService<Manager, Flight> {
+
+	@Autowired
+	private ManagerFlightRepository repository;
+
+
+	@Override
+	public void authorise() {
+		boolean status;
+		int flightId;
+		Flight flight;
+
+		// 1. Retrieve the flight id from the request
+		flightId = super.getRequest().getData("id", int.class);
+
+		// 2. Retrieve the flight from the repository
+		flight = this.repository.findById(flightId);
+
+		// 3. Check that the flight exists and belongs to the current manager
+		if (flight != null) {
+			// Get the active realm from the principal and cast to Manager
+			int managerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+			status = flight.getManager().getId() == managerId;
+		} else
+			status = false;
+
+		// 4. Set authorised flag accordingly
+		super.getResponse().setAuthorised(status);
+	}
+
+	@Override
+	public void load() {
+		// 1. Retrieve the flight id from the request
+		int id = super.getRequest().getData("id", int.class);
+
+		// 2. Retrieve the flight from the repository
+		Flight flight = this.repository.findById(id);
+
+		// 3. Add the flight to the buffer
+		super.getBuffer().addData(flight);
+	}
+
+	@Override
+	public void unbind(final Flight flight) {
+		// 1. Convert the flight fields into a Dataset
+		Dataset dataset = super.unbindObject(flight, "tag", "indication", "cost", "description");
+
+		// 2. Add transient fields (scheduled departure/arrival, origin/destination, layovers)
+		dataset.put("scheduledDeparture", flight.getScheduledDeparture());
+		dataset.put("scheduledArrival", flight.getScheduledArrival());
+		dataset.put("originCity", flight.getOriginCity());
+		dataset.put("destinationCity", flight.getDestinationCity());
+		dataset.put("numberOfLayovers", flight.getNumberOfLayovers());
+		dataset.put("draftMode", flight.isDraftMode());
+
+		// 3. Add enum values
+		dataset.put("indications", SelectChoices.from(FlightIndication.class, flight.getIndication()));
+
+		// 4. Send to client
+		super.getResponse().addData(dataset);
+	}
+
+}
