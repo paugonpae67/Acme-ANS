@@ -38,8 +38,8 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 		Optional<List<TrackingLog>> latestTrackingLogsOpt = this.trackingLogsRepository.findLatestTrackingLogByClaim(trackingLog.getClaim().getId());
 		TrackingLog latestTrackingLog = latestTrackingLogsOpt.orElse(List.of()).stream().findFirst().orElse(null);
 
-		if (latestTrackingLog != null && latestTrackingLog.getResolutionPercentage() > trackingLog.getResolutionPercentage())
-			super.state(context, false, "*", "javax.validation.constraints.not-less-percentage.message");
+		//if (latestTrackingLog != null && latestTrackingLog.getResolutionPercentage() >= trackingLog.getResolutionPercentage())
+		//	super.state(context, false, "*", "javax.validation.constraints.not-less-percentage.message");
 
 		boolean isAcceptedOrRejected = trackingLog.getStatus() == TrackingLogStatus.ACCEPTED || trackingLog.getStatus() == TrackingLogStatus.REJECTED;
 		if (isAcceptedOrRejected && trackingLog.getResolutionPercentage() != 100)
