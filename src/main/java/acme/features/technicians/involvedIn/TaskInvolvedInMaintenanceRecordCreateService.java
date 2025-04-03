@@ -52,15 +52,19 @@ public class TaskInvolvedInMaintenanceRecordCreateService extends AbstractGuiSer
 
 	@Override
 	public void bind(final InvolvedIn involvedIn) {
-
+		int taskTicker;
+		int masterId;
 		Task task;
-		int taskId;
+		MaintenanceRecord maintenanceRecord;
 
-		taskId = super.getRequest().getData("task", int.class);
-		task = this.repository.findTaskById(taskId);
+		masterId = super.getRequest().getData("masterId", int.class);
+		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
+		taskTicker = super.getRequest().getData("task", int.class);
+		task = this.repository.findTaskById(taskTicker);
 
 		super.bindObject(involvedIn);
 		involvedIn.setTask(task);
+		involvedIn.setMaintenanceRecord(maintenanceRecord);
 	}
 
 	@Override
