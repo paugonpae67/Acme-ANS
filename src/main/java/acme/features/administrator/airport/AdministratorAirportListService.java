@@ -1,5 +1,5 @@
 
-package acme.features.airport;
+package acme.features.administrator.airport;
 
 import java.util.Collection;
 
@@ -20,7 +20,10 @@ public class AdministratorAirportListService extends AbstractGuiService<Administ
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+
+		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class);
+		super.getResponse().setAuthorised(status);
+
 	}
 
 	@Override
