@@ -62,6 +62,10 @@
 			<acme:menu-suboption code="master.menu.task.list" action="/technician/task/list"/>
 		</acme:menu-option>
 		
+		<acme:menu-option code="master.menu.manager" access="hasRealm('Manager')">
+			<acme:menu-suboption code="master.menu.manager.flight.list" action="/manager/flight/list"/>
+    	</acme:menu-option>
+		
 	</acme:menu-left>
 
 	<acme:menu-right>		
