@@ -1,5 +1,6 @@
 customer.booking-record.show.title = Booking Passengers
 customer.booking-record.form.title = Booking Passenger Details
+customer.booking-record.list.title = Booking Passenger List
 
 customer.booking-record.list.label.passengerName = Passenger
 customer.booking-record.list.label.passengerEmail = Email

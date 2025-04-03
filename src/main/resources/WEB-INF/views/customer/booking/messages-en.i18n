@@ -22,9 +22,3 @@ customer.booking.list.label.travelClass = Travel Class
 customer.booking.list.label.flight = Flight
 
 customer.booking.list.button.create = Create
-
-customer.booking.form.error.duplicateLocatorCode = This locator code is already in use
-acme.validation.lastNibble.message  = This field is required to publish a booking
-acme.validation.passengersNumber.message = The booking must have at least one passenger in order to be published
-acme.validation.passengersNotPublished.message = All passengers must be published in order to publish the booking
-n
