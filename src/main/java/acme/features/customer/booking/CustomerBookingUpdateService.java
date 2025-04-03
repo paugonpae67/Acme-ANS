@@ -68,9 +68,8 @@ public class CustomerBookingUpdateService extends AbstractGuiService<Customer, B
 		Collection<Flight> allFlights;
 		Collection<Flight> flights;
 
-		//falta aquí la condición de que esté publico -> f.isPublished == true - FERNANDO
 		allFlights = this.repository.findAllFlights();
-		flights = allFlights.stream().filter(f -> f.getScheduledDeparture() != null && f.getScheduledDeparture().after(MomentHelper.getCurrentMoment())).collect(Collectors.toList());
+		flights = allFlights.stream().filter(f -> f.getScheduledDeparture() != null && f.getScheduledDeparture().after(MomentHelper.getCurrentMoment()) && f.isDraftMode() == false).collect(Collectors.toList());
 
 		SelectChoices flightChoices = SelectChoices.from(flights, "id", booking.getFlight());
 
