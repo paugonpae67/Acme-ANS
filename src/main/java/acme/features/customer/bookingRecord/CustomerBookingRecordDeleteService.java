@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
+import acme.entities.bookings.Booking;
 import acme.entities.bookings.BookingRecord;
+import acme.entities.passengers.Passenger;
 import acme.realms.Customer;
 
 @GuiService
-public class CustomerBookingRecordShowService extends AbstractGuiService<Customer, BookingRecord> {
+public class CustomerBookingRecordDeleteService extends AbstractGuiService<Customer, BookingRecord> {
 
 	@Autowired
 	private CustomerBookingRecordRepository repository;
@@ -31,11 +33,40 @@ public class CustomerBookingRecordShowService extends AbstractGuiService<Custome
 	}
 
 	@Override
+	public void bind(final BookingRecord bookingRecord) {
+		Booking booking;
+		Passenger passenger;
+
+		int bookingId = super.getRequest().getData("bookingId", int.class);
+
+		booking = this.repository.findBookingById(bookingId);
+
+		int passengerId = super.getRequest().getData("passengerId", int.class);
+		passenger = this.repository.findPassengerById(passengerId);
+
+		super.bindObject(bookingRecord);
+		bookingRecord.setBooking(booking);
+		bookingRecord.setPassenger(passenger);
+	}
+
+	@Override
+	public void validate(final BookingRecord bookingRecord) {
+		boolean confirmation;
+
+		confirmation = super.getRequest().getData("confirmation", boolean.class);
+		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
+	}
+
+	@Override
+	public void perform(final BookingRecord bookingRecord) {
+		this.repository.delete(bookingRecord);
+	}
+
+	@Override
 	public void unbind(final BookingRecord bookingRecord) {
 		Dataset dataset;
 
 		boolean isPassengerPublished = bookingRecord.getPassenger().isDraftMode() ? false : true;
-		boolean isBookingPublished = bookingRecord.getBooking().isDraftMode() ? false : true;
 
 		dataset = super.unbindObject(bookingRecord);
 		dataset.put("bookingLocatorCode", bookingRecord.getBooking().getLocatorCode());
@@ -45,7 +76,6 @@ public class CustomerBookingRecordShowService extends AbstractGuiService<Custome
 		dataset.put("passengerEmail", bookingRecord.getPassenger().getEmail());
 		dataset.put("customerCreator", bookingRecord.getPassenger().getCustomer().getIdentifier());
 		dataset.put("passengerPublished", isPassengerPublished);
-		dataset.put("bookingPublished", isBookingPublished);
 
 		super.getResponse().addData(dataset);
 	}

@@ -16,7 +16,6 @@ customer.passenger.form.label.email = Correo electrónico
 customer.passenger.form.label.passportNumber = Número de pasaporte
 customer.passenger.form.label.dateOfBirth = Fecha de cumpleaños
 customer.passenger.form.label.specialNeeds = Necesidades especiales
-customer.passenger.form.label.customer = Este pasajero fue creado por el cliente con id:
 customer.passenger.form.label.confirmation = Confirmo mi intención de llevar a cabo esta acción
 
 customer.passenger.form.button.create = Crear

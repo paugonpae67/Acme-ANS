@@ -1,5 +1,5 @@
 customer.booking-record.show.title = Booking Passengers
-customer.booking-record.form.title = Adding a Passenger to the Booking
+customer.booking-record.form.title = Booking Passenger Details
 
 customer.booking-record.list.label.passengerName = Passenger
 customer.booking-record.list.label.passengerEmail = Email
@@ -9,9 +9,15 @@ customer.booking-record.form.label.passenger = Passenger name:
 customer.booking-record.form.label.email = Passenger email:
 customer.booking-record.form.label.customer =  Passenger created by the customer:
 
-customer.booking-record.form.label.booking = Passenger belonging to the booking:
-customer.booking-record.form.label.passengerName = Full name of the passenger:
-customer.booking-record.form.label.passengerEmail = Passenger's email address:
+customer.booking-record.form.label.booking = Booking locator code:
+customer.booking-record.form.label.passengerName = Full name:
+customer.booking-record.form.label.passengerEmail = Email:
 customer.booking-record.form.label.customer = Identifier of the customer who owns the passenger:
 customer.booking-record.form.label.isPublished = Is this passenger published?
+customer.booking-record.form.label.bookingId = Booking identifier
+customer.booking-record.form.label.passengerId = Passenger identifier
+
+customer.booking-record.form.label.confirmation = I confirm my intention to remove this passenger from the booking
+
+customer.booking-record.form.button.delete = Delete
 

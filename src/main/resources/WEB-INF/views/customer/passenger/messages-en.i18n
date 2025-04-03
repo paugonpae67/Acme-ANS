@@ -16,7 +16,6 @@ customer.passenger.form.label.email = Email:
 customer.passenger.form.label.passportNumber = Passport number:
 customer.passenger.form.label.dateOfBirth = Date of birth:
 customer.passenger.form.label.specialNeeds = Special needs:
-customer.passenger.form.label.customer = This passenger was created by the client with id:
 customer.passenger.form.label.confirmation  = I confirm my intention to carry out this action
 
 customer.passenger.form.button.create = Create

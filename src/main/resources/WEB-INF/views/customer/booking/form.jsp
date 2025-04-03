@@ -22,13 +22,14 @@
 	
 	<jstl:choose>
 	
-		<jstl:when test="${acme:anyOf(_command, 'show|update|publish')}">
+		<jstl:when test="${acme:anyOf(_command, 'show|update|publish|delete')}">
 			<jstl:if test="${draftMode}">
 				<acme:input-checkbox code="customer.booking.form.label.confirmation" path="confirmation"/>
 				<acme:submit code="customer.booking.form.button.update" action="/customer/booking/update"/>
 				<acme:submit code="customer.booking.form.button.publish" action="/customer/booking/publish"/>
-				<acme:button code="customer.booking.form.button.booking-record" action="/customer/booking-record/list?bookingId=${id}"/>
+				<acme:submit code="customer.booking.form.button.delete" action="/customer/booking/delete"/>
 			</jstl:if>
+			<acme:button code="customer.booking.form.button.booking-record" action="/customer/booking-record/list?bookingId=${id}"/>
 		</jstl:when>
 		
 		<jstl:when test="${_command == 'create'}">

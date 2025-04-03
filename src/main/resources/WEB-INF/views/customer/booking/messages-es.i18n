@@ -9,10 +9,9 @@ customer.booking.form.label.lastNibble = Últimos 4 dígitos de tarjeta (Opciona
 customer.booking.form.label.flight = Vuelo:
 
 customer.booking.form.button.create = Crear
-customer.booking.form.show.passengers = Mostrar pasajeros actuales
-customer.booking.form.add.passenger = Añadir pasajero/s
 customer.booking.form.button.update = Actualizar
 customer.booking.form.button.publish = Publicar
+customer.booking.form.button.delete = Cancelar reserva
 customer.booking.form.button.booking-record = Pasajeros
  
  customer.booking.form.label.confirmation = Confirmo mi intención de llevar a cabo esta acción

@@ -8,4 +8,12 @@
 	<acme:list-column code="customer.booking-record.list.label.passengerEmail" path="passengerEmail" width="30%"/>
 </acme:list>
 
-<acme:button code="customer.booking-record.form.button.create" action="/customer/booking-record/create?bookingId=${bookingId}"/>
+	<jstl:choose>
+	
+	<jstl:when test="${_command == 'list'}">
+		<jstl:if test="${showCreate}">
+			<acme:button code="customer.booking-record.form.button.create" action="/customer/booking-record/create?bookingId=${bookingId}"/>
+		</jstl:if>		
+	</jstl:when>
+				
+	</jstl:choose>
