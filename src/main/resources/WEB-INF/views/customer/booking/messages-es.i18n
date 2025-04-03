@@ -1,0 +1,26 @@
+customer.booking.form.title = Detalles de reserva
+customer.booking.list.title = Lista de tus reservas
+
+customer.booking.form.label.locatorCode = Código localizador:
+customer.booking.form.label.purchaseMoment = Momento de compra:
+customer.booking.form.label.travelClass = Clase:
+customer.booking.form.label.price = Precio:
+customer.booking.form.label.lastNibble = Últimos 4 dígitos de tarjeta (Opcional):
+customer.booking.form.label.flight = Vuelo:
+
+customer.booking.form.button.create = Crear
+customer.booking.form.button.update = Actualizar
+customer.booking.form.button.publish = Publicar
+customer.booking.form.button.delete = Cancelar reserva
+customer.booking.form.button.booking-record = Pasajeros
+ 
+ customer.booking.form.label.confirmation = Confirmo mi intención de llevar a cabo esta acción
+ 
+customer.booking.list.label.locatorCode = Código localizador
+customer.booking.list.label.purchaseMoment = Momento de compra
+customer.booking.list.label.travelClass = Tipo de clase
+customer.booking.list.label.flight = Vuelo
+
+customer.booking.list.button.create = Crear
+
+

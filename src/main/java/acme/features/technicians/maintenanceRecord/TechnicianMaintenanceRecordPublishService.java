@@ -74,8 +74,9 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 		if (!valid)
 			super.state(valid, "*", "acme.validation.involved-in.task");
 
-		boolean existMaintenanceRecord = this.repository.findMaintenanceRecordByTicker(maintenanceRecord.getTicker()) == null;
-		super.state(existMaintenanceRecord, "ticker", "acme.validation.form.error.duplicateTicker");
+		MaintenanceRecord existMaintenanceRecord = this.repository.findMaintenanceRecordByTicker(maintenanceRecord.getTicker());
+		boolean valid2 = existMaintenanceRecord == null || existMaintenanceRecord.getId() == maintenanceRecord.getId();
+		super.state(valid2, "ticker", "acme.validation.form.error.duplicateTicker");
 
 	}
 
