@@ -20,12 +20,15 @@ technician.maintenance-record.form.button.delete = Eliminar
 technician.maintenance-record.form.button.publish = Publicar
 
 
-technician.maitenance-record.list.label.maintenanceMoment = Momento actual
-technician.maitenance-record.list.label.status = Estado
-technician.maitenance-record.list.label.nextInspection= Proxima Inspección
-technician.maitenance-record.list.label.aircraft = Avión
+technician.maintenance-record.list.label.maintenanceMoment = Momento actual
+technician.maintenance-record.list.label.status = Estado
+technician.maintenance-record.list.label.nextInspection= Proxima Inspección
+technician.maintenance-record.list.label.aircraft = Avión
 
 technician.maintenance-record.list.button.create = Crear
 
 technician.maintenance-record.form.label.ticker = Ticker
 technician.maintenance-record.list.label.ticker = Ticker
+
+
+
