@@ -3,6 +3,8 @@ package acme.entities.claim;
 
 import java.beans.Transient;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -52,12 +54,18 @@ public class Claim extends AbstractEntity {
 	@Automapped
 	private ClaimType			type;
 
+	@Mandatory
+	@Automapped
+	private boolean				draftMode;
+
 
 	@Transient
 	public TrackingLogStatus getStatus() {
 		TrackingLogRepository repository = SpringHelper.getBean(TrackingLogRepository.class);
-		TrackingLog tracking = repository.findLatestTrackingLogByClaim(this.getId()).get().get(0);
-		return tracking.getStatus();
+
+		Optional<List<TrackingLog>> t = repository.findLatestTrackingLogByClaim(this.getId());
+
+		return t.flatMap(list -> list.stream().findFirst()).map(x -> x.getStatus()).orElse(TrackingLogStatus.PENDING);
 	}
 
 
@@ -68,6 +76,6 @@ public class Claim extends AbstractEntity {
 
 	@Mandatory
 	@Valid
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Leg				leg;
 }

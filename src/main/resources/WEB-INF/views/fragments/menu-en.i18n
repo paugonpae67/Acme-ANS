@@ -24,7 +24,17 @@ master.menu.administrator.list-user-accounts = List user accounts
 master.menu.administrator.populate-db-initial = Populate DB (initial)
 master.menu.administrator.populate-db-sample = Populate DB (samples)
 master.menu.administrator.shut-system-down = Shut system down
+master.menu.administrator.list-airlines = Airline list
+
+
+master.menu.administrator.aircraft.list = Aircraft list
 master.menu.administrator.list = Airport list
+
+# master.menu.customer ###################################################
+
+master.menu.customer = Customer
+master.menu.customer.booking.list = Bookings list
+master.menu.customer.passenger.list = Passengers list
 
 # master.menu.provider ########################################################
 
@@ -36,6 +46,25 @@ master.menu.provider.favourite-link = Favourite link
 master.menu.consumer = Consumer
 master.menu.consumer.favourite-link = Favourite link
 
+# master.menu.claim ##########################################################
+
+master.menu.claim = Claim
+master.menu.claim.list-finish = List of Finished Claim
+master.menu.claim.list-undergoing = List of Undergoing Claim
+
+# master.menu.FlightAssignment ##########################################################
+
+master.menu.flight-assignment = Flight Assignment
+master.menu.flight-assignment.list-past = Completed Flight Assignment List
+master.menu.flight-assignment.list-future = Planned Flight Assignment List
+
+
+# master.menu.maintenance-record ####################################################
+master.menu.technician = Technician
+master.menu.maintenanceRecord.list = Maintenance Record List
+master.menu.task.list = Task list
+
+
 # master.menu.user-account ####################################################
 
 master.menu.user-account = Account
@@ -44,3 +73,7 @@ master.menu.user-account.become-provider = Become a provider
 master.menu.user-account.provider-profile = Provider profile
 master.menu.user-account.become-consumer = Become a consumer
 master.menu.user-account.consumer-profile = Consumer profile
+
+# master.menu.manager ####################################################
+master.menu.manager = Manager
+master.menu.manager.flight.list = Flight List

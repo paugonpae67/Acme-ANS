@@ -1,0 +1,33 @@
+# messages-es.i18n
+#
+# Copyright (C) 2012-2025 Rafael Corchuelo.
+#
+# In keeping with the traditional purpose of furthering education and research, it is
+# the policy of the copyright owner to permit non-commercial use and redistribution of
+# this software. It has been tested carefully, but it is not guaranteed for any particular
+# purposes.  The copyright owner does not offer any warranties or representations, nor do
+# they accept any liabilities with respect to them.
+
+assistance-agent.claim.list.title = Lista de los registros
+assistance-agent.claim.form.title = Detalles de los registros
+
+assistanceAgent.claim.list-finish.label.registrationMoment = Momento del Registro
+assistanceAgent.claim.list-finish.label.passengerEmail = Correo del Pasajero
+assistanceAgent.claim.list-finish.label.description = Descripción
+assistanceAgent.claim.list-finish.label.type = Tipo
+assistanceAgent.claim.list-finish.label.status = Estados
+assistanceAgent.claim.list-finish.label.leg.flightNumber = Numero de Vuelo
+
+assistanceAgent.claim.form.label.registrationMoment = Momento del Registro:
+assistanceAgent.claim.form.label.passengerEmail = Correo del Pasajero:
+assistanceAgent.claim.form.label.description = Descripción:
+assistanceAgent.claim.form.label.type = Tipo:
+assistanceAgent.claim.form.label.status = Estados:
+assistanceAgent.claim.form.label.leg = Trazo:
+
+assistanceAgent.claim.list-finish.button.create = Crear
+assistanceAgent.claim.form.button.create = Crear
+assistanceAgent.claim.form.button.update = Actualizar
+assistanceAgent.claim.form.button.delete = Eliminar
+assistanceAgent.claim.form.button.publish = Publicar
+assistanceAgent.claim.form.button.tracking-log = Registro de seguimiento
