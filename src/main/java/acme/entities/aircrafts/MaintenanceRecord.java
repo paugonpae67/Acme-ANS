@@ -3,6 +3,7 @@ package acme.entities.aircrafts;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -18,6 +19,7 @@ import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidMoney;
 import acme.client.components.validation.ValidString;
 import acme.constraints.ValidMaintenanceRecord;
+import acme.constraints.ValidTicker;
 import acme.realms.Technician;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +32,11 @@ import lombok.Setter;
 public class MaintenanceRecord extends AbstractEntity {
 
 	private static final long	serialVersionUID	= 1L;
+
+	@Mandatory
+	@ValidTicker
+	@Column(unique = true)
+	private String				ticker;
 
 	@Mandatory
 	@ValidMoment(past = true)
@@ -55,6 +62,12 @@ public class MaintenanceRecord extends AbstractEntity {
 	@ValidString(min = 0, max = 255)
 	@Automapped
 	private String				notes;
+
+	@Mandatory
+	@Automapped
+	private boolean				draftMode;
+
+	// Relationships ----------------------------------------------------------
 
 	@Mandatory
 	@Valid

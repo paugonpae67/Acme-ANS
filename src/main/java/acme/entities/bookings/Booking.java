@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 
 import acme.client.components.basis.AbstractEntity;
@@ -16,8 +17,8 @@ import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoment;
-import acme.client.components.validation.ValidMoney;
 import acme.client.components.validation.ValidString;
+import acme.client.helpers.SpringHelper;
 import acme.entities.flights.Flight;
 import acme.realms.Customer;
 import lombok.Getter;
@@ -45,26 +46,48 @@ public class Booking extends AbstractEntity {
 	@Automapped
 	private TravelClass			travelClass;
 
-	@Mandatory
-	@ValidMoney
-	@Automapped
-	private Money				price;
-
 	@Optional
 	@ValidString(min = 4, max = 4)
 	@Automapped
 	private String				lastNibble;
 
+	@Mandatory
+	@Automapped
+	private boolean				draftMode;
+
+	//Derived attributes  ---------------------------------------------------
+
+
+	@Transient
+	public Money getPrice() {
+		Money res = new Money();
+		Flight flight = this.getFlight();
+
+		BookingRecordRepository bookingRecordRepository = SpringHelper.getBean(BookingRecordRepository.class);
+		Integer passengersNumber = bookingRecordRepository.countPassengersByBooking(this.getId());
+
+		if (flight != null) {
+			Money flightCost = flight.getCost();
+			res.setAmount(flightCost.getAmount() * passengersNumber);
+			res.setCurrency(flightCost.getCurrency());
+		} else {
+			res.setAmount(0.00);
+			res.setCurrency("EUR");
+		}
+		return res;
+	}
+
 	//Relationships ---------------------------------------------------------
 
-	@Mandatory
-	@Valid
-	@ManyToOne(optional = false)
-	private Flight				flight;
 
 	@Mandatory
 	@Valid
 	@ManyToOne(optional = false)
-	private Customer			customer;
+	private Flight		flight;
+
+	@Mandatory
+	@Valid
+	@ManyToOne(optional = false)
+	private Customer	customer;
 
 }
