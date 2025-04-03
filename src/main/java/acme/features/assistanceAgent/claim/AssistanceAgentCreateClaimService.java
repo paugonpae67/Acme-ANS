@@ -61,7 +61,12 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 
 	@Override
 	public void validate(final Claim claim) {
-		;
+		Date currentDate;
+
+		currentDate = MomentHelper.getCurrentMoment();
+		super.state(currentDate.compareTo(claim.getRegistrationMoment()) >= 0, "registrationMoment", "acme.validation.claim.form.error.registrationMomentNotPast");
+		super.state(claim.getDescription().length() <= 255 || claim.getDescription().length() >= 1, "description", "acme.validation.longText");
+
 	}
 
 	@Override
@@ -87,7 +92,7 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 		assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		AssistanceAgent assistanceAgent = this.repository.findAssistanceAgentById(assistanceAgentId);
 		Airport a = this.repository.findAirportOfAirlineByAssistanceAgentId(assistanceAgent.getAirline().getId());
-		legs = this.repository.findLegByAirport(a.getId());
+		legs = this.repository.findLegByAirport(a.getId()).stream().filter(x -> x.getScheduledArrival().compareTo(claim.getRegistrationMoment()) < 0).toList();
 
 		choicesLeg = SelectChoices.from(legs, "flightNumber", claim.getLeg());
 

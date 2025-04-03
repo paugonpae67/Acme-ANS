@@ -9,7 +9,6 @@ import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
-import acme.entities.airports.Airport;
 import acme.entities.claim.Claim;
 import acme.entities.claim.ClaimType;
 import acme.entities.legs.Leg;
@@ -56,8 +55,13 @@ public class AssistanceAgentUpdateClaimSerivce extends AbstractGuiService<Assist
 
 	@Override
 	public void validate(final Claim claim) {
-		if (claim.getLeg() == null)
-			super.getResponse().getErrors();
+		int legId;
+		Leg leg;
+
+		legId = super.getRequest().getData("leg", int.class);
+		leg = this.repository.findLegByLegId(legId);
+		super.bindObject(claim, "registrationMoment", "passengerEmail", "description", "type");
+		claim.setLeg(leg);
 	}
 
 	@Override
@@ -67,25 +71,19 @@ public class AssistanceAgentUpdateClaimSerivce extends AbstractGuiService<Assist
 
 	@Override
 	public void unbind(final Claim claim) {
-		int assistanceAgentId;
 		Collection<Leg> legs;
-		SelectChoices choicesLeg;
+		SelectChoices choices;
+		SelectChoices choices2;
 		Dataset dataset;
-		SelectChoices types;
 
-		types = SelectChoices.from(ClaimType.class, claim.getType());
+		choices = SelectChoices.from(ClaimType.class, claim.getType());
+		legs = this.repository.findAllLeg();
+		choices2 = SelectChoices.from(legs, "flightNumber", claim.getLeg());
 
-		assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		AssistanceAgent assistanceAgent = this.repository.findAssistanceAgentById(assistanceAgentId);
-		Airport a = this.repository.findAirportOfAirlineByAssistanceAgentId(assistanceAgent.getAirline().getId());
-		legs = this.repository.findLegByAirport(a.getId());
-
-		choicesLeg = SelectChoices.from(legs, "flightNumber", claim.getLeg());
-
-		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "description", "type", "leg", "id");
-		dataset.put("types", types);
-		dataset.put("leg", choicesLeg.getSelected().getKey());
-		dataset.put("legs", choicesLeg);
+		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "description", "type", "draftMode", "id");
+		dataset.put("types", choices);
+		dataset.put("leg", choices2.getSelected().getKey());
+		dataset.put("legs", choices2);
 
 		super.getResponse().addData(dataset);
 	}

@@ -24,6 +24,7 @@ master.menu.administrator.list-user-accounts = List user accounts
 master.menu.administrator.populate-db-initial = Populate DB (initial)
 master.menu.administrator.populate-db-sample = Populate DB (samples)
 master.menu.administrator.shut-system-down = Shut system down
+master.menu.administrator.list = Airport list
 
 # master.menu.provider ########################################################
 
@@ -36,10 +37,15 @@ master.menu.consumer = Consumer
 master.menu.consumer.favourite-link = Favourite link
 
 # master.menu.claim ##########################################################
-
+master.menu.assistanceAgent = Assistance Agent
 master.menu.claim = Claim
 master.menu.claim.list-finish = List of Finished Claim
 master.menu.claim.list-undergoing = List of Undergoing Claim
+
+# master.menu.maintenance-record ####################################################
+master.menu.technician = Technician
+master.menu.maintenanceRecord.list = Maintenance Record List
+master.menu.task.list = Task list
 
 # master.menu.user-account ####################################################
 

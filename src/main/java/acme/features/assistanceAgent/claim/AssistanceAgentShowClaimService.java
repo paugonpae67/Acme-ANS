@@ -2,7 +2,6 @@
 package acme.features.assistanceAgent.claim;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -59,29 +58,23 @@ public class AssistanceAgentShowClaimService extends AbstractGuiService<Assistan
 		SelectChoices types;
 		TrackingLogStatus status;
 
-		status = claim.getStatus();
-
 		types = SelectChoices.from(ClaimType.class, claim.getType());
+		status = claim.getStatus();
 
 		assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		AssistanceAgent assistanceAgent = this.repository.findAssistanceAgentById(assistanceAgentId);
 		Airport a = this.repository.findAirportOfAirlineByAssistanceAgentId(assistanceAgent.getAirline().getId());
 		legs = this.repository.findLegByAirport(a.getId()).stream().filter(x -> x.getScheduledArrival().compareTo(claim.getRegistrationMoment()) < 0).toList();
 
-		if (!legs.isEmpty())
-			choicesLeg = SelectChoices.from(legs, "flightNumber", claim.getLeg());
-		else
-			choicesLeg = SelectChoices.from(List.of(), "flightNumber", null);
+		choicesLeg = SelectChoices.from(legs, "flightNumber", claim.getLeg());
 
-		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "description", "type", "draftMode");
-		dataset.put("type", types.getSelected().getKey());
+		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "description", "type");
 		dataset.put("types", types);
-		dataset.put("leg", !legs.isEmpty() ? choicesLeg.getSelected().getKey() : "null");
+		dataset.put("leg", choicesLeg.getSelected().getKey());
 		dataset.put("legs", choicesLeg);
 		dataset.put("status", status);
 
 		super.getResponse().addData(dataset);
-
 	}
 
 }
