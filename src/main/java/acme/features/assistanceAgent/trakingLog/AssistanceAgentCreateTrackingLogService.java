@@ -33,10 +33,16 @@ public class AssistanceAgentCreateTrackingLogService extends AbstractGuiService<
 	@Override
 	public void load() {
 		TrackingLog trackingLog;
+		int claimId;
+
+		claimId = super.getRequest().getData("id", int.class);
+		Claim claim = this.repository.findClaimById(claimId);
 
 		trackingLog = new TrackingLog();
 		trackingLog.setDraftMode(true);
+		trackingLog.setResolutionPercentage(0.00);
 		trackingLog.setLastUpdateMoment(MomentHelper.getCurrentMoment());
+		trackingLog.setClaim(claim);
 
 		super.getBuffer().addData(trackingLog);
 	}

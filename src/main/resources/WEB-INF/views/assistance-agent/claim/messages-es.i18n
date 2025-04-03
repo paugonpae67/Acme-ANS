@@ -15,7 +15,8 @@ assistanceAgent.claim.list-finish.label.registrationMoment = Momento del Registr
 assistanceAgent.claim.list-finish.label.passengerEmail = Correo del Pasajero
 assistanceAgent.claim.list-finish.label.description = Descripción
 assistanceAgent.claim.list-finish.label.type = Tipo
-assistanceAgent.claim.form.label.status = Estados
+assistanceAgent.claim.list-finish.label.status = Estados
+assistanceAgent.claim.list-finish.label.leg.flightNumber = Numero de Vuelo
 
 assistanceAgent.claim.form.label.registrationMoment = Momento del Registro:
 assistanceAgent.claim.form.label.passengerEmail = Correo del Pasajero:

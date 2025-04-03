@@ -33,14 +33,17 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 	public void load() {
 		Claim claim;
 		Date registrationMoment;
-		AssistanceAgent assistanceAgent;
+		AssistanceAgent assistanceAgent = (AssistanceAgent) super.getRequest().getPrincipal().getActiveRealm();
 
-		assistanceAgent = (AssistanceAgent) super.getRequest().getPrincipal().getActiveRealm();
 		registrationMoment = MomentHelper.getCurrentMoment();
 
 		claim = new Claim();
 		claim.setRegistrationMoment(registrationMoment);
+		claim.setPassengerEmail("");
+		claim.setDescription("");
 		claim.setAssistanceAgent(assistanceAgent);
+		claim.setType(ClaimType.FLIGHT_ISSUES);
+
 		super.getBuffer().addData(claim);
 	}
 

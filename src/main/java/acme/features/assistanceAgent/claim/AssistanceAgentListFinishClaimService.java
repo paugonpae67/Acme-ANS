@@ -42,9 +42,15 @@ public class AssistanceAgentListFinishClaimService extends AbstractGuiService<As
 		TrackingLogStatus status;
 
 		status = claim.getStatus();
-		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "type");
+		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "type", "status");
+
+		if (claim.getLeg() != null)
+			dataset.put("leg.flightNumber", claim.getLeg().getFlightNumber());
+		else
+			dataset.put("leg.flightNumber", "No asignado");
+
 		dataset.put("status", status);
-		super.addPayload(dataset, claim, "description", "leg.flightNumber");
+		super.addPayload(dataset, claim, "description");
 
 		super.getResponse().addData(dataset);
 	}

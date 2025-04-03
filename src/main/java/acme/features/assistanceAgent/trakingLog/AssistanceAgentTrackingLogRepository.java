@@ -30,4 +30,7 @@ public interface AssistanceAgentTrackingLogRepository extends AbstractRepository
 	@Query("SELECT t FROM TrackingLog t WHERE t.claim.id = :claimId ORDER BY t.lastUpdateMoment DESC")
 	Optional<List<TrackingLog>> findLatestTrackingLogByClaim(Integer claimId);
 
+	@Query("select c from Claim c where c.assistanceAgent.id = :id")
+	Collection<Claim> findClaimByAssistanceAgent(int id);
+
 }

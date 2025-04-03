@@ -41,7 +41,7 @@ public class AssistanceAgentListUndergoingClaimService extends AbstractGuiServic
 		TrackingLogStatus status;
 
 		status = claim.getStatus();
-		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "type");
+		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "type", "status", "leg.flightNumber");
 		dataset.put("status", status);
 		super.addPayload(dataset, claim, "description", "leg.flightNumber");
 

@@ -8,8 +8,8 @@
 	<acme:input-textbox code="assistanceAgent.claim.form.label.passengerEmail" path="passengerEmail"/>
 	<acme:input-textarea code="assistanceAgent.claim.form.label.description" path="description"/>
 	<acme:input-select code="assistanceAgent.claim.form.label.type" path="type" choices="${types}" />
-	<acme:input-select code="assistanceAgent.claim.form.label.leg" path="leg" choices="${legs}" />
 	<acme:input-textbox code="assistanceAgent.claim.form.label.status" path="status" readonly="true"/>
+	<acme:input-select code="assistanceAgent.trackingLog.form.label.leg" path="leg" choices="${legs}" />
 	
 	<jstl:choose>
 		<jstl:when test="${_command == 'show' && draftMode == false}">
@@ -26,6 +26,7 @@
 	</jstl:when>
 		
 		<jstl:when test="${_command == 'create'}">
+			<acme:input-select code="assistanceAgent.claim.form.label.leg" path="leg" choices="${legs}" />
 			<acme:submit code="assistanceAgent.claim.form.button.create" action="/assistance-agent/claim/create"/>
 		</jstl:when>
 		

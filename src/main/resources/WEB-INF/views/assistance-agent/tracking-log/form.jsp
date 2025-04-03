@@ -9,7 +9,7 @@
 	<acme:input-textbox code="assistanceAgent.trackingLog.form.label.resolutionPercentage" path="resolutionPercentage"/>
 	<acme:input-select code="assistanceAgent.trackingLog.form.label.status" path="status" choices="${statuses}" />
 	<acme:input-textbox code="assistanceAgent.trackingLog.form.label.resolution" path="resolution"/>
-	<acme:input-select code="assistanceAgent.trackingLog.form.label.claim" path="claim" choices="${claims}" />
+	<acme:input-textbox code="assistanceAgent.trackingLog.form.label.claim" path="claim" />
 	
 	<jstl:choose>
 		<jstl:when test="${acme:anyOf(_command, 'show|update|publish')}">
