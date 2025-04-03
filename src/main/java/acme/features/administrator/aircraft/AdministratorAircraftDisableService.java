@@ -13,6 +13,7 @@ import acme.client.services.GuiService;
 import acme.entities.aircrafts.Aircraft;
 import acme.entities.aircrafts.AircraftStatus;
 import acme.entities.airlines.Airline;
+import acme.entities.legs.Leg;
 
 @GuiService
 public class AdministratorAircraftDisableService extends AbstractGuiService<Administrator, Aircraft> {
@@ -43,9 +44,15 @@ public class AdministratorAircraftDisableService extends AbstractGuiService<Admi
 	@Override
 	public void validate(final Aircraft aircraft) {
 		boolean confirmation;
+		Collection<Leg> activeAndUpcomingLegsAssociated;
 
 		confirmation = super.getRequest().getData("confirmation", boolean.class);
 		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
+
+		activeAndUpcomingLegsAssociated = this.repository.findActiveAndUpcomingLegsByAircraftId(aircraft.getId());
+		if (!activeAndUpcomingLegsAssociated.isEmpty())
+			super.state(false, "confirmation", "acme.validation.leg.message");
+
 	}
 
 	@Override
@@ -54,10 +61,8 @@ public class AdministratorAircraftDisableService extends AbstractGuiService<Admi
 		if (aircraft.getStatus().equals(AircraftStatus.ACTIVE_SERVICE)) {
 			aircraft.setStatus(AircraftStatus.UNDER_MAINTENANCE);
 			aircraft.setDisabled(true);
-		} else if (aircraft.getStatus().equals(AircraftStatus.UNDER_MAINTENANCE)) {
-			aircraft.setStatus(AircraftStatus.ACTIVE_SERVICE);
-			aircraft.setDisabled(false);
 		}
+
 		this.repository.save(aircraft);
 	}
 

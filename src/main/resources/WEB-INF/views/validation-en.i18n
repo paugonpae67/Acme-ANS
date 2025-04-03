@@ -13,3 +13,11 @@ acme.validation.shortText= The length must be between 1 and 50 characters
 
 acme.validation.job.ticker.message = invalid Ticker
 acme.validation.form.error.duplicateTicker = Duplicated Ticker 
+
+acme.validation.leg.message = This aircraft has pending flight legs, it cannot be disabled
+
+customer.booking.form.error.duplicateLocatorCode = This locator code is already in use
+
+acme.validation.lastNibble.message  = This field is required to publish a booking
+acme.validation.passengersNumber.message = The booking must have at least one passenger in order to be published
+acme.validation.passengersNotPublished.message = All passengers must be published in order to publish the booking

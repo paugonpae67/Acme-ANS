@@ -15,7 +15,7 @@
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="acme" uri="http://acme-framework.org/"%>
 
-<acme:form>
+<acme:form readonly="${disabled}">
 	<acme:input-textbox code="administrator.aircraft.form.label.model" path="model"/>
 	<acme:input-textbox code="administrator.aircraft.form.label.registrationNumber" path="registrationNumber"/>		
 	<acme:input-textbox code="administrator.aircraft.form.label.capacity" path="capacity"/>
@@ -28,13 +28,10 @@
 		
 		<jstl:when test="${acme:anyOf(_command, 'show|update|disable')}">
 			<acme:input-textbox code="administrator.aircraft.form.label.status" path="status" readonly="true"/>
-			<acme:input-checkbox code="administrator.aircraft.form.label.confirmation" path="confirmation"/>
-			<acme:submit code="administrator.aircraft.form.button.update" action="/administrator/aircraft/update"/>
 			
-			<jstl:if test="${disabled}">
-				<acme:submit code="administrator.aircraft.form.button.enable" action="/administrator/aircraft/disable"/>
-			</jstl:if>
 			<jstl:if test="${!disabled}">
+				<acme:input-checkbox code="administrator.aircraft.form.label.confirmation" path="confirmation"/>
+				<acme:submit code="administrator.aircraft.form.button.update" action="/administrator/aircraft/update"/>
 				<acme:submit code="administrator.aircraft.form.button.disable" action="/administrator/aircraft/disable"/>
 			</jstl:if>
 		</jstl:when>

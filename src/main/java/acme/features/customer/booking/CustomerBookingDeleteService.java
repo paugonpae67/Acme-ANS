@@ -12,6 +12,7 @@ import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.bookings.Booking;
+import acme.entities.bookings.BookingRecord;
 import acme.entities.bookings.TravelClass;
 import acme.entities.flights.Flight;
 import acme.realms.Customer;
@@ -62,6 +63,12 @@ public class CustomerBookingDeleteService extends AbstractGuiService<Customer, B
 
 	@Override
 	public void perform(final Booking booking) {
+		Collection<BookingRecord> bookingRecordRelations;
+
+		bookingRecordRelations = this.repository.findBookingBookingRecordsByBookingId(booking.getId());
+		if (!bookingRecordRelations.isEmpty())
+			this.repository.deleteAll(bookingRecordRelations);
+
 		this.repository.delete(booking);
 	}
 

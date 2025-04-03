@@ -26,7 +26,7 @@ flight-16,manager-01,"Short desc",NOT_SELF_TRANSFER,"EUR 150.00","L",false
 flight-17,manager-01,"Medium desc",SELF_TRANSFER,"EUR 200.00","Lorem ipsum dolor sit amet",false
 flight-18,manager-01,"Max length desc",NOT_SELF_TRANSFER,"EUR 250.00","LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",false
 flight-19,manager-01,"Thai desc",SELF_TRANSFER,"EUR 300.00","โลเร็ม อิปซัม",false
-flight-20,manager-01,"Chinese desc",NOT_SELF_TRANSFER,"EUR 350.00","洛伦·伊普森",true
-flight-21,manager-01,"Arabic desc",SELF_TRANSFER,"EUR 400.00","لوريم إيبسوم",true
+flight-20,manager-01,"Chinese desc",NOT_SELF_TRANSFER,"EUR 350.00","洛伦·伊普森",false
+flight-21,manager-01,"Arabic desc",SELF_TRANSFER,"EUR 400.00","لوريم إيبسوم",false
 flight-22,manager-01,"HTML desc",NOT_SELF_TRANSFER,"EUR 450.00","<marquee>Hacked</marquee>",true
 flight-23,manager-01,"Script desc",SELF_TRANSFER,"EUR 500.00","<script>alert(‘XSS’);</script>",true

@@ -22,7 +22,7 @@ public interface CustomerPassengerRepository extends AbstractRepository {
 	@Query("SELECT p FROM Passenger p WHERE p.customer.id = :customerId")
 	Collection<Passenger> findAllCustomerPassengersByCustomerId(int customerId);
 
-	@Query("select br from BookingRecord br where br.passenger.id = :passengerId")
+	@Query("SELECT br FROM BookingRecord br WHERE br.passenger.id = :passengerId")
 	Collection<BookingRecord> findPassengerBookingRecordsByPassengerId(int passengerId);
 
 }

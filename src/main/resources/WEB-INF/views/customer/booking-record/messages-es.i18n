@@ -1,5 +1,6 @@
-customer.booking-record.list.title = Pasajeros de la reserva
+customer.booking-record.list.title = Pasajeros de la Reserva
 customer.booking-record.form.title = Detalles del Pasajero de la Reserva
+customer.booking-record.list.title = Lista de Pasajeros de la Reserva
 
 customer.booking-record.list.label.passengerName = Nombre completo
 customer.booking-record.list.label.passengerEmail = Correo electrónico
