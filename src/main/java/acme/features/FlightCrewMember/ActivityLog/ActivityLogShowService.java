@@ -44,7 +44,8 @@ public class ActivityLogShowService extends AbstractGuiService<FlightCrewMember,
 	public void unbind(final ActivityLog assignment) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(assignment, "typeOfIncident", "description", "saverityLevel", "registrationMoment");
+		dataset = super.unbindObject(assignment, "typeOfIncident", "description", "saverityLevel", "registrationMoment", "draftMode");
+		dataset.put("masterId", assignment.getFlightAssignment().getId());
 
 		super.getResponse().addData(dataset);
 

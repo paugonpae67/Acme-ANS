@@ -44,6 +44,10 @@ public class ActivityLog extends AbstractEntity {
 	@Automapped
 	private Date				registrationMoment;
 
+	@Mandatory
+	@Automapped
+	private boolean				draftMode;
+
 	//Relationships
 
 	@Mandatory

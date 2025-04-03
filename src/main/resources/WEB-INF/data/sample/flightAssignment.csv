@@ -1,30 +1,28 @@
 key,duty,remarks,moment,currentStatus,key:flightCrewMembers,key:leg,draft_mode
 #duty,"","","","","","",""
-flightAssignment-01,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-01,true
+flightAssignment-01,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-01,true
 flightAssignment-02,CO_PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-02,leg-02,true
 flightAssignment-03,LEAD_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-03,leg-03,true
-flightAssignment-04,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-04,leg-04,true
+flightAssignment-04,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-04,leg-04,true
 #remarks,"","","","","","",""
 flightAssignment-05,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-05,true
-flightAssignment-06,CABIN_ATTENDANT,L,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-06,true
-flightAssignment-07,CABIN_ATTENDANT,Lo,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-07,true
-flightAssignment-08,CABIN_ATTENDANT,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-08,true
-flightAssignment-09,CABIN_ATTENDANT,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor*",2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-01,true
-flightAssignment-10,CABIN_ATTENDANT,洛伦·伊普森,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-01,true
-flightAssignment-11,CABIN_ATTENDANT,' or 'A' = 'A,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-01,true
-flightAssignment-12,CABIN_ATTENDANT,<script>alert(‘Hacked!’);</script>,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-01,true
+flightAssignment-06,CABIN_ATTENDANT,L,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-08,true
+flightAssignment-07,CABIN_ATTENDANT,Lo,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-09,true
+flightAssignment-08,CABIN_ATTENDANT,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-10,true
+flightAssignment-09,CABIN_ATTENDANT,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor*",2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-13,true
+flightAssignment-10,CABIN_ATTENDANT,洛伦·伊普森,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-06,true
+flightAssignment-11,CABIN_ATTENDANT,' or 'A' = 'A,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-15,true
+flightAssignment-12,CABIN_ATTENDANT,<script>alert(‘Hacked!’);</script>,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-16,true
 #moment,"","","","","","",""
-flightAssignment-13,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-01,true
-flightAssignment-14,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2025/01/01 00:00,CONFIRMED,flightCrewMember-01,leg-01,true
-flightAssignment-15,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/12/31 23:59,CONFIRMED,flightCrewMember-01,leg-01,true
-flightAssignment-16,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2000/01/01 00:00,CONFIRMED,flightCrewMember-01,leg-01,true
-flightAssignment-17,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2000/01/01 00:01,CONFIRMED,flightCrewMember-01,leg-01,true
+flightAssignment-13,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-17,true
+flightAssignment-14,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2025/01/01 00:00,CONFIRMED,flightCrewMember-01,leg-18,true
+flightAssignment-15,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/12/31 23:59,CONFIRMED,flightCrewMember-01,leg-19,true
+flightAssignment-16,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2000/01/01 00:00,CONFIRMED,flightCrewMember-01,leg-20,true
+flightAssignment-17,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2000/01/01 00:01,CONFIRMED,flightCrewMember-01,leg-21,true
 #currentStatus,"","","","","","",""
-flightAssignment-18,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-01,true
-flightAssignment-19,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,PENDING,flightCrewMember-01,leg-01,true
-flightAssignment-23,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-01,true
+flightAssignment-18,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-22,true
+flightAssignment-19,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,PENDING,flightCrewMember-01,leg-23,true
+flightAssignment-23,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-24,true
 #leg,"","","","","","",""
-flightAssignment-21,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-01,true
-flightAssignment-22,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-01,true
-flightAssignment-20,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CANCELLED,flightCrewMember-01,leg-02,true
-flightAssignment-24,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CANCELLED,flightCrewMember-01,leg-08,true
+flightAssignment-21,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-25,true
+flightAssignment-22,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-02,leg-25,true
