@@ -7,19 +7,19 @@
 </head>
 <body>
     <acme:form readonly="false">
-        <!-- Basic leg fields -->
+        
         <acme:input-textbox code="manager.leg.form.label.flightNumber" path="flightNumber" />
         <acme:input-moment code="manager.leg.form.label.scheduledDeparture" path="scheduledDeparture" />
         <acme:input-moment code="manager.leg.form.label.scheduledArrival" path="scheduledArrival" />
         <acme:input-select code="manager.leg.form.label.status" path="status"  choices="${legStatuses}" />
         
-        <!-- Departure Airport -->
+ 
         <acme:input-select 
             code="manager.leg.form.label.departureAirport" 
             path="departureAirport"
             choices="${departureAirports}" />
 
-        <!-- Arrival Airport -->
+        
         <acme:input-select 
             code="manager.leg.form.label.arrivalAirport" 
             path="arrivalAirport"
@@ -30,7 +30,7 @@
 	        path="aircraft"
 	        choices="${aircraftChoices}" />
 	        
-        <!-- Additional buttons and logic -->
+        
         <c:if test="${draftMode and _command != 'create'}">
             <acme:submit code="manager.leg.form.button.publish" action="/manager/leg/publish" />
         </c:if>

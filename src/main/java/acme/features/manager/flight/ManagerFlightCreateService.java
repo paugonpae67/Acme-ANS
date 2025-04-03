@@ -26,23 +26,18 @@ public class ManagerFlightCreateService extends AbstractGuiService<Manager, Flig
 
 	@Override
 	public void load() {
-		// Retrieve the current manager from the active realm.
 		Manager manager = (Manager) super.getRequest().getPrincipal().getActiveRealm();
 
-		// Create a new flight and set default values.
 		Flight flight = new Flight();
 		flight.setTag("");
 		flight.setIndication(FlightIndication.NOT_SELF_TRANSFER);
-		// Create a default Money value, e.g. 0.0 USD (adjust as needed)
 		flight.setCost(new Money());
 		flight.getCost().setAmount(0.0);
 		flight.getCost().setCurrency("USD");
 		flight.setDescription("");
 		flight.setDraftMode(true);
-		// Associate the flight with the current manager.
 		flight.setManager(manager);
 
-		// Add the new flight to the buffer.
 		super.getBuffer().addData(flight);
 	}
 
@@ -53,13 +48,10 @@ public class ManagerFlightCreateService extends AbstractGuiService<Manager, Flig
 
 	@Override
 	public void validate(final Flight flight) {
-		// Add any flight-specific validation here, e.g., check that required fields are not blank.
-		// For now, we leave it empty.
 	}
 
 	@Override
 	public void perform(final Flight flight) {
-
 		this.repository.save(flight);
 	}
 
@@ -69,5 +61,4 @@ public class ManagerFlightCreateService extends AbstractGuiService<Manager, Flig
 		dataset.put("indications", SelectChoices.from(FlightIndication.class, flight.getIndication()));
 		super.getResponse().addData(dataset);
 	}
-
 }

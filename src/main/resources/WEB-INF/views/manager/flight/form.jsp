@@ -9,7 +9,7 @@
     <acme:form readonly="false">
         <acme:input-textbox code="manager.flight.form.label.tag" path="tag" />
         
-        <!-- Campo corregido: ahora usa un select para enum -->
+        
         <acme:input-select path="indication" choices="${indications}" code="manager.flight.form.label.indication"/>
         
         <acme:input-textbox code="manager.flight.form.label.cost" path="cost" />
@@ -17,7 +17,7 @@
         <acme:input-moment code="manager.flight.form.label.scheduledDeparture" readonly="true"  path="scheduledDeparture" />
         <acme:input-moment code="manager.flight.form.label.scheduledArrival" readonly="true" path="scheduledArrival" />
         
-        <!-- Publish button, only visible if the flight is still in draft mode -->
+       
         <c:if test="${draftMode == true}">
             <acme:submit code="manager.flight.form.button.publish" action="/manager/flight/publish" />
         </c:if>
