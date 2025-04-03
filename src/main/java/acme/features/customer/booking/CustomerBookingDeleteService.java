@@ -17,7 +17,7 @@ import acme.entities.flights.Flight;
 import acme.realms.Customer;
 
 @GuiService
-public class CustomerBookingShowService extends AbstractGuiService<Customer, Booking> {
+public class CustomerBookingDeleteService extends AbstractGuiService<Customer, Booking> {
 
 	@Autowired
 	private CustomerBookingRepository repository;
@@ -37,13 +37,32 @@ public class CustomerBookingShowService extends AbstractGuiService<Customer, Boo
 
 	@Override
 	public void load() {
-		int bookingId;
-		Booking booking;
-
-		bookingId = super.getRequest().getData("id", int.class);
-		booking = this.repository.findBookingById(bookingId);
+		int id = super.getRequest().getData("id", int.class);
+		Booking booking = this.repository.findBookingById(id);
 
 		super.getBuffer().addData(booking);
+	}
+
+	@Override
+	public void bind(final Booking booking) {
+		super.bindObject(booking, "locatorCode", "travelClass", "price", "lastNibble", "flight");
+	}
+
+	@Override
+	public void validate(final Booking booking) {
+		boolean confirmation;
+
+		confirmation = super.getRequest().getData("confirmation", boolean.class);
+		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
+
+		Booking bookingAlreadyExists = this.repository.findBookingByLocatorCode(booking.getLocatorCode());
+		boolean locatorIsNotValid = bookingAlreadyExists == null || bookingAlreadyExists.getId() == booking.getId();
+		super.state(locatorIsNotValid, "locatorCode", "customer.booking.form.error.duplicateLocatorCode");
+	}
+
+	@Override
+	public void perform(final Booking booking) {
+		this.repository.delete(booking);
 	}
 
 	@Override
@@ -63,7 +82,6 @@ public class CustomerBookingShowService extends AbstractGuiService<Customer, Boo
 		dataset.put("flightsOptions", flightChoices);
 
 		super.getResponse().addData(dataset);
-
 	}
 
 }
