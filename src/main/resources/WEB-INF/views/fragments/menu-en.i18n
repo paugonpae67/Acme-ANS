@@ -46,10 +46,19 @@ master.menu.provider.favourite-link = Favourite link
 master.menu.consumer = Consumer
 master.menu.consumer.favourite-link = Favourite link
 
+
+# master.menu.FlightAssignment ##########################################################
+
+master.menu.flight-assignment = Flight Assignment
+master.menu.flight-assignment.list-past = Completed Flight Assignment List
+master.menu.flight-assignment.list-future = Planned Flight Assignment List
+
+
 # master.menu.maintenance-record ####################################################
 master.menu.technician = Technician
 master.menu.maintenanceRecord.list = Maintenance Record List
 master.menu.task.list = Task list
+
 
 # master.menu.user-account ####################################################
 
