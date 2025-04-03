@@ -2,6 +2,8 @@
 package acme.features.assistanceAgent.trakingLog;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -47,6 +49,7 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 
 		super.getBuffer().addData(trackingLog);
 	}
+
 	@Override
 	public void bind(final TrackingLog trackingLog) {
 		super.bindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "resolution", "claim");
@@ -64,6 +67,25 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 			valid = !trackingLog.getStatus().equals(TrackingLogStatus.PENDING);
 			super.state(valid, "status", "assistanceAgent.trackingLog.form.error.wrongStatus2");
 		}
+		if (trackingLog.getStatus().equals(TrackingLogStatus.ACCEPTED) || trackingLog.getStatus().equals(TrackingLogStatus.REJECTED)) {
+			valid = trackingLog.getResolution() != null && !trackingLog.getResolution().isBlank();
+			super.state(valid, "resolution", "assistanceAgent.trackingLog.form.error.resolutionNeeded");
+		}
+
+		TrackingLog lastTrackingLog;
+		Optional<List<TrackingLog>> trackingLogs = this.repository.findLatestTrackingLogByClaim(trackingLog.getClaim().getId());
+		if (trackingLogs.isPresent() && trackingLogs.get().size() > 0) {
+			lastTrackingLog = trackingLogs.get().get(0);
+			long completedTrackingLogs = trackingLogs.get().stream().filter(t -> t.getResolutionPercentage() == 100).count();
+			if (lastTrackingLog.getId() != trackingLog.getId())
+				if (lastTrackingLog.getResolutionPercentage() == 100 && trackingLog.getResolutionPercentage() == 100) {
+					valid = !lastTrackingLog.isDraftMode() && completedTrackingLogs < 2;
+					super.state(valid, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.complatePercentage");
+				} else {
+					valid = lastTrackingLog.getResolutionPercentage() < trackingLog.getResolutionPercentage();
+					super.state(valid, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
+				}
+		}
 
 	}
 
@@ -77,19 +99,21 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 
 		Collection<Claim> claims;
 		SelectChoices statuses;
-		SelectChoices choiseClaims;
+		SelectChoices claimChoices;
 		Dataset dataset;
-
+		int assistanceAgentId;
+		assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		statuses = SelectChoices.from(TrackingLogStatus.class, trackingLog.getStatus());
-		claims = this.repository.findClaimByTrackingLog(trackingLog.getId());
-		choiseClaims = SelectChoices.from(claims, "id", trackingLog.getClaim());
 
-		dataset = super.unbindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "resolution", "draftMode", "claim");
+		claims = this.repository.findClaimByAssistanceAgent(assistanceAgentId);
+		claimChoices = SelectChoices.from(claims, "id", trackingLog.getClaim());
+
+		dataset = super.unbindObject(trackingLog, "claim", "lastUpdateMoment", "step", "resolutionPercentage", "status", "resolution", "draftMode", "id");
 		dataset.put("statuses", statuses);
-		dataset.put("claim", choiseClaims.getSelected().getKey());
-		dataset.put("claims", choiseClaims);
+		dataset.put("status", statuses.getSelected().getKey());
+		dataset.put("claimChoices", claimChoices);
+
 		super.getResponse().addData(dataset);
 
 	}
-
 }

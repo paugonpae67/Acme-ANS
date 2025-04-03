@@ -22,7 +22,7 @@ leg-14,AAA2031,2012/06/24 14:30,2012/06/24 17:20,DELAYED,false,flight-13,Airport
 leg-15,AAA3032,2012/06/25 19:10,2012/06/25 21:45,CANCELLED,false,flight-14,Airport-05,Airport-06,Aircraft-01
 leg-16,AAA4033,2006/06/26 12:40,2006/06/26 15:00,LANDED,false,flight-15,Airport-06,Airport-07,Aircraft-01
 # Variantes del atributo 'key:departureAirport' y 'key:arrivalAirport',""
-leg-17,AAA1040,2024/06/27 09:20,2020/06/27 11:55,DELAYED,true,flight-16,Airport-07,Airport-08,Aircraft-01
+leg-17,AAA1040,2024/06/27 09:20,2024/06/27 11:55,DELAYED,true,flight-16,Airport-07,Airport-08,Aircraft-01
 leg-18,AAA2041,2012/06/28 07:10,2012/06/28 09:30,CANCELLED,false,flight-17,Airport-08,Airport-09,Aircraft-01
 # Variantes del atributo 'key:aircraft'
 leg-19,AAA3042,2008/06/29 16:45,2008/06/29 19:20,ON_TIME,false,flight-18,Airport-09,Airport-10,Aircraft-02

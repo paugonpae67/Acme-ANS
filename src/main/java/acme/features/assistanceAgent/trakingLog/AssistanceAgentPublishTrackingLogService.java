@@ -2,8 +2,6 @@
 package acme.features.assistanceAgent.trakingLog;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -56,18 +54,7 @@ public class AssistanceAgentPublishTrackingLogService extends AbstractGuiService
 
 	@Override
 	public void validate(final TrackingLog trackingLog) {
-		boolean validation;
 
-		Optional<List<TrackingLog>> latestTrackingLogsOpt = this.repository.findLatestTrackingLogByClaim(trackingLog.getClaim().getId());
-		TrackingLog latestTrackingLog = latestTrackingLogsOpt.orElse(List.of()).stream().findFirst().orElse(null);
-
-		long finishedTrackingLog = latestTrackingLogsOpt.get().stream().filter(x -> x.getResolutionPercentage() == 100).count();
-
-		if (latestTrackingLog.getId() != trackingLog.getId())
-			if (latestTrackingLog.getResolutionPercentage() == 100 && trackingLog.getResolutionPercentage() == 100) {
-				validation = !latestTrackingLog.isDraftMode() && finishedTrackingLog < 2;
-				super.state(validation, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.maxcompleted");
-			}
 	}
 
 	@Override

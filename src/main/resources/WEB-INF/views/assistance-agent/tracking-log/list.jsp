@@ -19,7 +19,7 @@
 	<acme:list-column code="assistanceAgent.trackingLog.list.label.step" path="step"/>
 	<acme:list-column code="assistanceAgent.trackingLog.list.label.resolutionPercentage" path="resolutionPercentage" />
 	<acme:list-column code="assistanceAgent.trackingLog.list.label.status" path="status" />
-	<acme:list-payload path="payload"/>
+	<acme:list-payload path="trackingLog"/>
 </acme:list>
 
-<acme:button code="assistanceAgent.trackingLog.list.button.create" action="/assistance-agent/tracking-log/create?masterId=${id}"/>
+<acme:button code="assistanceAgent.trackingLog.list.button.create" action="/assistance-agent/tracking-log/create?masterId=${masterId}"/>
