@@ -2,6 +2,7 @@
 package acme.features.customer.booking;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -62,8 +63,13 @@ public class CustomerBookingCreateService extends AbstractGuiService<Customer, B
 	public void unbind(final Booking booking) {
 		Dataset dataset;
 		SelectChoices travelClassChoices = SelectChoices.from(TravelClass.class, booking.getTravelClass());
+		Collection<Flight> allFlights;
+		Collection<Flight> flights;
 
-		Collection<Flight> flights = this.repository.findAllFlights();
+		//falta aquí la condición de que esté publico -> f.isPublished == true - FERNANDO
+		allFlights = this.repository.findAllFlights();
+		flights = allFlights.stream().filter(f -> f.getScheduledDeparture() != null && f.getScheduledDeparture().after(MomentHelper.getCurrentMoment())).collect(Collectors.toList());
+
 		SelectChoices flightChoices = SelectChoices.from(flights, "id", booking.getFlight());
 
 		dataset = super.unbindObject(booking, "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "flight", "draftMode");

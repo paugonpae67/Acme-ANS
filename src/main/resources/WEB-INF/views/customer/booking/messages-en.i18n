@@ -15,6 +15,8 @@ customer.booking.form.button.update = Update
 customer.booking.form.button.publish = Publish
 customer.booking.form.button.booking-record = Passengers
 
+customer.booking.form.label.confirmation  = I confirm my intention to carry out this action
+
 customer.booking.list.label.locatorCode = Locator Code
 customer.booking.list.label.purchaseMoment = Purchase Moment
 customer.booking.list.label.travelClass = Travel Class
@@ -24,3 +26,6 @@ customer.booking.list.button.create = Create
 
 customer.booking.form.error.duplicateLocatorCode = This locator code is already in use
 acme.validation.lastNibble.message  = This field is required to publish a booking
+acme.validation.passengersNumber.message = The booking must have at least one passenger in order to be published
+acme.validation.passengersNotPublished.message = All passengers must be published in order to publish the booking
+n

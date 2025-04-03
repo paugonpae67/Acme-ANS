@@ -1,25 +1,23 @@
 key,locatorCode,purchaseMoment,travelClass,lastNibble,key:customer,key:flight,draftMode
 #BaseEntity
-booking-00,ABC123,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-01,true
+booking-00,ABC123,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-20,true
 #Variaciones del atributo locatorCode
-booking-01,X9Y8Z7W,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-01,true
-booking-02,QWERTY12,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-01,true
+booking-01,X9Y8Z7W,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-20,true
+booking-02,QWERTY12,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-20,true
 #Variaciones del atributo purchaseMoment
-booking-03,ABC121,2000/01/01 00:00,ECONOMY,1234,customer-01,flight-01,true
-booking-04,ABC122,2000/01/01 00:01,ECONOMY,1234,customer-01,flight-01,true
-booking-05,ABC124,2024/12/31 23:59,ECONOMY,1234,customer-01,flight-01,true
-booking-06,ABC125,2025/01/01 00:00,ECONOMY,1234,customer-01,flight-01,true
+booking-03,ABC121,2000/01/01 00:00,ECONOMY,1234,customer-01,flight-20,true
+booking-04,ABC122,2000/01/01 00:01,ECONOMY,1234,customer-01,flight-20,true
+booking-05,ABC124,2024/12/31 23:59,ECONOMY,1234,customer-01,flight-20,true
+booking-06,ABC125,2025/01/01 00:00,ECONOMY,1234,customer-01,flight-20,true
 #Variaciones del atributo travelClass
-booking-07,ABC126,2012/06/24 14:30,BUSINESS,1234,customer-01,flight-01,true
+booking-07,ABC126,2012/06/24 14:30,BUSINESS,1234,customer-01,flight-20,true
 #Variaciones del atributo lastNibble
-booking-12,ABC131,2012/06/24 14:30,ECONOMY,4321,customer-01,flight-01,true
-booking-13,ABC132,2012/06/24 14:30,ECONOMY,null,customer-01,flight-01,true
+booking-12,ABC131,2012/06/24 14:30,ECONOMY,4321,customer-01,flight-20,true
+booking-13,ABC132,2012/06/24 14:30,ECONOMY,null,customer-01,flight-20,true
 #Variaciones de la relación key:customer
-booking-14,ABC133,2012/06/24 14:30,ECONOMY,1234,customer-02,flight-01,true
+booking-14,ABC133,2012/06/24 14:30,ECONOMY,1234,customer-02,flight-20,true
 #Variaciones de la relación key:flight
-booking-15,ABC136,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-02,true
-booking-16,ABC137,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-20,true
-booking-17,ABC138,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-21,true
+booking-15,ABC138,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-21,true
 #Variaciones del atributo draftMode
-booking-18,ABC139,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-01,false
+booking-16,ABC139,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-20,false
 

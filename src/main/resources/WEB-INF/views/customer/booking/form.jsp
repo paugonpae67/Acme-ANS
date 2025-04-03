@@ -24,6 +24,7 @@
 	
 		<jstl:when test="${acme:anyOf(_command, 'show|update|publish')}">
 			<jstl:if test="${draftMode}">
+				<acme:input-checkbox code="customer.booking.form.label.confirmation" path="confirmation"/>
 				<acme:submit code="customer.booking.form.button.update" action="/customer/booking/update"/>
 				<acme:submit code="customer.booking.form.button.publish" action="/customer/booking/publish"/>
 				<acme:button code="customer.booking.form.button.booking-record" action="/customer/booking-record/list?bookingId=${id}"/>

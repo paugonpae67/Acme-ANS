@@ -2,6 +2,7 @@
 package acme.features.customer.booking;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,6 +14,7 @@ import acme.client.services.GuiService;
 import acme.entities.bookings.Booking;
 import acme.entities.bookings.TravelClass;
 import acme.entities.flights.Flight;
+import acme.entities.passengers.Passenger;
 import acme.realms.Customer;
 
 @GuiService
@@ -51,11 +53,26 @@ public class CustomerBookingPublishService extends AbstractGuiService<Customer, 
 	public void validate(final Booking booking) {
 		Booking bookingAlreadyExists = this.repository.findBookingByLocatorCode(booking.getLocatorCode());
 
-		boolean locatorIsValid = bookingAlreadyExists == null || bookingAlreadyExists.getId() == booking.getId();
+		boolean confirmation;
+		boolean locatorIsValid;
+
+		confirmation = super.getRequest().getData("confirmation", boolean.class);
+		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
+
+		locatorIsValid = bookingAlreadyExists == null || bookingAlreadyExists.getId() == booking.getId();
 		super.state(locatorIsValid, "locatorCode", "customer.booking.form.error.duplicateLocatorCode");
 
 		if (booking.getLastNibble() == null || booking.getLastNibble().isBlank())
 			super.state(false, "lastNibble", "acme.validation.lastNibble.message");
+
+		Collection<Passenger> bookingPassengers = this.repository.findPassengersByBookingId(booking.getId());
+		if (bookingPassengers.isEmpty())
+			super.state(false, "confirmation", "acme.validation.passengersNumber.message");
+
+		boolean condition = bookingPassengers.stream().anyMatch(p -> p.isDraftMode() == true);
+		if (condition)
+			super.state(false, "confirmation", "acme.validation.passengersNotPublished.message");
+
 	}
 
 	@Override
@@ -68,15 +85,19 @@ public class CustomerBookingPublishService extends AbstractGuiService<Customer, 
 	@Override
 	public void unbind(final Booking booking) {
 		Dataset dataset;
-
 		SelectChoices travelClassChoices = SelectChoices.from(TravelClass.class, booking.getTravelClass());
+		Collection<Flight> allFlights;
+		Collection<Flight> flights;
 
-		Collection<Flight> flights = this.repository.findAllFlights();
-		SelectChoices flightsChoices = SelectChoices.from(flights, "id", booking.getFlight());
+		//falta aquí la condición de que esté publico -> f.isPublished == true - FERNANDO
+		allFlights = this.repository.findAllFlights();
+		flights = allFlights.stream().filter(f -> f.getScheduledDeparture() != null && f.getScheduledDeparture().after(MomentHelper.getCurrentMoment())).collect(Collectors.toList());
+
+		SelectChoices flightChoices = SelectChoices.from(flights, "id", booking.getFlight());
 
 		dataset = super.unbindObject(booking, "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "flight", "draftMode");
 		dataset.put("travelClassOptions", travelClassChoices);
-		dataset.put("flightsOptions", flightsChoices);
+		dataset.put("flightsOptions", flightChoices);
 
 		super.getResponse().addData(dataset);
 	}
