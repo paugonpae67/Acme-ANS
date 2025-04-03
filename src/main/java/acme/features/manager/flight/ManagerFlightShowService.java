@@ -4,9 +4,11 @@ package acme.features.manager.flight;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.flights.Flight;
+import acme.entities.flights.FlightIndication;
 import acme.realms.Manager;
 
 @GuiService
@@ -65,7 +67,11 @@ public class ManagerFlightShowService extends AbstractGuiService<Manager, Flight
 		dataset.put("numberOfLayovers", flight.getNumberOfLayovers());
 		dataset.put("draftMode", flight.isDraftMode());
 
-		// 3. Add the dataset to the response
+		// 3. Add enum values
+		dataset.put("indications", SelectChoices.from(FlightIndication.class, flight.getIndication()));
+
+		// 4. Send to client
 		super.getResponse().addData(dataset);
 	}
+
 }

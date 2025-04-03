@@ -8,7 +8,10 @@
 <body>
     <acme:form readonly="false">
         <acme:input-textbox code="manager.flight.form.label.tag" path="tag" />
-        <acme:input-checkbox code="manager.flight.form.label.indication" path="indication" />
+        
+        <!-- Campo corregido: ahora usa un select para enum -->
+        <acme:input-select path="indication" choices="${indications}" code="manager.flight.form.label.indication"/>
+        
         <acme:input-textbox code="manager.flight.form.label.cost" path="cost" />
         <acme:input-textbox code="manager.flight.form.label.description" path="description" />
         <acme:input-moment code="manager.flight.form.label.scheduledDeparture" readonly="true"  path="scheduledDeparture" />
@@ -30,9 +33,10 @@
                     action="/manager/flight/delete" />
             </c:when>
         </c:choose>
-		<c:if test="${_command != 'create'}">
-        <acme:button code="manager.flight.form.button.legs" action="/manager/leg/list?flightId=${id}" />
-		</c:if>
+
+        <c:if test="${_command != 'create'}">
+            <acme:button code="manager.flight.form.button.legs" action="/manager/leg/list?flightId=${id}" />
+        </c:if>
         
     </acme:form>
 </body>

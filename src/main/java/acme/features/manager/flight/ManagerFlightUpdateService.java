@@ -4,9 +4,11 @@ package acme.features.manager.flight;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.flights.Flight;
+import acme.entities.flights.FlightIndication;
 import acme.realms.Manager;
 
 @GuiService
@@ -62,12 +64,16 @@ public class ManagerFlightUpdateService extends AbstractGuiService<Manager, Flig
 	public void unbind(final Flight flight) {
 		// Leave unbind as per your desired structure.
 		Dataset dataset = super.unbindObject(flight, "tag", "indication", "cost", "description");
-		// Optionally, add transient fields (to be enhanced with leg services later)
+
+		// Optionally, add transient fields
 		dataset.put("scheduledDeparture", flight.getScheduledDeparture());
 		dataset.put("scheduledArrival", flight.getScheduledArrival());
 		dataset.put("originCity", flight.getOriginCity());
 		dataset.put("destinationCity", flight.getDestinationCity());
 		dataset.put("numberOfLayovers", flight.getNumberOfLayovers());
+
+		// Add enum values
+		dataset.put("indications", SelectChoices.from(FlightIndication.class, flight.getIndication()));
 
 		super.getResponse().addData(dataset);
 	}

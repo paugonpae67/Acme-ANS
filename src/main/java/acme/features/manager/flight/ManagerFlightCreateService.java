@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.datatypes.Money;
 import acme.client.components.models.Dataset;
+import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.flights.Flight;
@@ -65,6 +66,8 @@ public class ManagerFlightCreateService extends AbstractGuiService<Manager, Flig
 	@Override
 	public void unbind(final Flight flight) {
 		Dataset dataset = super.unbindObject(flight, "tag", "indication", "cost", "description");
+		dataset.put("indications", SelectChoices.from(FlightIndication.class, flight.getIndication()));
 		super.getResponse().addData(dataset);
 	}
+
 }

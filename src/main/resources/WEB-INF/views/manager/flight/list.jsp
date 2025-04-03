@@ -11,7 +11,7 @@
         <acme:list-column path="tag" code="manager.flight.list.label.tag" />
          <acme:list-column path="originCity" code="manager.flight.list.label.originCity" />
         <acme:list-column path="destinationCity" code="manager.flight.list.label.destinationCity" />
-        <acme:list-column path="requiresSelfTransfer" code="manager.flight.list.label.indication" />
+        <acme:list-column path="indication" code="manager.flight.list.label.indication" />
         <acme:list-column path="cost" code="manager.flight.list.label.cost" />
         <acme:list-column path="description" code="manager.flight.list.label.description" />
     </acme:list>
