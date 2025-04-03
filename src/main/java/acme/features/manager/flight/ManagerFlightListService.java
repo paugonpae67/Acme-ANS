@@ -25,7 +25,6 @@ public class ManagerFlightListService extends AbstractGuiService<Manager, Flight
 
 	@Override
 	public void load() {
-
 		int managerId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		Collection<Flight> flights = this.repository.findFlightsByManagerId(managerId);
 		super.getBuffer().addData(flights);
@@ -33,9 +32,7 @@ public class ManagerFlightListService extends AbstractGuiService<Manager, Flight
 
 	@Override
 	public void unbind(final Flight flight) {
-
 		Dataset dataset = super.unbindObject(flight, "tag", "indication", "cost", "description");
-
 		dataset.put("scheduledDeparture", flight.getScheduledDeparture());
 		dataset.put("scheduledArrival", flight.getScheduledArrival());
 		dataset.put("originCity", flight.getOriginCity());

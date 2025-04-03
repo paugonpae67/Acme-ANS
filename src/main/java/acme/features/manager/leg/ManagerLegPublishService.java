@@ -12,51 +12,36 @@ import acme.realms.Manager;
 @GuiService
 public class ManagerLegPublishService extends AbstractGuiService<Manager, Leg> {
 
-	// Internal state ---------------------------------------------------------
-
 	@Autowired
 	private ManagerLegRepository repository;
-
-	// AbstractGuiService interface -------------------------------------------
 
 
 	@Override
 	public void authorise() {
-		boolean status;
-		int legId;
-		Leg leg;
-		Manager manager;
-
-		legId = super.getRequest().getData("id", int.class);
-		leg = this.repository.findLegById(legId);
-		status = leg != null && leg.isDraftMode();
+		int legId = super.getRequest().getData("id", int.class);
+		Leg leg = this.repository.findLegById(legId);
+		boolean status = leg != null && leg.isDraftMode();
 		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
 	public void load() {
-		Leg leg;
-		int id;
-
-		id = super.getRequest().getData("id", int.class);
-		leg = this.repository.findLegById(id);
+		int id = super.getRequest().getData("id", int.class);
+		Leg leg = this.repository.findLegById(id);
 		super.getBuffer().addData(leg);
 	}
 
 	@Override
 	public void bind(final Leg leg) {
-		// Bind the leg's attributes from the request.
 		super.bindObject(leg, "flightNumber", "scheduledDeparture", "scheduledArrival");
 	}
 
 	@Override
 	public void validate(final Leg leg) {
-		// Insert any necessary validation logic here.
 	}
 
 	@Override
 	public void perform(final Leg leg) {
-		// Publish the leg by setting draftMode to false.
 		leg.setDraftMode(false);
 		this.repository.save(leg);
 	}

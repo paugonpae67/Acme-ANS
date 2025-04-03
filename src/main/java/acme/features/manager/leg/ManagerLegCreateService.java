@@ -58,12 +58,11 @@ public class ManagerLegCreateService extends AbstractGuiService<Manager, Leg> {
 		Leg leg = new Leg();
 		leg.setFlight(flight);
 		leg.setDraftMode(true);
-		leg.setFlightNumber(""); // default empty flight number
+		leg.setFlightNumber("");
 		leg.setScheduledDeparture(MomentHelper.getCurrentMoment());
 		leg.setScheduledArrival(new Date(MomentHelper.getCurrentMoment().getTime() + 60000));
 		leg.setStatus(LegStatus.ON_TIME);
 
-		// Build airport selection (departure and arrival).
 		Collection<Airport> airports = this.airportRepository.findAllAirports();
 		SelectChoices departureChoices = new SelectChoices();
 		departureChoices.add("0", "----", true);
@@ -81,12 +80,10 @@ public class ManagerLegCreateService extends AbstractGuiService<Manager, Leg> {
 		}
 		super.getResponse().addGlobal("arrivalAirports", arrivalChoices);
 
-		// Build aircraft selection.
 		Collection<Aircraft> aircrafts = this.aircraftRepository.findAllAircrafts();
 		SelectChoices aircraftChoices = new SelectChoices();
 		aircraftChoices.add("0", "----", true);
 		for (Aircraft ac : aircrafts) {
-			// Use aircraft id as key (converted to String) and its registration number as label.
 			String key = Integer.toString(ac.getId());
 			String label = ac.getRegistrationNumber();
 			aircraftChoices.add(key, label, false);
@@ -98,20 +95,16 @@ public class ManagerLegCreateService extends AbstractGuiService<Manager, Leg> {
 
 	@Override
 	public void bind(final Leg leg) {
-		// Bind basic properties, including status.
 		super.bindObject(leg, "flightNumber", "scheduledDeparture", "scheduledArrival", "status");
 
-		// Explicitly bind status from the request.
 		String statusStr = super.getRequest().getData("status", String.class);
 		if (statusStr != null && !statusStr.isEmpty())
 			try {
 				LegStatus newStatus = LegStatus.valueOf(statusStr);
 				leg.setStatus(newStatus);
 			} catch (IllegalArgumentException ex) {
-				// Optionally log or handle the conversion error.
 			}
 
-		// Bind airport selections using IATA codes.
 		String departureIata = super.getRequest().getData("departureAirport", String.class);
 		String arrivalIata = super.getRequest().getData("arrivalAirport", String.class);
 		Airport departureAirport = this.airportRepository.findAirportByIataCode(departureIata);
@@ -119,7 +112,6 @@ public class ManagerLegCreateService extends AbstractGuiService<Manager, Leg> {
 		leg.setDepartureAirport(departureAirport);
 		leg.setArrivalAirport(arrivalAirport);
 
-		// Bind aircraft selection using aircraft id.
 		Integer aircraftId = super.getRequest().getData("aircraft", Integer.class);
 		if (aircraftId != null && aircraftId != 0) {
 			Aircraft aircraft = this.aircraftRepository.findAircraftById(aircraftId);
@@ -166,8 +158,7 @@ public class ManagerLegCreateService extends AbstractGuiService<Manager, Leg> {
 			leg.getScheduledArrival()
 		});
 		dataset.put("status", leg.getStatus());
-		SelectChoices choices = SelectChoices.from(LegStatus.class, leg.getStatus());
-		dataset.put("legStatuses", choices);
+		dataset.put("legStatuses", SelectChoices.from(LegStatus.class, leg.getStatus()));
 		dataset.put("flightId", leg.getFlight().getId());
 		dataset.put("draftMode", leg.isDraftMode());
 		super.getResponse().addData(dataset);
