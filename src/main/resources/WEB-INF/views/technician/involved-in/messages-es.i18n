@@ -15,3 +15,6 @@ technician.involved-in.list.label.task = Tarea
 technician.involved-in.list.label.priority = Prioridad
 
 technician.involved-in.list.button.create = Crear
+
+technician.involves.list.label.ticker = Ticker
+technician.involved-in.form.label.description = Descripcion

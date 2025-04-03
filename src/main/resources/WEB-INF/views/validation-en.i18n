@@ -1,6 +1,6 @@
 
 acme.validation.maintenanceRecord.NotNull = The maintenance record cannot be null
-acme.validation.maintenanceRecord.nextInspectionNotNull = The next inspection date cannot be null
+acme.validation.maintenanceRecord.nextInspectionNotNull = Needs a next inspection
 acme.validation.maintenanceRecord.DateCorrect = Next inspection date must be after moment date
 
 acme.validation.involved-in.task = To publish a maintenance record it must have at least one task and all his task must be publish
@@ -10,3 +10,6 @@ acme.validation.error.phoneNumber= It is not a valid phone number
 
 acme.validation.longText= The length must be between 1 and 255 characters
 acme.validation.shortText= The length must be between 1 and 50 characters
+
+acme.validation.job.ticker.message = invalid Ticker
+acme.validation.form.error.duplicateTicker = Duplicated Ticker 

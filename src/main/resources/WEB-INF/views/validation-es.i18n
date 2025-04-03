@@ -1,6 +1,6 @@
 
 acme.validation.maintenanceRecord.NotNull = El registro no puede ser nulo
-acme.validation.maintenanceRecord.nextInspectionNotNull = La próxima inspección no puede ser nula
+acme.validation.maintenanceRecord.nextInspectionNotNull = Es necesaria una fecha de próxima inspección
 acme.validation.maintenanceRecord.DateCorrect = La próxima inspección debe ser posterior al momento.
 
 acme.validation.involved-in.task = Para publicar un registro de mantenimiento debe tener asociada al menos una tarea y todas las asociadas deben estar publicadas
@@ -10,3 +10,7 @@ acme.validation.error.phoneNumber= No es un número de teléfono válido
 
 acme.validation.longText= La longitud debe estar entre 1 y 255 caracteres
 acme.validation.shortText= La longitud debe estar entre 1 y 50 caracteres
+
+
+acme.validation.job.ticker.message = Ticker inválido
+acme.validation.form.error.duplicateTicker = Ticker duplicado
