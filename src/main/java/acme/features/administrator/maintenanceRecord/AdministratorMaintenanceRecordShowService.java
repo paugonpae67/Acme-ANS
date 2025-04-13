@@ -1,0 +1,62 @@
+
+package acme.features.administrator.maintenanceRecord;
+
+import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import acme.client.components.models.Dataset;
+import acme.client.components.principals.Administrator;
+import acme.client.components.views.SelectChoices;
+import acme.client.services.AbstractGuiService;
+import acme.client.services.GuiService;
+import acme.entities.aircrafts.Aircraft;
+import acme.entities.aircrafts.MaintenanceRecord;
+import acme.entities.aircrafts.MaintenanceStatus;
+
+@GuiService
+public class AdministratorMaintenanceRecordShowService extends AbstractGuiService<Administrator, MaintenanceRecord> {
+
+	@Autowired
+	private AdministratorMaintenanceRecordRepository repository;
+
+
+	@Override
+	public void authorise() {
+		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class);
+		super.getResponse().setAuthorised(status);
+	}
+
+	@Override
+	public void load() {
+		MaintenanceRecord maintenanceRecord;
+		int id;
+
+		id = super.getRequest().getData("id", int.class);
+		maintenanceRecord = this.repository.findMaintenanceRecordById(id);
+
+		super.getBuffer().addData(maintenanceRecord);
+	}
+
+	@Override
+	public void unbind(final MaintenanceRecord maintenanceRecord) {
+
+		SelectChoices choices;
+		SelectChoices aircrafts;
+		Collection<Aircraft> aircraftsCollection;
+		Dataset dataset;
+		aircraftsCollection = this.repository.findAircrafts();
+		aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
+
+		choices = SelectChoices.from(MaintenanceStatus.class, maintenanceRecord.getStatus());
+
+		dataset = super.unbindObject(maintenanceRecord, "ticker", "maintenanceMoment", "nextInspection", "estimatedCost", "notes", "draftMode");
+		dataset.put("status", choices.getSelected().getKey());
+		dataset.put("statuses", choices);
+		dataset.put("aircrafts", aircrafts);
+		dataset.put("aircraft", aircrafts.getSelected().getKey());
+		super.getResponse().addData(dataset);
+
+	}
+
+}
