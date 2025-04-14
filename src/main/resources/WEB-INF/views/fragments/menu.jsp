@@ -77,6 +77,8 @@
 			<acme:menu-suboption code="master.menu.maintenanceRecord.list" action="/technician/maintenance-record/list"/>
 			<acme:menu-separator/>
 			<acme:menu-suboption code="master.menu.task.list" action="/technician/task/list"/>
+			<acme:menu-separator/>
+			<acme:menu-suboption code="master.menu.show-dashboard" action="/technician/technician-dashboard/show"/>
 		</acme:menu-option>
 		
 		<acme:menu-option code="master.menu.manager" access="hasRealm('Manager')">

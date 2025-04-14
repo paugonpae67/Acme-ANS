@@ -64,7 +64,7 @@ master.menu.flight-assignment.list-future = Lista de asignación de vuelos plani
 master.menu.technician = Técnico
 master.menu.maintenanceRecord.list = Lista de registros de mantenimiento 
 master.menu.task.list = Lista de tareas
-
+master.menu.show-dashboard = Panel de indicadores de Técnico
 
 
 # master.menu.user-account ####################################################
