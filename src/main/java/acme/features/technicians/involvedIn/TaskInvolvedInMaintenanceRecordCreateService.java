@@ -83,8 +83,9 @@ public class TaskInvolvedInMaintenanceRecordCreateService extends AbstractGuiSer
 		Collection<Task> tasks;
 		SelectChoices choices;
 		Dataset dataset;
-
+		Collection<Task> eliminateTasks = this.repository.findAllInvolvedInMaintenanceRecord(involvedIn.getMaintenanceRecord().getId());
 		tasks = this.repository.findTasksDisponibles();
+		tasks.removeAll(eliminateTasks);
 		choices = SelectChoices.from(tasks, "description", involvedIn.getTask());
 
 		dataset = super.unbindObject(involvedIn);

@@ -1,35 +1,32 @@
-key,tag,indication,cost,description,key:manager
+key,key:manager,tag,indication,cost,description,draftMode
+# Base entity
+flight-00,manager-01,"Fast direct route",NOT_SELF_TRANSFER,"EUR 100.00","Standard route without layovers",false
 
-# Base Entity
-flight-00,Standard Flight,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
+# tag variations
+flight-01,manager-01,"A",NOT_SELF_TRANSFER,"EUR 150.00","Short tag",false
+flight-02,manager-01,"AB",SELF_TRANSFER,"EUR 200.00","Two-letter tag",false
+flight-03,manager-01,"Lorem ipsum dolor sit",SELF_TRANSFER,"EUR 220.00","Max valid tag length",false
+flight-04,manager-01,"Lorem ipsum dolor sit",NOT_SELF_TRANSFER,"EUR 250.00","Over limit tag",false
+flight-05,manager-01,"โลเร็ม",SELF_TRANSFER,"EUR 300.00","Thai script tag",false
+flight-06,manager-01,"لوريم",SELF_TRANSFER,"EUR 350.00","Arabic tag",false
+flight-07,manager-01,"洛伦",NOT_SELF_TRANSFER,"EUR 400.00","Chinese tag",false
+flight-08,manager-01,"<marquee>Hacked</marquee>",SELF_TRANSFER,"EUR 450.00","HTML injection tag",false
+flight-09,manager-01,"<script>alert(‘XSS’);</script>",NOT_SELF_TRANSFER,"EUR 500.00","Script injection tag",false
+flight-10,manager-01,"' OR 1=1 --",SELF_TRANSFER,"EUR 550.00","SQL injection tag",false
 
-# Variantes del atributo 'tag'
-flight-01,The Fastest Route,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
-flight-02,The Cheapest Option,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
-flight-03,Non-Stop Flight,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
-flight-04,Luxury Experience,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
-flight-05,Business Class Deal,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
-flight-06,Scenic Mountain View,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
-flight-07,Economy with Free Meal,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
-flight-08,Shortest Duration,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
-flight-09,Best Price Guaranteed,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
-flight-10,Extra Baggage Included,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
+# cost variations
+flight-11,manager-01,"Free promo",NOT_SELF_TRANSFER,"EUR 0.00","Promotional flight",false
+flight-12,manager-02,"Luxury experience",SELF_TRANSFER,"EUR 999999.99","Very high-end pricing",true
+flight-13,manager-01,"Minimal cost",NOT_SELF_TRANSFER,"EUR 0.01","Smallest cost allowed",false
+flight-14,manager-01,"Maximum cost",SELF_TRANSFER,"EUR 1000000.00","Max valid cost",false
 
-# Variantes del atributo 'indication'
-flight-11,Standard Flight,NOT_SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-01
-
-# Variantes del atributo 'cost'
-flight-12,Standard Flight,SELF_TRANSFER,USD 0.00,Standard commercial flight,manager-01
-flight-13,Standard Flight,SELF_TRANSFER,USD 1000000.00,Standard commercial flight,manager-01
-flight-14,Standard Flight,SELF_TRANSFER,EUR 999999.99,Standard commercial flight,manager-01
-
-# Variantes del atributo 'description'
-flight-15,Standard Flight,SELF_TRANSFER,USD 500.00,"",manager-01
-flight-16,Standard Flight,SELF_TRANSFER,USD 500.00,A,manager-01
-flight-17,Standard Flight,SELF_TRANSFER,USD 500.00,"Comfortable flight with extra legroom",manager-01
-flight-18,Standard Flight,SELF_TRANSFER,USD 500.00,"Includes access to VIP lounge",manager-01
-flight-19,Standard Flight,SELF_TRANSFER,USD 500.00,"Direct flight with no layovers",manager-01
-
-# Variantes del atributo 'key:manager'
-flight-20,Standard Flight,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-02
-flight-21,Standard Flight,SELF_TRANSFER,USD 500.00,Standard commercial flight,manager-03
+# description tests
+flight-15,manager-01,"Brief desc",SELF_TRANSFER,"EUR 123.45","",false
+flight-16,manager-01,"Short desc",NOT_SELF_TRANSFER,"EUR 150.00","L",false
+flight-17,manager-01,"Medium desc",SELF_TRANSFER,"EUR 200.00","Lorem ipsum dolor sit amet",false
+flight-18,manager-01,"Max length desc",NOT_SELF_TRANSFER,"EUR 250.00","LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",false
+flight-19,manager-01,"Thai desc",SELF_TRANSFER,"EUR 300.00","โลเร็ม อิปซัม",false
+flight-20,manager-01,"Chinese desc",NOT_SELF_TRANSFER,"EUR 350.00","洛伦·伊普森",false
+flight-21,manager-01,"Arabic desc",SELF_TRANSFER,"EUR 400.00","لوريم إيبسوم",false
+flight-22,manager-01,"HTML desc",NOT_SELF_TRANSFER,"EUR 450.00","<marquee>Hacked</marquee>",true
+flight-23,manager-01,"Script desc",SELF_TRANSFER,"EUR 500.00","<script>alert(‘XSS’);</script>",true
