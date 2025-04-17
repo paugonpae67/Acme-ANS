@@ -27,10 +27,9 @@ public class AssistanceAgentListTrackingLogService extends AbstractGuiService<As
 
 		masterId = super.getRequest().getData("masterId", int.class);
 		claim = this.repository.findClaimById(masterId);
-		status = claim != null && super.getRequest().getPrincipal().hasRealm(claim.getAssistanceAgent());
+		status = claim != null && claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(claim.getAssistanceAgent());
 
 		super.getResponse().setAuthorised(status);
-
 	}
 
 	@Override
@@ -48,7 +47,9 @@ public class AssistanceAgentListTrackingLogService extends AbstractGuiService<As
 	public void unbind(final TrackingLog trackingLog) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "resolution");
+		dataset = super.unbindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "draftMode");
+		super.addPayload(dataset, trackingLog, "resolution");
+
 		super.getResponse().addData(dataset);
 	}
 
@@ -57,9 +58,11 @@ public class AssistanceAgentListTrackingLogService extends AbstractGuiService<As
 		int masterId;
 		Claim claim;
 		final boolean showCreate;
+
 		masterId = super.getRequest().getData("masterId", int.class);
 		claim = this.repository.findClaimById(masterId);
-		showCreate = claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(claim.getAssistanceAgent());
+		Long maximumTrackingLogs = trackingLog.stream().filter(t -> t.getResolutionPercentage().equals(100.00)).count();
+		showCreate = !claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(claim.getAssistanceAgent()) && maximumTrackingLogs < 2;
 
 		super.getResponse().addGlobal("masterId", masterId);
 		super.getResponse().addGlobal("showCreate", showCreate);
