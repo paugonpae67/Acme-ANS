@@ -1,9 +1,8 @@
 
 package acme.features.assistanceAgent.trakingLog;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -62,41 +61,54 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 
 	@Override
 	public void bind(final TrackingLog trackingLog) {
-		super.bindObject(trackingLog, "step", "resolutionPercentage", "status", "resolution");
+		super.bindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "resolution");
 	}
 
 	@Override
 	public void validate(final TrackingLog trackingLog) {
-		Collection<TrackingLogStatus> statuses = Arrays.asList(TrackingLogStatus.values());
-		TrackingLogStatus status = super.getRequest().getData("status", TrackingLogStatus.class);
-		Double percentage = super.getRequest().getData("resolutionPercentage", Double.class);
-		Integer trackingLogId = super.getRequest().getData("id", int.class);
+		List<TrackingLog> trackingLogs = this.repository.findLatestTrackingLogByClaimExceptItself(trackingLog.getClaim().getId(), trackingLog.getId()).orElse(List.of());
 
-		Claim claim = trackingLog.getClaim();
-		if (claim == null) {
-			super.state(false, "claim", "acme.validation.trackingLog.noClaim.message");
-			return;
+		if (trackingLog.getClaim().isDraftMode()) {
+			long completeLogs = trackingLogs.stream().filter(x -> x.getResolutionPercentage().equals(100.00)).count();
+
+			if (completeLogs >= 1 && trackingLog.getResolutionPercentage().equals(100.00)) {
+				super.state(false, "resolutionPercentage", "No se puede tener más de un trackingLog con 100% si la claim está en modo borrador.");
+				return;
+			}
 		}
 
-		super.state(status != null && statuses.contains(status), "status", "acme.validation.trackingLog.invalidStatus");
+		TrackingLog latestTrackingLog = trackingLogs.stream().findFirst().orElse(null);
 
-		if (percentage != null && percentage.equals(100.00) && TrackingLogStatus.PENDING.equals(status))
-			super.state(false, "resolutionPercentage", "acme.validation.trackingLog.wrongStatus.message");
+		if (!trackingLogs.isEmpty()) {
+			Double minPercentage = trackingLogs.stream().map(TrackingLog::getResolutionPercentage).min(Double::compare).orElse(0.00);
 
-		Collection<TrackingLog> trackingLogs = this.repository.findTrackingLogsByClaimIdExcludingOne(claim.getId(), trackingLogId);
+			long maximumTrackingLogs = trackingLogs.stream().filter(x -> x.getResolutionPercentage().equals(100.00)).count();
 
-		if (!trackingLogs.isEmpty() && percentage != null) {
-			Double minPercentage = trackingLogs.stream().findFirst().map(t -> t.getResolutionPercentage()).orElse(0.00);
-			long fullCount = trackingLogs.stream().filter(t -> t.getResolutionPercentage() == 100.00).count();
+			if (maximumTrackingLogs == 0) {
+				super.state(trackingLog.getResolutionPercentage() >= minPercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
 
-			if (fullCount == 0)
-				super.state(percentage > minPercentage, "resolutionPercentage", "acme.validation.trackingLog.resolutionPercentage2.message");
-			else if (fullCount == 1) {
-				TrackingLog finishedLog = trackingLogs.stream().findFirst().orElse(null);
-				if (finishedLog != null && status != null)
-					super.state(percentage.equals(100.00) && status.equals(finishedLog.getStatus()) && !claim.isDraftMode(), "status", "acme.validation.trackingLog.status2.message");
-			} else if (fullCount >= 2)
-				super.state(false, "resolutionPercentage", "acme.validation.trackingLog.resolutionPercentage2.message");
+				if (trackingLog.getResolutionPercentage() < 100.0) {
+					boolean badStatus = !trackingLog.getStatus().equals(TrackingLogStatus.PENDING);
+					super.state(!badStatus, "status", "assistanceAgent.trackingLog.form.error.wrongStatus");
+				} else {
+					boolean badStatus = trackingLog.getStatus().equals(TrackingLogStatus.PENDING);
+					super.state(!badStatus, "status", "assistanceAgent.trackingLog.form.error.wrongStatus2");
+				}
+
+				if (!trackingLog.getStatus().equals(TrackingLogStatus.PENDING)) {
+					boolean hasResolution = trackingLog.getResolution() != null && !trackingLog.getResolution().isBlank();
+					super.state(hasResolution, "resolution", "assistanceAgent.trackingLog.form.error.resolutionNeeded");
+				}
+
+			} else if (maximumTrackingLogs == 1) {
+				boolean badStatus = trackingLog.getStatus().equals(TrackingLogStatus.PENDING);
+				super.state(!badStatus, "status", "assistanceAgent.trackingLog.form.error.wrongStatus2");
+
+				super.state(trackingLog.getResolutionPercentage().equals(100.00) && trackingLog.getStatus().equals(latestTrackingLog.getStatus()), "status", "assistanceAgent.trackingLog.form.error.statusNewPercentageTotal");
+
+				super.state(!trackingLog.getClaim().isDraftMode() && latestTrackingLog.getResolutionPercentage().equals(100.00), "draftMode", "No se puede crear dos trackingLog con 100% si la claim no se ha publicado.");
+			} else if (maximumTrackingLogs >= 2)
+				super.state(false, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.complatePercentage");
 		}
 	}
 
@@ -110,7 +122,7 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 		SelectChoices statuses;
 		Dataset dataset;
 
-		dataset = super.unbindObject(trackingLog, "step", "resolutionPercentage", "status", "resolution");
+		dataset = super.unbindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "resolution");
 
 		statuses = SelectChoices.from(TrackingLogStatus.class, trackingLog.getStatus());
 		dataset.put("statuses", statuses);

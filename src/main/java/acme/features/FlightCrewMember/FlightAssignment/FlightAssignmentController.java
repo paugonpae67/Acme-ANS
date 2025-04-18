@@ -27,6 +27,9 @@ public class FlightAssignmentController extends AbstractGuiController<FlightCrew
 	@Autowired
 	private FlightAssignmentCreate				createService;
 
+	@Autowired
+	private FlightAssignmentDeleteService		deleteService;
+
 	// Constructors -----------------------------------------------------------
 
 
@@ -36,6 +39,7 @@ public class FlightAssignmentController extends AbstractGuiController<FlightCrew
 		super.addCustomCommand("list-future", "list", this.FuturelistService);
 		super.addBasicCommand("show", this.showService);
 		super.addBasicCommand("create", this.createService);
+		super.addBasicCommand("delete", this.deleteService);
 	}
 
 }

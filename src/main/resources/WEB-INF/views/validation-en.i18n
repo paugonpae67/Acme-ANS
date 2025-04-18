@@ -16,11 +16,12 @@ acme.validation.form.error.duplicateTicker = Duplicated Ticker
 
 
 acme.validation.claim.form.error.registrationMomentNotPast = Registration Moment must be in the past
-assistanceAgent.trackingLog.form.error.wrongStatus = Status must be PENDING
-assistanceAgent.trackingLog.form.error.wrongStatus2 = Status must be ACCEPTED or REJECTED
+assistance-agent.tracking-log.form.error.wrongStatus = Status must be PENDING
+assistanceAgent.trackingLog.form.error.wrongStatus2. = Status must be ACCEPTED or REJECTED
 assistanceAgent.trackingLog.form.error.resolutionNeeded = Resolution can not be null
 assistanceAgent.trackingLog.form.error.complatePercentage = You can only have two tracking Log in 100 percentage
 assistanceAgent.trackingLog.form.error.wrongNewPercentage = The new Percentage must be higher than the last one
+assistanceAgent.trackingLog.form.error.statusNewPercentageTotal = The status of the new tracking log with 100 of percentage must be the same than the other tracking log with 100 of percentage 
 
 acme.validation.leg.message = This aircraft has pending flight legs, it cannot be disabled
 

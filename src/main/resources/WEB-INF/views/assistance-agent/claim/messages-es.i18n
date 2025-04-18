@@ -8,7 +8,7 @@
 # purposes.  The copyright owner does not offer any warranties or representations, nor do
 # they accept any liabilities with respect to them.
 
-assistance-agent.claim.list.title = Lista de los registros finalizados
+assistance-agent.claim.list.title = Lista de los registros
 assistance-agent.claim.form.title = Detalles de los registros
 
 assistanceAgent.claim.list-finish.label.registrationMoment = Momento del Registro
