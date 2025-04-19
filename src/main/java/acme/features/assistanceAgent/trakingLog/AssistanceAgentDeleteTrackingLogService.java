@@ -33,7 +33,7 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 
 		assistanceAgent = trackingLog == null ? null : trackingLog.getClaim().getAssistanceAgent();
 
-		status = claim != null && claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(assistanceAgent) && trackingLog != null && trackingLog.isDraftMode();
+		status = claim != null && claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(assistanceAgent) && trackingLog != null;
 
 		super.getResponse().setAuthorised(status);
 	}

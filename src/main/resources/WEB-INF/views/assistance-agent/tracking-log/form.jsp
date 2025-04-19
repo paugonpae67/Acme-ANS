@@ -5,7 +5,7 @@
 
 <acme:form> 
 	<jstl:choose>
-		<jstl:when test="${acme:anyOf(_command, 'show|update|delete|publish') && draftMode}">
+		<jstl:when test="${acme:anyOf(_command, 'show|update|delete|publish') && draftMode && claimDraftMode}">
 			<acme:input-moment code="assistanceAgent.trackingLog.form.label.lastUpdateMoment" path="lastUpdateMoment" readonly="true"/>
 			<acme:input-textbox code="assistanceAgent.trackingLog.form.label.step" path="step"/>
 			<acme:input-double code="assistanceAgent.trackingLog.form.label.resolutionPercentage" path="resolutionPercentage" placeholder="assistance-agent.tracking-log.form.placeholder.resolutionPercentage"/>
@@ -14,6 +14,14 @@
 			
 			<acme:submit code="assistanceAgent.trackingLog.form.button.update" action="/assistance-agent/tracking-log/update"/>
 			<acme:submit code="assistanceAgent.trackingLog.form.button.delete" action="/assistance-agent/tracking-log/delete"/>
+		</jstl:when>
+		<jstl:when test="${acme:anyOf(_command, 'show|update|delete|publish') && draftMode && !claimDraftMode}">
+			<acme:input-moment code="assistanceAgent.trackingLog.form.label.lastUpdateMoment" path="lastUpdateMoment" readonly="true"/>
+			<acme:input-textbox code="assistanceAgent.trackingLog.form.label.step" path="step"/>
+			<acme:input-double code="assistanceAgent.trackingLog.form.label.resolutionPercentage" path="resolutionPercentage" placeholder="assistance-agent.tracking-log.form.placeholder.resolutionPercentage"/>
+			<acme:input-textarea code="assistanceAgent.trackingLog.form.label.resolution" path="resolution"/>
+			<acme:input-select code="assistanceAgent.trackingLog.form.label.status" path="status" choices="${statuses}"/>
+			
 			<acme:submit code="assistanceAgent.trackingLog.form.button.publish" action="/assistance-agent/tracking-log/publish"/>
 		</jstl:when>
 		<jstl:when test="${_command == 'show' && !draftMode}">

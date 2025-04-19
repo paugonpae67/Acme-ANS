@@ -37,7 +37,7 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 
 		assistanceAgent = trackingLog == null ? null : trackingLog.getClaim().getAssistanceAgent();
 
-		status = claim != null && claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(assistanceAgent) && trackingLog != null && trackingLog.isDraftMode();
+		status = claim != null && claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(assistanceAgent) && trackingLog != null;
 
 		super.getResponse().setAuthorised(status);
 
@@ -67,15 +67,6 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 	@Override
 	public void validate(final TrackingLog trackingLog) {
 		List<TrackingLog> trackingLogs = this.repository.findLatestTrackingLogByClaimExceptItself(trackingLog.getClaim().getId(), trackingLog.getId()).orElse(List.of());
-
-		if (trackingLog.getClaim().isDraftMode()) {
-			long completeLogs = trackingLogs.stream().filter(x -> x.getResolutionPercentage().equals(100.00)).count();
-
-			if (completeLogs >= 1 && trackingLog.getResolutionPercentage().equals(100.00)) {
-				super.state(false, "resolutionPercentage", "No se puede tener más de un trackingLog con 100% si la claim está en modo borrador.");
-				return;
-			}
-		}
 
 		TrackingLog latestTrackingLog = trackingLogs.stream().findFirst().orElse(null);
 

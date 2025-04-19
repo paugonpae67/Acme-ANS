@@ -44,7 +44,7 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 			if (trackingLog.getStatus().equals(TrackingLogStatus.ACCEPTED) || trackingLog.getStatus().equals(TrackingLogStatus.REJECTED))
 				super.state(context, !trackingLog.getResolution().isEmpty() || trackingLog.getResolution() != null, "Resloution", "El campo resolution no puede estar vacío para trackingLogs terminados");
 
-			Optional<List<TrackingLog>> latestTrackingLogsOpt = this.trackingLogsRepository.findLatestTrackingLogByClaim(trackingLog.getClaim().getId());
+			Optional<List<TrackingLog>> latestTrackingLogsOpt = this.trackingLogsRepository.findLatestTrackingLogByClaimDraft(trackingLog.getClaim().getId());
 			TrackingLog latestTrackingLog = latestTrackingLogsOpt.orElse(List.of()).stream().findFirst().orElse(null);
 			if (!latestTrackingLogsOpt.isEmpty()) {
 				Double minPercentage = latestTrackingLogsOpt.orElse(List.of()).stream().map(TrackingLog::getResolutionPercentage).min(Double::compare).orElse(0.00);
@@ -52,8 +52,8 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 				if (Long.valueOf(0).equals(maximumTrackingLogs))
 					super.state(context, trackingLog.getResolutionPercentage() >= minPercentage, "Percentage", "El porcentaje debe de ser ascendente");
 				else if (Long.valueOf(1).equals(maximumTrackingLogs)) {
-					super.state(context, trackingLog.getResolutionPercentage().equals(100.00) && trackingLog.getStatus().equals(latestTrackingLog.getStatus()), "Status", "El estado del nuevo tracking log debe de coincidir.");
-					super.state(context, trackingLog.getClaim().isDraftMode() == false && latestTrackingLog.getResolutionPercentage().equals(100.00), "draftMode", "No se puede crear dos trackingLog con 100% si la claim no se ha publicado.");
+					super.state(context, trackingLog.getResolutionPercentage().equals(100.00) && trackingLog.getStatus().equals(latestTrackingLog.getStatus()), "Status", "El estado del nuevo tracking log debe de coincidir");
+					super.state(context, !trackingLog.getClaim().isDraftMode() && latestTrackingLog.getResolutionPercentage().equals(100.00), "draftMode", "No se puede crear dos trackingLog con 100% si la claim no se ha publicado");
 				} else if (Long.valueOf(2).equals(maximumTrackingLogs))
 					super.state(context, false, "Forbidden", "No se pueden crear más trackingLogs");
 			}

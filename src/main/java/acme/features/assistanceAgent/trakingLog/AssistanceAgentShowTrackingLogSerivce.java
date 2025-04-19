@@ -33,7 +33,7 @@ public class AssistanceAgentShowTrackingLogSerivce extends AbstractGuiService<As
 
 		assistanceAgent = trackingLog == null ? null : trackingLog.getClaim().getAssistanceAgent();
 
-		status = claim != null && super.getRequest().getPrincipal().hasRealm(assistanceAgent) && trackingLog != null && trackingLog.isDraftMode();
+		status = claim != null && super.getRequest().getPrincipal().hasRealm(assistanceAgent);
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -59,6 +59,7 @@ public class AssistanceAgentShowTrackingLogSerivce extends AbstractGuiService<As
 		statuses = SelectChoices.from(TrackingLogStatus.class, trackingLog.getStatus());
 		dataset.put("statuses", statuses);
 		dataset.put("masterId", trackingLog.getClaim().getId());
+		dataset.put("claimDraftMode", trackingLog.getClaim().isDraftMode());
 		super.getResponse().addData(dataset);
 	}
 
