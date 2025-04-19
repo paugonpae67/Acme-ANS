@@ -37,7 +37,7 @@
 			<acme:input-textarea code="assistanceAgent.trackingLog.form.label.resolution" path="resolution"/>
 			<acme:input-select code="assistanceAgent.trackingLog.form.label.status" path="status" choices="${statuses}"/>
 			
-			<acme:submit code="assistance-agent.tracking-log.form.button.create" action="/assistance-agent/tracking-log/create?masterId=${claimId}"/>
+			<acme:submit code="assistanceAgent.trackingLog.form.button.create" action="/assistance-agent/tracking-log/create?masterId=${claimId}"/>
 		</jstl:when>
 	</jstl:choose>
 </acme:form>
