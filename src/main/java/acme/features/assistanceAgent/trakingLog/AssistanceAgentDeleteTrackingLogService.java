@@ -1,8 +1,6 @@
 
 package acme.features.assistanceAgent.trakingLog;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
@@ -27,11 +25,15 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 		TrackingLog trackingLog;
 		int id;
 		AssistanceAgent assistanceAgent;
+		Claim claim;
 
 		id = super.getRequest().getData("id", int.class);
 		trackingLog = this.repository.findTrackingLogById(id);
+		claim = this.repository.findClaimByTrackingLogId(trackingLog.getId());
+
 		assistanceAgent = trackingLog == null ? null : trackingLog.getClaim().getAssistanceAgent();
-		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) && (trackingLog == null || trackingLog.isDraftMode());
+
+		status = claim != null && claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(assistanceAgent) && trackingLog != null;
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -49,12 +51,12 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 
 	@Override
 	public void bind(final TrackingLog trackingLog) {
-		super.bindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "resolution", "claim");
+		super.bindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "resolution");
 	}
 
 	@Override
 	public void validate(final TrackingLog trackingLog) {
-		;
+		super.state(trackingLog.isDraftMode(), "draftMode", "acme.validation.trackingLog.draftMode.message");
 	}
 
 	@Override
@@ -64,19 +66,16 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 
 	@Override
 	public void unbind(final TrackingLog trackingLog) {
-		Collection<Claim> claims;
 		SelectChoices statuses;
-		SelectChoices choiseClaims;
 		Dataset dataset;
 
-		statuses = SelectChoices.from(TrackingLogStatus.class, trackingLog.getStatus());
-		claims = this.repository.findClaimByTrackingLog(trackingLog.getId());
-		choiseClaims = SelectChoices.from(claims, "id", trackingLog.getClaim());
+		dataset = super.unbindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "resolution");
 
-		dataset = super.unbindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "resolution", "draftMode", "claim");
+		statuses = SelectChoices.from(TrackingLogStatus.class, trackingLog.getStatus());
 		dataset.put("statuses", statuses);
-		dataset.put("claim", choiseClaims.getSelected().getKey());
-		dataset.put("claims", choiseClaims);
+		dataset.put("masterId", trackingLog.getClaim().getId());
+		dataset.put("draftMode", trackingLog.isDraftMode());
+
 		super.getResponse().addData(dataset);
 	}
 

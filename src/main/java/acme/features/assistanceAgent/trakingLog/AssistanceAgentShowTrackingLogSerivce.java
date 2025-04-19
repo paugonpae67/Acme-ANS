@@ -1,8 +1,6 @@
 
 package acme.features.assistanceAgent.trakingLog;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
@@ -24,14 +22,18 @@ public class AssistanceAgentShowTrackingLogSerivce extends AbstractGuiService<As
 	@Override
 	public void authorise() {
 		boolean status;
-		int masterId;
 		TrackingLog trackingLog;
+		int id;
 		AssistanceAgent assistanceAgent;
+		Claim claim;
 
-		masterId = super.getRequest().getData("id", int.class);
-		trackingLog = this.repository.findTrackingLogById(masterId);
+		id = super.getRequest().getData("id", int.class);
+		trackingLog = this.repository.findTrackingLogById(id);
+		claim = this.repository.findClaimByTrackingLogId(trackingLog.getId());
+
 		assistanceAgent = trackingLog == null ? null : trackingLog.getClaim().getAssistanceAgent();
-		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) || trackingLog != null;
+
+		status = claim != null && super.getRequest().getPrincipal().hasRealm(assistanceAgent);
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -49,22 +51,15 @@ public class AssistanceAgentShowTrackingLogSerivce extends AbstractGuiService<As
 
 	@Override
 	public void unbind(final TrackingLog trackingLog) {
-		Collection<Claim> claims;
 		SelectChoices statuses;
-		SelectChoices choiseClaims;
 		Dataset dataset;
-		int assistanceAgentId;
+
+		dataset = super.unbindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "resolution", "draftMode");
 
 		statuses = SelectChoices.from(TrackingLogStatus.class, trackingLog.getStatus());
-		assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
-
-		claims = this.repository.findClaimByAssistanceAgent(assistanceAgentId);
-		choiseClaims = SelectChoices.from(claims, "id", trackingLog.getClaim());
-
-		dataset = super.unbindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "resolution", "draftMode", "claim");
 		dataset.put("statuses", statuses);
-		dataset.put("claim", choiseClaims.getSelected().getKey());
-		dataset.put("claims", choiseClaims);
+		dataset.put("masterId", trackingLog.getClaim().getId());
+		dataset.put("claimDraftMode", trackingLog.getClaim().isDraftMode());
 		super.getResponse().addData(dataset);
 	}
 

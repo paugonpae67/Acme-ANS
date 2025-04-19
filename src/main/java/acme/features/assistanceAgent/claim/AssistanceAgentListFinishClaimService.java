@@ -31,7 +31,7 @@ public class AssistanceAgentListFinishClaimService extends AbstractGuiService<As
 
 		assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
-		claims = this.repository.findCompletedClaimsByAssistanceAgent(assistanceAgentId).stream().filter(x -> x.getStatus() == TrackingLogStatus.ACCEPTED || x.getStatus() == TrackingLogStatus.REJECTED).toList();
+		claims = this.repository.findCompletedClaimsByAssistanceAgent(assistanceAgentId).stream().filter(x -> x.getStatus().equals(TrackingLogStatus.ACCEPTED) || x.getStatus().equals(TrackingLogStatus.REJECTED)).toList();
 
 		super.getBuffer().addData(claims);
 	}
