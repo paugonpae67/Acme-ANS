@@ -22,7 +22,7 @@ assistanceAgent.trackingLog.form.error.resolutionNeeded = El campo resolución n
 assistanceAgent.trackingLog.form.error.complatePercentage = Solo se puede tener dos trazas de registro al 100%
 assistanceAgent.trackingLog.form.error.wrongNewPercentage = El porcentaje debe de ser mayor al porcentaje de la última traza
 assistanceAgent.trackingLog.form.error.statusNewPercentageTotal =  El estado del nuevo registro con el porcentaje al 100% debe de tener el mismo estado que el otro registro con porcentaje al 100% 
-
+assistanceAgent.trackingLog.form.error.draftModeClaim = Para publicar el registro debe de estar publicado antes
 
 acme.validation.leg.message = Este avión tiene tramos de vuelo pendientes, no es posible deshabilitarlo
 

@@ -22,6 +22,7 @@ assistanceAgent.trackingLog.form.error.resolutionNeeded = Resolution can not be 
 assistanceAgent.trackingLog.form.error.complatePercentage = You can only have two tracking Log in 100 percentage
 assistanceAgent.trackingLog.form.error.wrongNewPercentage = The new Percentage must be higher than the last one
 assistanceAgent.trackingLog.form.error.statusNewPercentageTotal = The status of the new tracking log with 100 of percentage must be the same than the other tracking log with 100 of percentage 
+assistanceAgent.trackingLog.form.error.draftModeClaim = The claim must be publish before publishing a tracking log
 
 acme.validation.leg.message = This aircraft has pending flight legs, it cannot be disabled
 

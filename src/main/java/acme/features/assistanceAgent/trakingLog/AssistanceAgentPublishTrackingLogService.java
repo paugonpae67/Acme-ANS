@@ -33,7 +33,7 @@ public class AssistanceAgentPublishTrackingLogService extends AbstractGuiService
 
 		claim = this.repository.findClaimByTrackingLogId(id);
 
-		status = claim != null && super.getRequest().getPrincipal().hasRealm(claim.getAssistanceAgent()) && trackingLog != null && trackingLog.isDraftMode();
+		status = claim != null && !claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(claim.getAssistanceAgent()) && trackingLog != null;
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -95,7 +95,6 @@ public class AssistanceAgentPublishTrackingLogService extends AbstractGuiService
 			}
 		} else
 			super.state(false, "draftMode", "assistanceAgent.trackingLog.form.error.draftModeClaim");
-
 	}
 
 	@Override
