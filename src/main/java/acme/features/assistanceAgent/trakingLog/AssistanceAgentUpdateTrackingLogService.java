@@ -76,8 +76,6 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 			long maximumTrackingLogs = trackingLogs.stream().filter(x -> x.getResolutionPercentage().equals(100.00)).count();
 
 			if (maximumTrackingLogs == 0) {
-				super.state(trackingLog.getResolutionPercentage() >= minPercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
-
 				if (trackingLog.getResolutionPercentage() < 100.0) {
 					boolean badStatus = !trackingLog.getStatus().equals(TrackingLogStatus.PENDING);
 					super.state(!badStatus, "status", "assistanceAgent.trackingLog.form.error.wrongStatus");
@@ -92,12 +90,24 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 				}
 
 			} else if (maximumTrackingLogs == 1) {
-				boolean badStatus = trackingLog.getStatus().equals(TrackingLogStatus.PENDING);
-				super.state(!badStatus, "status", "assistanceAgent.trackingLog.form.error.wrongStatus2");
 
-				super.state(trackingLog.getResolutionPercentage().equals(100.00) && trackingLog.getStatus().equals(latestTrackingLog.getStatus()), "status", "assistanceAgent.trackingLog.form.error.statusNewPercentageTotal");
+				if (trackingLog.getResolutionPercentage() < 100.0) {
+					boolean badStatus = !trackingLog.getStatus().equals(TrackingLogStatus.PENDING);
+					super.state(!badStatus, "status", "assistanceAgent.trackingLog.form.error.wrongStatus");
+				} else {
+					boolean badStatus = trackingLog.getStatus().equals(TrackingLogStatus.PENDING);
+					super.state(!badStatus, "status", "assistanceAgent.trackingLog.form.error.wrongStatus2");
+					super.state(trackingLog.getResolutionPercentage().equals(100.00) && trackingLog.getStatus().equals(latestTrackingLog.getStatus()), "status", "assistanceAgent.trackingLog.form.error.statusNewPercentageTotal");
 
-				super.state(!trackingLog.getClaim().isDraftMode() && latestTrackingLog.getResolutionPercentage().equals(100.00), "draftMode", "No se puede crear dos trackingLog con 100% si la claim no se ha publicado.");
+					super.state(!trackingLog.getClaim().isDraftMode() && latestTrackingLog.getResolutionPercentage().equals(100.00), "draftMode", "No se puede crear dos trackingLog con 100% si la claim no se ha publicado.");
+
+				}
+
+				if (!trackingLog.getStatus().equals(TrackingLogStatus.PENDING)) {
+					boolean hasResolution = trackingLog.getResolution() != null && !trackingLog.getResolution().isBlank();
+					super.state(hasResolution, "resolution", "assistanceAgent.trackingLog.form.error.resolutionNeeded");
+				}
+
 			} else if (maximumTrackingLogs >= 2)
 				super.state(false, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.complatePercentage");
 		}
