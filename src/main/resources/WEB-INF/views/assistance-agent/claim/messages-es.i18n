@@ -27,7 +27,7 @@ assistanceAgent.claim.form.label.leg = Trazo:
 
 assistanceAgent.claim.list-finish.button.create = Crear
 assistanceAgent.claim.form.button.create = Crear
-assistanceAgent.claim.form.button.update = Actualizar
+assistanceAgent.claim.form.button.update = Modificar
 assistanceAgent.claim.form.button.delete = Eliminar
 assistanceAgent.claim.form.button.publish = Publicar
 assistanceAgent.claim.form.button.tracking-log = Registro de seguimiento

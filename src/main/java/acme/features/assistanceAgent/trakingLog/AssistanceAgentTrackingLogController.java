@@ -20,16 +20,16 @@ public class AssistanceAgentTrackingLogController extends AbstractGuiController<
 	private AssistanceAgentShowTrackingLogSerivce		showService;
 
 	@Autowired
-	private AssistanceAgentCreateTrackingLogService		createService;
-
-	@Autowired
-	private AssistanceAgentPublishTrackingLogService	publishService;
+	private AssistanceAgentTrackingLogCreateService		createService;
 
 	@Autowired
 	private AssistanceAgentUpdateTrackingLogService		updateService;
 
 	@Autowired
 	private AssistanceAgentDeleteTrackingLogService		deleteService;
+
+	@Autowired
+	private AssistanceAgentPublishTrackingLogService	publishService;
 
 
 	@PostConstruct
