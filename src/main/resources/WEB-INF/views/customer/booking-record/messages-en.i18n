@@ -11,8 +11,13 @@ customer.booking-record.form.label.email = Passenger email:
 customer.booking-record.form.label.customer =  Passenger created by the customer:
 
 customer.booking-record.form.label.booking = Booking locator code:
+
 customer.booking-record.form.label.passengerName = Full name:
 customer.booking-record.form.label.passengerEmail = Email:
+customer.booking-record.form.label.passportNumber = Passport number:
+customer.booking-record.form.label.dateOfBirth = Date of birth:
+customer.booking-record.form.label.specialNeeds = Special needs:
+
 customer.booking-record.form.label.customer = Identifier of the customer who owns the passenger:
 customer.booking-record.form.label.isPublished = Is this passenger published?
 customer.booking-record.form.label.bookingId = Booking identifier

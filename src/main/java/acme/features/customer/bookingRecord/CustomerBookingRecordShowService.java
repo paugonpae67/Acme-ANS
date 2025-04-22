@@ -7,6 +7,7 @@ import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.bookings.BookingRecord;
+import acme.entities.passengers.Passenger;
 import acme.realms.Customer;
 
 @GuiService
@@ -20,6 +21,12 @@ public class CustomerBookingRecordShowService extends AbstractGuiService<Custome
 	public void authorise() {
 		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
 		super.getResponse().setAuthorised(status);
+
+		int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		int bookingRecordId = super.getRequest().getData("id", int.class);
+		Passenger passenger = this.repository.findPassengerByBookingRecordId(bookingRecordId);
+
+		super.getResponse().setAuthorised(customerId == passenger.getCustomer().getId());
 	}
 
 	@Override
@@ -41,8 +48,13 @@ public class CustomerBookingRecordShowService extends AbstractGuiService<Custome
 		dataset.put("bookingLocatorCode", bookingRecord.getBooking().getLocatorCode());
 		dataset.put("bookingId", bookingRecord.getBooking().getId());
 		dataset.put("passengerId", bookingRecord.getPassenger().getId());
+
 		dataset.put("passengerName", bookingRecord.getPassenger().getFullName());
 		dataset.put("passengerEmail", bookingRecord.getPassenger().getEmail());
+		dataset.put("passportNumber", bookingRecord.getPassenger().getPassportNumber());
+		dataset.put("dateOfBirth", bookingRecord.getPassenger().getDateOfBirth());
+		dataset.put("specialNeeds", bookingRecord.getPassenger().getSpecialNeeds());
+
 		dataset.put("customerCreator", bookingRecord.getPassenger().getCustomer().getIdentifier());
 		dataset.put("passengerPublished", isPassengerPublished);
 		dataset.put("bookingPublished", isBookingPublished);
