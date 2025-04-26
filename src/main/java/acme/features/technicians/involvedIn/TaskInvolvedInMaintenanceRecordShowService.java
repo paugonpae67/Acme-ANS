@@ -12,6 +12,7 @@ import acme.client.services.GuiService;
 import acme.entities.aircrafts.InvolvedIn;
 import acme.entities.aircrafts.MaintenanceRecord;
 import acme.entities.aircrafts.Task;
+import acme.entities.aircrafts.TaskType;
 import acme.realms.Technician;
 
 @GuiService
@@ -29,7 +30,7 @@ public class TaskInvolvedInMaintenanceRecordShowService extends AbstractGuiServi
 
 		id = super.getRequest().getData("id", int.class);
 		involvedIn = this.repository.findInvolvedInById(id);
-		status = involvedIn != null && super.getRequest().getPrincipal().hasRealm(involvedIn.getMaintenanceRecord().getTechnician());
+		status = involvedIn != null && super.getRequest().getPrincipal().hasRealm(involvedIn.getMaintenanceRecord().getTechnician()) || !involvedIn.getMaintenanceRecord().isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -54,11 +55,17 @@ public class TaskInvolvedInMaintenanceRecordShowService extends AbstractGuiServi
 		tasks = this.repository.findTasksDisponibles();
 		choices = SelectChoices.from(tasks, "description", involvedIn.getTask());
 
+		SelectChoices types;
+		types = SelectChoices.from(TaskType.class, involvedIn.getTask().getType());
+
 		dataset = super.unbindObject(involvedIn);
+		dataset.put("tickerMR", involvedIn.getMaintenanceRecord().getTicker());
+		dataset.put("estimatedDuration", involvedIn.getTask().getEstimatedDuration());
 		dataset.put("tasks", choices);
 		dataset.put("task", choices.getSelected().getKey());
+		dataset.put("types", types);
+		dataset.put("type", types.getSelected().getKey());
 		dataset.put("ticker", involvedIn.getTask().getTicker());
-		dataset.put("description", involvedIn.getTask().getDescription());
 		dataset.put("priority", involvedIn.getTask().getPriority());
 		dataset.put("technician", involvedIn.getTask().getTechnician().getLicenseNumber());
 		dataset.put("draftMode", maintenanceRecord.isDraftMode());

@@ -64,6 +64,8 @@ master.menu.technician = Technician
 master.menu.maintenanceRecord.list = Maintenance Record List
 master.menu.task.list = Task list
 master.menu.show-dashboard = Technician Dashboard
+master.menu.maintenanceRecord.listPublish = Publish Maintenance Record List
+master.menu.task.listPublish = Publish Task List
 
 
 # master.menu.user-account ####################################################

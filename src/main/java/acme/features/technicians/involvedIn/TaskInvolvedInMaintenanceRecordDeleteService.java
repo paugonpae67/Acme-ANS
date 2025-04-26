@@ -27,7 +27,6 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 		id = super.getRequest().getData("id", int.class);
 		involvedIn = this.repository.findInvolvedInById(id);
 		status = involvedIn != null && super.getRequest().getPrincipal().hasRealm(involvedIn.getMaintenanceRecord().getTechnician());
-		;
 
 		super.getResponse().setAuthorised(status);
 	}

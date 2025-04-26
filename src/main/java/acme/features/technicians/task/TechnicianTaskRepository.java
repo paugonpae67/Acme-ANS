@@ -23,5 +23,7 @@ public interface TechnicianTaskRepository extends AbstractRepository {
 
 	@Query("select t from Task t where t.ticker = :ticker")
 	Task findTaskByTicker(String ticker);
+	@Query("select t from Task t where t.draftMode = False")
+	Collection<Task> findTasksPublish();
 
 }
