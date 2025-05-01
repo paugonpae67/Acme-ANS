@@ -9,22 +9,16 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.Length;
-
-@Target(ElementType.FIELD)
+@Target({
+	ElementType.FIELD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE, ElementType.METHOD
+})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {})
+@Constraint(validatedBy = LicenseNumberValidator.class)
 @ReportAsSingleViolation
-
-@NotBlank
-@Length(min = 8, max = 9)
-@Pattern(regexp = "^[A-Z]{2,3}\\d{6}$")
 public @interface ValidLicenseNumber {
 
-	String message() default "";
+	String message() default "The format is incorrect";
 
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};
