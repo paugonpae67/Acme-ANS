@@ -13,6 +13,7 @@ import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.aircrafts.Aircraft;
 import acme.entities.aircrafts.MaintenanceRecord;
+import acme.entities.aircrafts.MaintenanceStatus;
 import acme.forms.TechnicianDashboard;
 import acme.realms.Technician;
 
@@ -39,27 +40,50 @@ public class TechnicianDashboardShowService extends AbstractGuiService<Technicia
 		Integer numberMaintenanceRecordCompleted;
 		MaintenanceRecord recordWithNearestInspection;
 		List<Aircraft> top5AircraftsWithMostTasks;
-		Double averageEstimatedCostLastYear;
-		Double minimumEstimatedCostLastYear;
-		Double maximumEstimatedCostLastYear;
-		Double sTDDEVEstimatedCostLastYear;
+		Double averageEstimatedCostLastYearEUR;
+		Double minimumEstimatedCostLastYearEUR;
+		Double maximumEstimatedCostLastYearEUR;
+		Double sTDDEVEstimatedCostLastYearEUR;
+
+		Double averageEstimatedCostLastYearUSD;
+		Double minimumEstimatedCostLastYearUSD;
+		Double maximumEstimatedCostLastYearUSD;
+		Double sTDDEVEstimatedCostLastYearUSD;
+
+		Double averageEstimatedCostLastYearGBP;
+		Double minimumEstimatedCostLastYearGBP;
+		Double maximumEstimatedCostLastYearGBP;
+		Double sTDDEVEstimatedCostLastYearGBP;
+
 		Double averageEstimatedDurationTask;
 		Integer minimumEstimatedDurationTask;
 		Integer maximumEstimatedDurationTask;
 		Double sTDDEVEstimatedDurationTask;
 		int currentYear = LocalDate.now().getYear() - 1;
 
-		numberMaintenanceRecordPending = this.repository.findNumberMaintenanceRecordPending(technicianId);
-		numberMaintenanceRecordInProgress = this.repository.findNumberMaintenanceRecordInProgress(technicianId);
-		numberMaintenanceRecordCompleted = this.repository.findNumberMaintenanceRecordCompleted(technicianId);
+		numberMaintenanceRecordPending = this.repository.findNumberMaintenanceRecordStatus(technicianId, MaintenanceStatus.PENDING);
+		numberMaintenanceRecordInProgress = this.repository.findNumberMaintenanceRecordStatus(technicianId, MaintenanceStatus.IN_PROGRESS);
+		numberMaintenanceRecordCompleted = this.repository.findNumberMaintenanceRecordStatus(technicianId, MaintenanceStatus.COMPLETED);
 
 		Collection<MaintenanceRecord> records = this.repository.findRecordWithNearestInspection(technicianId);
 		recordWithNearestInspection = records.isEmpty() ? null : records.iterator().next();
 		top5AircraftsWithMostTasks = this.repository.findTop5AircraftsWithMostTasks(technicianId).stream().limit(5).collect(Collectors.toList());
-		averageEstimatedCostLastYear = this.repository.findAverageEstimatedCostLastYear(technicianId, currentYear);
-		minimumEstimatedCostLastYear = this.repository.findMinimumEstimatedCostLastYear(technicianId, currentYear);
-		maximumEstimatedCostLastYear = this.repository.findMaximumEstimatedCostLastYear(technicianId, currentYear);
-		sTDDEVEstimatedCostLastYear = this.repository.findSTDDEVEstimatedCostLastYear(technicianId, currentYear);
+
+		averageEstimatedCostLastYearEUR = this.repository.findAverageEstimatedCostLastYearEUR(technicianId, currentYear);
+		minimumEstimatedCostLastYearEUR = this.repository.findMinimumEstimatedCostLastYearEUR(technicianId, currentYear);
+		maximumEstimatedCostLastYearEUR = this.repository.findMaximumEstimatedCostLastYearEUR(technicianId, currentYear);
+		sTDDEVEstimatedCostLastYearEUR = this.repository.findSTDDEVEstimatedCostLastYearEUR(technicianId, currentYear);
+
+		averageEstimatedCostLastYearUSD = this.repository.findAverageEstimatedCostLastYearUSD(technicianId, currentYear);
+		minimumEstimatedCostLastYearUSD = this.repository.findMinimumEstimatedCostLastYearUSD(technicianId, currentYear);
+		maximumEstimatedCostLastYearUSD = this.repository.findMaximumEstimatedCostLastYearUSD(technicianId, currentYear);
+		sTDDEVEstimatedCostLastYearUSD = this.repository.findSTDDEVEstimatedCostLastYearUSD(technicianId, currentYear);
+
+		averageEstimatedCostLastYearGBP = this.repository.findAverageEstimatedCostLastYearGBP(technicianId, currentYear);
+		minimumEstimatedCostLastYearGBP = this.repository.findMinimumEstimatedCostLastYearGBP(technicianId, currentYear);
+		maximumEstimatedCostLastYearGBP = this.repository.findMaximumEstimatedCostLastYearGBP(technicianId, currentYear);
+		sTDDEVEstimatedCostLastYearGBP = this.repository.findSTDDEVEstimatedCostLastYearGBP(technicianId, currentYear);
+
 		averageEstimatedDurationTask = this.repository.findAverageEstimatedDurationTask(technicianId);
 		minimumEstimatedDurationTask = this.repository.findMinimumEstimatedDurationTask(technicianId);
 		maximumEstimatedDurationTask = this.repository.findMaximumEstimatedDurationTask(technicianId);
@@ -71,10 +95,21 @@ public class TechnicianDashboardShowService extends AbstractGuiService<Technicia
 		dashboard.setNumberMaintenanceRecordCompleted(numberMaintenanceRecordCompleted);
 		dashboard.setRecordWithNearestInspection(recordWithNearestInspection);
 		dashboard.setTop5AircraftsWithMostTasks(top5AircraftsWithMostTasks);
-		dashboard.setAverageEstimatedCostLastYear(averageEstimatedCostLastYear);
-		dashboard.setMinimumEstimatedCostLastYear(minimumEstimatedCostLastYear);
-		dashboard.setMaximumEstimatedCostLastYear(maximumEstimatedCostLastYear);
-		dashboard.setSTDDEVEstimatedCostLastYear(sTDDEVEstimatedCostLastYear);
+		dashboard.setAverageEstimatedCostLastYearEUR(averageEstimatedCostLastYearEUR);
+		dashboard.setMinimumEstimatedCostLastYearEUR(minimumEstimatedCostLastYearEUR);
+		dashboard.setMaximumEstimatedCostLastYearEUR(maximumEstimatedCostLastYearEUR);
+		dashboard.setSTDDEVEstimatedCostLastYearEUR(sTDDEVEstimatedCostLastYearEUR);
+
+		dashboard.setAverageEstimatedCostLastYearUSD(averageEstimatedCostLastYearUSD);
+		dashboard.setMinimumEstimatedCostLastYearUSD(minimumEstimatedCostLastYearUSD);
+		dashboard.setMaximumEstimatedCostLastYearUSD(maximumEstimatedCostLastYearUSD);
+		dashboard.setSTDDEVEstimatedCostLastYearUSD(sTDDEVEstimatedCostLastYearUSD);
+
+		dashboard.setAverageEstimatedCostLastYearGBP(averageEstimatedCostLastYearGBP);
+		dashboard.setMinimumEstimatedCostLastYearGBP(minimumEstimatedCostLastYearGBP);
+		dashboard.setMaximumEstimatedCostLastYearGBP(maximumEstimatedCostLastYearGBP);
+		dashboard.setSTDDEVEstimatedCostLastYearGBP(sTDDEVEstimatedCostLastYearGBP);
+
 		dashboard.setAverageEstimatedDurationTask(averageEstimatedDurationTask);
 		dashboard.setMinimumEstimatedDurationTask(minimumEstimatedDurationTask);
 		dashboard.setMaximumEstimatedDurationTask(maximumEstimatedDurationTask);
@@ -89,8 +124,12 @@ public class TechnicianDashboardShowService extends AbstractGuiService<Technicia
 
 		dataset = super.unbindObject(dashboard, //
 			"numberMaintenanceRecordPending", "numberMaintenanceRecordInProgress", "numberMaintenanceRecordCompleted", //
-			"recordWithNearestInspection", "top5AircraftsWithMostTasks", "averageEstimatedCostLastYear", //
-			"minimumEstimatedCostLastYear", "maximumEstimatedCostLastYear", "sTDDEVEstimatedCostLastYear",//
+			"recordWithNearestInspection", "top5AircraftsWithMostTasks", "averageEstimatedCostLastYearEUR", //
+			"minimumEstimatedCostLastYearEUR", "maximumEstimatedCostLastYearEUR", "sTDDEVEstimatedCostLastYearEUR",//
+			"averageEstimatedCostLastYearUSD", //
+			"minimumEstimatedCostLastYearUSD", "maximumEstimatedCostLastYearUSD", "sTDDEVEstimatedCostLastYearUSD",//
+			"averageEstimatedCostLastYearGBP", //
+			"minimumEstimatedCostLastYearGBP", "maximumEstimatedCostLastYearGBP", "sTDDEVEstimatedCostLastYearGBP",//
 			"averageEstimatedDurationTask", "minimumEstimatedDurationTask", "maximumEstimatedDurationTask",//
 			"sTDDEVEstimatedDurationTask");
 
