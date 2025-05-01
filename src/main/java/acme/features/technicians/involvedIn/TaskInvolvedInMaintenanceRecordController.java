@@ -14,16 +14,19 @@ import acme.realms.Technician;
 public class TaskInvolvedInMaintenanceRecordController extends AbstractGuiController<Technician, InvolvedIn> {
 
 	@Autowired
-	private TaskInvolvedInMaintenanceRecordCreateService	createService;
+	private TaskInvolvedInMaintenanceRecordCreateService		createService;
 
 	@Autowired
-	private TaskInvolvedInMaintenanceRecordDeleteService	deleteService;
+	private TaskInvolvedInMaintenanceRecordDeleteService		deleteService;
 
 	@Autowired
-	private TaskInvolvedInMaintenanceRecordListService		listService;
+	private TaskInvolvedInMaintenanceRecordListService			listService;
 
 	@Autowired
-	private TaskInvolvedInMaintenanceRecordShowService		showService;
+	private TaskInvolvedInMaintenanceRecordShowService			showService;
+
+	@Autowired
+	private TaskInvolvedInMaintenanceRecordShowDeleteService	showDeleteService;
 
 
 	@PostConstruct
@@ -32,5 +35,6 @@ public class TaskInvolvedInMaintenanceRecordController extends AbstractGuiContro
 		super.addBasicCommand("show", this.showService);
 		super.addBasicCommand("create", this.createService);
 		super.addBasicCommand("delete", this.deleteService);
+		super.addCustomCommand("delete-form", "show", this.showDeleteService);
 	}
 }

@@ -15,7 +15,7 @@ import acme.entities.aircrafts.Task;
 import acme.realms.Technician;
 
 @GuiService
-public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiService<Technician, InvolvedIn> {
+public class TaskInvolvedInMaintenanceRecordShowDeleteService extends AbstractGuiService<Technician, InvolvedIn> {
 
 	@Autowired
 	private TaskInvolvedInMaintenanceRecordRepository repository;
@@ -23,48 +23,31 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 
 	@Override
 	public void authorise() {
+
 		boolean status;
 		int masterId;
 		MaintenanceRecord maintenanceRecord;
 
 		masterId = super.getRequest().getData("masterId", int.class);
 		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
-		status = maintenanceRecord != null && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician());
+		status = maintenanceRecord != null && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician()) || !maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
 
 		super.getResponse().setAuthorised(status);
 	}
 	@Override
 	public void load() {
-		int masterId = super.getRequest().getData("masterId", int.class);
-		MaintenanceRecord maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
+		InvolvedIn involvedIn;
+		int masterId;
+		MaintenanceRecord maintenanceRecord;
 
-		InvolvedIn involvedIn = new InvolvedIn();
-		involvedIn.setMaintenanceRecord(maintenanceRecord);
+		masterId = super.getRequest().getData("masterId", int.class);
+		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
+
+		involvedIn = new InvolvedIn();
 		involvedIn.setTask(null);
+		involvedIn.setMaintenanceRecord(maintenanceRecord);
 
 		super.getBuffer().addData(involvedIn);
-	}
-	@Override
-	public void bind(final InvolvedIn involvedIn) {
-		int taskId;
-		Task task;
-
-		taskId = super.getRequest().getData("task", int.class);
-		task = this.repository.findTaskById(taskId);
-		super.bindObject(involvedIn);
-		involvedIn.setTask(task);
-
-	}
-
-	@Override
-	public void validate(final InvolvedIn involvedIn) {
-		;
-	}
-	@Override
-	public void perform(final InvolvedIn involvedIn) {
-		InvolvedIn toDelete = this.repository.findInvolvedInByTaskIdAndMaintenanceRecordId(involvedIn.getTask().getId(), involvedIn.getMaintenanceRecord().getId());
-
-		this.repository.delete(toDelete);
 	}
 
 	@Override

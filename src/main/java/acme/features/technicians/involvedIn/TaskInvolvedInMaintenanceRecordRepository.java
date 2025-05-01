@@ -35,5 +35,7 @@ public interface TaskInvolvedInMaintenanceRecordRepository extends AbstractRepos
 	Task findInvolvedInMaintenanceRecordTask(int id, int taskId);
 	@Query("select t from Task t where t.ticker = :taskTicker")
 	Task findTaskByTicker(String taskTicker);
+	@Query("select i from InvolvedIn i where i.task.id=:id and i.maintenanceRecord.id=:id2")
+	InvolvedIn findInvolvedInByTaskIdAndMaintenanceRecordId(int id, int id2);
 
 }
