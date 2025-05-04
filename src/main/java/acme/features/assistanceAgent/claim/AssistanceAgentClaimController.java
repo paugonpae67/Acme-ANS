@@ -26,7 +26,7 @@ public class AssistanceAgentClaimController extends AbstractGuiController<Assist
 	private AssistanceAgentCreateClaimService			createService;
 
 	@Autowired
-	private AssistanceAgentUpdateClaimSerivce			updateService;
+	private AssistanceAgentUpdateClaimService			updateService;
 
 	@Autowired
 	private AssistanceAgentPublishClaimService			publishService;

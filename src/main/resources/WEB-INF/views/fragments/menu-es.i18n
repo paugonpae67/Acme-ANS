@@ -48,7 +48,7 @@ master.menu.consumer = Consumidor
 master.menu.consumer.favourite-link = Enlace favorito
 
 # master.menu.claim ##########################################################
-master.menu.claim = Registros
+master.menu.claim = Agente
 master.menu.claim.list-finish = Lista de registros finalizados
 master.menu.claim.list-undergoing = Lista de registros en proceso
 
