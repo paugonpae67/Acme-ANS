@@ -30,7 +30,7 @@ public class TaskInvolvedInMaintenanceRecordShowDeleteService extends AbstractGu
 
 		masterId = super.getRequest().getData("masterId", int.class);
 		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
-		status = maintenanceRecord != null && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician()) || !maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
+		status = maintenanceRecord != null && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician());
 
 		super.getResponse().setAuthorised(status);
 	}
