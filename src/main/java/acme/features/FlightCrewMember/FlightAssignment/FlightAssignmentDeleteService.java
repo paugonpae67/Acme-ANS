@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
-import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.activityLog.ActivityLog;
@@ -31,42 +30,36 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 	@Override
 	public void authorise() {
 		boolean status;
-		int flightAssignmentId;
-		FlightAssignment flightAssignment;
+		int id;
+		FlightAssignment assignment;
 
-		flightAssignmentId = super.getRequest().getData("id", int.class);
-		flightAssignment = this.repository.findAssignmentById(flightAssignmentId);
+		id = super.getRequest().getData("id", int.class);
+		assignment = this.repository.findAssignmentById(id);
 
-		status = flightAssignment.isDraftMode();
+		Integer idmemeber = super.getRequest().getData("flightCrewMember", int.class);
+		FlightCrewMember member = this.repository.findFlightCrewMemberById(idmemeber);
+		status = assignment.isDraftMode() && member != null && super.getRequest().getPrincipal().getActiveRealm().getId() == member.getId();
+
 		super.getResponse().setAuthorised(status);
+
 	}
 
 	@Override
 	public void load() {
-		FlightAssignment flightAssignment;
+		int id;
+		FlightAssignment assignment;
 
-		flightAssignment = new FlightAssignment();
+		id = super.getRequest().getData("id", int.class);
+		assignment = this.repository.findAssignmentById(id);
 
-		flightAssignment.setDraftMode(true);
+		super.getBuffer().addData(assignment);
 
-		super.getBuffer().addData(flightAssignment);
 	}
 
 	@Override
 	public void bind(final FlightAssignment flightAssignment) {
-		int legId;
-		Leg leg;
-		int memberId;
-		FlightCrewMember flightCrewMember;
 
-		legId = super.getRequest().getData("leg", int.class);
-		leg = this.repository.findLegById(legId);
-		memberId = super.getRequest().getData("flightCrewMember", int.class);
-		flightCrewMember = this.repository.findFlightCrewMemberById(memberId);
-
-		super.bindObject(flightAssignment, "duty", "remarks", "moment", "currentStatus");
-		flightAssignment.setLeg(leg);
-		flightAssignment.setFlightCrewMembers(flightCrewMember);
+		super.bindObject(flightAssignment, "remarks", "moment", "currentStatus", "duty", "leg");
 	}
 
 	@Override
@@ -76,15 +69,15 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 
 	@Override
 	public void perform(final FlightAssignment flightAssignment) {
-		Collection<ActivityLog> activityLogs = this.repository.getActivityLogByFlight(flightAssignment.getId());
-
-		this.activityLogRepository.deleteAll(activityLogs);
+		Collection<ActivityLog> act = this.repository.getActivityLogByFlight(flightAssignment.getId());
+		for (ActivityLog activity : act)
+			this.activityLogRepository.delete(activity);
 		this.repository.delete(flightAssignment);
+
 	}
 
 	@Override
 	public void unbind(final FlightAssignment assignment) {
-
 		int memberId;
 		Collection<Leg> legs;
 		SelectChoices legChoices;
@@ -97,7 +90,7 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 		SelectChoices duty;
 
 		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		legs = this.repository.findAllLegsFuture(MomentHelper.getCurrentMoment());
+		legs = this.repository.findAllLegs();
 		members = this.repository.findAllAvailableMembers();
 
 		currentStatus = SelectChoices.from(FlightAssignmentStatus.class, assignment.getCurrentStatus());
@@ -106,15 +99,15 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 		legChoices = SelectChoices.from(legs, "flightNumber", assignment.getLeg());
 		memberChoices = SelectChoices.from(members, "employeeCode", assignment.getFlightCrewMembers());
 
-		dataset = super.unbindObject(assignment, "remarks", "duty", "draftMode");
-		dataset.put("moment", MomentHelper.getCurrentMoment());
+		dataset = super.unbindObject(assignment, "remarks", "moment", "currentStatus", "duty", "draftMode");
+		dataset.put("currentStatus", currentStatus);
 		dataset.put("duty", duty);
 		dataset.put("leg", legChoices.getSelected().getKey());
-		dataset.put("currentStatus", currentStatus);
 		dataset.put("legs", legChoices);
 		dataset.put("flightCrewMember", memberChoices.getSelected().getKey());
 		dataset.put("flightCrewMember", memberChoices);
 		super.getResponse().addData(dataset);
+
 	}
 
 }

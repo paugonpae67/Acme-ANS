@@ -28,9 +28,9 @@ task-22,TICKER-20,MAINTENANCE,5,500,' or 'A' = 'A,true,technician-02
 #draftMode
 task-29,TICKER-21,MAINTENANCE,5,500,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,false,technician-01
 #key:technician
-task-23,TICKER-22,MAINTENANCE,5,500,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,technician-02
+task-23,TICKER-22,MAINTENANCE,5,500,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,false,technician-02
 # ticker
-task-28,TICKE,MAINTENANCE,5,500,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,technician-01
+task-28,TICKE,MAINTENANCE,5,500,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,false,technician-01
 task-25,TICKER,MAINTENANCE,5,500,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,technician-01
 task-26,TICKER-1234567,MAINTENANCE,5,500,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,technician-01
 task-27,TICKER-12345678,MAINTENANCE,5,500,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,technician-01

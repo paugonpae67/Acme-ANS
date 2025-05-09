@@ -18,9 +18,6 @@ FlightCrewMember.FlightAssignment.list-past.label.payload = Fecha tramo vuelo
 FlightCrewMember.FlightAssignment.list-past.label.duty = Rol
 FlightCrewMember.FlightAssignment.list-past.label.currentStatus = Estado Actual Asignación Vuelo
 
-FlightCrewMember.FlightAssignment.list-past.label.payload = Fecha tramo vuelo
-FlightCrewMember.FlightAssignment.list-future.label.passengerEmail = Rol
-FlightCrewMember.FlightAssignment.list-future.label.description = Estado Actual Asignación Vuelo
 
 flight.message.assignment= ASIGNACIÓN
 
@@ -29,21 +26,7 @@ FlightCrewMember.FlightAssignment.form.label.moment = Momento
 FlightCrewMember.FlightAssignment.form.label.currentStatus = Estado Actual
 FlightCrewMember.FlightAssignment.form.label.duty = Rol
 
-flight.message.legs= TRAMO DE LA ASIGNACIÓN
 
-FlightCrewMember.FlightAssignment.form.label.flightNumber= Número de Vuelo
-FlightCrewMember.FlightAssignment.form.label.scheduledArrival= Llegada Programasa
-FlightCrewMember.FlightAssignment.form.label.scheduledDeparture= Salida Programada
-FlightCrewMember.FlightAssignment.form.label.status = Estado del Tramo
-FlightCrewMember.FlightAssignment.form.label.Duration = Duración
-
-flight.message.member= MIEMBRO DE LA TRIPULACIÓN DE LA ASIGNACIÓN
-
-FlightCrewMember.FlightAssignment.form.label.employeeCode= Código del Empleado
-FlightCrewMember.FlightAssignment.form.label.phoneNumber = Número de Teléfono
-FlightCrewMember.FlightAssignment.form.label.languageSkills= Habilidades de Lenguaje
-FlightCrewMember.FlightAssignment.form.label.salary= Salario
-FlightCrewMember.FlightAssignment.form.label.yearsOfExperience= Años de experiencia
-FlightCrewMember.FlightAssignment.form.label.availabilityStatus = Estado de Disponibilidad
 
 flight-crew-member.flight-assignment.form.button.activity-log = Registros de actividad
+flight-crew-member.flight-assignment.form.button.delete = Borrar

@@ -24,12 +24,25 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 	@Override
 	public void authorise() {
 		boolean status;
-		int masterId;
-		MaintenanceRecord maintenanceRecord;
+		try {
+			int masterId;
+			MaintenanceRecord maintenanceRecord;
 
-		masterId = super.getRequest().getData("masterId", int.class);
-		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
-		status = maintenanceRecord != null && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician());
+			masterId = super.getRequest().getData("masterId", int.class);
+			maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
+			status = maintenanceRecord != null && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician()) && maintenanceRecord.isDraftMode();
+
+			Integer taskId = super.getRequest().getData("task", Integer.class);
+
+			if (taskId == null)
+				status = false;
+			else if (taskId != 0) {
+				Task checkedTask = this.repository.findTaskById(taskId);
+				status = status && checkedTask != null;
+			}
+		} catch (Exception e) {
+			status = false;
+		}
 
 		super.getResponse().setAuthorised(status);
 	}
