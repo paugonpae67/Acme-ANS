@@ -2,6 +2,7 @@
 package acme.constraints;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.validation.ConstraintValidatorContext;
@@ -28,36 +29,62 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 
 	@Override
 	public boolean isValid(final TrackingLog trackingLog, final ConstraintValidatorContext context) {
-
 		assert context != null;
 
 		if (trackingLog == null) {
 			super.state(context, false, "*", "javax.validation.constraints.NotNull.message");
 			return false;
-		} else {
-
-			if (trackingLog.getResolutionPercentage() != 100)
-				super.state(context, trackingLog.getStatus().equals(TrackingLogStatus.PENDING), "Status", "El estado debe de ser PENDING");
-			else
-				super.state(context, !trackingLog.getStatus().equals(TrackingLogStatus.PENDING), "Status", "El estado debe de ser ACCEPTED or REJECTED");
-
-			if (trackingLog.getStatus().equals(TrackingLogStatus.ACCEPTED) || trackingLog.getStatus().equals(TrackingLogStatus.REJECTED))
-				super.state(context, !trackingLog.getResolution().isEmpty() || trackingLog.getResolution() != null, "Resloution", "El campo resolution no puede estar vacío para trackingLogs terminados");
-
-			Optional<List<TrackingLog>> latestTrackingLogsOpt = this.trackingLogsRepository.findLatestTrackingLogByClaimDraft(trackingLog.getClaim().getId());
-			TrackingLog latestTrackingLog = latestTrackingLogsOpt.orElse(List.of()).stream().findFirst().orElse(null);
-			if (!latestTrackingLogsOpt.isEmpty()) {
-				Double minPercentage = latestTrackingLogsOpt.orElse(List.of()).stream().map(TrackingLog::getResolutionPercentage).min(Double::compare).orElse(0.00);
-				Long maximumTrackingLogs = latestTrackingLogsOpt.orElse(List.of()).stream().filter(x -> x.getResolutionPercentage().equals(100.00)).count();
-				if (Long.valueOf(0).equals(maximumTrackingLogs))
-					super.state(context, trackingLog.getResolutionPercentage() >= minPercentage, "Percentage", "El porcentaje debe de ser ascendente");
-				else if (Long.valueOf(1).equals(maximumTrackingLogs)) {
-					super.state(context, trackingLog.getResolutionPercentage().equals(100.00) && trackingLog.getStatus().equals(latestTrackingLog.getStatus()), "Status", "El estado del nuevo tracking log debe de coincidir");
-					super.state(context, !trackingLog.getClaim().isDraftMode() && latestTrackingLog.getResolutionPercentage().equals(100.00), "draftMode", "No se puede crear dos trackingLog con 100% si la claim no se ha publicado");
-				} else if (Long.valueOf(2).equals(maximumTrackingLogs))
-					super.state(context, false, "Forbidden", "No se pueden crear más trackingLogs");
-			}
 		}
+
+		Double percentage = trackingLog.getResolutionPercentage();
+		TrackingLogStatus status = trackingLog.getStatus();
+		String resolution = trackingLog.getResolution();
+
+		if (percentage == null) {
+			super.state(context, false, "ResolutionPercentage", "El porcentaje no puede ser nulo");
+			return false;
+		}
+
+		if (status == null) {
+			super.state(context, false, "Status", "El estado no puede ser nulo");
+			return false;
+		}
+
+		Optional<List<TrackingLog>> trackingLogs = this.trackingLogsRepository.findLatestTrackingLogByClaim(trackingLog.getClaim().getId());
+		Long countPercentage = trackingLogs.orElse(List.of()).stream().filter(x -> !Objects.equals(x.getId(), trackingLog.getId())).filter(x -> Objects.equals(x.getResolutionPercentage(), trackingLog.getResolutionPercentage())).count();
+
+		if (countPercentage > 0)
+			super.state(context, false, "ResolutionPercentage", "No puede haber dos trackingLogs con el mismo porcentaje");
+
+		if (percentage != 100)
+			super.state(context, status.equals(TrackingLogStatus.PENDING), "Status", "El estado debe de ser PENDING");
+		else
+			super.state(context, !status.equals(TrackingLogStatus.PENDING), "Status", "El estado debe de ser ACCEPTED or REJECTED");
+
+		if (status.equals(TrackingLogStatus.ACCEPTED) || status.equals(TrackingLogStatus.REJECTED)) {
+			boolean hasResolution = resolution != null && !resolution.isBlank();
+			super.state(context, hasResolution, "Resolution", "El campo resolution no puede estar vacío para trackingLogs terminados");
+		}
+
+		List<TrackingLog> latestTrackingLogs = this.trackingLogsRepository.findOtherTrackingLogsOrderedByLastUpdateDraft(trackingLog.getClaim().getId(), trackingLog.getId());
+		TrackingLog latestTrackingLog = latestTrackingLogs.stream().findFirst().orElse(null);
+
+		if (!latestTrackingLogs.isEmpty()) {
+
+			Double minPercentage = latestTrackingLogs.stream().map(TrackingLog::getResolutionPercentage).filter(p -> p != null).min(Double::compare).orElse(0.00);
+
+			Long maxComplete = latestTrackingLogs.stream().filter(x -> x.getResolutionPercentage() != null && x.getResolutionPercentage().equals(100.00)).count();
+
+			if (maxComplete == 0)
+				super.state(context, percentage >= minPercentage, "resolutionPercentage", "El porcentaje debe de ser ascendente");
+			else if (maxComplete == 1 && latestTrackingLog != null) {
+				super.state(context, percentage.equals(100.00) && status.equals(latestTrackingLog.getStatus()), "status", "El estado del nuevo tracking log debe de coincidir");
+				super.state(context, !trackingLog.getClaim().isDraftMode() && latestTrackingLog.getResolutionPercentage().equals(100.00), "draftMode", "No se puede crear dos trackingLog con 100% si la claim no se ha publicado");
+			} else if (maxComplete >= 2)
+				super.state(context, false, "resolutionPercentage", "No se pueden crear más trackingLogs con 100%");
+		}
+
 		return !super.hasErrors(context);
 	}
+
 }

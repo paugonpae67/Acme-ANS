@@ -68,7 +68,9 @@ public class AssistanceAgentPublishTrackingLogService extends AbstractGuiService
 				long maximumTrackingLogs = trackingLogs.stream().filter(x -> x.getResolutionPercentage().equals(100.00)).count();
 
 				if (maximumTrackingLogs == 0) {
-					super.state(trackingLog.getResolutionPercentage() >= minPercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
+					TrackingLog minTrackingLog = trackingLogs.stream().filter(x -> x.getResolutionPercentage().equals(minPercentage)).findFirst().orElse(null);
+					if (minTrackingLog.getLastUpdateMoment().compareTo(trackingLog.getLastUpdateMoment()) < 0)
+						super.state(trackingLog.getResolutionPercentage() >= minPercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
 
 					if (trackingLog.getResolutionPercentage() < 100.0) {
 						boolean badStatus = !trackingLog.getStatus().equals(TrackingLogStatus.PENDING);
