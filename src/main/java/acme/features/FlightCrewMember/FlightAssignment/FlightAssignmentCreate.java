@@ -70,7 +70,8 @@ public class FlightAssignmentCreate extends AbstractGuiService<FlightCrewMember,
 		memberId = super.getRequest().getData("flightCrewMember", int.class);
 		int assignmentId;
 		assignmentId = super.getRequest().getData("leg", int.class);
-
+		// no enlazar con un leg del pasado 
+		// no enlazar con un memeber q no este avaible -> se hace directamente en el desplegable 
 		Collection<Leg> legs = this.repository.findLegsByFlightCrewMember(memberId);
 
 		for (Leg leg : legs) {

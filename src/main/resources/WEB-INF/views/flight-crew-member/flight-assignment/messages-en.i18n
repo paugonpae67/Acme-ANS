@@ -18,10 +18,6 @@ FlightCrewMember.FlightAssignment.list-past.label.payload = Date Flight Leg
 FlightCrewMember.FlightAssignment.list-past.label.duty = Duty
 FlightCrewMember.FlightAssignment.list-past.label.currentStatus = Current Status Flight Assignment
 
-FlightCrewMember.FlightAssignment.list-past.label.payload = Date Flight Leg
-FlightCrewMember.FlightAssignment.list-future.label.passengerEmail = Duty
-FlightCrewMember.FlightAssignment.list-future.label.description = Current Status Flight Assignment
-
 flight.message.assignment= ASSIGNMENT
 
 FlightCrewMember.FlightAssignment.form.label.remarks = Remarks
@@ -29,22 +25,6 @@ FlightCrewMember.FlightAssignment.form.label.moment = Moment
 FlightCrewMember.FlightAssignment.form.label.currentStatus = Current Status
 FlightCrewMember.FlightAssignment.form.label.duty = Duty
 
-flight.message.legs= LEG OF ASSIGNMENT
-
-FlightCrewMember.FlightAssignment.form.label.flightNumber= Flight Number
-FlightCrewMember.FlightAssignment.form.label.scheduledArrival= Scheduled Arrival
-FlightCrewMember.FlightAssignment.form.label.scheduledDeparture= Scheduled Departure
-FlightCrewMember.FlightAssignment.form.label.status = Leg Status
-FlightCrewMember.FlightAssignment.form.label.Duration = Duration
-
-flight.message.member= FLIGHT CREW MEMBER OF ASSIGNMENT
-
-FlightCrewMember.FlightAssignment.form.label.employeeCode= Employee Code
-FlightCrewMember.FlightAssignment.form.label.phoneNumber = Phone Number
-FlightCrewMember.FlightAssignment.form.label.languageSkills= Language Skills
-FlightCrewMember.FlightAssignment.form.label.salary= Salary
-FlightCrewMember.FlightAssignment.form.label.yearsOfExperience= Years Of Experience
-FlightCrewMember.FlightAssignment.form.label.availabilityStatus = Availability Status
-
 
 flight-crew-member.flight-assignment.form.button.activity-log = Activities Logs Records
+flight-crew-member.flight-assignment.form.button.delete = Delete

@@ -28,32 +28,39 @@ public class FlightAssignmentPublishService extends AbstractGuiService<FlightCre
 
 	@Override
 	public void authorise() {
-		FlightAssignment FlightAssignment;
+
+		boolean status;
 		int id;
+		FlightAssignment assignment;
 
 		id = super.getRequest().getData("id", int.class);
-		FlightAssignment = this.repository.findAssignmentById(id);
-		boolean correctMember = FlightAssignment.getFlightCrewMembers().getId() == super.getRequest().getPrincipal().getActiveRealm().getId();
-		boolean flightAssignmentPublished = !FlightAssignment.isDraftMode();
+		assignment = this.repository.findAssignmentById(id);
 
-		boolean status = correctMember && flightAssignmentPublished && FlightAssignment.isDraftMode();
+		Integer idmemeber = super.getRequest().getData("flightCrewMember", int.class);
+		FlightCrewMember member = this.repository.findFlightCrewMemberById(idmemeber);
+		status = member != null && super.getRequest().getPrincipal().getActiveRealm().getId() == member.getId();
+
 		super.getResponse().setAuthorised(status);
+
 	}
 
 	@Override
 	public void load() {
-		FlightAssignment FlightAssignment;
+
 		int id;
+		FlightAssignment assignment;
 
 		id = super.getRequest().getData("id", int.class);
-		FlightAssignment = this.repository.findAssignmentById(id);
+		assignment = this.repository.findAssignmentById(id);
 
-		super.getBuffer().addData(FlightAssignment);
+		super.getBuffer().addData(assignment);
 	}
 
 	@Override
 	public void bind(final FlightAssignment FlightAssignment) {
-		super.bindObject(FlightAssignment, "remarks", "moment", "currentStatus", "duty", "currentStatus");
+
+		super.bindObject(FlightAssignment, "remarks", "moment", "currentStatus", "duty", "leg");
+
 	}
 
 	@Override
@@ -65,10 +72,11 @@ public class FlightAssignmentPublishService extends AbstractGuiService<FlightCre
 	public void perform(final FlightAssignment FlightAssignment) {
 		FlightAssignment.setDraftMode(false);
 		this.repository.save(FlightAssignment);
+
 	}
 
 	@Override
-	public void unbind(final FlightAssignment FlightAssignment) {
+	public void unbind(final FlightAssignment assignment) {
 		int memberId;
 		Collection<Leg> legs;
 		SelectChoices legChoices;
@@ -84,13 +92,13 @@ public class FlightAssignmentPublishService extends AbstractGuiService<FlightCre
 		legs = this.repository.findAllLegs();
 		members = this.repository.findAllAvailableMembers();
 
-		currentStatus = SelectChoices.from(FlightAssignmentStatus.class, FlightAssignment.getCurrentStatus());
-		duty = SelectChoices.from(FlightAssignmentDuty.class, FlightAssignment.getDuty());
+		currentStatus = SelectChoices.from(FlightAssignmentStatus.class, assignment.getCurrentStatus());
+		duty = SelectChoices.from(FlightAssignmentDuty.class, assignment.getDuty());
 
-		legChoices = SelectChoices.from(legs, "flightNumber", FlightAssignment.getLeg());
-		memberChoices = SelectChoices.from(members, "employeeCode", FlightAssignment.getFlightCrewMembers());
+		legChoices = SelectChoices.from(legs, "flightNumber", assignment.getLeg());
+		memberChoices = SelectChoices.from(members, "employeeCode", assignment.getFlightCrewMembers());
 
-		dataset = super.unbindObject(FlightAssignment, "remarks", "moment", "currentStatus", "duty", "draftMode");
+		dataset = super.unbindObject(assignment, "remarks", "moment", "currentStatus", "duty", "draftMode");
 		dataset.put("currentStatus", currentStatus);
 		dataset.put("duty", duty);
 		dataset.put("leg", legChoices.getSelected().getKey());
