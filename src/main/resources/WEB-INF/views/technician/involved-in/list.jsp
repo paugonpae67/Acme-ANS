@@ -12,6 +12,7 @@
 	
 <jstl:if test="${showCreate}">
 	<acme:button code="technician.involved-in.form.button.create" action="/technician/involved-in/create?masterId=${masterId}"/>
+	<acme:button code="technician.involved-in.form.button.delete" action="/technician/involved-in/delete-form?masterId=${masterId}"/>
 </jstl:if>
 
 
