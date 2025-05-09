@@ -25,34 +25,52 @@ public class TechnicianMaintenanceRecordCreateService extends AbstractGuiService
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
+		boolean status = false;
+
+		try {
+			status = super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
+			super.getResponse().setAuthorised(status);
+
+			if (super.getRequest().hasData("id")) {
+				Integer aircraftId = super.getRequest().getData("aircraft", Integer.class);
+				if (aircraftId == null)
+					status = false;
+				else if (aircraftId != 0) {
+					Aircraft existingAircraft = this.repository.findAircraftById(aircraftId);
+					status = status && existingAircraft != null;
+				}
+			}
+		} catch (Exception e) {
+			status = false;
+		}
+
 		super.getResponse().setAuthorised(status);
+
 	}
 
 	@Override
 	public void load() {
 		MaintenanceRecord maintenanceRecord;
 		Technician technician;
-
+		Date currentMoment;
 		technician = (Technician) super.getRequest().getPrincipal().getActiveRealm();
+		currentMoment = MomentHelper.getCurrentMoment();
 
 		maintenanceRecord = new MaintenanceRecord();
+		maintenanceRecord.setMaintenanceMoment(currentMoment);
 		maintenanceRecord.setDraftMode(true);
 		maintenanceRecord.setTechnician(technician);
+		maintenanceRecord.setStatus(MaintenanceStatus.PENDING);
 		super.getBuffer().addData(maintenanceRecord);
 	}
 
 	@Override
 	public void bind(final MaintenanceRecord maintenanceRecord) {
-		Date currentMoment;
-		Aircraft aircraft;
 
+		Aircraft aircraft;
 		aircraft = super.getRequest().getData("aircraft", Aircraft.class);
-		currentMoment = MomentHelper.getCurrentMoment();
 		super.bindObject(maintenanceRecord, "ticker", "nextInspection", "estimatedCost", "notes");
-		maintenanceRecord.setMaintenanceMoment(currentMoment);
 		maintenanceRecord.setAircraft(aircraft);
-		maintenanceRecord.setStatus(MaintenanceStatus.PENDING);
 	}
 
 	@Override
@@ -65,6 +83,10 @@ public class TechnicianMaintenanceRecordCreateService extends AbstractGuiService
 			boolean validCurrency = maintenanceRecord.getEstimatedCost().getCurrency().equals("EUR") || maintenanceRecord.getEstimatedCost().getCurrency().equals("USD") || maintenanceRecord.getEstimatedCost().getCurrency().equals("GBP");
 			super.state(validCurrency, "estimatedCost", "acme.validation.validCurrency");
 		}
+
+		valid = maintenanceRecord.getAircraft() != null;
+		super.state(valid, "aircraft", "acme.validation.form.error.invalidAircraft");
+
 	}
 	@Override
 	public void perform(final MaintenanceRecord maintenanceRecord) {
@@ -79,7 +101,12 @@ public class TechnicianMaintenanceRecordCreateService extends AbstractGuiService
 		SelectChoices aircrafts;
 		Collection<Aircraft> aircraftsCollection;
 		aircraftsCollection = this.repository.findAircrafts();
-		aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
+		try {
+			aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
+		} catch (NullPointerException e) {
+			throw new IllegalArgumentException("The selected aircraft is not available");
+		}
+
 		dataset = super.unbindObject(maintenanceRecord, "ticker", "maintenanceMoment", "status", "nextInspection", "estimatedCost", "notes", "draftMode");
 		dataset.put("status", choices.getSelected().getKey());
 		dataset.put("statuses", choices);
