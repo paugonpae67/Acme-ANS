@@ -16,6 +16,11 @@ acme.validation.form.error.duplicateTicker = Duplicated Ticker
 
 
 acme.validation.claim.form.error.registrationMomentNotPast = Registration Moment must be in the past
+acme.validation.claim.form.error.type = You can only choose a type from the selection 
+acme.validation.claim.form.error.leg = You can only choose a leg from the selection 
+acme.validation.claim.form.error.leg2 = Leg can not be null, you must select one
+acme.validation.claim.form.error.draftMode = You can not update o delete a claim if it is not in draft mode
+
 assistance-agent.tracking-log.form.error.wrongStatus = Status must be PENDING
 assistanceAgent.trackingLog.form.error.wrongStatus2. = Status must be ACCEPTED or REJECTED
 assistanceAgent.trackingLog.form.error.resolutionNeeded = Resolution can not be null
@@ -23,6 +28,7 @@ assistanceAgent.trackingLog.form.error.complatePercentage = You can only have tw
 assistanceAgent.trackingLog.form.error.wrongNewPercentage = The new Percentage must be higher than the last one
 assistanceAgent.trackingLog.form.error.statusNewPercentageTotal = The status of the new tracking log with 100 of percentage must be the same than the other tracking log with 100 of percentage 
 assistanceAgent.trackingLog.form.error.draftModeClaim = The claim must be publish before publishing a tracking log
+assistanceAgent.trackingLog.form.error.wrongPercentage = You can not create two trackingLogs with the same resolution percentage
 
 acme.validation.leg.message = This aircraft has pending flight legs, it cannot be disabled
 

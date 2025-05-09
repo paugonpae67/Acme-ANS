@@ -48,7 +48,7 @@ master.menu.consumer.favourite-link = Favourite link
 
 # master.menu.claim ##########################################################
 
-master.menu.claim = Claim
+master.menu.claim = Agent
 master.menu.claim.list-finish = List of Finished Claim
 master.menu.claim.list-undergoing = List of Undergoing Claim
 

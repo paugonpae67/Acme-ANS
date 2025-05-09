@@ -10,12 +10,13 @@
 
 assistance-agent.tracking-log.list.title = Lista de registro de seguimiento
 assistance-agent.tracking-log.form.title = Detalles de los registros de seguimiento
-n
+
 assistanceAgent.trackingLog.list.label.step = Paso
 assistanceAgent.trackingLog.list.label.resolutionPercentage = Porcentaje de resolución
 assistanceAgent.trackingLog.list.label.status = Estado
 assistanceAgent.trackingLog.list.label.resolution = Resolucion
 
+assistanceAgent.trackingLog.form.label.lastUpdateMoment = Última modificación:
 assistanceAgent.trackingLog.form.label.step = Paso:
 assistanceAgent.trackingLog.form.label.resolutionPercentage = Porcentaje de resolución:
 assistanceAgent.trackingLog.form.label.status = Estado:
