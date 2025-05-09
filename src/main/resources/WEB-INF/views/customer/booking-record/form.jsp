@@ -14,8 +14,13 @@
 		
 		<jstl:when test="${acme:anyOf(_command, 'show|delete')}">
 			<acme:input-textbox code="customer.booking-record.form.label.booking" path="bookingLocatorCode" readonly="true"/>
+			
 			<acme:input-textbox code="customer.booking-record.form.label.passengerName" path="passengerName" readonly="true"/>
 			<acme:input-textbox code="customer.booking-record.form.label.passengerEmail" path="passengerEmail" readonly="true"/>
+			<acme:input-textbox code="customer.booking-record.form.label.passportNumber" path="passportNumber" readonly="true"/>
+			<acme:input-textbox code="customer.booking-record.form.label.dateOfBirth" path="dateOfBirth" readonly="true"/>
+			<acme:input-textbox code="customer.booking-record.form.label.specialNeeds" path="specialNeeds" readonly="true"/>
+			
 			<acme:input-textbox code="customer.booking-record.form.label.customer" path="customerCreator" readonly="true"/>
 			<acme:input-textbox code="customer.booking-record.form.label.isPublished" path="passengerPublished" readonly="true"/>
 			<acme:input-textbox code="customer.booking-record.form.label.bookingId" path="bookingId" readonly="true"/>

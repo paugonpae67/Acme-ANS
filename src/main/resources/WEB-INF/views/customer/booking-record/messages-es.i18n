@@ -11,8 +11,13 @@ customer.booking-record.form.label.email = Correo electrónico de pasajero:
  customer.booking-record.form.label.customer =  Pasajero creado por el customer:
  
  customer.booking-record.form.label.booking = Código localizador de la reserva:
+ 
 customer.booking-record.form.label.passengerName = Nombre completo
 customer.booking-record.form.label.passengerEmail = Correo electrónico
+customer.booking-record.form.label.passportNumber = Número de pasaporte:
+customer.booking-record.form.label.dateOfBirth = Fecha de cumpleaños:
+customer.booking-record.form.label.specialNeeds = Necesidades especiales:
+
 customer.booking-record.form.label.customer = Identificador del cliente propietario del pasajero:
 customer.booking-record.form.label.isPublished = ¿Este pasajero está publicado?
 customer.booking-record.form.label.bookingId = Identificador del booking

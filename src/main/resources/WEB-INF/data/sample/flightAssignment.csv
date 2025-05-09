@@ -2,8 +2,8 @@ key,duty,remarks,moment,currentStatus,key:flightCrewMembers,key:leg,draft_mode
 #duty,"","","","","","",""
 flightAssignment-01,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-01,true
 flightAssignment-02,CO_PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-02,leg-02,true
-flightAssignment-03,LEAD_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-03,leg-03,true
-flightAssignment-04,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-04,leg-04,true
+flightAssignment-03,LEAD_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-03,leg-06,false
+flightAssignment-04,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-04,leg-06,false
 #remarks,"","","","","","",""
 flightAssignment-05,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-05,true
 flightAssignment-06,CABIN_ATTENDANT,L,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-08,true

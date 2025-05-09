@@ -15,7 +15,7 @@ technician.maintenance-record.form.placeholder.estimated-cost = Ejemplo: 1,000.0
 
 technician.maintenance-record.form.button.create = Crear		
 technician.maintenance-record.form.button.update = Actualizar
-technician.maintenance-record.form.button.involved-in = Tareas
+technician.maintenance-record.form.button.involved-in = Tareas asociadas
 technician.maintenance-record.form.button.delete = Eliminar
 technician.maintenance-record.form.button.publish = Publicar
 

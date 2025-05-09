@@ -4,14 +4,19 @@
 <%@taglib prefix="acme" uri="http://acme-framework.org/"%>
 
 <acme:form> 
-	<acme:input-select code="technician.involved-in.form.label.task" path="task" readonly="${_command != 'create'}" choices="${tasks}"/>
+	<acme:hidden-data path="id"/>
+	<acme:input-select code="technician.involved-in.form.label.task" path="task" readonly="${_command == 'show'}" choices="${tasks}"/>
+
 	<jstl:if test="${_command == 'show'}">	
+		<acme:input-textbox code="technician.involved-in.form.label.tickerMaintenanceRecord" path="tickerMR" readonly="true"/>
+		<acme:input-textbox code="technician.involved-in.form.label.ticker" path="ticker" readonly="true"/>
+		<acme:input-select code="technician.involved-in.form.label.type" path="type" choices="${types}" readonly ="true"/>
 		<acme:input-integer code="technician.involved-in.form.label.priority" path="priority" readonly="true"/>
+		<acme:input-integer code="technician.task.form.label.estimated-duration" path="estimatedDuration" readonly="true"/>
 		<acme:input-textbox code="technician.involved-in.form.label.technician" path="technician" readonly="true"/>
-		<acme:input-textbox code="technician.involved-in.form.label.description" path="description" readonly="true"/>
 	</jstl:if>
 	<jstl:choose>	 
-		<jstl:when test="${acme:anyOf(_command, 'show|delete') && draftMode}">
+		<jstl:when test="${acme:anyOf(_command, 'delete-form || delete')}">
 			<acme:submit code="technician.involved-in.form.button.delete" action="/technician/involved-in/delete?masterId=${masterId}"/>
 		</jstl:when>
 		<jstl:when test="${_command == 'create'}">

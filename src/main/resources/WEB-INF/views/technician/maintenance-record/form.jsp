@@ -7,8 +7,9 @@
 
      <acme:hidden-data path="maintenanceRecordId"/>
      	<acme:input-textbox code="technician.maintenance-record.form.label.ticker" path="ticker"/>
+     	<jstl:if test="${_command != 'create'}">
 		<acme:input-moment code="technician.maintenance-record.form.label.maintenanceMoment" path="maintenanceMoment" readonly="true"/>
-
+		</jstl:if>
 		<jstl:if test="${_command != 'create'}">
 		<acme:input-select path="status" code="technician.maintenance-record.form.label.status" choices="${statuses}"/>
 		</jstl:if>

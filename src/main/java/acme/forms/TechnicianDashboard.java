@@ -20,10 +20,22 @@ public class TechnicianDashboard extends AbstractForm {
 	Integer						numberMaintenanceRecordCompleted;
 	MaintenanceRecord			recordWithNearestInspection;
 	Collection<Aircraft>		top5AircraftsWithMostTasks;
-	Double						averageEstimatedCostLastYear;
-	Double						minimumEstimatedCostLastYear;
-	Double						maximumEstimatedCostLastYear;
-	Double						sTDDEVEstimatedCostLastYear;
+
+	Double						averageEstimatedCostLastYearEUR;
+	Double						minimumEstimatedCostLastYearEUR;
+	Double						maximumEstimatedCostLastYearEUR;
+	Double						sTDDEVEstimatedCostLastYearEUR;
+
+	Double						averageEstimatedCostLastYearUSD;
+	Double						minimumEstimatedCostLastYearUSD;
+	Double						maximumEstimatedCostLastYearUSD;
+	Double						sTDDEVEstimatedCostLastYearUSD;
+
+	Double						averageEstimatedCostLastYearGBP;
+	Double						minimumEstimatedCostLastYearGBP;
+	Double						maximumEstimatedCostLastYearGBP;
+	Double						sTDDEVEstimatedCostLastYearGBP;
+
 	Double						averageEstimatedDurationTask;
 	Integer						minimumEstimatedDurationTask;
 	Integer						maximumEstimatedDurationTask;
