@@ -58,7 +58,8 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 
 	@Override
 	public void validate(final InvolvedIn involvedIn) {
-		;
+		boolean valid = involvedIn.getTask() != null;
+		super.state(valid, "task", "acme.validation.form.error.invalidAircraft");
 	}
 	@Override
 	public void perform(final InvolvedIn involvedIn) {
@@ -73,8 +74,11 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 		SelectChoices choices;
 		Dataset dataset;
 		tasks = this.repository.findAllInvolvedInMaintenanceRecord(involvedIn.getMaintenanceRecord().getId());
-		choices = SelectChoices.from(tasks, "description", involvedIn.getTask());
-
+		try {
+			choices = SelectChoices.from(tasks, "description", involvedIn.getTask());
+		} catch (NullPointerException e) {
+			throw new IllegalArgumentException("The selected task is not available");
+		}
 		dataset = super.unbindObject(involvedIn);
 		dataset.put("masterId", super.getRequest().getData("masterId", int.class));
 		dataset.put("task", choices.getSelected().getKey());

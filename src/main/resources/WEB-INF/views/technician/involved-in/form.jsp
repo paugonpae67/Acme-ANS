@@ -16,7 +16,7 @@
 		<acme:input-textbox code="technician.involved-in.form.label.technician" path="technician" readonly="true"/>
 	</jstl:if>
 	<jstl:choose>	 
-		<jstl:when test="${_command == 'delete-form'}">
+		<jstl:when test="${acme:anyOf(_command, 'delete-form || delete')}">
 			<acme:submit code="technician.involved-in.form.button.delete" action="/technician/involved-in/delete?masterId=${masterId}"/>
 		</jstl:when>
 		<jstl:when test="${_command == 'create'}">
