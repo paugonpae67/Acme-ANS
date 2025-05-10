@@ -41,4 +41,4 @@ acme.validation.passengersNotPublished.message = All passengers must be publishe
 acme.validation.validCurrency = This currency is invalid
 acme.validation.form.error.NotNull= It must not be null
 acme.validation.form.error.invalidAircraft = The aircraft is not valid
-
+acme.validation.form.error.invalidTask = The task is not valid

@@ -72,7 +72,7 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 	@Override
 	public void validate(final InvolvedIn involvedIn) {
 		boolean valid = involvedIn.getTask() != null;
-		super.state(valid, "task", "acme.validation.form.error.invalidAircraft");
+		super.state(valid, "task", "acme.validation.form.error.invalidTask");
 	}
 	@Override
 	public void perform(final InvolvedIn involvedIn) {
