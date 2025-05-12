@@ -45,3 +45,4 @@ acme.validation.form.error.invalidTask = La tarea no es válida
 
 acme.validation.FlightAssignment.memberHasIncompatibleLegs.message = No se pueden asignar a varios tramos simultáneamente.
 acme.validation.FlightAssignment.memberHasIncompatibleDuty.message = Cada etapa solo puede tener un piloto y un copiloto.
+acme.validation.FlightAssignment.HasIncompatibleLeg = El leg asociado debe ersta rpublicado
