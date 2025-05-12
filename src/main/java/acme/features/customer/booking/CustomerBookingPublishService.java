@@ -67,11 +67,11 @@ public class CustomerBookingPublishService extends AbstractGuiService<Customer, 
 
 		Collection<Passenger> bookingPassengers = this.repository.findPassengersByBookingId(booking.getId());
 		if (bookingPassengers.isEmpty())
-			super.state(false, "confirmation", "acme.validation.passengersNumber.message");
+			super.state(false, "*", "acme.validation.passengersNumber.message");
 
 		boolean condition = bookingPassengers.stream().anyMatch(p -> p.isDraftMode() == true);
 		if (condition)
-			super.state(false, "confirmation", "acme.validation.passengersNotPublished.message");
+			super.state(false, "*", "acme.validation.passengersNotPublished.message");
 
 	}
 
