@@ -8,15 +8,15 @@ flightAssignment-04,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,f
 flightAssignment-05,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-05,true
 flightAssignment-06,CABIN_ATTENDANT,L,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-08,true
 flightAssignment-07,CABIN_ATTENDANT,Lo,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-09,true
-flightAssignment-08,CABIN_ATTENDANT,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-10,true
+flightAssignment-08,CABIN_ATTENDANT,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-10,false
 flightAssignment-09,CABIN_ATTENDANT,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor*",2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-13,true
-flightAssignment-10,CABIN_ATTENDANT,洛伦·伊普森,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-06,true
+flightAssignment-10,CABIN_ATTENDANT,洛伦·伊普森,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-06,false
 flightAssignment-11,CABIN_ATTENDANT,' or 'A' = 'A,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-15,true
 flightAssignment-12,CABIN_ATTENDANT,<script>alert(‘Hacked!’);</script>,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-16,true
 #moment,"","","","","","",""
 flightAssignment-13,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-17,true
-flightAssignment-14,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2025/01/01 00:00,CONFIRMED,flightCrewMember-01,leg-18,true
-flightAssignment-15,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/12/31 23:59,CONFIRMED,flightCrewMember-01,leg-19,true
+flightAssignment-14,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2025/01/01 00:00,CONFIRMED,flightCrewMember-01,leg-18,false
+flightAssignment-15,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/12/31 23:59,CONFIRMED,flightCrewMember-01,leg-19,false
 flightAssignment-16,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2000/01/01 00:00,CONFIRMED,flightCrewMember-01,leg-20,true
 flightAssignment-17,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2000/01/01 00:01,CONFIRMED,flightCrewMember-01,leg-21,true
 #currentStatus,"","","","","","",""
