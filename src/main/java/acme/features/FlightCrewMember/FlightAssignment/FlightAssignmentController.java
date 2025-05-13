@@ -34,7 +34,7 @@ public class FlightAssignmentController extends AbstractGuiController<FlightCrew
 	private FlightAssignmentPublishService		publishService;
 
 	@Autowired
-	private FlightAssignmnetUpdateService		updateService;
+	private FlightAssignmentUpdateService		updateService;
 
 	// Constructors -----------------------------------------------------------
 
