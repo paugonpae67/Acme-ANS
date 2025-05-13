@@ -9,17 +9,14 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-@Target({
-	ElementType.FIELD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE, ElementType.METHOD
-})
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = FlightAssignmetnValidator.class)
-
-public @interface ValidFlightAssignment {
+@Constraint(validatedBy = ActivityLogValidator.class)
+public @interface ValidActivityLog {
 
 	// Standard validation properties -----------------------------------------
 
-	String message() default "The leg should be in past";
+	String message() default "";
 
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};
