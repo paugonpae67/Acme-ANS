@@ -2,6 +2,7 @@
 package acme.entities.claim;
 
 import java.beans.Transient;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -62,10 +63,12 @@ public class Claim extends AbstractEntity {
 	@Transient
 	public TrackingLogStatus getStatus() {
 		TrackingLogRepository repository = SpringHelper.getBean(TrackingLogRepository.class);
+		Optional<List<TrackingLog>> optionalList = repository.findLatestTrackingLogByClaim(this.getId());
 
-		Optional<List<TrackingLog>> t = repository.findLatestTrackingLogByClaim(this.getId());
+		if (optionalList.isPresent())
+			return optionalList.get().stream().sorted(Comparator.comparing(TrackingLog::getLastUpdateMoment).reversed().thenComparing(TrackingLog::getId, Comparator.reverseOrder())).findFirst().map(TrackingLog::getStatus).orElse(TrackingLogStatus.PENDING);
 
-		return t.flatMap(list -> list.stream().findFirst()).map(x -> x.getStatus()).orElse(TrackingLogStatus.PENDING);
+		return TrackingLogStatus.PENDING;
 	}
 
 

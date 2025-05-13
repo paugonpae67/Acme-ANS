@@ -21,14 +21,16 @@ acme.validation.claim.form.error.leg = You can only choose a leg from the select
 acme.validation.claim.form.error.leg2 = Leg can not be null, you must select one
 acme.validation.claim.form.error.draftMode = You can not update o delete a claim if it is not in draft mode
 
-assistance-agent.tracking-log.form.error.wrongStatus = Status must be PENDING
-assistanceAgent.trackingLog.form.error.wrongStatus2. = Status must be ACCEPTED or REJECTED
-assistanceAgent.trackingLog.form.error.resolutionNeeded = Resolution can not be null
-assistanceAgent.trackingLog.form.error.complatePercentage = You can only have two tracking Log in 100 percentage
-assistanceAgent.trackingLog.form.error.wrongNewPercentage = The new Percentage must be higher than the last one
-assistanceAgent.trackingLog.form.error.statusNewPercentageTotal = The status of the new tracking log with 100 of percentage must be the same than the other tracking log with 100 of percentage 
+assistance-agent.tracking-log.form.error.statusWrongNotFinished = Status must be PENDING
+assistanceAgent.trackingLog.form.error.statusWrongFinished = Status must be ACCEPTED or REJECTED
+assistanceAgent.trackingLog.form.error.resolutionNeeded = Resolution can not be empty for finished trackingLogs (REJECTED or ACCEPTED)
+assistanceAgent.trackingLog.form.error.completePercentage = No additional tracking logs with a 100% resolution can be created
+assistanceAgent.trackingLog.form.error.wrongNewPercentage = The resolution percentage must be greater than the previous tracking log; it must increase progressively
+assistanceAgent.trackingLog.form.error.statusNewPercentageFinished = The status of the new tracking log with a 100% resolution percentage must match the status of the previous tracking log that also has a 100% resolution percentage 
 assistanceAgent.trackingLog.form.error.draftModeClaim = The claim must be publish before publishing a tracking log
-assistanceAgent.trackingLog.form.error.wrongPercentage = You can not create two trackingLogs with the same resolution percentage
+assistanceAgent.trackingLog.form.error.notSamePercentage = Two trackingLogs with the same resolution percentage can not exists
+assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished = You cannot create two tracking logs with a 100% resolution if the claim has not been published
+assistanceAgent.trackingLog.form.error.claimPublished = We can not associate a trackingLog with a claim in draft mode
 
 acme.validation.leg.message = This aircraft has pending flight legs, it cannot be disabled
 
