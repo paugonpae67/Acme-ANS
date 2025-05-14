@@ -14,7 +14,6 @@ import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoment;
-import acme.constraints.ValidFlightAssignemnt;
 import acme.constraints.ValidLongText;
 import acme.entities.legs.Leg;
 import acme.realms.FlightCrewMember;
@@ -24,7 +23,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@ValidFlightAssignemnt
 public class FlightAssignment extends AbstractEntity {
 
 	private static final long		serialVersionUID	= 1L;
