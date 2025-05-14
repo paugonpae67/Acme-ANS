@@ -4,9 +4,11 @@ package acme.features.FlightCrewMember.ActivityLog;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.activityLog.ActivityLog;
+import acme.entities.flightAssignment.FlightAssignment;
 import acme.realms.FlightCrewMember;
 
 @GuiService
@@ -22,15 +24,28 @@ public class ActivityLogUpdateService extends AbstractGuiService<FlightCrewMembe
 
 	@Override
 	public void authorise() {
-		ActivityLog activityLog;
-		int id;
+		boolean status;
+		Integer Id;
+		ActivityLog activity;
+		FlightCrewMember member;
+		Integer assignmentId = super.getRequest().getData("flightAssignment", Integer.class);
+		Id = super.getRequest().getData("id", Integer.class);
+		if (Id == null)
+			status = false;
+		else if (assignmentId == null)
+			status = false;
+		else {
+			FlightAssignment assignment = this.repository.findFlightAssignmentById(assignmentId);
+			boolean validassignment = assignment != null && !assignment.isDraftMode(); //aqui poner mas restriccion??
 
-		id = super.getRequest().getData("id", int.class);
-		activityLog = this.repository.findActivityLogById(id);
-		boolean correctMember = activityLog.getFlightAssignment().getFlightCrewMembers().getId() == super.getRequest().getPrincipal().getActiveRealm().getId();
+			activity = this.repository.findActivityLogById(Id);
+			member = assignment == null ? null : assignment.getFlightCrewMembers();
+			status = super.getRequest().getPrincipal().hasRealm(member) && member != null && activity.isDraftMode() && activity != null && validassignment;
 
-		boolean status = correctMember && activityLog.isDraftMode();
+		}
+
 		super.getResponse().setAuthorised(status);
+
 	}
 
 	@Override
@@ -40,6 +55,7 @@ public class ActivityLogUpdateService extends AbstractGuiService<FlightCrewMembe
 
 		id = super.getRequest().getData("id", int.class);
 		activityLog = this.repository.findActivityLogById(id);
+		activityLog.setRegistrationMoment(MomentHelper.getCurrentMoment());
 
 		super.getBuffer().addData(activityLog);
 	}
@@ -47,6 +63,7 @@ public class ActivityLogUpdateService extends AbstractGuiService<FlightCrewMembe
 	@Override
 	public void bind(final ActivityLog activityLog) {
 		super.bindObject(activityLog, "typeOfIncident", "description", "severityLevel");
+		activityLog.setRegistrationMoment(MomentHelper.getCurrentMoment());
 	}
 
 	@Override
@@ -64,9 +81,7 @@ public class ActivityLogUpdateService extends AbstractGuiService<FlightCrewMembe
 		Dataset dataset;
 
 		dataset = super.unbindObject(activityLog, "registrationMoment", "typeOfIncident", "description", "severityLevel", "draftMode");
-		dataset.put("registrationMoment", activityLog.getRegistrationMoment());
-		dataset.put("masterId", activityLog.getFlightAssignment().getId());
-		dataset.put("draftMode", activityLog.getFlightAssignment().isDraftMode());
+		dataset.put("flightAssignment", activityLog.getFlightAssignment().getId());
 
 		super.getResponse().addData(dataset);
 	}
