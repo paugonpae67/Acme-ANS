@@ -62,14 +62,13 @@ public class TechnicianMaintenanceRecordDeleteService extends AbstractGuiService
 
 	@Override
 	public void validate(final MaintenanceRecord maintenanceRecord) {
-		;
+		Collection<InvolvedIn> relationsInvolvedIn;
+		relationsInvolvedIn = this.repository.findMaintenanceRecordInvolvedIn(maintenanceRecord.getId());
+		boolean valid = relationsInvolvedIn.isEmpty();
+		super.state(valid, "*", "acme.validation.form.error.TaskInvolvedMR");
 	}
 	@Override
 	public void perform(final MaintenanceRecord maintenanceRecord) {
-		Collection<InvolvedIn> relationsInvolvedIn;
-
-		relationsInvolvedIn = this.repository.findMaintenanceRecordInvolvedIn(maintenanceRecord.getId());
-		this.repository.deleteAll(relationsInvolvedIn);
 		this.repository.delete(maintenanceRecord);
 	}
 	@Override
