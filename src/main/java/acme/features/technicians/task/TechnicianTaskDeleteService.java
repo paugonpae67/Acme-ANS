@@ -54,14 +54,13 @@ public class TechnicianTaskDeleteService extends AbstractGuiService<Technician, 
 
 	@Override
 	public void validate(final Task task) {
-		;
+		Collection<InvolvedIn> relationsInvolvedIn;
+		relationsInvolvedIn = this.repository.findTaskInvolvedIn(task.getId());
+		boolean valid = relationsInvolvedIn.isEmpty();
+		super.state(valid, "*", "acme.validation.form.error.TaskInvolved");
 	}
 	@Override
 	public void perform(final Task task) {
-		Collection<InvolvedIn> relationsInvolvedIn;
-
-		relationsInvolvedIn = this.repository.findTaskInvolvedIn(task.getId());
-		this.repository.deleteAll(relationsInvolvedIn);
 		this.repository.delete(task);
 	}
 

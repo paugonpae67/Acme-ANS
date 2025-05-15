@@ -42,3 +42,4 @@ acme.validation.passengersNotPublished.message = Todos los pasajeros deben estar
 acme.validation.form.error.NotNull = No puede ser nulo
 acme.validation.form.error.invalidAircraft = El avión no es válido
 acme.validation.form.error.invalidTask = La tarea no es válida
+acme.validation.form.error.TaskInvolved = Hay tareas asociadas a algún registro de mantenimiento.
