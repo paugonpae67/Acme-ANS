@@ -1,11 +1,11 @@
-customer.booking-record.form.title = Detalles del Pasajero de la Reserva
-customer.booking-record.list.title = Lista de Pasajeros de la Reserva
+customer.booking-record.form.title = Detalles del Registro de Reserva
+customer.booking-record.list.title = Lista de Pasajeros de la Reserva (Registros de Reserva)
 
 customer.booking-record.list.label.passengerName = Nombre completo
 customer.booking-record.list.label.passengerEmail = Correo electrónico
 
-customer.booking-record.form.button.create = Añadir Asociación
-customer.booking-record.form.button.delete = Eliminar Asociación
+customer.booking-record.form.button.create = Añadir Registro de Reserva
+customer.booking-record.form.button.delete = Eliminar Registro de Reserva
 
 customer.booking-record.form.label.createPassenger = Nombre de pasajero a añadir:
 customer.booking-record.form.label.deletePassenger = Nombre de pasajero a eliminar:
@@ -25,7 +25,7 @@ customer.booking-record.form.label.isPublished = ¿Este pasajero está publicado
 customer.booking-record.form.label.bookingId = Identificador del booking
 customer.booking-record.form.label.passengerId = Identificador del pasajero
 
-customer.booking-record.form.label.confirmation = Confirmo mi intención de borrar a este pasajero de la reserva
+customer.booking-record.form.label.confirmation = Confirmo mi intención de borrar al pasajero seleccionado de esta reserva (borrar registro de reserva)
 
 
 

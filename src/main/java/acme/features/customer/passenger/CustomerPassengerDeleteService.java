@@ -46,10 +46,14 @@ public class CustomerPassengerDeleteService extends AbstractGuiService<Customer,
 
 	@Override
 	public void validate(final Passenger passenger) {
-		boolean confirmation;
 
-		confirmation = super.getRequest().getData("confirmation", boolean.class);
+		boolean confirmation = super.getRequest().getData("confirmation", boolean.class);
 		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
+
+		Collection<BookingRecord> bookingRecordAssociatedToPassenger = this.repository.findPassengerBookingRecordsByPassengerId(passenger.getId());
+		if (!bookingRecordAssociatedToPassenger.isEmpty())
+			super.state(false, "*", "acme.validation.passengerBookingRecords.message");
+
 	}
 
 	@Override

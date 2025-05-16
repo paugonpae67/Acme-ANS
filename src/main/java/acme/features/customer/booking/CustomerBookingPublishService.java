@@ -53,13 +53,10 @@ public class CustomerBookingPublishService extends AbstractGuiService<Customer, 
 	public void validate(final Booking booking) {
 		Booking bookingAlreadyExists = this.repository.findBookingByLocatorCode(booking.getLocatorCode());
 
-		boolean confirmation;
-		boolean locatorIsValid;
-
-		confirmation = super.getRequest().getData("confirmation", boolean.class);
+		boolean confirmation = super.getRequest().getData("confirmation", boolean.class);
 		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
 
-		locatorIsValid = bookingAlreadyExists == null || bookingAlreadyExists.getId() == booking.getId();
+		boolean locatorIsValid = bookingAlreadyExists == null || bookingAlreadyExists.getId() == booking.getId();
 		super.state(locatorIsValid, "locatorCode", "customer.booking.form.error.duplicateLocatorCode");
 
 		if (booking.getLastNibble() == null || booking.getLastNibble().isBlank())
