@@ -17,9 +17,7 @@ import acme.entities.legs.Leg;
 import acme.realms.FlightCrewMember;
 
 @GuiService
-public class FlightAssignmentCreate extends AbstractGuiService<FlightCrewMember, FlightAssignment> {
-
-	// Internal state ---------------------------------------------------------
+public class FlightAssignmentUpdateService extends AbstractGuiService<FlightCrewMember, FlightAssignment> {
 
 	@Autowired
 	private FlightAssignmentClaimRepository repository;
@@ -27,31 +25,45 @@ public class FlightAssignmentCreate extends AbstractGuiService<FlightCrewMember,
 
 	@Override
 	public void authorise() {
-		boolean status = true;
-		Integer memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		boolean status;
+		Integer Id;
+		FlightAssignment assignment;
+		FlightCrewMember member;
+		Integer legId = super.getRequest().getData("leg", Integer.class);
+		Id = super.getRequest().getData("id", Integer.class);
+		if (Id == null)
+			status = false;
+		else if (legId == null)
+			status = false;
+		else {
+			Leg leg = this.repository.findLegById(legId);
+			boolean validLeg = leg != null && MomentHelper.isFuture(leg.getScheduledDeparture()) && !leg.isDraftMode(); //aqui poner mas restriccion??
 
-		FlightCrewMember mem = this.repository.findFlightCrewMemberById(memberId);
+			assignment = this.repository.findAssignmentById(Id);
+			member = assignment == null ? null : assignment.getFlightCrewMembers();
+			status = super.getRequest().getPrincipal().hasRealm(member) && member != null && assignment.isDraftMode() && assignment != null && validLeg;
 
-		boolean membertype = super.getRequest().getPrincipal().hasRealmOfType(FlightCrewMember.class);
+		}
 
-		boolean statusfinal = mem != null && membertype && super.getRequest().getPrincipal().hasRealm(mem);
-
-		super.getResponse().setAuthorised(statusfinal);
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
 	public void load() {
 
-		FlightAssignment flightAssignment;
+		int id;
+		FlightAssignment assignment;
 
-		flightAssignment = new FlightAssignment();
-		flightAssignment.setDraftMode(true);
-		flightAssignment.setMoment(MomentHelper.getCurrentMoment());
-		super.getBuffer().addData(flightAssignment);
+		id = super.getRequest().getData("id", int.class);
+		assignment = this.repository.findAssignmentById(id);
+		assignment.setMoment(MomentHelper.getCurrentMoment());
+		super.getBuffer().addData(assignment);
+
 	}
 
 	@Override
 	public void bind(final FlightAssignment flightAssignment) {
+
 		int legId;
 		Leg leg;
 		int memberId;
@@ -64,23 +76,23 @@ public class FlightAssignmentCreate extends AbstractGuiService<FlightCrewMember,
 
 		super.bindObject(flightAssignment, "duty", "remarks", "currentStatus");
 		flightAssignment.setLeg(leg);
+		flightAssignment.setMoment(MomentHelper.getCurrentMoment());
 		flightAssignment.setFlightCrewMembers(flightCrewMember);
 	}
 
 	@Override
-	public void validate(final FlightAssignment flightAssignment) {
-		super.state(super.getRequest().getData("confirmation", boolean.class), "confirmation", "acme.validation.confirmation.message");
+	public void validate(final FlightAssignment FlightAssignment) {
+		;
 	}
 
 	@Override
-	public void perform(final FlightAssignment flightAssignment) {
+	public void perform(final FlightAssignment FlightAssignment) {
+		this.repository.save(FlightAssignment);
 
-		this.repository.save(flightAssignment);
 	}
 
 	@Override
 	public void unbind(final FlightAssignment assignment) {
-		int memberId;
 		Collection<Leg> legs;
 		SelectChoices legChoices = null;
 
@@ -91,7 +103,6 @@ public class FlightAssignmentCreate extends AbstractGuiService<FlightCrewMember,
 		SelectChoices currentStatus;
 		SelectChoices duty;
 
-		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		legs = this.repository.findAllLegsFuturePublished(MomentHelper.getCurrentMoment());
 
 		members = this.repository.findAllAvailableMembers();
@@ -110,6 +121,7 @@ public class FlightAssignmentCreate extends AbstractGuiService<FlightCrewMember,
 		dataset.put("legs", legChoices == null ? "" : legChoices);
 		dataset.put("flightCrewMember", memberChoices.getSelected().getKey());
 		dataset.put("flightCrewMember", memberChoices);
+
 		super.getResponse().addData(dataset);
 	}
 

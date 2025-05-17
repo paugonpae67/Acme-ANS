@@ -17,6 +17,10 @@ flight-crew-member.flight-assignment.form.title = Details of Assignment
 FlightCrewMember.FlightAssignment.list-past.label.payload = Date Flight Leg
 FlightCrewMember.FlightAssignment.list-past.label.duty = Duty
 FlightCrewMember.FlightAssignment.list-past.label.currentStatus = Current Status Flight Assignment
+FlightCrewMember.FlightAssignment.form.label.leg = Leg
+FlightCrewMember.FlightAssignment.form.label.flightCrewMember = Flight Crew Member
+flight-crew-member.flight-assignment.form.label.confirmation = Confirmation
+
 
 flight.message.assignment= ASSIGNMENT
 
@@ -28,3 +32,7 @@ FlightCrewMember.FlightAssignment.form.label.duty = Duty
 
 flight-crew-member.flight-assignment.form.button.activity-log = Activities Logs Records
 flight-crew-member.flight-assignment.form.button.delete = Delete
+flight-crew-member.flight-assignment.form.button.update = Update
+member.activity-log.form.button.publish = Publish
+flight-crew-member.flight-assignment.form.button.create = Create
+FlightCrewMember.FlightAssignment.list.button.create= Create
