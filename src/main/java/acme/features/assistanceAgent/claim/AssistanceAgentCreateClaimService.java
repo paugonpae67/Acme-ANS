@@ -99,6 +99,7 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 
 	@Override
 	public void perform(final Claim claim) {
+		claim.setDraftMode(true);
 		this.repository.save(claim);
 	}
 

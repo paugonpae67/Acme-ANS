@@ -40,7 +40,7 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 
 		assistanceAgent = trackingLog == null ? null : trackingLog.getClaim().getAssistanceAgent();
 
-		status = claim != null && claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(assistanceAgent) && trackingLog != null;
+		status = claim != null && super.getRequest().getPrincipal().hasRealm(assistanceAgent) && trackingLog != null;
 
 		super.getResponse().setAuthorised(status);
 
@@ -91,9 +91,6 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 				boolean hasResolution = resolution != null && !resolution.isBlank();
 				super.state(hasResolution, "resolution", "assistanceAgent.trackingLog.form.error.resolutionNeeded");
 			}
-
-			//if (trackingLog.getClaim().isDraftMode())
-			//	super.state(false, "claim", "We can not associate a trackingLog with a claim in draft mode");
 
 			boolean morePercentage = true;
 			if (!beforeActual.isEmpty()) {

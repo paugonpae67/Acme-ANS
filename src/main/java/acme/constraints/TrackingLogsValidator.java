@@ -59,7 +59,7 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 		if (countPercentage > 0)
 			super.state(context, false, "ResolutionPercentage", "Two trackingLogs with the same resolution percentage can not exists");
 
-		if (percentage != 100)
+		if (!percentage.equals(100.00))
 			super.state(context, status.equals(TrackingLogStatus.PENDING), "Status", "Status must be PENDING");
 		else
 			super.state(context, !status.equals(TrackingLogStatus.PENDING), "Status", "Status must be ACCEPTED or REJECTED");
@@ -68,9 +68,6 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 			boolean hasResolution = resolution != null && !resolution.isBlank();
 			super.state(context, hasResolution, "Resolution", "Resolution can not be empty for finished trackingLogs (REJECTED or ACCEPTED)");
 		}
-
-		//if (trackingLog.getClaim().isDraftMode())
-		//super.state(context, false, "Claim", "We can not associate a trackingLog with a claim in draft mode");
 
 		boolean morePercentage = true;
 
@@ -82,20 +79,20 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 				beforeActual.sort(Comparator.comparing(TrackingLog::getResolutionPercentage).reversed());
 				TrackingLog previous = beforeActual.get(0);
 
-				morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
-
-				super.state(context, morePercentage, "ResolutionPercentage", "The resolution percentage must be greater than the previous tracking log; it must increase progressively");
-
 				Long maxComplete = beforeActual.stream().filter(x -> x.getResolutionPercentage() != null && x.getResolutionPercentage().equals(100.00)).count();
 
-				if (percentage.equals(100.00))
+				if (percentage.equals(100.00)) {
 					if (maxComplete == 1) {
-						super.state(context, status.equals(previous.getStatus()), "Status",
-							"The status of the new tracking log with a 100% resolution percentage must match the status of the previous tracking log that also has a 100% resolution percentage");
-						super.state(context, !trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "DraftMode", "You cannot create two tracking logs with a 100% resolution if the claim has not been published");
+						super.state(context, status.equals(previous.getStatus()), "Status", "assistanceAgent.trackingLog.form.error.statusNewPercentageFinished");
+						super.state(context, !trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "draftMode", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished");
 					} else if (maxComplete >= 2)
-						super.state(context, false, "ResolutionPercentage", "No additional tracking logs with a 100% resolution can be created");
+						super.state(context, false, "ResolutionPercentage", "assistanceAgent.trackingLog.form.error.completePercentage");
 
+				} else {
+					morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
+					super.state(context, morePercentage, "ResolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
+
+				}
 			}
 
 		}

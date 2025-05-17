@@ -5,12 +5,12 @@ trackingLog-02,2000/01/01 0:00,Lorem ipsum dolor sit ame,0.00,PENDING,Lorem ipsu
 trackingLog-03,2000/01/01 0:01,Lorem ipsum dolor sit ame,0.00,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-03
 trackingLog-04,2024/12/31 10:00,Lorem ipsum dolor sit ame,0.00,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-04
 trackingLog-05,2010/01/01 0:00,Lorem ipsum dolor sit ame,0.00,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-05
-#step 
+#step
 trackingLog-06,2012/07/02 0:00,Lorem ipsum dolor sit ame,0.00,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-06
 trackingLog-07,2012/07/02 0:00,L,0.00,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-07
 trackingLog-08,2012/07/02 0:00,Lo,0.00,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-08
 trackingLog-09,2012/07/02 0:00,Lorem ipsum dolor sit amet. consectetur adipiscin,0.00,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-09
-trackingLog-10,2012/07/02 0:01,Lorem ipsum dolor sit amet. consectetur adipiscing,10.00,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-01
+trackingLog-10,2012/07/02 0:01,Lorem ipsum dolor sit amet. consectetur adipiscing,100.00,ACCEPTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-01
 trackingLog-12,2012/07/02 0:00,Lorem ipsum dolor sit ame,0.03,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-10
 #resolutionPercentage
 trackingLog-13,2012/07/02 0:00,Lorem ipsum dolor sit ame,50.00,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-13
@@ -18,7 +18,7 @@ trackingLog-16,2012/07/02 0:01,Lorem ipsum dolor sit amet,50.00,PENDING,Lorem ip
 trackingLog-14,2012/07/02 0:20,Lorem ipsum dolor sit ame,99.99,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-15
 trackingLog-24,2012/07/02 0:03,Lorem ipsum dolor sit amet,77.77,PENDING,null,true,Claim-01
 trackingLog-15,2012/07/02 0:04,Lorem ipsum dolor sit ame,100.00,ACCEPTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-16
-#status 
+#status
 trackingLog-17,2012/07/03 0:00,Lorem ipsum dolor sit amet,100.00,ACCEPTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-10
 trackingLog-18,2012/07/03 0:00,Lorem ipsum dolor sit amet,100.00,REJECTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-01
 #resolution

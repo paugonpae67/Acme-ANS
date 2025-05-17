@@ -57,15 +57,16 @@ public class AssistanceAgentDeleteClaimService extends AbstractGuiService<Assist
 
 	@Override
 	public void validate(final Claim claim) {
+		Collection<TrackingLog> trackingLog;
+
+		trackingLog = this.repository.findTrackingLogsOfClaim(claim.getId());
+		if (!trackingLog.isEmpty())
+			super.state(false, "*", "assistanceAgent.claim.form.error.trackingLogAssociated");
 		;
 	}
 
 	@Override
 	public void perform(final Claim claim) {
-		Collection<TrackingLog> trackingLog;
-
-		trackingLog = this.repository.findTrackingLogsOfClaim(claim.getId());
-		this.repository.deleteAll(trackingLog);
 		this.repository.delete(claim);
 	}
 

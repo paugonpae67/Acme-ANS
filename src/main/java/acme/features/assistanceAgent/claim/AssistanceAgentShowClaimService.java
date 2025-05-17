@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
+import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
-import acme.entities.airports.Airport;
 import acme.entities.claim.Claim;
 import acme.entities.claim.ClaimType;
 import acme.entities.legs.Leg;
@@ -63,8 +63,7 @@ public class AssistanceAgentShowClaimService extends AbstractGuiService<Assistan
 
 		assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		AssistanceAgent assistanceAgent = this.repository.findAssistanceAgentById(assistanceAgentId);
-		Airport a = this.repository.findAirportOfAirlineByAssistanceAgentId(assistanceAgent.getAirline().getId());
-		legs = this.repository.findLegByAirport(a.getId()).stream().filter(x -> x.getScheduledArrival().compareTo(claim.getRegistrationMoment()) < 0).toList();
+		legs = this.repository.findAllPublishedLegs(MomentHelper.getCurrentMoment(), assistanceAgent.getAirline().getId());
 
 		choicesLeg = SelectChoices.from(legs, "flightNumber", claim.getLeg());
 

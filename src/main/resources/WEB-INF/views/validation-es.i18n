@@ -20,6 +20,7 @@ acme.validation.claim.form.error.type = Solo puedes elegir los tipos que aparece
 acme.validation.claim.form.error.leg = Solo puedes elegir la traza que aparecen en el desplegable 
 acme.validation.claim.form.error.leg2 = La traza no puede ser nulo, 
 acme.validation.claim.form.error.draftMode = No puedes eliminar ni modificar un registro si no está en modo borrado
+assistanceAgent.claim.form.error.trackingLogAssociated = No se puede eliminar el registro hasta que se hayan eliminado todos los trackingLogs asociados
 
 assistanceAgent.trackingLog.form.error.statusWrongNotFinished = El estado debe ser PENDING
 assistanceAgent.trackingLog.form.error.statusWrongFinished = El estado debe de ser ACCEPTED o REJECTED
@@ -31,6 +32,8 @@ assistanceAgent.trackingLog.form.error.draftModeClaim = Para publicar el registr
 assistanceAgent.trackingLog.form.error.notSamePercentage = No pueden existir dos registros de seguimiento con el mismo porcentaje de resolución
 assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished = No se pueden crear dos registros de seguimiento con una resolución del 100 % si el reclamo no se ha publicado
 assistanceAgent.trackingLog.form.error.claimPublished = No podemos asociar un registro de seguimiento con un reclamo en modo borrador
+assistanceAgent.trackingLog.form.error.onlyOneCompleteAllowed= Este tracking log no puede ser publicado porque ya existe otro posterior que ha sido publicado como finalizado
+
 
 acme.validation.leg.message = Este avión tiene tramos de vuelo pendientes, no es posible deshabilitarlo
 

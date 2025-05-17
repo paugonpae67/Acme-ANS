@@ -91,28 +91,26 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 				super.state(hasResolution, "resolution", "assistanceAgent.trackingLog.form.error.resolutionNeeded");
 			}
 
-			//if (trackingLog.getClaim().isDraftMode())
-			//	super.state(false, "claim", "We can not associate a trackingLog with a claim in draft mode");
-
 			boolean morePercentage = true;
 			if (!beforeActual.isEmpty()) {
 				beforeActual.sort(Comparator.comparing(TrackingLog::getResolutionPercentage).reversed());
 				TrackingLog previous = beforeActual.get(0);
 
-				morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
-
-				super.state(morePercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
-
 				Long maxComplete = beforeActual.stream().filter(x -> x.getResolutionPercentage() != null && x.getResolutionPercentage().equals(100.00)).count();
 
-				if (percentage.equals(100.00))
+				if (percentage.equals(100.00)) {
 					if (maxComplete == 1) {
 						super.state(status.equals(previous.getStatus()), "status", "assistanceAgent.trackingLog.form.error.statusNewPercentageFinished");
 						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "draftMode", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished");
 					} else if (maxComplete >= 2)
 						super.state(false, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.completePercentage");
-			}
 
+				} else {
+					morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
+					super.state(morePercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
+
+				}
+			}
 		}
 
 	}
