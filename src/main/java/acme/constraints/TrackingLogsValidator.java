@@ -33,24 +33,18 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 	public boolean isValid(final TrackingLog trackingLog, final ConstraintValidatorContext context) {
 		assert context != null;
 
-		if (trackingLog == null) {
+		if (trackingLog == null)
 			super.state(context, false, "*", "javax.validation.constraints.NotNull.message");
-			return false;
-		}
 
 		Double percentage = trackingLog.getResolutionPercentage();
 		TrackingLogStatus status = trackingLog.getStatus();
 		String resolution = trackingLog.getResolution();
 
-		if (percentage == null) {
+		if (percentage == null)
 			super.state(context, false, "ResolutionPercentage", "The field resolution percentage can not be null");
-			return false;
-		}
 
-		if (status == null) {
+		if (status == null)
 			super.state(context, false, "Status", "The field status can not be null");
-			return false;
-		}
 
 		Optional<List<TrackingLog>> trackingLogs = this.trackingLogsRepository.findLatestTrackingLogByClaim(trackingLog.getClaim().getId());
 		Long countPercentage = trackingLogs.orElse(List.of()).stream().filter(x -> !x.getResolutionPercentage().equals(100.00)).filter(x -> !Objects.equals(x.getId(), trackingLog.getId()))
