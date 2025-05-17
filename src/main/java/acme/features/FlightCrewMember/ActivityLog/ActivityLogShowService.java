@@ -7,7 +7,6 @@ import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.activityLog.ActivityLog;
-import acme.entities.flightAssignment.FlightAssignment;
 import acme.realms.FlightCrewMember;
 
 @GuiService
@@ -19,7 +18,7 @@ public class ActivityLogShowService extends AbstractGuiService<FlightCrewMember,
 
 	@Override
 	public void authorise() {
-		boolean status;
+		boolean status = true;
 		Integer Id;
 		ActivityLog activity;
 		FlightCrewMember member;
@@ -27,17 +26,19 @@ public class ActivityLogShowService extends AbstractGuiService<FlightCrewMember,
 		Id = super.getRequest().getData("id", Integer.class);
 		if (Id == null)
 			status = false;
-		else if (assignmentId == null)
-			status = false;
-		else {
-			FlightAssignment assignment = this.repository.findFlightAssignmentById(assignmentId);
-			boolean validassignment = assignment != null && !assignment.isDraftMode(); //aqui poner mas restriccion??
-
-			activity = this.repository.findActivityLogById(Id);
-			member = assignment == null ? null : assignment.getFlightCrewMembers();
-			status = super.getRequest().getPrincipal().hasRealm(member) && member != null && activity.isDraftMode() && activity != null && validassignment;
-
-		}
+		/*
+		 * else if (assignmentId == null)
+		 * status = false;
+		 * else {
+		 * FlightAssignment assignment = this.repository.findFlightAssignmentById(assignmentId);
+		 * boolean validassignment = assignment != null && !assignment.isDraftMode(); //aqui poner mas restriccion??
+		 * 
+		 * activity = this.repository.findActivityLogById(Id);
+		 * member = assignment == null ? null : assignment.getFlightCrewMembers();
+		 * status = super.getRequest().getPrincipal().hasRealm(member) && member != null && activity != null && validassignment;
+		 * 
+		 * }
+		 */
 
 		super.getResponse().setAuthorised(status);
 	}

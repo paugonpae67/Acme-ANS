@@ -41,7 +41,7 @@ public class FlightAssignmentValidator extends AbstractValidator<ValidFlightAssi
 			super.state(context, false, "member", "acme.validation.assignment.NotNull");
 		else if (leg == null)
 			super.state(context, false, "member", "acme.validation.assignment.nextInspectionNotNull");
-		else if (!this.dutymember(leg, assignment.getDuty()))
+		else if (!this.dutymember(assignment, assignment.getDuty()))
 			super.state(context, false, "member", "acme.validation.assignment.dutyIncorrect");
 		else if (!this.MemberAvaible(assignment))
 			super.state(context, false, "member", "acme.validation.assignment.statusIncorrect");
@@ -74,6 +74,7 @@ public class FlightAssignmentValidator extends AbstractValidator<ValidFlightAssi
 	private boolean legsimultaneo(final FlightAssignment flightAssignment, final Integer memberId) {
 		Collection<Leg> legs = this.repository.findLegsByFlightCrewMember(memberId);
 		boolean notIsSimultaneo = true;
+
 		for (Leg l : legs) {
 			Date arrive = l.getScheduledArrival();
 			Date departure = l.getScheduledDeparture();
@@ -90,21 +91,29 @@ public class FlightAssignmentValidator extends AbstractValidator<ValidFlightAssi
 
 	}
 
-	private boolean dutymember(final Leg leg, final FlightAssignmentDuty myDuty) {
+	//este funciona
+	private boolean dutymember(final FlightAssignment assignment, final FlightAssignmentDuty myDuty) {
+		Leg leg = assignment.getLeg();
 		Collection<FlightAssignment> assignments = this.repository.findFlightAssignmentByLegId(leg.getId());
 		boolean notHasDuty = true;
+		FlightAssignmentDuty fDuty;
 
-		for (FlightAssignment f : assignments) {
-			FlightAssignmentDuty fDuty = f.getDuty();
-			if (leg.getId() != f.getId())
-				if (fDuty.equals(FlightAssignmentDuty.PILOT) && myDuty.equals(FlightAssignmentDuty.PILOT)) {
-					notHasDuty = false;
-					break;
-				} else if (fDuty.equals(FlightAssignmentDuty.CO_PILOT) && myDuty.equals(FlightAssignmentDuty.CO_PILOT)) {
-					notHasDuty = false;
-					break;
+		if (myDuty != FlightAssignmentDuty.PILOT && myDuty != FlightAssignmentDuty.CO_PILOT)
+			notHasDuty = true;
+		else
+			for (FlightAssignment f : assignments)
+				if (f.getId() != assignment.getId()) {
+
+					fDuty = f.getDuty();
+
+					if (fDuty == FlightAssignmentDuty.PILOT && myDuty == FlightAssignmentDuty.PILOT) {
+						notHasDuty = false;
+						break;
+					} else if (fDuty == FlightAssignmentDuty.CO_PILOT && myDuty == FlightAssignmentDuty.CO_PILOT) {
+						notHasDuty = false;
+						break;
+					}
 				}
-		}
 
 		return notHasDuty;
 	}
