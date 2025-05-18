@@ -3,9 +3,10 @@
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="acme" uri="http://acme-framework.org/"%>
 
-<acme:form> 
+<acme:form > 
 
      <acme:hidden-data path="taskId"/>
+     
      <acme:input-textbox code="technician.task.form.label.ticker" path="ticker"/>
 	<acme:input-select code="technician.task.form.label.type" path="type" choices="${tasks}" />
     <acme:input-integer path="priority" code="technician.task.form.label.priority" />
@@ -13,7 +14,7 @@
     <acme:input-integer code="technician.task.form.label.estimated-duration" path="estimatedDuration" />
 
 	<jstl:choose>	 
-		<jstl:when test="${acme:anyOf(_command, 'show|update|publish')  && draftMode == true}">
+		<jstl:when test="${acme:anyOf(_command, 'show|update|publish|delete')  && draftMode == true}">
 			<acme:submit code="technician.task.form.button.update" action="/technician/task/update"/>
 			<acme:submit code="technician.task.form.button.publish" action="/technician/task/publish"/>
 			<acme:submit code="technician.task.form.button.delete" action="/technician/task/delete"/>

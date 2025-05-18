@@ -25,6 +25,7 @@
 			<acme:submit code="flight-crew-member.flight-assignment.form.button.delete" action="/flight-crew-member/flight-assignment/delete"/>
 			<acme:submit code="flight-crew-member.flight-assignment.form.button.update" action="/flight-crew-member/flight-assignment/update"/>
 			<acme:submit code="member.activity-log.form.button.publish" action="/flight-crew-member/flight-assignment/publish"/>
+			<acme:input-checkbox code="flight-crew-member.flight-assignment.form.label.public" path="confirmation"/>
 			
 			
 		</jstl:when>

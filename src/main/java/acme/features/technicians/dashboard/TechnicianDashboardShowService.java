@@ -69,20 +69,20 @@ public class TechnicianDashboardShowService extends AbstractGuiService<Technicia
 		recordWithNearestInspection = records.isEmpty() ? null : records.iterator().next();
 		top5AircraftsWithMostTasks = this.repository.findTop5AircraftsWithMostTasks(technicianId).stream().limit(5).collect(Collectors.toList());
 
-		averageEstimatedCostLastYearEUR = this.repository.findAverageEstimatedCostLastYearEUR(technicianId, currentYear);
-		minimumEstimatedCostLastYearEUR = this.repository.findMinimumEstimatedCostLastYearEUR(technicianId, currentYear);
-		maximumEstimatedCostLastYearEUR = this.repository.findMaximumEstimatedCostLastYearEUR(technicianId, currentYear);
-		sTDDEVEstimatedCostLastYearEUR = this.repository.findSTDDEVEstimatedCostLastYearEUR(technicianId, currentYear);
+		averageEstimatedCostLastYearEUR = this.repository.findAverageEstimatedCostLastYear(technicianId, currentYear, "EUR");
+		minimumEstimatedCostLastYearEUR = this.repository.findMinimumEstimatedCostLastYear(technicianId, currentYear, "EUR");
+		maximumEstimatedCostLastYearEUR = this.repository.findMaximumEstimatedCostLastYear(technicianId, currentYear, "EUR");
+		sTDDEVEstimatedCostLastYearEUR = this.repository.findSTDDEVEstimatedCostLastYear(technicianId, currentYear, "EUR");
 
-		averageEstimatedCostLastYearUSD = this.repository.findAverageEstimatedCostLastYearUSD(technicianId, currentYear);
-		minimumEstimatedCostLastYearUSD = this.repository.findMinimumEstimatedCostLastYearUSD(technicianId, currentYear);
-		maximumEstimatedCostLastYearUSD = this.repository.findMaximumEstimatedCostLastYearUSD(technicianId, currentYear);
-		sTDDEVEstimatedCostLastYearUSD = this.repository.findSTDDEVEstimatedCostLastYearUSD(technicianId, currentYear);
+		averageEstimatedCostLastYearUSD = this.repository.findAverageEstimatedCostLastYear(technicianId, currentYear, "USD");
+		minimumEstimatedCostLastYearUSD = this.repository.findMinimumEstimatedCostLastYear(technicianId, currentYear, "USD");
+		maximumEstimatedCostLastYearUSD = this.repository.findMaximumEstimatedCostLastYear(technicianId, currentYear, "USD");
+		sTDDEVEstimatedCostLastYearUSD = this.repository.findSTDDEVEstimatedCostLastYear(technicianId, currentYear, "USD");
 
-		averageEstimatedCostLastYearGBP = this.repository.findAverageEstimatedCostLastYearGBP(technicianId, currentYear);
-		minimumEstimatedCostLastYearGBP = this.repository.findMinimumEstimatedCostLastYearGBP(technicianId, currentYear);
-		maximumEstimatedCostLastYearGBP = this.repository.findMaximumEstimatedCostLastYearGBP(technicianId, currentYear);
-		sTDDEVEstimatedCostLastYearGBP = this.repository.findSTDDEVEstimatedCostLastYearGBP(technicianId, currentYear);
+		averageEstimatedCostLastYearGBP = this.repository.findAverageEstimatedCostLastYear(technicianId, currentYear, "GBP");
+		minimumEstimatedCostLastYearGBP = this.repository.findMinimumEstimatedCostLastYear(technicianId, currentYear, "GBP");
+		maximumEstimatedCostLastYearGBP = this.repository.findMaximumEstimatedCostLastYear(technicianId, currentYear, "GBP");
+		sTDDEVEstimatedCostLastYearGBP = this.repository.findSTDDEVEstimatedCostLastYear(technicianId, currentYear, "GBP");
 
 		averageEstimatedDurationTask = this.repository.findAverageEstimatedDurationTask(technicianId);
 		minimumEstimatedDurationTask = this.repository.findMinimumEstimatedDurationTask(technicianId);

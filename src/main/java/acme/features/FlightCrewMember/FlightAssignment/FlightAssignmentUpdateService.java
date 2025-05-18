@@ -114,7 +114,7 @@ public class FlightAssignmentUpdateService extends AbstractGuiService<FlightCrew
 
 		Collection<Leg> legsOfMember;
 
-		legsOfMember = this.repository.findLegsByFlightCrewMember(memberId);
+		legsOfMember = this.repository.findLegsByFlightCrewMember(memberId, assignment.getId());
 
 		for (Leg l : legsOfMember)
 			if (legs.contains(l))

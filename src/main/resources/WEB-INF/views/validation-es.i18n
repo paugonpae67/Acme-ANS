@@ -1,7 +1,7 @@
 
 acme.validation.maintenanceRecord.NotNull = El registro no puede ser nulo
 acme.validation.maintenanceRecord.nextInspectionNotNull = Es necesaria una fecha de próxima inspección
-acme.validation.maintenanceRecord.DateCorrect = La próxima inspección debe ser posterior al momento.
+acme.validation.maintenanceRecord.DateCorrect = La próxima inspección debe ser posterior al momento
 
 acme.validation.involved-in.task = Para publicar un registro de mantenimiento debe tener asociada al menos una tarea y todas las asociadas deben estar publicadas
 
@@ -47,7 +47,18 @@ acme.validation.passengersNotPublished.message = Todos los pasajeros deben estar
 acme.validation.form.error.NotNull = No puede ser nulo
 acme.validation.form.error.invalidAircraft = El avión no es válido
 acme.validation.form.error.invalidTask = La tarea no es válida
+acme.validation.form.error.TaskInvolved = Hay tareas asociadas a algún registro de mantenimiento
+acme.validation.form.error.TaskInvolvedMR = Todavía hay tareas asociadas a este registro
+acme.validation.assignment.NotNull = La signación es nula
+acme.validation.assignment.nextInspectionNotNull = El tramo asignado es nulo
+acme.validation.assignment.nextInspectionNotNull = El miembro de la tripulacion asignado es nulo
+acme.validation.assignment.dutyIncorrect = El tramo ya está asignado al rol copiloto o piloto
+acme.validation.assignment.statusIncorrect = Miembro no disponible
+acme.validation.assignment.legIncorrect = No se pueden asignar a varios tramos simultáneamente
+acme.validation.assignment.legDraft = El tramo seleccionado no está publicado
+acme.validation.assignment.delete = No se puede borrar la asignación, todavía tiene registros de actividades asociados.
 
 acme.validation.FlightAssignment.memberHasIncompatibleLegs.message = No se pueden asignar a varios tramos simultáneamente.
 acme.validation.FlightAssignment.memberHasIncompatibleDuty.message = Cada etapa solo puede tener un piloto y un copiloto.
-acme.validation.FlightAssignment.HasIncompatibleLeg = El leg asociado debe ersta rpublicado
+acme.validation.FlightAssignment.HasIncompatibleLeg = El leg asociado debe estar publicado
+

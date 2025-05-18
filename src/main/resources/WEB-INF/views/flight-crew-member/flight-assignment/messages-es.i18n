@@ -13,6 +13,7 @@ flight-crew-member.flight-assignment.list-past.title = Lista de Asignaciones de 
 flight-crew-member.flight-assignment.list-future.title = Lista de Asignaciones de vuelo planeadas
 flight-crew-member.flight-assignment.form.title = Detalles de la Asignación
 flight-crew-member.flight-assignment.form.label.confirmation = Confirmar
+flight-crew-member.flight-assignment.form.label.public = Publicar
 
 
 FlightCrewMember.FlightAssignment.list-past.label.payload = Fecha tramo vuelo

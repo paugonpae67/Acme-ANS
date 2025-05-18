@@ -35,12 +35,12 @@ public class TaskInvolvedInMaintenanceRecordCreateService extends AbstractGuiSer
 
 			if (super.getRequest().hasData("id")) {
 				Integer taskId = super.getRequest().getData("task", Integer.class);
-
 				if (taskId == null)
 					status = false;
 				else if (taskId != 0) {
 					Task checkedTask = this.repository.findTaskById(taskId);
-					status = status && checkedTask != null;
+					InvolvedIn i = this.repository.findInvolvedInTMR(masterId, taskId);
+					status = status && checkedTask != null && i == null;
 				}
 			}
 		} catch (Exception e) {
@@ -100,8 +100,9 @@ public class TaskInvolvedInMaintenanceRecordCreateService extends AbstractGuiSer
 		Collection<Task> tasks;
 		SelectChoices choices;
 		Dataset dataset;
+		int technicianId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		Collection<Task> eliminateTasks = this.repository.findAllInvolvedInMaintenanceRecord(involvedIn.getMaintenanceRecord().getId());
-		tasks = this.repository.findTasksDisponibles();
+		tasks = this.repository.findTasksRelacion(technicianId);
 		tasks.removeAll(eliminateTasks);
 
 		try {
