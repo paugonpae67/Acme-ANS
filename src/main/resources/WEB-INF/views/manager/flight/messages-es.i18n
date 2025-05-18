@@ -12,6 +12,11 @@ manager.flight.form.label.scheduledDeparture = Salida programada
 manager.flight.form.label.scheduledArrival = Llegada programada
 manager.flight.form.label.draftMode = Modo borrador
 manager.flight.form.label.confirmation = Confirmar
+manager.flight.form.label.scheduledDeparture=Salida Programada
+manager.flight.form.label.scheduledArrival=Llegada Programada
+manager.flight.form.label.originCity=Ciudad de Origen
+manager.flight.form.label.destinationCity=Ciudad de Destino
+manager.flight.form.label.numberOfLayovers=Número de Escalas
 
 manager.flight.list.label.tag = Etiqueta
 manager.flight.list.label.indication = Indicación
