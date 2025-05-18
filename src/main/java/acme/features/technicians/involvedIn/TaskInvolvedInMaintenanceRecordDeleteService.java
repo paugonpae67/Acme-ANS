@@ -38,7 +38,8 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 				status = false;
 			else if (taskId != 0) {
 				Task checkedTask = this.repository.findTaskById(taskId);
-				status = status && checkedTask != null;
+				InvolvedIn i = this.repository.findInvolvedInTMR(masterId, taskId);
+				status = status && checkedTask != null && i != null;
 			}
 		} catch (Exception e) {
 			status = false;

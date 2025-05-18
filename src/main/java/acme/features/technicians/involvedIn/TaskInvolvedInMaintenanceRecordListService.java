@@ -50,6 +50,7 @@ public class TaskInvolvedInMaintenanceRecordListService extends AbstractGuiServi
 		dataset.put("task", involvedIn.getTask().getType());
 		dataset.put("ticker", involvedIn.getTask().getTicker());
 		dataset.put("priority", involvedIn.getTask().getPriority());
+
 		super.addPayload(dataset, involvedIn);
 		super.getResponse().addData(dataset);
 	}
@@ -59,10 +60,11 @@ public class TaskInvolvedInMaintenanceRecordListService extends AbstractGuiServi
 		int masterId;
 		MaintenanceRecord maintenanceRecord;
 		final boolean showCreate;
+		boolean coleccionInvolvedIn = !involvedIns.isEmpty();
 		masterId = super.getRequest().getData("masterId", int.class);
 		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
 		showCreate = maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician());
-
+		super.getResponse().addGlobal("hayInvolucrados", coleccionInvolvedIn);
 		super.getResponse().addGlobal("masterId", masterId);
 		super.getResponse().addGlobal("showCreate", showCreate);
 	}
