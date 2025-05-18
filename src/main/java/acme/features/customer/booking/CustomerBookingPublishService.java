@@ -26,14 +26,33 @@ public class CustomerBookingPublishService extends AbstractGuiService<Customer, 
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
-		super.getResponse().setAuthorised(status);
+		boolean status;
+		try {
+			status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+			super.getResponse().setAuthorised(status);
 
-		int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		int bookingId = super.getRequest().getData("id", int.class);
-		Booking booking = this.repository.findBookingById(bookingId);
+			if (!super.getRequest().getMethod().equals("POST"))
+				super.getResponse().setAuthorised(false);
 
-		super.getResponse().setAuthorised(customerId == booking.getCustomer().getId());
+			else {
+				int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+				int bookingId = super.getRequest().getData("id", int.class);
+				Booking booking = this.repository.findBookingById(bookingId);
+
+				Integer flightId = super.getRequest().getData("flight", Integer.class);
+				if (flightId == null)
+					status = false;
+				else if (flightId != 0) {
+					Flight flight = this.repository.findFlightById(flightId);
+					status = status && flight != null && !flight.isDraftMode() && flight.getScheduledDeparture() != null && flight.getScheduledDeparture().after(MomentHelper.getCurrentMoment());
+				}
+
+				status = status && customerId == booking.getCustomer().getId();
+				super.getResponse().setAuthorised(status);
+			}
+		} catch (Throwable t) {
+			super.getResponse().setAuthorised(false);
+		}
 	}
 
 	@Override
@@ -69,6 +88,10 @@ public class CustomerBookingPublishService extends AbstractGuiService<Customer, 
 		boolean condition = bookingPassengers.stream().anyMatch(p -> p.isDraftMode() == true);
 		if (condition)
 			super.state(false, "*", "acme.validation.passengersNotPublished.message");
+
+		Flight flight = booking.getFlight();
+		boolean validFlight = flight != null && !flight.isDraftMode() && flight.getScheduledDeparture() != null && flight.getScheduledDeparture().after(MomentHelper.getCurrentMoment());
+		super.state(validFlight, "flight", "customer.booking.form.error.invalidFlight");
 
 	}
 

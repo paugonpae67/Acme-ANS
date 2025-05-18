@@ -35,6 +35,7 @@ acme.validation.leg.message = Este avión tiene tramos de vuelo pendientes, no e
 acme.validation.validCurrency = Esta moneda es incorrecta
 
 customer.booking.form.error.duplicateLocatorCode = Este código localizador ya está en uso
+customer.booking.form.error.invalidFlight = El vuelo seleccionado no está disponible
 acme.validation.lastNibble.message  = Este campo es necesario para poder publicar una reserva 
 acme.validation.passengersNumber.message = La reserva debe tener al menos un pasajero para poder ser publicada
 acme.validation.passengersNotPublished.message = Todos los pasajeros deben estar publicados para poder publicar la reserva
