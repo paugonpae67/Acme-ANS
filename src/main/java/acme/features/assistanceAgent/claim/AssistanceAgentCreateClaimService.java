@@ -27,29 +27,7 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 
 	@Override
 	public void authorise() {
-		boolean status;
-		try {
-			int masterId;
-			Claim claim;
-			AssistanceAgent agent;
-
-			masterId = super.getRequest().getData("id", int.class);
-			claim = this.repository.findClaimById(masterId);
-			agent = claim == null ? null : claim.getAssistanceAgent();
-			status = claim != null && super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
-			super.getResponse().setAuthorised(status);
-
-			Integer legId = super.getRequest().getData("aircraft", Integer.class);
-			if (legId == null)
-				status = false;
-			else if (legId != 0) {
-				Leg existingLeg = this.repository.findLegById(legId);
-				status = status && existingLeg != null && !existingLeg.isDraftMode();
-			}
-
-		} catch (Exception e) {
-			status = false;
-		}
+		boolean status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
 		super.getResponse().setAuthorised(status);
 	}
 
@@ -81,8 +59,9 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 		legId = super.getRequest().getData("leg", int.class);
 		leg = this.repository.findLegByLegId(legId);
 		super.bindObject(claim, "registrationMoment", "passengerEmail", "description", "type");
-		claim.setLeg(leg);
 		claim.setRegistrationMoment(currentMoment);
+		if (leg != null)
+			claim.setLeg(leg);
 	}
 
 	@Override

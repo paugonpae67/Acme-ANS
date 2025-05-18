@@ -28,26 +28,14 @@ public class AssistanceAgentUpdateClaimService extends AbstractGuiService<Assist
 	@Override
 	public void authorise() {
 		boolean status;
-		try {
-			int masterId;
-			Claim claim;
-			AssistanceAgent assistanceAgent;
+		int masterId;
+		Claim claim;
+		AssistanceAgent assistanceAgent;
 
-			masterId = super.getRequest().getData("id", int.class);
-			claim = this.repository.findClaimById(masterId);
-			assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
-			status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) && (claim == null || claim.isDraftMode());
-
-			Integer legId = super.getRequest().getData("leg", Integer.class);
-			if (legId == null)
-				status = false;
-			else if (legId != 0) {
-				Leg existingLeg = this.repository.findLegById(legId);
-				status = status && existingLeg != null && !existingLeg.isDraftMode();
-			}
-		} catch (Exception e) {
-			status = false;
-		}
+		masterId = super.getRequest().getData("id", int.class);
+		claim = this.repository.findClaimById(masterId);
+		assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
+		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) && (claim == null || claim.isDraftMode());
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -70,7 +58,7 @@ public class AssistanceAgentUpdateClaimService extends AbstractGuiService<Assist
 
 		legId = super.getRequest().getData("leg", int.class);
 		leg = this.repository.findLegByLegId(legId);
-		super.bindObject(claim, "passengerEmail", "description", "type");
+		super.bindObject(claim, "registrationMoment", "passengerEmail", "description", "type");
 		claim.setLeg(leg);
 
 	}
@@ -134,12 +122,7 @@ public class AssistanceAgentUpdateClaimService extends AbstractGuiService<Assist
 		assistanceAgent = this.repository.findAssistanceAgentById(agentId);
 		status = claim.getStatus();
 
-		try {
-			legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
-		} catch (NullPointerException e) {
-			throw new IllegalArgumentException("The selected aircraft is not available");
-		}
-
+		legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
 		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "description", "draftMode");
 		dataset.put("types", choices);
 
