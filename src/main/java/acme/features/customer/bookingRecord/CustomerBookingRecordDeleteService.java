@@ -1,9 +1,12 @@
 
 package acme.features.customer.bookingRecord;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.bookings.Booking;
@@ -22,31 +25,28 @@ public class CustomerBookingRecordDeleteService extends AbstractGuiService<Custo
 	public void authorise() {
 		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
 		super.getResponse().setAuthorised(status);
+
+		int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		int bookingId = super.getRequest().getData("bookingId", int.class);
+		Booking booking = this.repository.findBookingById(bookingId);
+
+		super.getResponse().setAuthorised(customerId == booking.getCustomer().getId());
 	}
 
 	@Override
 	public void load() {
-		int bookingRecordId = super.getRequest().getData("id", int.class);
-		BookingRecord bookingRecord = this.repository.findBookingRecordById(bookingRecordId);
+		BookingRecord bookingRecord = new BookingRecord();
+
+		int bookingId = super.getRequest().getData("bookingId", int.class);
+		Booking booking = this.repository.findBookingById(bookingId);
+		bookingRecord.setBooking(booking);
 
 		super.getBuffer().addData(bookingRecord);
 	}
 
 	@Override
 	public void bind(final BookingRecord bookingRecord) {
-		Booking booking;
-		Passenger passenger;
-
-		int bookingId = super.getRequest().getData("bookingId", int.class);
-
-		booking = this.repository.findBookingById(bookingId);
-
-		int passengerId = super.getRequest().getData("passengerId", int.class);
-		passenger = this.repository.findPassengerById(passengerId);
-
-		super.bindObject(bookingRecord);
-		bookingRecord.setBooking(booking);
-		bookingRecord.setPassenger(passenger);
+		super.bindObject(bookingRecord, "passenger");
 	}
 
 	@Override
@@ -55,27 +55,31 @@ public class CustomerBookingRecordDeleteService extends AbstractGuiService<Custo
 
 		confirmation = super.getRequest().getData("confirmation", boolean.class);
 		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
+
+		boolean valid = bookingRecord.getPassenger() != null;
+		super.state(valid, "passenger", "acme.validation.form.error.NotNull");
+
 	}
 
 	@Override
 	public void perform(final BookingRecord bookingRecord) {
-		this.repository.delete(bookingRecord);
+		BookingRecord bookingRecordToDelete = this.repository.findBookingRecordByPassengerIdAndBookingId(bookingRecord.getPassenger().getId(), bookingRecord.getBooking().getId());
+
+		this.repository.delete(bookingRecordToDelete);
 	}
 
 	@Override
 	public void unbind(final BookingRecord bookingRecord) {
 		Dataset dataset;
+		SelectChoices passengerChoices;
+		Collection<Passenger> bookingPassengers;
 
-		boolean isPassengerPublished = bookingRecord.getPassenger().isDraftMode() ? false : true;
+		bookingPassengers = this.repository.findPassengersByBookingId(bookingRecord.getBooking().getId());
 
-		dataset = super.unbindObject(bookingRecord);
-		dataset.put("bookingLocatorCode", bookingRecord.getBooking().getLocatorCode());
-		dataset.put("bookingId", bookingRecord.getBooking().getId());
-		dataset.put("passengerId", bookingRecord.getPassenger().getId());
-		dataset.put("passengerName", bookingRecord.getPassenger().getFullName());
-		dataset.put("passengerEmail", bookingRecord.getPassenger().getEmail());
-		dataset.put("customerCreator", bookingRecord.getPassenger().getCustomer().getIdentifier());
-		dataset.put("passengerPublished", isPassengerPublished);
+		passengerChoices = SelectChoices.from(bookingPassengers, "fullName", bookingRecord.getPassenger());
+
+		dataset = super.unbindObject(bookingRecord, "passenger", "booking");
+		dataset.put("passengersChoices", passengerChoices);
 
 		super.getResponse().addData(dataset);
 	}

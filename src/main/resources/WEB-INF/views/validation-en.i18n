@@ -33,10 +33,10 @@ assistanceAgent.trackingLog.form.error.wrongPercentage = You can not create two 
 acme.validation.leg.message = This aircraft has pending flight legs, it cannot be disabled
 
 customer.booking.form.error.duplicateLocatorCode = This locator code is already in use
-
 acme.validation.lastNibble.message  = This field is required to publish a booking
 acme.validation.passengersNumber.message = The booking must have at least one passenger in order to be published
 acme.validation.passengersNotPublished.message = All passengers must be published in order to publish the booking
+acme.validation.passengerBookingRecords.message = There are bookings associated with this passenger. Remove the passenger from these bookings to proceed
 
 acme.validation.validCurrency = This currency is invalid
 acme.validation.form.error.NotNull= It must not be null

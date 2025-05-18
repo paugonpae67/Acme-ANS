@@ -76,18 +76,25 @@ public class CustomerBookingRecordCreateService extends AbstractGuiService<Custo
 		allPassengers = this.repository.findAllPassengers();
 		customerPassengers = this.repository.findAllCustomerPassengersByCustomerId(customerId);
 
-		Collection<Passenger> customerPassangersNotInBooking = customerPassengers.stream().filter(p -> !bookingPassengers.contains(p)).collect(Collectors.toList());
-		Collection<Passenger> othersPassengersPublished = allPassengers.stream().filter(p -> !customerPassengers.contains(p) && !p.isDraftMode()).collect(Collectors.toList());
+		// Tus pasajeros que no están en la reserva actual
+		Collection<Passenger> customerPassengersNotInBooking = customerPassengers.stream().filter(p -> !bookingPassengers.contains(p)).collect(Collectors.toList());
 
-		customerPassangersNotInBooking.addAll(othersPassengersPublished);
+		// Pasajeros de otros clientes, pero publicados
+		Collection<Passenger> otherPublishedPassengers = allPassengers.stream().filter(p -> !customerPassengers.contains(p) && !p.isDraftMode()).collect(Collectors.toList());
 
-		passengerChoices = SelectChoices.from(customerPassangersNotInBooking, "fullName", bookingRecord.getPassenger());
+		// Pasajeros de otros clientes publicados que no están en la reserva actual
+		Collection<Passenger> otherPublishedPassengersNotInBooking = otherPublishedPassengers.stream().filter(p -> !bookingPassengers.contains(p)).collect(Collectors.toList());
+
+		// Combina ambos grupos
+		customerPassengersNotInBooking.addAll(otherPublishedPassengersNotInBooking);
+
+		// Opciones del selector
+		passengerChoices = SelectChoices.from(customerPassengersNotInBooking, "fullName", bookingRecord.getPassenger());
 
 		dataset = super.unbindObject(bookingRecord, "passenger", "booking");
 		dataset.put("passengersOptions", passengerChoices);
 
 		super.getResponse().addData(dataset);
-
 	}
 
 }
