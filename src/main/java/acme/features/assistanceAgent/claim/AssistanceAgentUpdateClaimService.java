@@ -44,6 +44,12 @@ public class AssistanceAgentUpdateClaimService extends AbstractGuiService<Assist
 					Integer legId = super.getRequest().getData("leg", Integer.class);
 					if (legId == null || legId != 0) {
 						Leg leg = this.repository.findLegByLegId(legId);
+						Collection<Leg> legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
+
+						if (legs.isEmpty())
+							status = false;
+						else
+							status = legs.contains(leg);
 						status = status && leg != null && !leg.isDraftMode();
 					}
 				}

@@ -39,6 +39,7 @@ public class AssistanceAgentPublishClaimService extends AbstractGuiService<Assis
 		} catch (Exception e) {
 			status = false;
 		}
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
@@ -59,7 +60,45 @@ public class AssistanceAgentPublishClaimService extends AbstractGuiService<Assis
 
 	@Override
 	public void validate(final Claim claim) {
-		;
+
+		boolean valid;
+		if (claim.getLeg() != null && claim.getRegistrationMoment() != null) {
+			valid = claim.getRegistrationMoment().after(claim.getLeg().getScheduledArrival());
+			super.state(valid, "leg", "assistanceAgent.claim.form.error.badLeg");
+		}
+		/*
+		 * Collection<Leg> legs;
+		 * Collection<ClaimType> types;
+		 * ClaimType type;
+		 * int legId;
+		 * Leg leg;
+		 * int agentId;
+		 * AssistanceAgent assistanceAgent;
+		 * boolean legCorrect = true;
+		 * boolean isNullLeg = true;
+		 * boolean isCorrectType;
+		 * 
+		 * types = Arrays.asList(ClaimType.values());
+		 * type = super.getRequest().getData("type", ClaimType.class);
+		 * isCorrectType = types.contains(type);
+		 * 
+		 * agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		 * assistanceAgent = this.repository.findAssistanceAgentById(agentId);
+		 * legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
+		 * 
+		 * if (legs.isEmpty())
+		 * isNullLeg = false;
+		 * else {
+		 * legId = super.getRequest().getData("leg", int.class);
+		 * leg = this.repository.findLegById(legId);
+		 * legCorrect = legs.contains(leg);
+		 * }
+		 * 
+		 * super.state(isCorrectType, "type", "acme.validation.claim.form.error.type");
+		 * super.state(legCorrect, "leg", "acme.validation.claim.form.error.leg");
+		 * super.state(isNullLeg, "leg", "acme.validation.claim.form.error.leg2");
+		 * super.state(claim.isDraftMode(), "draftMode", "acme.validation.claim.form.error.draftMode");
+		 */
 	}
 
 	@Override
