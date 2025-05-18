@@ -40,11 +40,14 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 		TrackingLogStatus status = trackingLog.getStatus();
 		String resolution = trackingLog.getResolution();
 
-		if (percentage == null)
+		if (percentage == null) {
 			super.state(context, false, "ResolutionPercentage", "The field resolution percentage can not be null");
-
-		if (status == null)
+			return false;
+		}
+		if (status == null) {
 			super.state(context, false, "Status", "The field status can not be null");
+			return false;
+		}
 
 		Optional<List<TrackingLog>> trackingLogs = this.trackingLogsRepository.findLatestTrackingLogByClaim(trackingLog.getClaim().getId());
 		Long countPercentage = trackingLogs.orElse(List.of()).stream().filter(x -> !x.getResolutionPercentage().equals(100.00)).filter(x -> !Objects.equals(x.getId(), trackingLog.getId()))
@@ -70,7 +73,8 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 
 		if (trackingLog.getLastUpdateMoment() != null && trackingLog.getResolutionPercentage() != null) {
 			Optional<List<TrackingLog>> latestTrackingLogs = this.trackingLogsRepository.findLatestTrackingLogByClaim(trackingLog.getClaim().getId());
-			List<TrackingLog> beforeActual = latestTrackingLogs.orElse(List.of()).stream().filter(t -> t.getId() != trackingLog.getId()).filter(t -> !t.getLastUpdateMoment().after(trackingLog.getLastUpdateMoment())).collect(Collectors.toList());
+			List<TrackingLog> beforeActual = latestTrackingLogs.orElse(List.of()).stream().filter(t -> !Objects.equals(t.getId(), trackingLog.getId())).filter(t -> t.getLastUpdateMoment().before(trackingLog.getLastUpdateMoment()))
+				.collect(Collectors.toList());
 
 			if (!beforeActual.isEmpty()) {
 				beforeActual.sort(Comparator.comparing(TrackingLog::getResolutionPercentage).reversed());
@@ -80,19 +84,18 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 
 				if (percentage.equals(100.00)) {
 					if (maxComplete == 1) {
-						super.state(context, status.equals(previous.getStatus()), "Status", "assistanceAgent.trackingLog.form.error.statusNewPercentageFinished");
-						super.state(context, !trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "draftMode", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished");
+						super.state(context, status.equals(previous.getStatus()), "Status",
+							"The status of the new tracking log with a 100% resolution percentage must match the status of the previous tracking log that also has a 100% resolution percentage ");
+						super.state(context, !trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "DraftMode", "You cannot create two tracking logs with a 100% resolution if the claim has not been published");
 					} else if (maxComplete >= 2)
-						super.state(context, false, "ResolutionPercentage", "assistanceAgent.trackingLog.form.error.completePercentage");
+						super.state(context, false, "ResolutionPercentage", "No additional tracking logs with a 100% resolution can be created");
 
 				} else {
 					morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
-					super.state(context, morePercentage, "ResolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
+					super.state(context, morePercentage, "ResolutionPercentage", "The resolution percentage must be greater than the previous tracking log; it must increase progressively");
 
 				}
-
 			}
-
 		}
 		return !super.hasErrors(context);
 	}

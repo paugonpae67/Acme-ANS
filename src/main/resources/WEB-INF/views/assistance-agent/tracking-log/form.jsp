@@ -8,7 +8,7 @@
 		<jstl:when test="${acme:anyOf(_command, 'show|update|delete|publish') && draftMode && claimDraftMode}">
 			<acme:input-moment code="assistanceAgent.trackingLog.form.label.lastUpdateMoment" path="lastUpdateMoment" readonly="true"/>
 			<acme:input-textbox code="assistanceAgent.trackingLog.form.label.step" path="step"/>
-			<acme:input-double code="assistanceAgent.trackingLog.form.label.resolutionPercentage" path="resolutionPercentage" placeholder="assistance-agent.tracking-log.form.placeholder.resolutionPercentage"/>
+			<acme:input-double code="assistanceAgent.trackingLog.form.label.resolutionPercentage" path="resolutionPercentage" />
 			<acme:input-textarea code="assistanceAgent.trackingLog.form.label.resolution" path="resolution"/>
 			<acme:input-select code="assistanceAgent.trackingLog.form.label.status" path="status" choices="${statuses}"/>
 			
@@ -18,7 +18,7 @@
 		<jstl:when test="${acme:anyOf(_command, 'show|update|delete|publish') && draftMode && !claimDraftMode}">
 			<acme:input-moment code="assistanceAgent.trackingLog.form.label.lastUpdateMoment" path="lastUpdateMoment" readonly="true"/>
 			<acme:input-textbox code="assistanceAgent.trackingLog.form.label.step" path="step"/>
-			<acme:input-double code="assistanceAgent.trackingLog.form.label.resolutionPercentage" path="resolutionPercentage" placeholder="assistance-agent.tracking-log.form.placeholder.resolutionPercentage"/>
+			<acme:input-double code="assistanceAgent.trackingLog.form.label.resolutionPercentage" path="resolutionPercentage"/>
 			<acme:input-textarea code="assistanceAgent.trackingLog.form.label.resolution" path="resolution"/>
 			<acme:input-select code="assistanceAgent.trackingLog.form.label.status" path="status" choices="${statuses}"/>
 			
@@ -29,13 +29,13 @@
 		<jstl:when test="${_command == 'show' && !draftMode}">
 			<acme:input-moment code="assistanceAgent.trackingLog.form.label.lastUpdateMoment" path="lastUpdateMoment" readonly="true"/>
 			<acme:input-textbox code="assistanceAgent.trackingLog.form.label.step" path="step" readonly="true"/>
-			<acme:input-double code="assistanceAgent.trackingLog.form.label.resolutionPercentage" path="resolutionPercentage" placeholder="assistance-agent.tracking-log.form.placeholder.resolutionPercentage" readonly="true"/>
+			<acme:input-double code="assistanceAgent.trackingLog.form.label.resolutionPercentage" path="resolutionPercentage" readonly="true"/>
 			<acme:input-textarea code="assistanceAgent.trackingLog.form.label.resolution" path="resolution" readonly="true"/>
 			<acme:input-select code="assistanceAgent.trackingLog.form.label.status" path="status" choices="${statuses}" readonly="true"/>
 		</jstl:when>
 		<jstl:when test="${_command == 'create'}">
 			<acme:input-textbox code="assistanceAgent.trackingLog.form.label.step" path="step"/>
-			<acme:input-double code="assistanceAgent.trackingLog.form.label.resolutionPercentage" path="resolutionPercentage" placeholder="assistance-agent.tracking-log.form.placeholder.resolutionPercentage"/>
+			<acme:input-double code="assistanceAgent.trackingLog.form.label.resolutionPercentage" path="resolutionPercentage"/>
 			<acme:input-textarea code="assistanceAgent.trackingLog.form.label.resolution" path="resolution"/>
 			<acme:input-select code="assistanceAgent.trackingLog.form.label.status" path="status" choices="${statuses}"/>
 			

@@ -59,7 +59,7 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 
 	@Override
 	public void bind(final TrackingLog trackingLog) {
-		super.bindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "resolution");
+		super.bindObject(trackingLog, "step", "resolutionPercentage", "status", "resolution");
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 			Double percentage = trackingLog.getResolutionPercentage();
 			TrackingLogStatus status = trackingLog.getStatus();
 			String resolution = trackingLog.getResolution();
-			Long countPercentage = trackingLogs.stream().filter(x -> !x.getResolutionPercentage().equals(100.00)).filter(x -> !Objects.equals(x.getId(), trackingLog.getId()))
+			Long countPercentage = trackingLogs.stream().filter(x -> x.getResolutionPercentage() != null && !x.getResolutionPercentage().equals(100.00)).filter(x -> !Objects.equals(x.getId(), trackingLog.getId()))
 				.filter(x -> Objects.equals(x.getResolutionPercentage(), trackingLog.getResolutionPercentage())).count();
 
 			if (countPercentage > 0)

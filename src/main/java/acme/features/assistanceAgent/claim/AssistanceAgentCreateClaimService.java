@@ -58,7 +58,7 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 		currentMoment = MomentHelper.getCurrentMoment();
 		legId = super.getRequest().getData("leg", int.class);
 		leg = this.repository.findLegByLegId(legId);
-		super.bindObject(claim, "registrationMoment", "passengerEmail", "description", "type");
+		super.bindObject(claim, "passengerEmail", "description", "type");
 		claim.setRegistrationMoment(currentMoment);
 		if (leg != null)
 			claim.setLeg(leg);
