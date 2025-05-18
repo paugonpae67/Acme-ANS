@@ -11,7 +11,7 @@ import javax.validation.Payload;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = TrackingLogsValidator.class)
+@Constraint(validatedBy = ClaimValidator.class)
 
 public @interface ValidClaims {
 

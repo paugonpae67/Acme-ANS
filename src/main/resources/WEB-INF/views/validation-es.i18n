@@ -33,7 +33,7 @@ assistanceAgent.trackingLog.form.error.notSamePercentage = No pueden existir dos
 assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished = No se pueden crear dos registros de seguimiento con una resolución del 100 % si el reclamo no se ha publicado
 assistanceAgent.trackingLog.form.error.claimPublished = No podemos asociar un registro de seguimiento con un reclamo en modo borrador
 assistanceAgent.trackingLog.form.error.onlyOneCompleteAllowed= Este tracking log no puede ser publicado porque ya existe otro posterior que ha sido publicado como finalizado
-
+assistanceAgent.trackingLog.form.error.lastUpdateMoment = La fecha del trackingLog no puede ser anterior al especificado en el claim
 
 acme.validation.leg.message = Este avión tiene tramos de vuelo pendientes, no es posible deshabilitarlo
 

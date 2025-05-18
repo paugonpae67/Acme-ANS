@@ -19,6 +19,7 @@ import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.ValidEmail;
 import acme.client.components.validation.ValidMoment;
 import acme.client.helpers.SpringHelper;
+import acme.constraints.ValidClaims;
 import acme.constraints.ValidLongText;
 import acme.entities.legs.Leg;
 import acme.entities.trackingLogs.TrackingLog;
@@ -31,6 +32,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
+@ValidClaims
 public class Claim extends AbstractEntity {
 
 	private static final long	serialVersionUID	= 1L;

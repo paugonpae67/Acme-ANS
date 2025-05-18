@@ -27,7 +27,29 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+		boolean status;
+		try {
+			int masterId;
+			Claim claim;
+			AssistanceAgent agent;
+
+			masterId = super.getRequest().getData("id", int.class);
+			claim = this.repository.findClaimById(masterId);
+			agent = claim == null ? null : claim.getAssistanceAgent();
+			status = claim != null && super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+			super.getResponse().setAuthorised(status);
+
+			Integer legId = super.getRequest().getData("aircraft", Integer.class);
+			if (legId == null)
+				status = false;
+			else if (legId != 0) {
+				Leg existingLeg = this.repository.findLegById(legId);
+				status = status && existingLeg != null && !existingLeg.isDraftMode();
+			}
+
+		} catch (Exception e) {
+			status = false;
+		}
 		super.getResponse().setAuthorised(status);
 	}
 
@@ -82,7 +104,7 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 
 		agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		assistanceAgent = this.repository.findAssistanceAgentById(agentId);
-		legs = this.repository.findAllPublishedLegs(MomentHelper.getCurrentMoment(), assistanceAgent.getAirline().getId());
+		legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
 
 		if (legs.isEmpty())
 			isNullLeg = false;
@@ -118,7 +140,7 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 		assistanceAgent = this.repository.findAssistanceAgentById(agentId);
 		status = claim.getStatus();
 
-		legs = this.repository.findAllPublishedLegs(MomentHelper.getCurrentMoment(), assistanceAgent.getAirline().getId());
+		legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
 		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "description");
 		dataset.put("types", choices);
 

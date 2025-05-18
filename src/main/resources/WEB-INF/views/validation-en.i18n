@@ -32,6 +32,7 @@ assistanceAgent.trackingLog.form.error.notSamePercentage = Two trackingLogs with
 assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished = You cannot create two tracking logs with a 100% resolution if the claim has not been published
 assistanceAgent.trackingLog.form.error.claimPublished = We can not associate a trackingLog with a claim in draft mode
 assistanceAgent.trackingLog.form.error.onlyOneCompleteAllowed = You cannot publish this tracking log because a finished one created later has already been published
+assistanceAgent.trackingLog.form.error.lastUpdateMoment = To create a trackingLog, the claim must have been created before
 
 acme.validation.leg.message = This aircraft has pending flight legs, it cannot be disabled
 

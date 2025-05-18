@@ -63,6 +63,9 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 			super.state(context, hasResolution, "Resolution", "Resolution can not be empty for finished trackingLogs (REJECTED or ACCEPTED)");
 		}
 
+		if (trackingLog.getLastUpdateMoment().compareTo(trackingLog.getClaim().getRegistrationMoment()) < 0)
+			super.state(context, false, "LastUpdateMoment", "To create a trackingLog, the claim must have been created before");
+
 		boolean morePercentage = true;
 
 		if (trackingLog.getLastUpdateMoment() != null && trackingLog.getResolutionPercentage() != null) {
@@ -87,6 +90,7 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 					super.state(context, morePercentage, "ResolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
 
 				}
+
 			}
 
 		}

@@ -51,13 +51,8 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 		TrackingLog trackingLog;
 		int id;
 
-		Date moment;
-
-		moment = MomentHelper.getCurrentMoment();
-
 		id = super.getRequest().getData("id", int.class);
 		trackingLog = this.repository.findTrackingLogById(id);
-		trackingLog.setLastUpdateMoment(moment);
 
 		super.getBuffer().addData(trackingLog);
 	}
@@ -117,6 +112,10 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 
 	@Override
 	public void perform(final TrackingLog trackingLog) {
+		Date currentMoment;
+
+		currentMoment = MomentHelper.getCurrentMoment();
+		trackingLog.setLastUpdateMoment(currentMoment);
 		this.repository.save(trackingLog);
 	}
 

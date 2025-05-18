@@ -3,19 +3,12 @@ package acme.constraints;
 
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import acme.client.components.validation.AbstractValidator;
 import acme.client.components.validation.Validator;
 import acme.entities.claim.Claim;
-import acme.entities.trackingLogs.TrackingLogRepository;
 
 @Validator
 public class ClaimValidator extends AbstractValidator<ValidClaims, Claim> {
-
-	@Autowired
-	private TrackingLogRepository trackingLogsRepository;
-
 
 	@Override
 	protected void initialise(final ValidClaims annotation) {
@@ -28,7 +21,10 @@ public class ClaimValidator extends AbstractValidator<ValidClaims, Claim> {
 
 		if (claim.getLeg().isDraftMode())
 			super.state(context, false, "Leg", "The Leg must be published before it can be linked to the claim");
-
+		if (claim.getLeg().getScheduledArrival().compareTo(claim.getRegistrationMoment()) > 0)
+			super.state(context, false, "Leg", "The Leg must have happen before the claim");
+		if (claim.getLeg().getAircraft().getAirline().getId() != claim.getAssistanceAgent().getAirline().getId())
+			super.state(context, false, "Leg", "The assistance agent must belong to the airline operating the flight");
 		return !super.hasErrors(context);
 	}
 

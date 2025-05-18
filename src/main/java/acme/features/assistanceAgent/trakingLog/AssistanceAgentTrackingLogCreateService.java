@@ -91,6 +91,9 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 				super.state(hasResolution, "resolution", "assistanceAgent.trackingLog.form.error.resolutionNeeded");
 			}
 
+			if (trackingLog.getLastUpdateMoment().compareTo(trackingLog.getClaim().getRegistrationMoment()) < 0)
+				super.state(false, "lastUpdateMoment", "assistanceAgent.trackingLog.form.error.lastUpdateMoment");
+
 			boolean morePercentage = true;
 			if (!beforeActual.isEmpty()) {
 				beforeActual.sort(Comparator.comparing(TrackingLog::getResolutionPercentage).reversed());
