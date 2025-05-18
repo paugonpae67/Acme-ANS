@@ -14,9 +14,11 @@
         
         <acme:input-textbox code="manager.flight.form.label.cost" path="cost" />
         <acme:input-textbox code="manager.flight.form.label.description" path="description" />
+        
+        <!-- Esto es un comentario HTML 
         <acme:input-moment code="manager.flight.form.label.scheduledDeparture" readonly="true"  path="scheduledDeparture" />
         <acme:input-moment code="manager.flight.form.label.scheduledArrival" readonly="true" path="scheduledArrival" />
-        
+        -->
        
         <c:if test="${draftMode == true}">
             <acme:submit code="manager.flight.form.button.publish" action="/manager/flight/publish" />
