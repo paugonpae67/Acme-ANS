@@ -1,6 +1,6 @@
 
 acme.validation.maintenanceRecord.NotNull = The maintenance record cannot be null
-acme.validation.maintenanceRecord.nextInspectionNotNull = Must have a next inspection
+acme.validation.maintenanceRecord.nextInspectionNotNull = Must have a next inspection date
 acme.validation.maintenanceRecord.DateCorrect = Next inspection date must be after moment date
 
 acme.validation.involved-in.task = To publish a maintenance record it must have at least one published task and all his tasks must be published
