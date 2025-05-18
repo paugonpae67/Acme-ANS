@@ -38,21 +38,25 @@ public class FlightAssignmentValidator extends AbstractValidator<ValidFlightAssi
 		Leg leg = assignment.getLeg();
 
 		if (assignment == null)
-			super.state(context, false, "member", "acme.validation.assignment.NotNull");
-		else if (leg == null)
-			super.state(context, false, "member", "acme.validation.assignment.nextInspectionNotNull");
-		else if (!this.dutymember(assignment, assignment.getDuty()))
-			super.state(context, false, "member", "acme.validation.assignment.dutyIncorrect");
-		else if (!this.MemberAvaible(assignment))
-			super.state(context, false, "member", "acme.validation.assignment.statusIncorrect");
-		else {
-			boolean correctAssignation;
+			super.state(context, false, "FlightCrewMembers", "acme.validation.assignment.NotNull");
 
-			boolean correctLeg = !leg.isDraftMode() && !this.legsimultaneo(assignment, assignment.getFlightCrewMembers().getId());
+		if (leg == null)
+			super.state(context, false, "leg", "acme.validation.assignment.nextInspectionNotNull");
+		if (assignment.getFlightCrewMembers() == null)
+			super.state(context, false, "FlightCrewMembers", "acme.validation.assignment.nextInspectionNotNull");
 
-			super.state(context, correctLeg, "member", "acme.validation.assignment.legCorrect");
+		if (leg != null && !this.dutymember(assignment, assignment.getDuty()))
+			super.state(context, false, "duty", "acme.validation.assignment.dutyIncorrect");
 
-		}
+		if (assignment.getFlightCrewMembers() != null && !this.MemberAvaible(assignment))
+			super.state(context, false, "FlightCrewMembers", "acme.validation.assignment.statusIncorrect");
+
+		if (assignment.getFlightCrewMembers() != null && leg != null && !this.legsimultaneo(assignment, assignment.getFlightCrewMembers().getId()))
+			super.state(context, false, "leg", "acme.validation.assignment.legIncorrect");
+
+		if (leg != null && leg.isDraftMode())
+			super.state(context, false, "leg", "acme.validation.assignment.legDraft");
+
 		result = !super.hasErrors(context);
 
 		return result;
@@ -61,7 +65,6 @@ public class FlightAssignmentValidator extends AbstractValidator<ValidFlightAssi
 	//este funciona pero ns
 	private boolean MemberAvaible(final FlightAssignment assignment) {
 		FlightCrewMemberStatus status = assignment.getFlightCrewMembers().getAvailabilityStatus();
-		Leg leg = assignment.getLeg();
 		boolean isAvaible = false;
 		if (status == FlightCrewMemberStatus.AVAILABLE)
 			isAvaible = true;
@@ -72,9 +75,8 @@ public class FlightAssignmentValidator extends AbstractValidator<ValidFlightAssi
 
 	//este funciona
 	private boolean legsimultaneo(final FlightAssignment flightAssignment, final Integer memberId) {
-		Collection<Leg> legs = this.repository.findLegsByFlightCrewMember(memberId);
+		Collection<Leg> legs = this.repository.findLegsByFlightCrewMember(memberId, flightAssignment.getId());
 		boolean notIsSimultaneo = true;
-
 		for (Leg l : legs) {
 			Date arrive = l.getScheduledArrival();
 			Date departure = l.getScheduledDeparture();

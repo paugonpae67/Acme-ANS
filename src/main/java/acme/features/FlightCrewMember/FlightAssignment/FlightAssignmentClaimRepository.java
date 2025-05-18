@@ -43,8 +43,8 @@ public interface FlightAssignmentClaimRepository extends AbstractRepository {
 	@Query("select l from Leg l where l.scheduledArrival > :date AND l.scheduledDeparture > :date AND l.draftMode = false")
 	Collection<Leg> findAllLegsFuturePublished(Date date);
 
-	@Query("select DISTINCT l.leg from FlightAssignment l where l.flightCrewMembers.id = :id")
-	Collection<Leg> findLegsByFlightCrewMember(int id);
+	@Query("select DISTINCT l.leg from FlightAssignment l where l.flightCrewMembers.id = :id AND l.id != :assignemnet")
+	Collection<Leg> findLegsByFlightCrewMember(int id, int assignemnet);
 
 	@Query("select l from ActivityLog l where l.flightAssignment.id = :id")
 	Collection<ActivityLog> getActivityLogByFlight(int id);

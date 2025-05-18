@@ -20,6 +20,7 @@ FlightCrewMember.FlightAssignment.list-past.label.currentStatus = Current Status
 FlightCrewMember.FlightAssignment.form.label.leg = Leg
 FlightCrewMember.FlightAssignment.form.label.flightCrewMember = Flight Crew Member
 flight-crew-member.flight-assignment.form.label.confirmation = Confirmation
+flight-crew-member.flight-assignment.form.label.public = Publish
 
 
 flight.message.assignment= ASSIGNMENT

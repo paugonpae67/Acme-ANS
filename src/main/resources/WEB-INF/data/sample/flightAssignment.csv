@@ -18,8 +18,10 @@ flightAssignment-13,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,C
 flightAssignment-14,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2025/01/01 00:00,CONFIRMED,flightCrewMember-01,leg-10,true
 flightAssignment-15,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/12/31 23:59,CONFIRMED,flightCrewMember-01,leg-11,true
 flightAssignment-16,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2000/01/01 00:00,CONFIRMED,flightCrewMember-01,leg-12,true
-flightAssignment-17,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2000/01/01 00:01,CONFIRMED,flightCrewMember-01,leg-13,true
+flightAssignment-17,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2000/01/01 00:01,CONFIRMED,flightCrewMember-01,leg-31,true
 #currentStatus,"","","","","","",""
 flightAssignment-18,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-15,true
 flightAssignment-19,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,PENDING,flightCrewMember-01,leg-19,true
 flightAssignment-23,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-18,true
+#others
+flightAssignment-24,LEAD_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-35,true

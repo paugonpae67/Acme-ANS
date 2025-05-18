@@ -2,7 +2,6 @@
 package acme.features.FlightCrewMember.FlightAssignment;
 
 import java.util.Collection;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -63,7 +62,6 @@ public class FlightAssignmentPublishService extends AbstractGuiService<FlightCre
 
 		id = super.getRequest().getData("id", int.class);
 		assignment = this.repository.findAssignmentById(id);
-
 		super.getBuffer().addData(assignment);
 	}
 
@@ -80,64 +78,20 @@ public class FlightAssignmentPublishService extends AbstractGuiService<FlightCre
 		memberId = super.getRequest().getData("flightCrewMember", int.class);
 		flightCrewMember = this.repository.findFlightCrewMemberById(memberId);
 
-		super.bindObject(flightAssignment, "duty", "remarks", "moment", "currentStatus");
+		super.bindObject(flightAssignment, "duty", "remarks", "currentStatus");
 		flightAssignment.setLeg(leg);
+		flightAssignment.setMoment(MomentHelper.getCurrentMoment());
 		flightAssignment.setFlightCrewMembers(flightCrewMember);
 	}
 
 	@Override
 	public void validate(final FlightAssignment flightAssignment) {
-
-		Integer memberId;
-		memberId = super.getRequest().getData("flightCrewMember", Integer.class);
-
-		super.state(this.legsimultaneo(flightAssignment, memberId), "flightCrewMember", "acme.validation.FlightAssignment.memberHasIncompatibleLegs.message");
-
-		super.state(this.dutymember(flightAssignment.getDuty()), "flightCrewMember", "acme.validation.FlightAssignment.memberHasIncompatibleDuty.message");
-
-		super.state(MomentHelper.isFuture(flightAssignment.getLeg().getScheduledDeparture()), "flightCrewMember", "acme.validation.FlightAssignment.HasIncompatibleLeg");
-	}
-
-	private boolean legsimultaneo(final FlightAssignment flightAssignment, final Integer memberId) {
-		Collection<Leg> legs = this.repository.findLegsByFlightCrewMember(memberId);
-		boolean notIsSimultaneo = true;
-		for (Leg l : legs) {
-			Date arrive = l.getScheduledArrival();
-			Date departure = l.getScheduledDeparture();
-			boolean arriveComparation = MomentHelper.isInRange(flightAssignment.getLeg().getScheduledArrival(), departure, arrive);
-			boolean departureComparation = MomentHelper.isInRange(flightAssignment.getLeg().getScheduledDeparture(), departure, arrive);
-
-			if (arriveComparation == true || departureComparation == true) {
-
-				notIsSimultaneo = false;
-				break;
-			}
-		}
-		return notIsSimultaneo;
-
-	}
-
-	private boolean dutymember(final FlightAssignmentDuty myDuty) {
-		int legId = super.getRequest().getData("leg", int.class);
-		Collection<FlightAssignment> assignments = this.repository.findFlightAssignmentByLegId(legId);
-		boolean notHasDuty = true;
-
-		for (FlightAssignment f : assignments) {
-			FlightAssignmentDuty fDuty = f.getDuty();
-			if (fDuty.equals(FlightAssignmentDuty.PILOT) && myDuty.equals(FlightAssignmentDuty.PILOT)) {
-				notHasDuty = false;
-				break;
-			} else if (fDuty.equals(FlightAssignmentDuty.CO_PILOT) && myDuty.equals(FlightAssignmentDuty.CO_PILOT)) {
-				notHasDuty = false;
-				break;
-			}
-		}
-
-		return notHasDuty;
+		super.state(super.getRequest().getData("confirmation", boolean.class), "confirmation", "acme.validation.confirmation.message");
 	}
 
 	@Override
 	public void perform(final FlightAssignment FlightAssignment) {
+
 		FlightAssignment.setDraftMode(false);
 		this.repository.save(FlightAssignment);
 
@@ -158,8 +112,6 @@ public class FlightAssignmentPublishService extends AbstractGuiService<FlightCre
 
 		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		legs = this.repository.findAllLegsFuturePublished(MomentHelper.getCurrentMoment());
-		//if (!legs.contains(assignment.getLeg()))
-		//legs.add(assignment.getLeg());
 
 		members = this.repository.findAllAvailableMembers();
 

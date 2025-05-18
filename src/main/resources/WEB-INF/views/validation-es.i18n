@@ -43,6 +43,15 @@ acme.validation.form.error.NotNull = No puede ser nulo
 acme.validation.form.error.invalidAircraft = El avión no es válido
 acme.validation.form.error.invalidTask = La tarea no es válida
 
+acme.validation.assignment.NotNull = La signación es nula
+acme.validation.assignment.nextInspectionNotNull = El tramo asignado es nulo
+acme.validation.assignment.nextInspectionNotNull = El miembro de la tripulacion asignado es nulo
+acme.validation.assignment.dutyIncorrect = El tramo ya está asignado al rol copiloto o piloto
+acme.validation.assignment.statusIncorrect = Miembro no disponible
+acme.validation.assignment.legIncorrect = No se pueden asignar a varios tramos simultáneamente
+acme.validation.assignment.legDraft = El tramo seleccionado no está publicado
+acme.validation.assignment.delete = No se puede borrar la asignación, todavía tiene registros de actividades asociados.
+
 acme.validation.FlightAssignment.memberHasIncompatibleLegs.message = No se pueden asignar a varios tramos simultáneamente.
 acme.validation.FlightAssignment.memberHasIncompatibleDuty.message = Cada etapa solo puede tener un piloto y un copiloto.
 acme.validation.FlightAssignment.HasIncompatibleLeg = El leg asociado debe ersta rpublicado

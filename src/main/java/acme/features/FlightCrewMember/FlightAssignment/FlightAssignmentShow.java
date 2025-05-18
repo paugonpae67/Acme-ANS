@@ -70,7 +70,7 @@ public class FlightAssignmentShow extends AbstractGuiService<FlightCrewMember, F
 
 		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		legs = this.repository.findAllLegsFuturePublished(MomentHelper.getCurrentMoment());
-		legsOfMember = this.repository.findLegsByFlightCrewMember(memberId);
+		legsOfMember = this.repository.findLegsByFlightCrewMember(memberId, assignment.getId());
 
 		for (Leg l : legsOfMember)
 			if (legs.contains(l))

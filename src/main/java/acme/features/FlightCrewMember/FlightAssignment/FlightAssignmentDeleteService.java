@@ -69,7 +69,10 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 
 	@Override
 	public void validate(final FlightAssignment flightAssignment) {
-		;
+		Collection<ActivityLog> act = this.repository.getActivityLogByFlight(flightAssignment.getId());
+		if (!act.isEmpty())
+			super.state(false, "flightAssignment", "acme.validation.assignment.delete");
+
 	}
 
 	@Override
@@ -98,7 +101,7 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 		legs = this.repository.findAllLegsFuturePublished(MomentHelper.getCurrentMoment());
 		Collection<Leg> legsOfMember;
 
-		legsOfMember = this.repository.findLegsByFlightCrewMember(memberId);
+		legsOfMember = this.repository.findLegsByFlightCrewMember(memberId, assignment.getId());
 
 		for (Leg l : legsOfMember)
 			if (legs.contains(l))
