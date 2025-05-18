@@ -38,7 +38,8 @@ customer.booking.form.error.duplicateLocatorCode = Este código localizador ya e
 acme.validation.lastNibble.message  = Este campo es necesario para poder publicar una reserva 
 acme.validation.passengersNumber.message = La reserva debe tener al menos un pasajero para poder ser publicada
 acme.validation.passengersNotPublished.message = Todos los pasajeros deben estar publicados para poder publicar la reserva
-acme.validation.passengerBookingRecords.message = Existen reservas asociadas a este pasajero. Elimine al pasajero de estas mismas para poder continuar
+acme.validation.passengerBookingRecords.message = Existen reservas asociadas a este pasajero. Por favor, elimine al pasajero de estas mismas para poder continuar
+acme.validation.bookingBookingRecords.message = Existen pasajeros asociados a esta reserva. Por favor, elimínelos para poder continuar
 
 acme.validation.form.error.NotNull = No puede ser nulo
 acme.validation.form.error.invalidAircraft = El avión no es válido

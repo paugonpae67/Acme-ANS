@@ -12,9 +12,9 @@ import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.bookings.Booking;
+import acme.entities.bookings.Passenger;
 import acme.entities.bookings.TravelClass;
 import acme.entities.flights.Flight;
-import acme.entities.passengers.Passenger;
 import acme.realms.Customer;
 
 @GuiService

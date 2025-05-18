@@ -37,6 +37,7 @@ acme.validation.lastNibble.message  = This field is required to publish a bookin
 acme.validation.passengersNumber.message = The booking must have at least one passenger in order to be published
 acme.validation.passengersNotPublished.message = All passengers must be published in order to publish the booking
 acme.validation.passengerBookingRecords.message = There are bookings associated with this passenger. Remove the passenger from these bookings to proceed
+acme.validation.bookingBookingRecords.message = There are passengers associated to this booking. Please remove them to proceed
 
 acme.validation.validCurrency = This currency is invalid
 acme.validation.form.error.NotNull= It must not be null

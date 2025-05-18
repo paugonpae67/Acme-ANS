@@ -59,6 +59,10 @@ public class CustomerBookingDeleteService extends AbstractGuiService<Customer, B
 		Booking bookingAlreadyExists = this.repository.findBookingByLocatorCode(booking.getLocatorCode());
 		boolean locatorIsNotValid = bookingAlreadyExists == null || bookingAlreadyExists.getId() == booking.getId();
 		super.state(locatorIsNotValid, "locatorCode", "customer.booking.form.error.duplicateLocatorCode");
+
+		Collection<BookingRecord> bookingRecordAssociatedToBooking = this.repository.findBookingBookingRecordsByBookingId(booking.getId());
+		if (!bookingRecordAssociatedToBooking.isEmpty())
+			super.state(false, "*", "acme.validation.bookingBookingRecords.message");
 	}
 
 	@Override
