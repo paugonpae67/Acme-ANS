@@ -12,6 +12,7 @@ import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidNumber;
+import acme.constraints.ValidActivityLog;
 import acme.constraints.ValidLongText;
 import acme.constraints.ValidShortText;
 import acme.entities.flightAssignment.FlightAssignment;
@@ -21,7 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-
+@ValidActivityLog
 public class ActivityLog extends AbstractEntity {
 
 	@Mandatory
