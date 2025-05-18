@@ -27,7 +27,20 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+		boolean status;
+		try {
+			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+
+			if (super.getRequest().hasData("id")) {
+				Integer legId = super.getRequest().getData("leg", Integer.class);
+				if (legId == null || legId != 0) {
+					Leg leg = this.repository.findLegById(legId);
+					status = status && leg != null && !leg.isDraftMode();
+				}
+			}
+		} catch (Exception e) {
+			status = false;
+		}
 		super.getResponse().setAuthorised(status);
 	}
 

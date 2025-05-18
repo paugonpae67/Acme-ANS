@@ -104,7 +104,8 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 				if (percentage.equals(100.00)) {
 					if (maxComplete == 1) {
 						super.state(status.equals(previous.getStatus()), "status", "assistanceAgent.trackingLog.form.error.statusNewPercentageFinished");
-						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "draftMode", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished");
+						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "*", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished");
+						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00) && !previous.isDraftMode(), "*", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedTheBeforePublished");
 					} else if (maxComplete >= 2)
 						super.state(false, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.completePercentage");
 

@@ -31,13 +31,27 @@ public class AssistanceAgentUpdateClaimService extends AbstractGuiService<Assist
 		int masterId;
 		Claim claim;
 		AssistanceAgent assistanceAgent;
+		try {
+			if (!super.getRequest().getMethod().equals("POST"))
+				super.getResponse().setAuthorised(false);
+			else {
+				masterId = super.getRequest().getData("id", Integer.class);
+				claim = this.repository.findClaimById(masterId);
+				assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
+				status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) && (claim == null || claim.isDraftMode());
 
-		masterId = super.getRequest().getData("id", int.class);
-		claim = this.repository.findClaimById(masterId);
-		assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
-		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) && (claim == null || claim.isDraftMode());
-
-		super.getResponse().setAuthorised(status);
+				if (super.getRequest().hasData("id")) {
+					Integer legId = super.getRequest().getData("leg", Integer.class);
+					if (legId == null || legId != 0) {
+						Leg leg = this.repository.findLegByLegId(legId);
+						status = status && leg != null && !leg.isDraftMode();
+					}
+				}
+				super.getResponse().setAuthorised(status);
+			}
+		} catch (Exception e) {
+			super.getResponse().setAuthorised(false);
+		}
 	}
 
 	@Override
