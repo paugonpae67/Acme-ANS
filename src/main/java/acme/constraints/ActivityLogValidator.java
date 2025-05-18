@@ -25,14 +25,16 @@ public class ActivityLogValidator extends AbstractValidator<ValidActivityLog, Ac
 		boolean result;
 
 		FlightAssignment assignment = activity.getFlightAssignment();
+		Leg leg = activity.getFlightAssignment().getLeg();
+
 		if (activity == null)
 			super.state(context, false, "nextInspection", "acme.validation.activityLog.NotNull");
-		else if (activity.getFlightAssignment() == null)
+		else if (activity.getFlightAssignment() == null || activity.getRegistrationMoment() == null || leg == null)
 			super.state(context, false, "nextInspection", "acme.validation.activityLog.nextInspectionNotNull");
 		else {
-			Leg leg = activity.getFlightAssignment().getLeg();
 			boolean correctLeg;
-			correctLeg = MomentHelper.isBefore(activity.getRegistrationMoment(), leg.getScheduledArrival());
+			correctLeg = MomentHelper.isBefore(leg.getScheduledArrival(), activity.getRegistrationMoment()) && !leg.isDraftMode();
+
 			super.state(context, correctLeg, "nextInspection", "acme.validation.activityLog.legCorrect");
 
 		}

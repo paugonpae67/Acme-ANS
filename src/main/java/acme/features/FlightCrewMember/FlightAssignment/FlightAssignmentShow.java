@@ -58,6 +58,7 @@ public class FlightAssignmentShow extends AbstractGuiService<FlightCrewMember, F
 	public void unbind(final FlightAssignment assignment) {
 		int memberId;
 		Collection<Leg> legs;
+		Collection<Leg> legsOfMember;
 		SelectChoices legChoices = null;
 
 		Collection<FlightCrewMember> members;
@@ -69,6 +70,12 @@ public class FlightAssignmentShow extends AbstractGuiService<FlightCrewMember, F
 
 		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		legs = this.repository.findAllLegsFuturePublished(MomentHelper.getCurrentMoment());
+		legsOfMember = this.repository.findLegsByFlightCrewMember(memberId, assignment.getId());
+
+		for (Leg l : legsOfMember)
+			if (legs.contains(l))
+				legs.remove(l);
+
 		if (!legs.contains(assignment.getLeg()))
 			legs.add(assignment.getLeg());
 
