@@ -88,15 +88,6 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 		if (!valid)
 			super.state(valid, "*", "acme.validation.involved-in.task");
 
-		MaintenanceRecord existMaintenanceRecord = this.repository.findMaintenanceRecordByTicker(maintenanceRecord.getTicker());
-		boolean valid2 = existMaintenanceRecord == null || existMaintenanceRecord.getId() == maintenanceRecord.getId();
-		super.state(valid2, "ticker", "acme.validation.form.error.duplicateTicker");
-
-		if (maintenanceRecord.getEstimatedCost() != null) {
-			boolean validCurrency = maintenanceRecord.getEstimatedCost().getCurrency().equals("EUR") || maintenanceRecord.getEstimatedCost().getCurrency().equals("USD") || maintenanceRecord.getEstimatedCost().getCurrency().equals("GBP");
-			super.state(validCurrency, "estimatedCost", "acme.validation.validCurrency");
-		}
-
 		valid = maintenanceRecord.getAircraft() != null;
 		super.state(valid, "aircraft", "acme.validation.form.error.invalidAircraft");
 
