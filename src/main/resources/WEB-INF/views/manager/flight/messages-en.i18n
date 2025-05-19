@@ -46,3 +46,11 @@ manager.flight.form.error.duplicateTag = A flight with this tag already exists
 manager.flight.form.error.invalidCost = Invalid cost amount
 flight.publish.error.unpublishedLegs = All legs must be published before publishing the flight
 flight.publish.error.noLegs = A flight must have at least one leg to be published
+java.validation.leg.flightNumber.message = Flight number must start with the airline IATA code and be 7 characters.
+java.validation.leg.scheduledArrival.message = Arrival time must be at least 1 minute after departure.
+java.validation.leg.overlapping.message = The time range of this leg overlaps with another leg.
+
+manager.leg.form.error.scheduled-departure-not-null = Scheduled departure may not be null.
+manager.leg.form.error.scheduled-arrival-not-null = Scheduled arrival may not be null.
+
+
