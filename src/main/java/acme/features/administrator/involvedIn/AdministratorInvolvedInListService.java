@@ -10,6 +10,7 @@ import acme.client.components.principals.Administrator;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.aircrafts.InvolvedIn;
+import acme.entities.aircrafts.MaintenanceRecord;
 
 @GuiService
 public class AdministratorInvolvedInListService extends AbstractGuiService<Administrator, InvolvedIn> {
@@ -20,7 +21,14 @@ public class AdministratorInvolvedInListService extends AbstractGuiService<Admin
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class);
+		boolean status;
+
+		int masterId = super.getRequest().getData("masterId", int.class);
+		MaintenanceRecord mr = this.repository.findMaintenanceRecord(masterId);
+		if (mr != null)
+			status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class) && !mr.isDraftMode();
+		else
+			status = false;
 		super.getResponse().setAuthorised(status);
 	}
 
