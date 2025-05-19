@@ -1,31 +1,31 @@
 key,key:manager,tag,indication,cost,description,draftMode
 # Base entity
-flight-00,manager-01,"Fast direct route",NOT_SELF_TRANSFER,"EUR 100.00","Standard route without layovers",false
+flight-00,manager-01,"Fast direct route",NOT_SELF_TRANSFER,"EUR 100.00","Standard route without layovers",true
 
 # tag variations
-flight-01,manager-01,"A",NOT_SELF_TRANSFER,"EUR 150.00","Short tag",false
-flight-02,manager-01,"AB",SELF_TRANSFER,"EUR 200.00","Two-letter tag",false
-flight-03,manager-01,"Lorem ipsum dolor sit",SELF_TRANSFER,"EUR 220.00","Max valid tag length",false
-flight-04,manager-01,"Lorem ipsum dolor sit",NOT_SELF_TRANSFER,"EUR 250.00","Over limit tag",false
-flight-05,manager-01,"โลเร็ม",SELF_TRANSFER,"EUR 300.00","Thai script tag",false
-flight-06,manager-01,"لوريم",SELF_TRANSFER,"EUR 350.00","Arabic tag",false
-flight-07,manager-01,"洛伦",NOT_SELF_TRANSFER,"EUR 400.00","Chinese tag",false
-flight-08,manager-01,"<marquee>Hacked</marquee>",SELF_TRANSFER,"EUR 450.00","HTML injection tag",false
-flight-09,manager-01,"<script>alert(‘XSS’);</script>",NOT_SELF_TRANSFER,"EUR 500.00","Script injection tag",false
-flight-10,manager-01,"' OR 1=1 --",SELF_TRANSFER,"EUR 550.00","SQL injection tag",false
+flight-01,manager-01,"A",NOT_SELF_TRANSFER,"EUR 150.00","Short tag",true
+flight-02,manager-01,"AB",SELF_TRANSFER,"EUR 200.00","Two-letter tag",true
+flight-03,manager-01,"Lorem ipsum dolor sit",SELF_TRANSFER,"EUR 220.00","Max valid tag length",true
+flight-04,manager-01,"Lorem ipsum dolor sit",NOT_SELF_TRANSFER,"EUR 250.00","Over limit tag",true
+flight-05,manager-01,"โลเร็ม",SELF_TRANSFER,"EUR 300.00","Thai script tag",true
+flight-06,manager-01,"لوريم",SELF_TRANSFER,"EUR 350.00","Arabic tag",true
+flight-07,manager-01,"洛伦",NOT_SELF_TRANSFER,"EUR 400.00","Chinese tag",true
+flight-08,manager-01,"<marquee>Hacked</marquee>",SELF_TRANSFER,"EUR 450.00","HTML injection tag",true
+flight-09,manager-01,"<script>alert(‘XSS’);</script>",NOT_SELF_TRANSFER,"EUR 500.00","Script injection tag",true
+flight-10,manager-01,"' OR 1=1 --",SELF_TRANSFER,"EUR 550.00","SQL injection tag",true
 
 # cost variations
-flight-11,manager-01,"Free promo",NOT_SELF_TRANSFER,"EUR 0.00","Promotional flight",false
+flight-11,manager-01,"Free promo",NOT_SELF_TRANSFER,"EUR 0.00","Promotional flight",true
 flight-12,manager-02,"Luxury experience",SELF_TRANSFER,"EUR 999999.99","Very high-end pricing",true
-flight-13,manager-01,"Minimal cost",NOT_SELF_TRANSFER,"EUR 0.01","Smallest cost allowed",false
-flight-14,manager-01,"Maximum cost",SELF_TRANSFER,"EUR 1000000.00","Max valid cost",false
+flight-13,manager-01,"Minimal cost",NOT_SELF_TRANSFER,"EUR 0.01","Smallest cost allowed",true
+flight-14,manager-01,"Maximum cost",SELF_TRANSFER,"EUR 1000000.00","Max valid cost",true
 
 # description tests
-flight-15,manager-01,"Brief desc",SELF_TRANSFER,"EUR 123.45","",false
-flight-16,manager-01,"Short desc",NOT_SELF_TRANSFER,"EUR 150.00","L",false
-flight-17,manager-01,"Medium desc",SELF_TRANSFER,"EUR 200.00","Lorem ipsum dolor sit amet",false
-flight-18,manager-01,"Max length desc",NOT_SELF_TRANSFER,"EUR 250.00","LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",false
-flight-19,manager-01,"Thai desc",SELF_TRANSFER,"EUR 300.00","โลเร็ม อิปซัม",false
+flight-15,manager-01,"Brief desc",SELF_TRANSFER,"EUR 123.45","",true
+flight-16,manager-01,"Short desc",NOT_SELF_TRANSFER,"EUR 150.00","L",true
+flight-17,manager-01,"Medium desc",SELF_TRANSFER,"EUR 200.00","Lorem ipsum dolor sit amet",true
+flight-18,manager-01,"Max length desc",NOT_SELF_TRANSFER,"EUR 250.00","LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",true
+flight-19,manager-01,"Thai desc",SELF_TRANSFER,"EUR 300.00","โลเร็ม อิปซัม",true
 flight-20,manager-01,"Chinese desc",NOT_SELF_TRANSFER,"EUR 350.00","洛伦·伊普森",false
 flight-21,manager-01,"Arabic desc",SELF_TRANSFER,"EUR 400.00","لوريم إيبسوم",false
 flight-22,manager-01,"HTML desc",NOT_SELF_TRANSFER,"EUR 450.00","<marquee>Hacked</marquee>",true

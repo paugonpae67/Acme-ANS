@@ -108,8 +108,25 @@ public class ManagerLegUpdateService extends AbstractGuiService<Manager, Leg> {
 
 	@Override
 	public void validate(final Leg leg) {
-		super.state(leg.getScheduledDeparture().before(leg.getScheduledArrival()), "scheduledDeparture", "manager.leg.error.departureBeforeArrival");
+		super.getResponse().setAuthorised(true);
 
+		// Validar campos nulos primero para evitar NullPointerException
+		boolean hasDeparture = leg.getScheduledDeparture() != null;
+		boolean hasArrival = leg.getScheduledArrival() != null;
+
+		if (!hasDeparture)
+			super.state(false, "scheduledDeparture", "manager.leg.form.error.scheduled-departure-not-null");
+
+		if (!hasArrival)
+			super.state(false, "scheduledArrival", "manager.leg.form.error.scheduled-arrival-not-null");
+
+		// Solo comparar fechas si ambas están presentes
+		if (hasDeparture && hasArrival) {
+			boolean validOrder = leg.getScheduledDeparture().before(leg.getScheduledArrival());
+			super.state(validOrder, "scheduledDeparture", "manager.leg.error.departureBeforeArrival");
+		}
+
+		// Validación de flightNumber duplicado
 		Leg existing = this.repository.findLegByFlightNumber(leg.getFlightNumber());
 		boolean validFlightNumber = existing == null || existing.getId() == leg.getId();
 		super.state(validFlightNumber, "flightNumber", "manager.leg.error.duplicateFlightNumber");
