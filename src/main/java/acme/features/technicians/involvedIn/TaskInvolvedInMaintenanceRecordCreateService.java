@@ -43,7 +43,7 @@ public class TaskInvolvedInMaintenanceRecordCreateService extends AbstractGuiSer
 					status = status && checkedTask != null && i == null;
 				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			status = false;
 		}
 
@@ -105,11 +105,8 @@ public class TaskInvolvedInMaintenanceRecordCreateService extends AbstractGuiSer
 		tasks = this.repository.findTasksRelacion(technicianId);
 		tasks.removeAll(eliminateTasks);
 
-		try {
-			choices = SelectChoices.from(tasks, "description", involvedIn.getTask());
-		} catch (NullPointerException e) {
-			throw new IllegalArgumentException("The selected task is not available");
-		}
+		choices = SelectChoices.from(tasks, "description", involvedIn.getTask());
+
 		dataset = super.unbindObject(involvedIn);
 		dataset.put("masterId", super.getRequest().getData("masterId", int.class));
 		dataset.put("task", choices.getSelected().getKey());

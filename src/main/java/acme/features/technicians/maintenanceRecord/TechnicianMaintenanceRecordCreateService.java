@@ -40,7 +40,7 @@ public class TechnicianMaintenanceRecordCreateService extends AbstractGuiService
 					status = status && existingAircraft != null;
 				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			status = false;
 		}
 

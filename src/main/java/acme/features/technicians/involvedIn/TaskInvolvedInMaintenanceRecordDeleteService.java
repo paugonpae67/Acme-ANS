@@ -31,17 +31,19 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 			masterId = super.getRequest().getData("masterId", int.class);
 			maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
 			status = maintenanceRecord != null && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician()) && maintenanceRecord.isDraftMode();
+			super.getResponse().setAuthorised(status);
 
-			Integer taskId = super.getRequest().getData("task", Integer.class);
-
-			if (taskId == null)
-				status = false;
-			else if (taskId != 0) {
-				Task checkedTask = this.repository.findTaskById(taskId);
-				InvolvedIn i = this.repository.findInvolvedInTMR(masterId, taskId);
-				status = status && checkedTask != null && i != null;
+			if (super.getRequest().hasData("id")) {
+				Integer taskId = super.getRequest().getData("task", Integer.class);
+				if (taskId == null)
+					status = false;
+				if (taskId != 0) {
+					Task checkedTask = this.repository.findTaskById(taskId);
+					InvolvedIn i = this.repository.findInvolvedInTMR(masterId, taskId);
+					status = status && checkedTask != null && i != null;
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			status = false;
 		}
 
@@ -49,24 +51,18 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 	}
 	@Override
 	public void load() {
-		int masterId = super.getRequest().getData("masterId", int.class);
-		MaintenanceRecord maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
 
 		InvolvedIn involvedIn = new InvolvedIn();
+		int masterId = super.getRequest().getData("masterId", int.class);
+		MaintenanceRecord maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
 		involvedIn.setMaintenanceRecord(maintenanceRecord);
-		involvedIn.setTask(null);
 
 		super.getBuffer().addData(involvedIn);
 	}
 	@Override
 	public void bind(final InvolvedIn involvedIn) {
-		int taskId;
-		Task task;
 
-		taskId = super.getRequest().getData("task", int.class);
-		task = this.repository.findTaskById(taskId);
-		super.bindObject(involvedIn);
-		involvedIn.setTask(task);
+		super.bindObject(involvedIn, "task");
 
 	}
 
@@ -88,11 +84,9 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 		SelectChoices choices;
 		Dataset dataset;
 		tasks = this.repository.findAllInvolvedInMaintenanceRecord(involvedIn.getMaintenanceRecord().getId());
-		try {
-			choices = SelectChoices.from(tasks, "description", involvedIn.getTask());
-		} catch (NullPointerException e) {
-			throw new IllegalArgumentException("The selected task is not available");
-		}
+
+		choices = SelectChoices.from(tasks, "description", involvedIn.getTask());
+
 		dataset = super.unbindObject(involvedIn);
 		dataset.put("masterId", super.getRequest().getData("masterId", int.class));
 		dataset.put("task", choices.getSelected().getKey());

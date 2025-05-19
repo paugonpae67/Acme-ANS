@@ -26,26 +26,30 @@ public class TechnicianMaintenanceRecordUpdateService extends AbstractGuiService
 	@Override
 	public void authorise() {
 		boolean status;
+		String method = super.getRequest().getMethod();
 		try {
-			int masterId;
-			MaintenanceRecord maintenanceRecord;
-			Technician technician;
-
-			masterId = super.getRequest().getData("id", int.class);
-			maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
-			technician = maintenanceRecord == null ? null : maintenanceRecord.getTechnician();
-			status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealm(technician);
-			super.getResponse().setAuthorised(status);
-
-			Integer aircraftId = super.getRequest().getData("aircraft", Integer.class);
-			if (aircraftId == null)
+			if (method.equals("GET"))
 				status = false;
-			else if (aircraftId != 0) {
-				Aircraft existingAircraft = this.repository.findAircraftById(aircraftId);
-				status = status && existingAircraft != null;
-			}
+			else {
+				int masterId;
+				MaintenanceRecord maintenanceRecord;
+				Technician technician;
 
-		} catch (Exception e) {
+				masterId = super.getRequest().getData("id", int.class);
+				maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
+				technician = maintenanceRecord == null ? null : maintenanceRecord.getTechnician();
+				status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealm(technician);
+				super.getResponse().setAuthorised(status);
+
+				Integer aircraftId = super.getRequest().getData("aircraft", Integer.class);
+				if (aircraftId == null)
+					status = false;
+				else if (aircraftId != 0) {
+					Aircraft existingAircraft = this.repository.findAircraftById(aircraftId);
+					status = status && existingAircraft != null;
+				}
+			}
+		} catch (Throwable e) {
 			status = false;
 		}
 
@@ -93,11 +97,9 @@ public class TechnicianMaintenanceRecordUpdateService extends AbstractGuiService
 		SelectChoices aircrafts;
 		Collection<Aircraft> aircraftsCollection;
 		aircraftsCollection = this.repository.findAircrafts();
-		try {
-			aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
-		} catch (NullPointerException e) {
-			throw new IllegalArgumentException("The selected aircraft is not available");
-		}
+
+		aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
+
 		choices = SelectChoices.from(MaintenanceStatus.class, maintenanceRecord.getStatus());
 		dataset = super.unbindObject(maintenanceRecord, "ticker", "maintenanceMoment", "nextInspection", "estimatedCost", "notes", "draftMode");
 		dataset.put("status", choices.getSelected().getKey());
