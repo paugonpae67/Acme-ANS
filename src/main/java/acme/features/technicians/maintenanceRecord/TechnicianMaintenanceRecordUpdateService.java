@@ -27,30 +27,27 @@ public class TechnicianMaintenanceRecordUpdateService extends AbstractGuiService
 	public void authorise() {
 		boolean status;
 		String method = super.getRequest().getMethod();
-		try {
-			if (method.equals("GET"))
-				status = false;
-			else {
-				int masterId;
-				MaintenanceRecord maintenanceRecord;
-				Technician technician;
 
-				masterId = super.getRequest().getData("id", int.class);
-				maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
-				technician = maintenanceRecord == null ? null : maintenanceRecord.getTechnician();
-				status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealm(technician);
-				super.getResponse().setAuthorised(status);
-
-				Integer aircraftId = super.getRequest().getData("aircraft", Integer.class);
-				if (aircraftId == null)
-					status = false;
-				else if (aircraftId != 0) {
-					Aircraft existingAircraft = this.repository.findAircraftById(aircraftId);
-					status = status && existingAircraft != null;
-				}
-			}
-		} catch (Throwable e) {
+		if (method.equals("GET"))
 			status = false;
+		else {
+			int masterId;
+			MaintenanceRecord maintenanceRecord;
+			Technician technician;
+
+			masterId = super.getRequest().getData("id", int.class);
+			maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
+			technician = maintenanceRecord == null ? null : maintenanceRecord.getTechnician();
+			status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealm(technician);
+			super.getResponse().setAuthorised(status);
+
+			Integer aircraftId = super.getRequest().getData("aircraft", Integer.class);
+			if (aircraftId == null)
+				status = false;
+			else if (aircraftId != 0) {
+				Aircraft existingAircraft = this.repository.findAircraftById(aircraftId);
+				status = status && existingAircraft != null;
+			}
 		}
 
 		super.getResponse().setAuthorised(status);

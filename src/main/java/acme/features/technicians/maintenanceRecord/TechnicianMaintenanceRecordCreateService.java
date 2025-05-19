@@ -25,26 +25,24 @@ public class TechnicianMaintenanceRecordCreateService extends AbstractGuiService
 
 	@Override
 	public void authorise() {
-		boolean status = false;
+		boolean status = true;
 
-		try {
-			status = super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
-			super.getResponse().setAuthorised(status);
-
-			if (super.getRequest().hasData("id")) {
-				Integer aircraftId = super.getRequest().getData("aircraft", Integer.class);
-				if (aircraftId == null)
-					status = false;
-				else if (aircraftId != 0) {
-					Aircraft existingAircraft = this.repository.findAircraftById(aircraftId);
-					status = status && existingAircraft != null;
-				}
-			}
-		} catch (Throwable e) {
+		status = super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
+		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
 			status = false;
+
+		boolean status2 = true;
+		if (super.getRequest().hasData("aircraft", Integer.class)) {
+			Integer aircraftId = super.getRequest().getData("aircraft", Integer.class);
+			if (aircraftId == null)
+				status2 = false;
+			else if (aircraftId != 0) {
+				Aircraft existingAircraft = this.repository.findAircraftById(aircraftId);
+				status2 = existingAircraft != null;
+			}
 		}
 
-		super.getResponse().setAuthorised(status);
+		super.getResponse().setAuthorised(status && status2);
 
 	}
 
@@ -92,11 +90,8 @@ public class TechnicianMaintenanceRecordCreateService extends AbstractGuiService
 		SelectChoices aircrafts;
 		Collection<Aircraft> aircraftsCollection;
 		aircraftsCollection = this.repository.findAircrafts();
-		try {
-			aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
-		} catch (NullPointerException e) {
-			throw new IllegalArgumentException("The selected aircraft is not available");
-		}
+
+		aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
 
 		dataset = super.unbindObject(maintenanceRecord, "ticker", "maintenanceMoment", "status", "nextInspection", "estimatedCost", "notes", "draftMode");
 		dataset.put("status", choices.getSelected().getKey());
