@@ -27,7 +27,10 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 	@Override
 	public void authorise() {
 		boolean status;
-		try {
+		String method = super.getRequest().getMethod();
+		if (method.equals("GET"))
+			status = false;
+		else {
 			int masterId;
 			MaintenanceRecord maintenanceRecord;
 			Technician technician;
@@ -46,10 +49,8 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 				Aircraft existingAircraft = this.repository.findAircraftById(aircraftId);
 				status = status && existingAircraft != null;
 			}
-
-		} catch (Exception e) {
-			status = false;
 		}
+
 		super.getResponse().setAuthorised(status);
 	}
 	@Override
@@ -106,11 +107,8 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 		SelectChoices aircrafts;
 		Collection<Aircraft> aircraftsCollection;
 		aircraftsCollection = this.repository.findAircrafts();
-		try {
-			aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
-		} catch (NullPointerException e) {
-			throw new IllegalArgumentException("The selected aircraft is not available");
-		}
+
+		aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
 
 		choices = SelectChoices.from(MaintenanceStatus.class, maintenanceRecord.getStatus());
 		dataset = super.unbindObject(maintenanceRecord, "ticker", "maintenanceMoment", "nextInspection", "estimatedCost", "notes", "draftMode");
