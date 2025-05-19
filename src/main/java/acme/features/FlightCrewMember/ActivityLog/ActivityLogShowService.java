@@ -4,9 +4,11 @@ package acme.features.FlightCrewMember.ActivityLog;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.activityLog.ActivityLog;
+import acme.entities.flightAssignment.FlightAssignment;
 import acme.realms.FlightCrewMember;
 
 @GuiService
@@ -22,23 +24,22 @@ public class ActivityLogShowService extends AbstractGuiService<FlightCrewMember,
 		Integer Id;
 		ActivityLog activity;
 		FlightCrewMember member;
-		Integer assignmentId = super.getRequest().getData("flightAssignment", Integer.class);
 		Id = super.getRequest().getData("id", Integer.class);
+
 		if (Id == null)
 			status = false;
-		/*
-		 * else if (assignmentId == null)
-		 * status = false;
-		 * else {
-		 * FlightAssignment assignment = this.repository.findFlightAssignmentById(assignmentId);
-		 * boolean validassignment = assignment != null && !assignment.isDraftMode(); //aqui poner mas restriccion??
-		 * 
-		 * activity = this.repository.findActivityLogById(Id);
-		 * member = assignment == null ? null : assignment.getFlightCrewMembers();
-		 * status = super.getRequest().getPrincipal().hasRealm(member) && member != null && activity != null && validassignment;
-		 * 
-		 * }
-		 */
+
+		else {
+
+			activity = this.repository.findActivityLogById(Id);
+			FlightAssignment assignment = activity.getFlightAssignment();
+
+			boolean validassignment = assignment != null && MomentHelper.isBefore(activity.getFlightAssignment().getLeg().getScheduledArrival(), activity.getRegistrationMoment());
+
+			member = assignment == null ? null : assignment.getFlightCrewMembers();
+			status = super.getRequest().getPrincipal().hasRealm(member) && member != null && activity != null && validassignment;
+
+		}
 
 		super.getResponse().setAuthorised(status);
 	}

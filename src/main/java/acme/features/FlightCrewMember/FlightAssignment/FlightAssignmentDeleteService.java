@@ -71,7 +71,7 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 	public void validate(final FlightAssignment flightAssignment) {
 		Collection<ActivityLog> act = this.repository.getActivityLogByFlight(flightAssignment.getId());
 		if (!act.isEmpty())
-			super.state(false, "flightAssignment", "acme.validation.assignment.delete");
+			super.state(false, "member", "acme.validation.assignment.delete");
 
 	}
 
