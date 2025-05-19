@@ -40,7 +40,9 @@ public class ManagerFlightShowService extends AbstractGuiService<Manager, Flight
 		dataset.put("scheduledArrival", flight.getScheduledArrival());
 		dataset.put("originCity", flight.getOriginCity());
 		dataset.put("destinationCity", flight.getDestinationCity());
-		dataset.put("numberOfLayovers", flight.getNumberOfLayovers());
+		int layovers = flight.getNumberOfLayovers();
+		dataset.put("numberOfLayovers", layovers >= 0 ? layovers : 0);
+
 		dataset.put("draftMode", flight.isDraftMode());
 		dataset.put("indications", SelectChoices.from(FlightIndication.class, flight.getIndication()));
 		super.getResponse().addData(dataset);
