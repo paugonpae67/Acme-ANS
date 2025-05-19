@@ -3,10 +3,10 @@ acme.validation.maintenanceRecord.NotNull = El registro no puede ser nulo
 acme.validation.maintenanceRecord.nextInspectionNotNull = Es necesaria una fecha de próxima inspección
 acme.validation.maintenanceRecord.DateCorrect = La próxima inspección debe ser posterior al momento
 
-acme.validation.involved-in.task = Para publicar un registro de mantenimiento debe tener asociada al menos una tarea y todas las asociadas deben estar publicadas
+acme.validation.involved-in.task = Para publicar un registro de mantenimiento debe tener asociada al menos una tarea publicada y todas las asociadas deben estar publicadas
 
 acme.validation.airport.form.error.duplicateIata = El código IATA ya existe
-acme.validation.error.phoneNumber= No es un número de teléfono válido
+acme.validation.error.phoneNumber= No es un número de teléfono válido. Debe tener entre 6 y 15 caracteres
 
 administrator.aircraft.form.error.invalidAirline = La aerolínea seleccionada no está disponible
 
@@ -14,7 +14,7 @@ acme.validation.longText= La longitud debe estar entre 1 y 255 caracteres
 acme.validation.shortText= La longitud debe estar entre 1 y 50 caracteres
 
 
-acme.validation.job.ticker.message = Ticker inválido
+acme.validation.job.ticker.message = Ticker inválido. Debe tener entre 5 y 15 caracteres
 acme.validation.form.error.duplicateTicker = Ticker duplicado
 
 acme.validation.claim.form.error.registrationMomentNotPast = El momento del registro debe de ser pasado

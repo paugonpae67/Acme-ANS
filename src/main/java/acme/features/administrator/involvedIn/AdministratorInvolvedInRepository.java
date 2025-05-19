@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import acme.client.repositories.AbstractRepository;
 import acme.entities.aircrafts.InvolvedIn;
+import acme.entities.aircrafts.MaintenanceRecord;
 import acme.entities.aircrafts.Task;
 
 @Repository
@@ -24,5 +25,7 @@ public interface AdministratorInvolvedInRepository extends AbstractRepository {
 
 	@Query("select i from InvolvedIn i where i.id = :id")
 	InvolvedIn findInvolvedInById(int id);
+	@Query("select mr from MaintenanceRecord mr where mr.id = :masterId")
+	MaintenanceRecord findMaintenanceRecord(int masterId);
 
 }

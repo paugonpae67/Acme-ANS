@@ -20,7 +20,15 @@ public class AdministratorInvolvedInShowTaskService extends AbstractGuiService<A
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class);
+
+		boolean status;
+
+		int masterId = super.getRequest().getData("id", int.class);
+		InvolvedIn i = this.repository.findInvolvedInById(masterId);
+		if (i != null)
+			status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class) && !i.getMaintenanceRecord().isDraftMode();
+		else
+			status = false;
 		super.getResponse().setAuthorised(status);
 	}
 
