@@ -27,8 +27,25 @@ public class AdministratorAircraftCreateService extends AbstractGuiService<Admin
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class);
-		super.getResponse().setAuthorised(status);
+		boolean status;
+		try {
+			status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class);
+			super.getResponse().setAuthorised(status);
+
+			if (super.getRequest().hasData("id")) {
+				Integer airlineId = super.getRequest().getData("airline", Integer.class);
+				if (airlineId == null)
+					status = false;
+				else if (airlineId != 0) {
+					Airline airline = this.repository.findAirlineById(airlineId);
+					status = status && airline != null;
+				}
+			}
+			super.getResponse().setAuthorised(status);
+		} catch (Throwable t) {
+			super.getResponse().setAuthorised(false);
+		}
+
 	}
 
 	@Override
@@ -39,7 +56,7 @@ public class AdministratorAircraftCreateService extends AbstractGuiService<Admin
 
 	@Override
 	public void bind(final Aircraft aircraft) {
-		super.bindObject(aircraft, "model", "registrationNumber", "capacity", "cargoWeight", "status", "details", "airline");
+		super.bindObject(aircraft, "model", "registrationNumber", "capacity", "status", "cargoWeight", "details", "airline");
 	}
 
 	@Override
@@ -48,6 +65,10 @@ public class AdministratorAircraftCreateService extends AbstractGuiService<Admin
 
 		confirmation = super.getRequest().getData("confirmation", boolean.class);
 		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
+
+		Airline airline = aircraft.getAirline();
+		boolean validAirline = airline != null;
+		super.state(validAirline, "airline", "administrator.aircraft.form.error.invalidAirline");
 	}
 
 	@Override

@@ -8,6 +8,8 @@ acme.validation.involved-in.task = Para publicar un registro de mantenimiento de
 acme.validation.airport.form.error.duplicateIata = El código IATA ya existe
 acme.validation.error.phoneNumber= No es un número de teléfono válido
 
+administrator.aircraft.form.error.invalidAirline = La aerolínea seleccionada no está disponible
+
 acme.validation.longText= La longitud debe estar entre 1 y 255 caracteres
 acme.validation.shortText= La longitud debe estar entre 1 y 50 caracteres
 

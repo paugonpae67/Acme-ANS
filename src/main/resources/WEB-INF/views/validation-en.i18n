@@ -8,6 +8,8 @@ acme.validation.involved-in.task = To publish a maintenance record it must have 
 acme.validation.airport.form.error.duplicateIata = This IATA code already exists
 acme.validation.error.phoneNumber= It is not a valid phone number
 
+administrator.aircraft.form.error.invalidAirline = The selected airline is not available
+
 acme.validation.longText= The length must be between 1 and 255 characters
 acme.validation.shortText= The length must be between 1 and 50 characters
 

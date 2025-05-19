@@ -31,7 +31,7 @@ public class CustomerPassengerShowService extends AbstractGuiService<Customer, P
 					super.getResponse().setAuthorised(false);
 				else {
 					Passenger passenger = this.repository.findPassengerById(passengerId);
-					super.getResponse().setAuthorised(customerId == passenger.getCustomer().getId());
+					super.getResponse().setAuthorised(passenger != null && customerId == passenger.getCustomer().getId());
 				}
 			}
 		} catch (Throwable t) {
