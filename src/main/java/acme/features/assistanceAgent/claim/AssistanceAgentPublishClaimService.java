@@ -27,19 +27,23 @@ public class AssistanceAgentPublishClaimService extends AbstractGuiService<Assis
 	public void authorise() {
 		boolean status;
 		try {
-			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+			if (!super.getRequest().getMethod().equals("POST"))
+				super.getResponse().setAuthorised(false);
+			else {
+				status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
 
-			if (super.getRequest().hasData("id")) {
-				Integer legId = super.getRequest().getData("leg", Integer.class);
-				if (legId == null || legId != 0) {
-					Leg leg = this.repository.findLegById(legId);
-					status = status && leg != null && !leg.isDraftMode();
+				if (super.getRequest().hasData("id")) {
+					Integer legId = super.getRequest().getData("leg", Integer.class);
+					if (legId == null || legId != 0) {
+						Leg leg = this.repository.findLegById(legId);
+						status = status && leg != null && !leg.isDraftMode();
+					}
 				}
+				super.getResponse().setAuthorised(status);
 			}
 		} catch (Exception e) {
-			status = false;
+			super.getResponse().setAuthorised(false);
 		}
-		super.getResponse().setAuthorised(status);
 	}
 
 	@Override

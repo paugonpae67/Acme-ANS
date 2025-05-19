@@ -29,6 +29,9 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 	public void authorise() {
 		boolean status;
 		try {
+			//if (!super.getRequest().getMethod().equals("POST"))
+			//super.getResponse().setAuthorised(false);
+			//else {
 			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
 
 			if (super.getRequest().hasData("id")) {
@@ -38,10 +41,12 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 					status = status && leg != null && !leg.isDraftMode();
 				}
 			}
+			super.getResponse().setAuthorised(status);
+			//}
 		} catch (Exception e) {
-			status = false;
+			super.getResponse().setAuthorised(false);
 		}
-		super.getResponse().setAuthorised(status);
+
 	}
 
 	@Override
