@@ -65,7 +65,7 @@ master.menu.technician = Técnico
 master.menu.maintenanceRecord.list = Lista de registros de mantenimiento 
 master.menu.task.list = Lista de tareas
 master.menu.show-dashboard = Panel de indicadores de Técnico
-master.menu.task.listPublish = Lista de tareas publicadas
+
 
 
 # master.menu.user-account ####################################################
