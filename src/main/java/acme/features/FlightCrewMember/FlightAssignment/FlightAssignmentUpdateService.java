@@ -31,7 +31,10 @@ public class FlightAssignmentUpdateService extends AbstractGuiService<FlightCrew
 		FlightCrewMember member;
 		Integer legId = super.getRequest().getData("leg", Integer.class);
 		Id = super.getRequest().getData("id", Integer.class);
-		if (Id == null)
+
+		if (!super.getRequest().getMethod().equals("POST"))
+			status = false;
+		else if (Id == null)
 			status = false;
 		else if (legId == null)
 			status = false;

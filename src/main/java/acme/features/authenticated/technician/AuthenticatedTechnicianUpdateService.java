@@ -20,9 +20,7 @@ public class AuthenticatedTechnicianUpdateService extends AbstractGuiService<Aut
 	@Override
 	public void authorise() {
 		boolean status;
-
-		status = !super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
-
+		status = super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
 		super.getResponse().setAuthorised(status);
 	}
 
