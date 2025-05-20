@@ -25,8 +25,25 @@ public class CustomerBookingCreateService extends AbstractGuiService<Customer, B
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
-		super.getResponse().setAuthorised(status);
+		boolean status1 = true;
+
+		status1 = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+		if (!super.getRequest().getMethod().equals("POST") && super.getRequest().hasData("id", int.class))
+			status1 = false;
+
+		boolean status2 = true;
+		if (super.getRequest().hasData("flight", Integer.class)) {
+			Integer flightId = super.getRequest().getData("flight", Integer.class);
+			if (flightId == null)
+				status2 = false;
+			else if (flightId != 0) {
+				Flight flight = this.repository.findFlightById(flightId);
+				status2 = flight != null && !flight.isDraftMode() && flight.getScheduledDeparture() != null && flight.getScheduledDeparture().after(MomentHelper.getCurrentMoment());
+			}
+		}
+
+		super.getResponse().setAuthorised(status1 && status2);
+
 	}
 
 	@Override
@@ -51,6 +68,10 @@ public class CustomerBookingCreateService extends AbstractGuiService<Customer, B
 		Booking bookingAlreadyExists = this.repository.findBookingByLocatorCode(booking.getLocatorCode());
 		boolean locatorIsNotValid = bookingAlreadyExists == null || bookingAlreadyExists.getId() == booking.getId();
 		super.state(locatorIsNotValid, "locatorCode", "customer.booking.form.error.duplicateLocatorCode");
+
+		Flight flight = booking.getFlight();
+		boolean validFlight = flight != null && !flight.isDraftMode() && flight.getScheduledDeparture() != null && flight.getScheduledDeparture().after(MomentHelper.getCurrentMoment());
+		super.state(validFlight, "flight", "customer.booking.form.error.invalidFlight");
 	}
 
 	@Override

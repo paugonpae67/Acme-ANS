@@ -11,7 +11,7 @@ import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.bookings.Booking;
 import acme.entities.bookings.BookingRecord;
-import acme.entities.passengers.Passenger;
+import acme.entities.bookings.Passenger;
 import acme.realms.Customer;
 
 @GuiService
@@ -23,14 +23,36 @@ public class CustomerBookingRecordDeleteService extends AbstractGuiService<Custo
 
 	@Override
 	public void authorise() {
+
 		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
 		super.getResponse().setAuthorised(status);
 
-		int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		int bookingId = super.getRequest().getData("bookingId", int.class);
-		Booking booking = this.repository.findBookingById(bookingId);
+		if (!super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("passenger"))
+			super.getResponse().setAuthorised(false);
 
-		super.getResponse().setAuthorised(customerId == booking.getCustomer().getId());
+		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
+			super.getResponse().setAuthorised(false);
+
+		if (super.getRequest().hasData("bookingId", int.class)) {
+			int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+			int bookingId = super.getRequest().getData("bookingId", int.class);
+			Booking booking = this.repository.findBookingById(bookingId);
+
+			status = status && booking != null && customerId == booking.getCustomer().getId() && booking.isDraftMode();
+			super.getResponse().setAuthorised(status);
+
+			if (super.getRequest().hasData("passenger", Integer.class)) {
+				Integer passengerId = super.getRequest().getData("passenger", Integer.class);
+				if (passengerId == null)
+					status = false;
+				else if (passengerId != 0) {
+					Passenger passenger = this.repository.findPassengerById(passengerId);
+					BookingRecord br = this.repository.findBookingRecordByPassengerIdAndBookingId(passengerId, bookingId);
+					status = status && passenger != null && br != null;
+				}
+				super.getResponse().setAuthorised(status);
+			}
+		}
 	}
 
 	@Override
@@ -58,6 +80,9 @@ public class CustomerBookingRecordDeleteService extends AbstractGuiService<Custo
 
 		boolean valid = bookingRecord.getPassenger() != null;
 		super.state(valid, "passenger", "acme.validation.form.error.NotNull");
+
+		boolean validPassenger = bookingRecord.getPassenger() != null;
+		super.state(validPassenger, "passenger", "customer.bookingRecord.form.error.invalidPassenger");
 
 	}
 
