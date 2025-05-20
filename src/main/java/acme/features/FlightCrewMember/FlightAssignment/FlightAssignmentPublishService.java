@@ -36,10 +36,14 @@ public class FlightAssignmentPublishService extends AbstractGuiService<FlightCre
 		FlightCrewMember member;
 		Integer legId = super.getRequest().getData("leg", Integer.class);
 		Id = super.getRequest().getData("id", Integer.class);
-		if (Id == null)
+
+		if (!super.getRequest().getMethod().equals("POST"))
+			status = false;
+		else if (Id == null)
 			status = false;
 		else if (legId == null)
 			status = false;
+
 		else {
 			Leg leg = this.repository.findLegById(legId);
 			boolean validLeg = leg != null && MomentHelper.isFuture(leg.getScheduledDeparture()) && !leg.isDraftMode();
