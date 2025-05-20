@@ -25,32 +25,29 @@ public class CustomerBookingUpdateService extends AbstractGuiService<Customer, B
 
 	@Override
 	public void authorise() {
-		boolean status;
-		try {
-			status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
-			super.getResponse().setAuthorised(status);
+		boolean status = true;
 
-			if (!super.getRequest().getMethod().equals("POST"))
-				super.getResponse().setAuthorised(false);
+		status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+		super.getResponse().setAuthorised(status);
 
-			else {
-				int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-				int bookingId = super.getRequest().getData("id", int.class);
-				Booking booking = this.repository.findBookingById(bookingId);
-
-				Integer flightId = super.getRequest().getData("flight", Integer.class);
-				if (flightId == null)
-					status = false;
-				else if (flightId != 0) {
-					Flight flight = this.repository.findFlightById(flightId);
-					status = status && flight != null && !flight.isDraftMode() && flight.getScheduledDeparture() != null && flight.getScheduledDeparture().after(MomentHelper.getCurrentMoment());
-				}
-
-				status = status && customerId == booking.getCustomer().getId();
-				super.getResponse().setAuthorised(status);
-			}
-		} catch (Throwable t) {
+		if (!super.getRequest().getMethod().equals("POST"))
 			super.getResponse().setAuthorised(false);
+
+		else {
+			int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+			int bookingId = super.getRequest().getData("id", int.class);
+			Booking booking = this.repository.findBookingById(bookingId);
+
+			Integer flightId = super.getRequest().getData("flight", Integer.class);
+			if (flightId == null)
+				status = false;
+			else if (flightId != 0) {
+				Flight flight = this.repository.findFlightById(flightId);
+				status = status && flight != null && !flight.isDraftMode() && flight.getScheduledDeparture() != null && flight.getScheduledDeparture().after(MomentHelper.getCurrentMoment());
+			}
+
+			status = status && customerId == booking.getCustomer().getId();
+			super.getResponse().setAuthorised(status);
 		}
 	}
 

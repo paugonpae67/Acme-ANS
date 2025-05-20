@@ -18,17 +18,14 @@ public class CustomerPassengerCreateService extends AbstractGuiService<Customer,
 
 	@Override
 	public void authorise() {
-		boolean status;
-		try {
-			status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
-			super.getResponse().setAuthorised(status);
+		boolean status = true;
 
-			if (!super.getRequest().getMethod().equals("POST") && super.getRequest().hasData("id", int.class))
-				super.getResponse().setAuthorised(false);
+		status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+		super.getResponse().setAuthorised(status);
 
-		} catch (Throwable t) {
+		if (!super.getRequest().getMethod().equals("POST") && super.getRequest().hasData("id", int.class))
 			super.getResponse().setAuthorised(false);
-		}
+
 	}
 
 	@Override
