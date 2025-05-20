@@ -41,7 +41,10 @@ public class TaskInvolvedInMaintenanceRecordCreateService extends AbstractGuiSer
 				else if (taskId != 0) {
 					Task checkedTask = this.repository.findTaskById(taskId);
 					InvolvedIn i = this.repository.findInvolvedInTMR(masterId, taskId);
-					status = status && checkedTask != null && i == null;
+					boolean comprobarSePuede = true;
+					if (checkedTask != null)
+						comprobarSePuede = checkedTask.getTechnician().equals(maintenanceRecord.getTechnician()) || !checkedTask.isDraftMode();
+					status = status && checkedTask != null && i == null && comprobarSePuede;
 				}
 			}
 		}
