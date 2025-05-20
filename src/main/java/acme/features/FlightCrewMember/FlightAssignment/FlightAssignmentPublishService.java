@@ -43,7 +43,7 @@ public class FlightAssignmentPublishService extends AbstractGuiService<FlightCre
 			status = false;
 		else if (legId == null)
 			status = false;
-
+		// PONER LO DE AVAIBLE 
 		else {
 			Leg leg = this.repository.findLegById(legId);
 			boolean validLeg = leg != null && MomentHelper.isFuture(leg.getScheduledDeparture()) && !leg.isDraftMode();
