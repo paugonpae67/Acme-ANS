@@ -51,3 +51,5 @@ acme.validation.assignment.statusIncorrect = Member not Available
 acme.validation.FlightAssignment.memberHasIncompatibleLegs.message = They cannot be assigned to multiple legs simultaneously.
 acme.validation.FlightAssignment.memberHasIncompatibleDuty.message = Each leg can only have one pilot and one co-pilot. 
 acme.validation.FlightAssignment.HasIncompatibleLeg = The associated leg should be published.
+
+acme.validation.leg.flightNumber.message = Incorrect flight number pattern

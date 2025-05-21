@@ -7,12 +7,12 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
+import acme.client.components.validation.Validator;
 import acme.entities.legs.Leg;
 import acme.entities.legs.LegRepository;
 
-@Component
+@Validator
 public class LegValidator implements ConstraintValidator<ValidLeg, Leg> {
 
 	@Autowired
@@ -24,7 +24,7 @@ public class LegValidator implements ConstraintValidator<ValidLeg, Leg> {
 	@Override
 	public boolean isValid(final Leg leg, final ConstraintValidatorContext context) {
 		if (leg == null)
-			return true; // No validamos si el objeto es nulo
+			return true;
 
 		boolean isValid = true;
 
@@ -34,7 +34,7 @@ public class LegValidator implements ConstraintValidator<ValidLeg, Leg> {
 			boolean validFlightNumber = leg.getFlightNumber() != null && leg.getFlightNumber().startsWith(airlineIataCode) && leg.getFlightNumber().length() == 7;
 
 			if (!validFlightNumber) {
-				this.addConstraintViolation(context, "flightNumber", "java.validation.leg.flightNumber.message");
+				this.addConstraintViolation(context, "flightNumber", "acme.validation.leg.flightNumber.message");
 				isValid = false;
 			}
 		}

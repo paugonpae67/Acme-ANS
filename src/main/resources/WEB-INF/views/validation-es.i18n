@@ -58,3 +58,4 @@ acme.validation.FlightAssignment.memberHasIncompatibleLegs.message = No se puede
 acme.validation.FlightAssignment.memberHasIncompatibleDuty.message = Cada etapa solo puede tener un piloto y un copiloto.
 acme.validation.FlightAssignment.HasIncompatibleLeg = El leg asociado debe estar publicado
 
+acme.validation.leg.flightNumber.message. = Patrón de Código de vuelo incorrecto.
