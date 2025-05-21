@@ -68,4 +68,5 @@ acme.validation.assignment.delete = No se puede borrar la asignación, todavía 
 acme.validation.FlightAssignment.memberHasIncompatibleLegs.message = No se pueden asignar a varios tramos simultáneamente.
 acme.validation.FlightAssignment.memberHasIncompatibleDuty.message = Cada etapa solo puede tener un piloto y un copiloto.
 acme.validation.FlightAssignment.HasIncompatibleLeg = El leg asociado debe estar publicado
-
+acme.validator.licenseNumber = El formato debe ser 2 o 3 letras mayúsculas y 6 dígitos
+acme.validator.iata= El formato debe ser 3 letras mayúsculas

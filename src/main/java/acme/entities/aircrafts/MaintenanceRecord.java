@@ -31,7 +31,8 @@ import lombok.Setter;
 @ValidMaintenanceRecord
 @Entity
 @Table(indexes = {
-	@Index(columnList = "technician_id"), @Index(columnList = "ticker")
+	@Index(columnList = "id"), @Index(columnList = "draftMode"), @Index(columnList = "technician_id"), @Index(columnList = "ticker"), @Index(columnList = "technician_id, status, draftMode"),
+	@Index(columnList = "technician_id, estimatedCost_currency, draftMode, maintenanceMoment"), @Index(columnList = "technician_id, draftMode")
 })
 public class MaintenanceRecord extends AbstractEntity {
 
