@@ -9,7 +9,6 @@ import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
-import acme.entities.airports.Airport;
 import acme.entities.claim.Claim;
 import acme.entities.claim.ClaimType;
 import acme.entities.legs.Leg;
@@ -25,17 +24,27 @@ public class AssistanceAgentShowClaimService extends AbstractGuiService<Assistan
 
 	@Override
 	public void authorise() {
-		boolean status;
-		int id;
-		Claim claim;
-		AssistanceAgent assistanceAgent;
+		if (!super.getRequest().getMethod().equals("GET"))
+			super.getResponse().setAuthorised(false);
+		else {
+			boolean status;
+			Claim claim;
 
-		id = super.getRequest().getData("id", int.class);
-		claim = this.repository.findClaimById(id);
-		assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
-		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) && claim != null || !claim.isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
 
-		super.getResponse().setAuthorised(status);
+			super.getResponse().setAuthorised(status);
+
+			int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+			Integer claimId = super.getRequest().getData("id", Integer.class);
+			if (claimId == null)
+				super.getResponse().setAuthorised(false);
+			else {
+				claim = this.repository.findClaimById(claimId);
+
+				super.getResponse().setAuthorised(assistanceAgentId == claim.getAssistanceAgent().getId());
+			}
+		}
+
 	}
 
 	@Override
@@ -63,8 +72,7 @@ public class AssistanceAgentShowClaimService extends AbstractGuiService<Assistan
 
 		assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		AssistanceAgent assistanceAgent = this.repository.findAssistanceAgentById(assistanceAgentId);
-		Airport a = this.repository.findAirportOfAirlineByAssistanceAgentId(assistanceAgent.getAirline().getId());
-		legs = this.repository.findLegByAirport(a.getId()).stream().filter(x -> x.getScheduledArrival().compareTo(claim.getRegistrationMoment()) < 0).toList();
+		legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
 
 		choicesLeg = SelectChoices.from(legs, "flightNumber", claim.getLeg());
 

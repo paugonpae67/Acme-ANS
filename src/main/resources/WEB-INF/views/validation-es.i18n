@@ -22,15 +22,21 @@ acme.validation.claim.form.error.type = Solo puedes elegir los tipos que aparece
 acme.validation.claim.form.error.leg = Solo puedes elegir la traza que aparecen en el desplegable 
 acme.validation.claim.form.error.leg2 = La traza no puede ser nulo, 
 acme.validation.claim.form.error.draftMode = No puedes eliminar ni modificar un registro si no está en modo borrado
+assistanceAgent.claim.form.error.trackingLogAssociated = No se puede eliminar el registro hasta que se hayan eliminado todos los trackingLogs asociados
 
-assistanceAgent.trackingLog.form.error.wrongStatus = El estado debe de estar PENDING
-assistanceAgent.trackingLog.form.error.wrongStatus2 = El estado debe de estar ACCEPTED o REJECTED
-assistanceAgent.trackingLog.form.error.resolutionNeeded = El campo resolución no puede ser nulo
-assistanceAgent.trackingLog.form.error.complatePercentage = Solo se puede tener dos trazas de registro al 100%
-assistanceAgent.trackingLog.form.error.wrongNewPercentage = El porcentaje debe de ser mayor al porcentaje de la última traza
-assistanceAgent.trackingLog.form.error.statusNewPercentageTotal =  El estado del nuevo registro con el porcentaje al 100% debe de tener el mismo estado que el otro registro con porcentaje al 100% 
+assistanceAgent.trackingLog.form.error.statusWrongNotFinished = El estado debe ser PENDING
+assistanceAgent.trackingLog.form.error.statusWrongFinished = El estado debe de ser ACCEPTED o REJECTED
+assistanceAgent.trackingLog.form.error.resolutionNeeded = La resolución no puede estar vacía para los registros de seguimiento finalizados (RECHAZADO o ACEPTADO)
+assistanceAgent.trackingLog.form.error.completePercentage = No se pueden crear registros de seguimiento adicionales con una resolución del 100 %
+assistanceAgent.trackingLog.form.error.wrongNewPercentage = El porcentaje de resolución debe ser mayor que el del tracking log anterior; debe aumentar de forma progresiva
+assistanceAgent.trackingLog.form.error.statusNewPercentageFinished =  El estado del nuevo registro de seguimiento con un porcentaje de resolución del 100 % debe coincidir con el estado del registro de seguimiento anterior que también tiene un porcentaje de resolución del 100 %
 assistanceAgent.trackingLog.form.error.draftModeClaim = Para publicar el registro debe de estar publicado antes
-assistanceAgent.trackingLog.form.error.wrongPercentage = No se puede crear dos trackingLogs con el mismo porcentaje
+assistanceAgent.trackingLog.form.error.notSamePercentage = No pueden existir dos registros de seguimiento con el mismo porcentaje de resolución
+assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished = No se pueden crear dos registros de seguimiento con una resolución del 100 % si el reclamo no se ha publicado
+assistanceAgent.trackingLog.form.error.claimPublished = No podemos asociar un registro de seguimiento con un reclamo en modo borrador
+assistanceAgent.trackingLog.form.error.onlyOneCompleteAllowed= Este tracking log no puede ser publicado porque ya existe otro posterior que ha sido publicado como finalizado
+assistanceAgent.trackingLog.form.error.lastUpdateMoment = La fecha del trackingLog no puede ser anterior al especificado en el claim
+assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedTheBeforePublished = El otro registro de seguimiento con un 100% de porcentaje de resolución debe estar publicado
 
 acme.validation.leg.message = Este avión tiene tramos de vuelo pendientes, no es posible deshabilitarlo
 

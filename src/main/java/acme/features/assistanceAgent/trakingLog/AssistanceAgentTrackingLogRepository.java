@@ -16,7 +16,7 @@ import acme.entities.trackingLogs.TrackingLog;
 public interface AssistanceAgentTrackingLogRepository extends AbstractRepository {
 
 	@Query("select t from TrackingLog t where t.claim.id = :id ORDER BY t.lastUpdateMoment DESC")
-	Collection<TrackingLog> findTrackingLogOfClaim(int id);
+	List<TrackingLog> findTrackingLogOfClaim(int id);
 
 	@Query("select c from Claim c where c.id = :id")
 	Claim findClaimById(int id);

@@ -31,12 +31,17 @@ public class AssistanceAgentDeleteClaimService extends AbstractGuiService<Assist
 		Claim claim;
 		AssistanceAgent assistanceAgent;
 
-		masterId = super.getRequest().getData("id", int.class);
-		claim = this.repository.findClaimById(masterId);
-		assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
-		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) && (claim == null || claim.isDraftMode());
+		if (!super.getRequest().getMethod().equals("POST"))
+			super.getResponse().setAuthorised(false);
+		else {
+			masterId = super.getRequest().getData("id", int.class);
+			claim = this.repository.findClaimById(masterId);
+			assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
+			status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) && (claim == null || claim.isDraftMode());
 
-		super.getResponse().setAuthorised(status);
+			super.getResponse().setAuthorised(status);
+		}
+
 	}
 
 	@Override
@@ -52,20 +57,21 @@ public class AssistanceAgentDeleteClaimService extends AbstractGuiService<Assist
 
 	@Override
 	public void bind(final Claim claim) {
-		super.bindObject(claim, "registrationMoment", "passengerEmail", "description", "type", "leg");
+		super.bindObject(claim, "passengerEmail", "description", "type", "leg");
 	}
 
 	@Override
 	public void validate(final Claim claim) {
+		Collection<TrackingLog> trackingLog;
+
+		trackingLog = this.repository.findTrackingLogsOfClaim(claim.getId());
+		if (!trackingLog.isEmpty())
+			super.state(false, "*", "assistanceAgent.claim.form.error.trackingLogAssociated");
 		;
 	}
 
 	@Override
 	public void perform(final Claim claim) {
-		Collection<TrackingLog> trackingLog;
-
-		trackingLog = this.repository.findTrackingLogsOfClaim(claim.getId());
-		this.repository.deleteAll(trackingLog);
 		this.repository.delete(claim);
 	}
 

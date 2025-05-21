@@ -27,15 +27,20 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 		AssistanceAgent assistanceAgent;
 		Claim claim;
 
-		id = super.getRequest().getData("id", int.class);
-		trackingLog = this.repository.findTrackingLogById(id);
-		claim = this.repository.findClaimByTrackingLogId(trackingLog.getId());
+		if (!super.getRequest().getMethod().equals("POST"))
+			super.getResponse().setAuthorised(false);
+		else {
+			id = super.getRequest().getData("id", int.class);
+			trackingLog = this.repository.findTrackingLogById(id);
+			claim = this.repository.findClaimByTrackingLogId(trackingLog.getId());
 
-		assistanceAgent = trackingLog == null ? null : trackingLog.getClaim().getAssistanceAgent();
+			assistanceAgent = trackingLog == null ? null : trackingLog.getClaim().getAssistanceAgent();
 
-		status = claim != null && claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(assistanceAgent) && trackingLog != null;
+			status = claim != null && super.getRequest().getPrincipal().hasRealm(assistanceAgent) && trackingLog != null;
 
-		super.getResponse().setAuthorised(status);
+			super.getResponse().setAuthorised(status);
+		}
+
 	}
 
 	@Override
@@ -51,7 +56,7 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 
 	@Override
 	public void bind(final TrackingLog trackingLog) {
-		super.bindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "resolution");
+		super.bindObject(trackingLog, "step", "resolutionPercentage", "status", "resolution");
 	}
 
 	@Override
