@@ -1,7 +1,6 @@
 
 package acme.features.assistanceAgent.claim;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
@@ -28,10 +27,9 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 	@Override
 	public void authorise() {
 		boolean status;
-		try {
-			//if (!super.getRequest().getMethod().equals("POST"))
-			//super.getResponse().setAuthorised(false);
-			//else {
+		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
+			status = false;
+		else {
 			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
 
 			if (super.getRequest().hasData("id")) {
@@ -42,9 +40,6 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 				}
 			}
 			super.getResponse().setAuthorised(status);
-			//}
-		} catch (Exception e) {
-			super.getResponse().setAuthorised(false);
 		}
 
 	}
@@ -93,11 +88,16 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 		AssistanceAgent assistanceAgent;
 		boolean isCorrectLeg = true;
 		boolean isNullLeg = true;
-		boolean isCorrectType;
+		boolean isCorrectType = false;
 
-		types = Arrays.asList(ClaimType.values());
-		type = super.getRequest().getData("type", ClaimType.class);
-		isCorrectType = types.contains(type);
+		String typeStr = super.getRequest().getData("type", String.class);
+
+		for (ClaimType ct : ClaimType.values())
+			if (ct.name().equals(typeStr)) {
+				type = ct;
+				isCorrectType = true;
+				break;
+			}
 
 		agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		assistanceAgent = this.repository.findAssistanceAgentById(agentId);

@@ -24,31 +24,27 @@ public class AssistanceAgentShowClaimService extends AbstractGuiService<Assistan
 
 	@Override
 	public void authorise() {
-		try {
-			if (!super.getRequest().getMethod().equals("GET"))
+		if (!super.getRequest().getMethod().equals("GET"))
+			super.getResponse().setAuthorised(false);
+		else {
+			boolean status;
+			Claim claim;
+
+			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+
+			super.getResponse().setAuthorised(status);
+
+			int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+			Integer claimId = super.getRequest().getData("id", Integer.class);
+			if (claimId == null)
 				super.getResponse().setAuthorised(false);
 			else {
-				boolean status;
-				Claim claim;
+				claim = this.repository.findClaimById(claimId);
 
-				status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
-
-				super.getResponse().setAuthorised(status);
-
-				int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
-				Integer claimId = super.getRequest().getData("id", Integer.class);
-				if (claimId == null)
-					super.getResponse().setAuthorised(false);
-				else {
-					claim = this.repository.findClaimById(claimId);
-
-					super.getResponse().setAuthorised(assistanceAgentId == claim.getAssistanceAgent().getId());
-				}
+				super.getResponse().setAuthorised(assistanceAgentId == claim.getAssistanceAgent().getId());
 			}
-
-		} catch (Throwable t) {
-			super.getResponse().setAuthorised(false);
 		}
+
 	}
 
 	@Override

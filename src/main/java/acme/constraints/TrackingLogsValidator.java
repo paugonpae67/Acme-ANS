@@ -87,6 +87,7 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 						super.state(context, status.equals(previous.getStatus()), "Status",
 							"The status of the new tracking log with a 100% resolution percentage must match the status of the previous tracking log that also has a 100% resolution percentage ");
 						super.state(context, !trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "DraftMode", "You cannot create two tracking logs with a 100% resolution if the claim has not been published");
+						super.state(context, !trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00) && !previous.isDraftMode(), "DraftMode", "The other tracking log whit 100% of resolution percentage must be published");
 					} else if (maxComplete >= 2)
 						super.state(context, false, "ResolutionPercentage", "No additional tracking logs with a 100% resolution can be created");
 
