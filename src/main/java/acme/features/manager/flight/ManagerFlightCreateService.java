@@ -48,6 +48,11 @@ public class ManagerFlightCreateService extends AbstractGuiService<Manager, Flig
 
 	@Override
 	public void validate(final Flight flight) {
+		if (flight.getCost() != null && flight.getCost().getCurrency() != null) {
+			String currency = flight.getCost().getCurrency().toUpperCase();
+			boolean isAccepted = currency.equals("EUR") || currency.equals("GBP") || currency.equals("USD");
+			super.state(isAccepted, "cost", "manager.flight.form.error.invalid-currency");
+		}
 	}
 
 	@Override
