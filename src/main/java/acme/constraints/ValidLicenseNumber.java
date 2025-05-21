@@ -18,7 +18,7 @@ import javax.validation.ReportAsSingleViolation;
 @ReportAsSingleViolation
 public @interface ValidLicenseNumber {
 
-	String message() default "The format is incorrect";
+	String message() default "{acme.validator.licenseNumber}";
 
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};
