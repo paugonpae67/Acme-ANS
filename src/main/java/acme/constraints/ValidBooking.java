@@ -8,18 +8,16 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.ReportAsSingleViolation;
 
-@Target({
-	ElementType.FIELD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE, ElementType.METHOD
-})
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = LicenseNumberValidator.class)
-@ReportAsSingleViolation
-public @interface ValidLicenseNumber {
+@Constraint(validatedBy = BookingValidator.class)
 
-	String message() default "{acme.validator.licenseNumber}";
+public @interface ValidBooking {
+
+	String message() default "";
 
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};
+
 }

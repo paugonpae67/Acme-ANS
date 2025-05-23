@@ -8,7 +8,7 @@
 # purposes.  The copyright owner does not offer any warranties or representations, nor do
 # they accept any liabilities with respect to them.
 
-customer.passenger.list.title = Passengers List
+customer.passenger.list.title = Your Passengers List
 customer.passenger.form.title = Passenger Details
 
 customer.passenger.form.label.fullName = Full name:

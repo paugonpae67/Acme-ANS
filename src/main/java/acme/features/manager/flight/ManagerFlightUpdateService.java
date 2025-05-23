@@ -41,6 +41,8 @@ public class ManagerFlightUpdateService extends AbstractGuiService<Manager, Flig
 
 	@Override
 	public void validate(final Flight flight) {
+		super.getResponse().setAuthorised(true);
+
 	}
 
 	@Override
@@ -51,12 +53,28 @@ public class ManagerFlightUpdateService extends AbstractGuiService<Manager, Flig
 	@Override
 	public void unbind(final Flight flight) {
 		Dataset dataset = super.unbindObject(flight, "tag", "indication", "cost", "description");
-		dataset.put("scheduledDeparture", flight.getScheduledDeparture());
-		dataset.put("scheduledArrival", flight.getScheduledArrival());
+
+		if (flight.getScheduledDeparture() != null)
+			dataset.put("scheduledDeparture", new Object[] {
+				flight.getScheduledDeparture()
+			});
+
+		if (flight.getScheduledArrival() != null)
+			dataset.put("scheduledArrival", new Object[] {
+				flight.getScheduledArrival()
+			});
+
 		dataset.put("originCity", flight.getOriginCity());
 		dataset.put("destinationCity", flight.getDestinationCity());
-		dataset.put("numberOfLayovers", flight.getNumberOfLayovers());
+		int layovers = flight.getNumberOfLayovers();
+		dataset.put("numberOfLayovers", layovers >= 0 ? layovers : 0);
+
 		dataset.put("indications", SelectChoices.from(FlightIndication.class, flight.getIndication()));
+
+		// 👇 Esto era lo que faltaba
+		dataset.put("draftMode", flight.isDraftMode());
+
 		super.getResponse().addData(dataset);
 	}
+
 }

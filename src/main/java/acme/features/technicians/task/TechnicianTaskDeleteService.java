@@ -24,15 +24,19 @@ public class TechnicianTaskDeleteService extends AbstractGuiService<Technician, 
 	@Override
 	public void authorise() {
 		boolean status;
-		int taskId;
-		Task task;
-		Technician technician;
+		String method = super.getRequest().getMethod();
+		if (method.equals("GET"))
+			status = false;
+		else {
+			int taskId;
+			Task task;
+			Technician technician;
 
-		taskId = super.getRequest().getData("id", int.class);
-		task = this.repository.findTaskById(taskId);
-		technician = task == null ? null : task.getTechnician();
-		status = task != null && task.isDraftMode() && super.getRequest().getPrincipal().hasRealm(technician);
-
+			taskId = super.getRequest().getData("id", int.class);
+			task = this.repository.findTaskById(taskId);
+			technician = task == null ? null : task.getTechnician();
+			status = task != null && task.isDraftMode() && super.getRequest().getPrincipal().hasRealm(technician);
+		}
 		super.getResponse().setAuthorised(status);
 	}
 
@@ -54,14 +58,13 @@ public class TechnicianTaskDeleteService extends AbstractGuiService<Technician, 
 
 	@Override
 	public void validate(final Task task) {
-		;
+		Collection<InvolvedIn> relationsInvolvedIn;
+		relationsInvolvedIn = this.repository.findTaskInvolvedIn(task.getId());
+		boolean valid = relationsInvolvedIn.isEmpty();
+		super.state(valid, "*", "acme.validation.form.error.TaskInvolved");
 	}
 	@Override
 	public void perform(final Task task) {
-		Collection<InvolvedIn> relationsInvolvedIn;
-
-		relationsInvolvedIn = this.repository.findTaskInvolvedIn(task.getId());
-		this.repository.deleteAll(relationsInvolvedIn);
 		this.repository.delete(task);
 	}
 

@@ -26,7 +26,11 @@ public class TechnicianMaintenanceRecordUpdateService extends AbstractGuiService
 	@Override
 	public void authorise() {
 		boolean status;
-		try {
+		String method = super.getRequest().getMethod();
+
+		if (method.equals("GET"))
+			status = false;
+		else {
 			int masterId;
 			MaintenanceRecord maintenanceRecord;
 			Technician technician;
@@ -44,9 +48,6 @@ public class TechnicianMaintenanceRecordUpdateService extends AbstractGuiService
 				Aircraft existingAircraft = this.repository.findAircraftById(aircraftId);
 				status = status && existingAircraft != null;
 			}
-
-		} catch (Exception e) {
-			status = false;
 		}
 
 		super.getResponse().setAuthorised(status);
@@ -76,14 +77,7 @@ public class TechnicianMaintenanceRecordUpdateService extends AbstractGuiService
 
 	@Override
 	public void validate(final MaintenanceRecord maintenanceRecord) {
-		MaintenanceRecord existMaintenanceRecord = this.repository.findMaintenanceRecordByTicker(maintenanceRecord.getTicker());
-		boolean valid = existMaintenanceRecord == null || existMaintenanceRecord.getId() == maintenanceRecord.getId();
-		super.state(valid, "ticker", "acme.validation.form.error.duplicateTicker");
-		if (maintenanceRecord.getEstimatedCost() != null) {
-			boolean validCurrency = maintenanceRecord.getEstimatedCost().getCurrency().equals("EUR") || maintenanceRecord.getEstimatedCost().getCurrency().equals("USD") || maintenanceRecord.getEstimatedCost().getCurrency().equals("GBP");
-			super.state(validCurrency, "estimatedCost", "acme.validation.validCurrency");
-		}
-		valid = maintenanceRecord.getAircraft() != null;
+		boolean valid = maintenanceRecord.getAircraft() != null;
 		super.state(valid, "aircraft", "acme.validation.form.error.invalidAircraft");
 
 	}
@@ -100,11 +94,9 @@ public class TechnicianMaintenanceRecordUpdateService extends AbstractGuiService
 		SelectChoices aircrafts;
 		Collection<Aircraft> aircraftsCollection;
 		aircraftsCollection = this.repository.findAircrafts();
-		try {
-			aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
-		} catch (NullPointerException e) {
-			throw new IllegalArgumentException("The selected aircraft is not available");
-		}
+
+		aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
+
 		choices = SelectChoices.from(MaintenanceStatus.class, maintenanceRecord.getStatus());
 		dataset = super.unbindObject(maintenanceRecord, "ticker", "maintenanceMoment", "nextInspection", "estimatedCost", "notes", "draftMode");
 		dataset.put("status", choices.getSelected().getKey());

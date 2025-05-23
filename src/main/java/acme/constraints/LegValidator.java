@@ -34,7 +34,7 @@ public class LegValidator implements ConstraintValidator<ValidLeg, Leg> {
 			boolean validFlightNumber = leg.getFlightNumber() != null && leg.getFlightNumber().startsWith(airlineIataCode) && leg.getFlightNumber().length() == 7;
 
 			if (!validFlightNumber) {
-				this.addConstraintViolation(context, "java.validation.leg.flightNumber.message");
+				this.addConstraintViolation(context, "flightNumber", "java.validation.leg.flightNumber.message");
 				isValid = false;
 			}
 		}
@@ -47,7 +47,7 @@ public class LegValidator implements ConstraintValidator<ValidLeg, Leg> {
 			long differenceInMn = differenceInMs / 60000;
 
 			if (differenceInMn < 1) {
-				this.addConstraintViolation(context, "java.validation.leg.scheduledArrival.message");
+				this.addConstraintViolation(context, "scheduledArrival", "java.validation.leg.scheduledArrival.message");
 				isValid = false;
 			}
 		}
@@ -57,7 +57,7 @@ public class LegValidator implements ConstraintValidator<ValidLeg, Leg> {
 			List<Leg> overlappingLegs = this.repository.findOverlappingLegs(leg.getFlight().getId(), leg.getScheduledDeparture(), leg.getScheduledArrival(), leg.getId());
 
 			if (!overlappingLegs.isEmpty()) {
-				this.addConstraintViolation(context, "java.validation.leg.overlapping.message");
+				this.addConstraintViolation(context, "scheduledDeparture", "java.validation.leg.overlapping.message");
 				isValid = false;
 			}
 		}
@@ -65,8 +65,8 @@ public class LegValidator implements ConstraintValidator<ValidLeg, Leg> {
 		return isValid;
 	}
 
-	private void addConstraintViolation(final ConstraintValidatorContext context, final String message) {
+	private void addConstraintViolation(final ConstraintValidatorContext context, final String property, final String message) {
 		context.disableDefaultConstraintViolation();
-		context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
+		context.buildConstraintViolationWithTemplate(message).addPropertyNode(property).addConstraintViolation();
 	}
 }
