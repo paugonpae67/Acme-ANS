@@ -33,6 +33,9 @@ public class CustomerBookingRecordDeleteService extends AbstractGuiService<Custo
 		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
 			super.getResponse().setAuthorised(false);
 
+		if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("bookingId", int.class))
+			super.getResponse().setAuthorised(false);
+
 		if (super.getRequest().hasData("bookingId", int.class)) {
 			int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
 			int bookingId = super.getRequest().getData("bookingId", int.class);

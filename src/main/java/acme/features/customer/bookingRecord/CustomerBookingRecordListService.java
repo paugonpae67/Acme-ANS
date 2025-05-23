@@ -25,8 +25,13 @@ public class CustomerBookingRecordListService extends AbstractGuiService<Custome
 
 		if (!super.getRequest().getMethod().equals("GET"))
 			super.getResponse().setAuthorised(false);
+
+		else if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("bookingId", int.class))
+			super.getResponse().setAuthorised(false);
+
 		else if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
 			super.getResponse().setAuthorised(false);
+
 		else {
 			status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
 			super.getResponse().setAuthorised(status);
