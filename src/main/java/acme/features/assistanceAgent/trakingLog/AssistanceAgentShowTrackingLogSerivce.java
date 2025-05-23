@@ -21,6 +21,11 @@ public class AssistanceAgentShowTrackingLogSerivce extends AbstractGuiService<As
 
 	@Override
 	public void authorise() {
+		if (!super.getRequest().getMethod().equals("GET")) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
+
 		boolean status;
 		TrackingLog trackingLog;
 		int id;
@@ -29,7 +34,16 @@ public class AssistanceAgentShowTrackingLogSerivce extends AbstractGuiService<As
 
 		id = super.getRequest().getData("id", int.class);
 		trackingLog = this.repository.findTrackingLogById(id);
+		if (trackingLog == null) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
+
 		claim = this.repository.findClaimByTrackingLogId(trackingLog.getId());
+		if (claim == null) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
 
 		assistanceAgent = trackingLog == null ? null : trackingLog.getClaim().getAssistanceAgent();
 
