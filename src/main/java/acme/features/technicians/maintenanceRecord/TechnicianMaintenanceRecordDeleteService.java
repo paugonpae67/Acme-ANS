@@ -34,12 +34,12 @@ public class TechnicianMaintenanceRecordDeleteService extends AbstractGuiService
 		else {
 			int masterId;
 			MaintenanceRecord maintenanceRecord;
-			Technician technician;
+			int technician;
 
 			masterId = super.getRequest().getData("id", int.class);
 			maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
-			technician = maintenanceRecord == null ? null : maintenanceRecord.getTechnician();
-			status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealm(technician);
+			technician = technician = super.getRequest().getPrincipal().getActiveRealm().getId();
+			status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && technician == maintenanceRecord.getTechnician().getId();
 		}
 
 		super.getResponse().setAuthorised(status);
