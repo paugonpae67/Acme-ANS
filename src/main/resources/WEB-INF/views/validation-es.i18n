@@ -35,6 +35,7 @@ assistanceAgent.trackingLog.form.error.claimPublished = No podemos asociar un re
 assistanceAgent.trackingLog.form.error.onlyOneCompleteAllowed= Este tracking log no puede ser publicado porque ya existe otro posterior que ha sido publicado como finalizado
 assistanceAgent.trackingLog.form.error.lastUpdateMoment = La fecha del trackingLog no puede ser anterior al especificado en el claim
 assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedTheBeforePublished = El otro registro de seguimiento con un 100% de porcentaje de resolución debe estar publicado
+assistanceAgent.trackingLog.form.error.beforePublishingOtherPublished = Para publicarlo, los trackingLogs anteriores deben de estar publicados
 
 acme.validation.leg.message = Este avión tiene tramos de vuelo pendientes, no es posible deshabilitarlo
 

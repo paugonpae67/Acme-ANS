@@ -1,6 +1,9 @@
 
 package acme.features.assistanceAgent.trakingLog;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
@@ -58,7 +61,19 @@ public class AssistanceAgentPublishTrackingLogService extends AbstractGuiService
 
 	@Override
 	public void validate(final TrackingLog trackingLog) {
+		List<TrackingLog> trackingLogs = this.repository.findTrackingLogOfClaim(trackingLog.getClaim().getId());
+		List<TrackingLog> beforeActual = trackingLogs.stream().filter(t -> t.getId() != trackingLog.getId()).filter(t -> !t.getLastUpdateMoment().after(trackingLog.getLastUpdateMoment())).collect(Collectors.toList());
 
+		if (trackingLog.getResolutionPercentage() != null && trackingLog.getStatus() != null && trackingLog.getResolution() != null) {
+			Double percentage = trackingLog.getResolutionPercentage();
+
+			if (percentage.equals(100.00))
+				for (TrackingLog t : beforeActual)
+					if (t.isDraftMode()) {
+						super.state(false, "*", "assistanceAgent.trackingLog.form.error.beforePublishingOtherPublished");
+						break;
+					}
+		}
 	}
 
 	@Override

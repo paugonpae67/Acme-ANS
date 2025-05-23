@@ -34,6 +34,7 @@ assistanceAgent.trackingLog.form.error.claimPublished = We can not associate a t
 assistanceAgent.trackingLog.form.error.onlyOneCompleteAllowed = You cannot publish this tracking log because a finished one created later has already been published
 assistanceAgent.trackingLog.form.error.lastUpdateMoment = To create a trackingLog, the claim must have been created before
 assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedTheBeforePublished = The other tracking log whit 100% of resolution percentage must be published
+assistanceAgent.trackingLog.form.error.beforePublishingOtherPublished = To publish, previous trackLogs must be published
 
 acme.validation.leg.message = This aircraft has pending flight legs, it cannot be disabled
 
