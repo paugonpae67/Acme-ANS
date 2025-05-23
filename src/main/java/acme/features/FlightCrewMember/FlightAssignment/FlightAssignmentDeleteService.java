@@ -17,6 +17,7 @@ import acme.entities.flightAssignment.FlightAssignmentStatus;
 import acme.entities.legs.Leg;
 import acme.features.FlightCrewMember.ActivityLog.ActivityLogClaimRepository;
 import acme.realms.FlightCrewMember;
+import acme.realms.FlightCrewMemberStatus;
 
 @GuiService
 public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrewMember, FlightAssignment> {
@@ -36,6 +37,7 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 		FlightCrewMember member;
 		Integer legId = super.getRequest().getData("leg", Integer.class);
 		Id = super.getRequest().getData("id", Integer.class);
+		Integer memberId = super.getRequest().getData("flightCrewMember", Integer.class);
 
 		if (!super.getRequest().getMethod().equals("POST"))
 			status = false;
@@ -43,13 +45,17 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 			status = false;
 		else if (legId == null)
 			status = false;
+		else if (memberId == null)
+			status = false;
 		else {
 			Leg leg = this.repository.findLegById(legId);
-			boolean validLeg = leg != null && MomentHelper.isFuture(leg.getScheduledDeparture()) && !leg.isDraftMode();
+			boolean validLeg = leg != null && !leg.isDraftMode(); // pa borrar da igual q este o no en pasado el leg. 
+			FlightCrewMember m = this.repository.findFlightCrewMemberById(memberId);
+			boolean validMember = m != null && m.getAvailabilityStatus() == FlightCrewMemberStatus.AVAILABLE;
 
 			assignment = this.repository.findAssignmentById(Id);
 			member = assignment == null ? null : assignment.getFlightCrewMembers();
-			status = super.getRequest().getPrincipal().hasRealm(member) && member != null && validLeg && assignment != null && assignment.isDraftMode();
+			status = validMember && super.getRequest().getPrincipal().hasRealm(member) && member != null && validLeg && assignment != null && assignment.isDraftMode();
 
 		}
 
@@ -79,7 +85,7 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 	public void validate(final FlightAssignment flightAssignment) {
 		Collection<ActivityLog> act = this.repository.getActivityLogByFlight(flightAssignment.getId());
 		if (!act.isEmpty())
-			super.state(false, "member", "acme.validation.assignment.delete");
+			super.state(false, "*", "acme.validation.assignment.delete");
 
 	}
 

@@ -15,6 +15,7 @@ import acme.entities.flightAssignment.FlightAssignmentDuty;
 import acme.entities.flightAssignment.FlightAssignmentStatus;
 import acme.entities.legs.Leg;
 import acme.realms.FlightCrewMember;
+import acme.realms.FlightCrewMemberStatus;
 
 @GuiService
 public class FlightAssignmentUpdateService extends AbstractGuiService<FlightCrewMember, FlightAssignment> {
@@ -31,6 +32,7 @@ public class FlightAssignmentUpdateService extends AbstractGuiService<FlightCrew
 		FlightCrewMember member;
 		Integer legId = super.getRequest().getData("leg", Integer.class);
 		Id = super.getRequest().getData("id", Integer.class);
+		Integer memberId = super.getRequest().getData("flightCrewMember", Integer.class);
 
 		if (!super.getRequest().getMethod().equals("POST"))
 			status = false;
@@ -38,13 +40,17 @@ public class FlightAssignmentUpdateService extends AbstractGuiService<FlightCrew
 			status = false;
 		else if (legId == null)
 			status = false;
+		else if (memberId == null)
+			status = false;
 		else {
 			Leg leg = this.repository.findLegById(legId);
-			boolean validLeg = leg != null && MomentHelper.isFuture(leg.getScheduledDeparture()) && !leg.isDraftMode(); //aqui poner mas restriccion??
+			boolean validLeg = leg != null && !leg.isDraftMode(); //aqui poner mas restriccion??
+			FlightCrewMember m = this.repository.findFlightCrewMemberById(memberId);
+			boolean validMember = m != null && m.getAvailabilityStatus() == FlightCrewMemberStatus.AVAILABLE;
 
 			assignment = this.repository.findAssignmentById(Id);
 			member = assignment == null ? null : assignment.getFlightCrewMembers();
-			status = super.getRequest().getPrincipal().hasRealm(member) && member != null && assignment.isDraftMode() && assignment != null && validLeg;
+			status = validMember && super.getRequest().getPrincipal().hasRealm(member) && member != null && assignment.isDraftMode() && assignment != null && validLeg;
 
 		}
 
@@ -85,7 +91,9 @@ public class FlightAssignmentUpdateService extends AbstractGuiService<FlightCrew
 
 	@Override
 	public void validate(final FlightAssignment FlightAssignment) {
-		;
+		if (!MomentHelper.isFuture(FlightAssignment.getLeg().getScheduledDeparture()))
+			super.state(false, "leg", "acme.validation.assignment.deleteleg");
+
 	}
 
 	@Override
