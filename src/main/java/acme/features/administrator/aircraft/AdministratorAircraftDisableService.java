@@ -24,8 +24,23 @@ public class AdministratorAircraftDisableService extends AbstractGuiService<Admi
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class);
+		boolean status = true;
+
+		status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class);
 		super.getResponse().setAuthorised(status);
+
+		if (!super.getRequest().getMethod().equals("POST"))
+			super.getResponse().setAuthorised(false);
+		else {
+			Integer airlineId = super.getRequest().getData("airline", Integer.class);
+			if (airlineId == null)
+				status = false;
+			else if (airlineId != 0) {
+				Airline airline = this.repository.findAirlineById(airlineId);
+				status = status && airline != null;
+			}
+			super.getResponse().setAuthorised(status);
+		}
 	}
 
 	@Override
@@ -38,7 +53,7 @@ public class AdministratorAircraftDisableService extends AbstractGuiService<Admi
 
 	@Override
 	public void bind(final Aircraft aircraft) {
-		super.bindObject(aircraft, "model", "registrationNumber", "capacity", "cargoWeight", "status", "details", "airline");
+		super.bindObject(aircraft, "model", "registrationNumber", "capacity", "cargoWeight", "details", "airline");
 	}
 
 	@Override
@@ -51,7 +66,11 @@ public class AdministratorAircraftDisableService extends AbstractGuiService<Admi
 
 		activeAndUpcomingLegsAssociated = this.repository.findActiveAndUpcomingLegsByAircraftId(aircraft.getId());
 		if (!activeAndUpcomingLegsAssociated.isEmpty())
-			super.state(false, "confirmation", "acme.validation.leg.message");
+			super.state(false, "*", "acme.validation.leg.message");
+
+		Airline airline = aircraft.getAirline();
+		boolean validAirline = airline != null;
+		super.state(validAirline, "airline", "administrator.aircraft.form.error.invalidAirline");
 
 	}
 

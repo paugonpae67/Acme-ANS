@@ -21,7 +21,7 @@ public @interface ValidIataCode {
 
 	// Standard validation properties -----------------------------------------
 
-	String message() default "The format is incorrect";
+	String message() default "{acme.validator.iata}";
 
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};

@@ -1,17 +1,19 @@
 
 acme.validation.maintenanceRecord.NotNull = The maintenance record cannot be null
-acme.validation.maintenanceRecord.nextInspectionNotNull = Needs a next inspection
+acme.validation.maintenanceRecord.nextInspectionNotNull = Must have a next inspection date
 acme.validation.maintenanceRecord.DateCorrect = Next inspection date must be after moment date
 
-acme.validation.involved-in.task = To publish a maintenance record it must have at least one task and all his task must be publish
+acme.validation.involved-in.task = To publish a maintenance record it must have at least one published task and all his tasks must be published
 
 acme.validation.airport.form.error.duplicateIata = This IATA code already exists
-acme.validation.error.phoneNumber= It is not a valid phone number
+acme.validation.error.phoneNumber= It is not a valid phone number. It must have between 6 and 15 characters
+
+administrator.aircraft.form.error.invalidAirline = The selected airline is not available
 
 acme.validation.longText= The length must be between 1 and 255 characters
 acme.validation.shortText= The length must be between 1 and 50 characters
 
-acme.validation.job.ticker.message = invalid Ticker
+acme.validation.job.ticker.message = invalid Ticker. It must have between 5 and 15 characters
 acme.validation.form.error.duplicateTicker = Duplicated Ticker 
 
 acme.validation.claim.form.error.registrationMomentNotPast = Registration Moment must be in the past
@@ -39,10 +41,13 @@ assistanceAgent.trackingLog.form.error.beforePublishingOtherPublished = To publi
 acme.validation.leg.message = This aircraft has pending flight legs, it cannot be disabled
 
 customer.booking.form.error.duplicateLocatorCode = This locator code is already in use
-
+customer.booking.form.error.invalidFlight = The selected flight is not available
+customer.bookingRecord.form.error.invalidPassenger = The selected passenger is not available
 acme.validation.lastNibble.message  = This field is required to publish a booking
 acme.validation.passengersNumber.message = The booking must have at least one passenger in order to be published
 acme.validation.passengersNotPublished.message = All passengers must be published in order to publish the booking
+acme.validation.passengerBookingRecords.message = There are bookings associated with this passenger. Remove the passenger from these bookings to proceed
+acme.validation.bookingBookingRecords.message = There are passengers associated to this booking. Please remove them to proceed
 
 acme.validation.validCurrency = This currency is invalid
 acme.validation.form.error.NotNull= It must not be null
@@ -57,3 +62,5 @@ acme.validation.assignment.statusIncorrect = Member not Available
 acme.validation.FlightAssignment.memberHasIncompatibleLegs.message = They cannot be assigned to multiple legs simultaneously.
 acme.validation.FlightAssignment.memberHasIncompatibleDuty.message = Each leg can only have one pilot and one co-pilot. 
 acme.validation.FlightAssignment.HasIncompatibleLeg = The associated leg should be published.
+acme.validator.licenseNumber = The format must be 2 or 3 capital letters and 6 digits
+acme.validator.iata = The format must be 3 capital letters

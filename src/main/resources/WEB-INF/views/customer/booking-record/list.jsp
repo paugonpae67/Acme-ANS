@@ -13,6 +13,7 @@
 	<jstl:when test="${_command == 'list'}">
 		<jstl:if test="${showCreate}">
 			<acme:button code="customer.booking-record.form.button.create" action="/customer/booking-record/create?bookingId=${bookingId}"/>
+			<acme:button code="customer.booking-record.form.button.delete" action="/customer/booking-record/delete?bookingId=${bookingId}"/>
 		</jstl:if>		
 	</jstl:when>
 				

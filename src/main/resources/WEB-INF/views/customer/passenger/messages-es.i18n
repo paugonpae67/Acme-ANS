@@ -8,8 +8,8 @@
 # purposes.  The copyright owner does not offer any warranties or representations, nor do
 # they accept any liabilities with respect to them.
 
-customer.passenger.list.title = Lista de pasajeros
-customer.passenger.form.title = Detalles de pasajero
+customer.passenger.list.title = Lista de tus Pasajeros
+customer.passenger.form.title = Detalles de Pasajero
 
 customer.passenger.form.label.fullName = Nombre completo
 customer.passenger.form.label.email = Correo electrónico

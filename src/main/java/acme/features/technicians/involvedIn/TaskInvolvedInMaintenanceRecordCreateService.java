@@ -23,31 +23,33 @@ public class TaskInvolvedInMaintenanceRecordCreateService extends AbstractGuiSer
 
 	@Override
 	public void authorise() {
-		boolean status;
-		try {
-			int masterId;
-			MaintenanceRecord maintenanceRecord;
+		boolean status = true;
 
+		int masterId;
+		MaintenanceRecord maintenanceRecord;
+		boolean status1 = true;
+		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
+			status1 = false;
+		if (super.getRequest().hasData("masterId", int.class)) {
 			masterId = super.getRequest().getData("masterId", int.class);
 			maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
 			status = maintenanceRecord != null && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician()) && maintenanceRecord.isDraftMode();
-			super.getResponse().setAuthorised(status);
-
-			if (super.getRequest().hasData("id")) {
+			if (super.getRequest().hasData("task", Integer.class)) {
 				Integer taskId = super.getRequest().getData("task", Integer.class);
 				if (taskId == null)
 					status = false;
 				else if (taskId != 0) {
 					Task checkedTask = this.repository.findTaskById(taskId);
 					InvolvedIn i = this.repository.findInvolvedInTMR(masterId, taskId);
-					status = status && checkedTask != null && i == null;
+					boolean comprobarSePuede = true;
+					if (checkedTask != null)
+						comprobarSePuede = checkedTask.getTechnician().equals(maintenanceRecord.getTechnician()) || !checkedTask.isDraftMode();
+					status = status && checkedTask != null && i == null && comprobarSePuede;
 				}
 			}
-		} catch (Exception e) {
-			status = false;
 		}
 
-		super.getResponse().setAuthorised(status);
+		super.getResponse().setAuthorised(status && status1);
 	}
 
 	@Override
@@ -105,11 +107,8 @@ public class TaskInvolvedInMaintenanceRecordCreateService extends AbstractGuiSer
 		tasks = this.repository.findTasksRelacion(technicianId);
 		tasks.removeAll(eliminateTasks);
 
-		try {
-			choices = SelectChoices.from(tasks, "description", involvedIn.getTask());
-		} catch (NullPointerException e) {
-			throw new IllegalArgumentException("The selected task is not available");
-		}
+		choices = SelectChoices.from(tasks, "description", involvedIn.getTask());
+
 		dataset = super.unbindObject(involvedIn);
 		dataset.put("masterId", super.getRequest().getData("masterId", int.class));
 		dataset.put("task", choices.getSelected().getKey());

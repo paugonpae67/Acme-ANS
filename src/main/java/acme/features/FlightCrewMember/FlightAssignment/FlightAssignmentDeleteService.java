@@ -34,14 +34,22 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 		Integer Id;
 		FlightAssignment assignment;
 		FlightCrewMember member;
-
+		Integer legId = super.getRequest().getData("leg", Integer.class);
 		Id = super.getRequest().getData("id", Integer.class);
-		if (Id == null)
+
+		if (!super.getRequest().getMethod().equals("POST"))
+			status = false;
+		else if (Id == null)
+			status = false;
+		else if (legId == null)
 			status = false;
 		else {
+			Leg leg = this.repository.findLegById(legId);
+			boolean validLeg = leg != null && MomentHelper.isFuture(leg.getScheduledDeparture()) && !leg.isDraftMode();
+
 			assignment = this.repository.findAssignmentById(Id);
 			member = assignment == null ? null : assignment.getFlightCrewMembers();
-			status = super.getRequest().getPrincipal().hasRealm(member) && member != null && assignment.isDraftMode() && assignment != null;
+			status = super.getRequest().getPrincipal().hasRealm(member) && member != null && validLeg && assignment != null && assignment.isDraftMode();
 
 		}
 
@@ -71,7 +79,7 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 	public void validate(final FlightAssignment flightAssignment) {
 		Collection<ActivityLog> act = this.repository.getActivityLogByFlight(flightAssignment.getId());
 		if (!act.isEmpty())
-			super.state(false, "flightAssignment", "acme.validation.assignment.delete");
+			super.state(false, "member", "acme.validation.assignment.delete");
 
 	}
 

@@ -9,7 +9,7 @@ administrator.maintenance-record.form.label.aircraft = Avión
 administrator.maintenance-record.form.label.estimated-cost = Coste Estimado
 administrator.maintenance-record.form.label.notes = Notas (Opcional)
 
-administrator.maintenance-record.form.button.involved-in = Tareas
+administrator.maintenance-record.form.button.involved-in = Tareas asociadas
 
 
 administrator.maintenance-record.list.label.maintenanceMoment = Momento actual
