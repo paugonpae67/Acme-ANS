@@ -3,17 +3,17 @@ package acme.constraints;
 
 import java.util.List;
 
-import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import acme.client.components.validation.AbstractValidator;
 import acme.client.components.validation.Validator;
 import acme.entities.legs.Leg;
 import acme.entities.legs.LegRepository;
 
 @Validator
-public class LegValidator implements ConstraintValidator<ValidLeg, Leg> {
+public class LegValidator extends AbstractValidator<ValidLeg, Leg> {
 
 	@Autowired
 	private LegRepository		repository;
@@ -22,51 +22,42 @@ public class LegValidator implements ConstraintValidator<ValidLeg, Leg> {
 
 
 	@Override
+	protected void initialise(final ValidLeg annotation) {
+		assert annotation != null;
+	}
+
+	@Override
 	public boolean isValid(final Leg leg, final ConstraintValidatorContext context) {
+		assert context != null;
+
 		if (leg == null)
 			return true;
 
-		boolean isValid = true;
-
-		// Validar que el flightNumber comience con el código IATA de la aerolínea del avión
+		// Validar que el flightNumber comience con el código IATA y tenga longitud 7
 		if (leg.getAircraft() != null && leg.getAircraft().getAirline() != null) {
-			String airlineIataCode = leg.getAircraft().getAirline().getIataCode();
-			boolean validFlightNumber = leg.getFlightNumber() != null && leg.getFlightNumber().startsWith(airlineIataCode) && leg.getFlightNumber().length() == 7;
+			String iataCode = leg.getAircraft().getAirline().getIataCode();
+			boolean validFlightNumber = leg.getFlightNumber() != null && leg.getFlightNumber().startsWith(iataCode) && leg.getFlightNumber().length() == 7;
 
-			if (!validFlightNumber) {
-				this.addConstraintViolation(context, "flightNumber", "acme.validation.leg.flightNumber.message");
-				isValid = false;
-			}
+			super.state(context, validFlightNumber, "flightNumber", "acme.validation.leg.flightNumber.message");
 		}
 
-		// Validar que haya al menos 1 minuto entre la salida y la llegada
+		// Validar que haya al menos 1 minuto entre salida y llegada
 		if (leg.getScheduledDeparture() != null && leg.getScheduledArrival() != null) {
 			long departure = leg.getScheduledDeparture().getTime();
 			long arrival = leg.getScheduledArrival().getTime();
-			long differenceInMs = arrival - departure;
-			long differenceInMn = differenceInMs / 60000;
+			boolean hasValidInterval = arrival - departure >= LegValidator.MINIMUM_INTERVAL_MS;
 
-			if (differenceInMn < 1) {
-				this.addConstraintViolation(context, "scheduledArrival", "java.validation.leg.scheduledArrival.message");
-				isValid = false;
-			}
+			super.state(context, hasValidInterval, "scheduledArrival", "acme.validation.leg.scheduledArrival.message");
 		}
 
-		// Validar que no haya solapamientos con otros segmentos en el mismo vuelo
+		// Validar que no haya solapamientos con otros segmentos
 		if (leg.getFlight() != null && leg.getScheduledDeparture() != null && leg.getScheduledArrival() != null) {
 			List<Leg> overlappingLegs = this.repository.findOverlappingLegs(leg.getFlight().getId(), leg.getScheduledDeparture(), leg.getScheduledArrival(), leg.getId());
 
-			if (!overlappingLegs.isEmpty()) {
-				this.addConstraintViolation(context, "scheduledDeparture", "java.validation.leg.overlapping.message");
-				isValid = false;
-			}
+			boolean noOverlap = overlappingLegs.isEmpty();
+			super.state(context, noOverlap, "scheduledDeparture", "acme.validation.leg.overlapping.message");
 		}
 
-		return isValid;
-	}
-
-	private void addConstraintViolation(final ConstraintValidatorContext context, final String property, final String message) {
-		context.disableDefaultConstraintViolation();
-		context.buildConstraintViolationWithTemplate(message).addPropertyNode(property).addConstraintViolation();
+		return !super.hasErrors(context);
 	}
 }

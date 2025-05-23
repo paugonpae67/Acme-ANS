@@ -58,4 +58,7 @@ acme.validation.FlightAssignment.memberHasIncompatibleLegs.message = No se puede
 acme.validation.FlightAssignment.memberHasIncompatibleDuty.message = Cada etapa solo puede tener un piloto y un copiloto.
 acme.validation.FlightAssignment.HasIncompatibleLeg = El leg asociado debe estar publicado
 
-acme.validation.leg.flightNumber.message. = Patrón de Código de vuelo incorrecto.
+acme.validation.leg.flightNumber.message=El número de vuelo debe comenzar con el código IATA de la aerolínea y tener 7 caracteres.
+acme.validation.leg.scheduledArrival.message=La llegada debe ser al menos 1 minuto después de la salida.
+acme.validation.leg.overlapping.message=Existen tramos que se solapan en el mismo vuelo.
+
