@@ -28,17 +28,15 @@ public class FlightAssignmentCreate extends AbstractGuiService<FlightCrewMember,
 	@Override
 	public void authorise() {
 		boolean statusfinal = true;
-		if (!super.getRequest().getMethod().equals("POST"))
-			statusfinal = false;
-		else {
-			Integer memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
-			FlightCrewMember mem = this.repository.findFlightCrewMemberById(memberId);
+		Integer memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
-			boolean membertype = super.getRequest().getPrincipal().hasRealmOfType(FlightCrewMember.class);
+		FlightCrewMember mem = this.repository.findFlightCrewMemberById(memberId);
 
-			statusfinal = mem != null && membertype && super.getRequest().getPrincipal().hasRealm(mem);
-		}
+		boolean membertype = super.getRequest().getPrincipal().hasRealmOfType(FlightCrewMember.class);
+
+		statusfinal = mem != null && membertype && super.getRequest().getPrincipal().hasRealm(mem);
+
 		super.getResponse().setAuthorised(statusfinal);
 
 	}
