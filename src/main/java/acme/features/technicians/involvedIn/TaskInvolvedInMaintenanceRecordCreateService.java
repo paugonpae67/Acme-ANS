@@ -27,13 +27,18 @@ public class TaskInvolvedInMaintenanceRecordCreateService extends AbstractGuiSer
 
 		int masterId;
 		MaintenanceRecord maintenanceRecord;
+		int technician1 = super.getRequest().getPrincipal().getActiveRealm().getId();
 		boolean status1 = true;
-		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
+		if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("masterId", int.class))
 			status1 = false;
+		if (super.getRequest().getMethod().equals("POST")) {
+			int id = super.getRequest().getData("id", int.class);
+			status = id == 0;
+		}
 		if (super.getRequest().hasData("masterId", int.class)) {
 			masterId = super.getRequest().getData("masterId", int.class);
 			maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
-			status = maintenanceRecord != null && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician()) && maintenanceRecord.isDraftMode();
+			status = status && maintenanceRecord != null && technician1 == maintenanceRecord.getTechnician().getId() && maintenanceRecord.isDraftMode();
 			if (super.getRequest().hasData("task", Integer.class)) {
 				Integer taskId = super.getRequest().getData("task", Integer.class);
 				if (taskId == null)

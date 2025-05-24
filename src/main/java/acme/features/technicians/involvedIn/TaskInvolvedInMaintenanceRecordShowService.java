@@ -27,12 +27,13 @@ public class TaskInvolvedInMaintenanceRecordShowService extends AbstractGuiServi
 		boolean status;
 		int id;
 		InvolvedIn involvedIn;
+		int technician1 = super.getRequest().getPrincipal().getActiveRealm().getId();
 
 		id = super.getRequest().getData("id", int.class);
 		involvedIn = this.repository.findInvolvedInById(id);
 
 		if (involvedIn != null)
-			status = super.getRequest().getPrincipal().hasRealm(involvedIn.getMaintenanceRecord().getTechnician()) || !involvedIn.getMaintenanceRecord().isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
+			status = technician1 == involvedIn.getMaintenanceRecord().getTechnician().getId() || !involvedIn.getMaintenanceRecord().isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
 		else
 			status = false;
 		super.getResponse().setAuthorised(status);
