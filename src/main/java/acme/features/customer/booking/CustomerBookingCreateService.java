@@ -31,6 +31,11 @@ public class CustomerBookingCreateService extends AbstractGuiService<Customer, B
 		if (!super.getRequest().getMethod().equals("POST") && super.getRequest().hasData("id", int.class))
 			status1 = false;
 
+		if (super.getRequest().getMethod().equals("POST")) {
+			int id = super.getRequest().getData("id", int.class);
+			status1 = id == 0;
+		}
+
 		boolean status2 = true;
 		if (super.getRequest().hasData("flight", Integer.class)) {
 			Integer flightId = super.getRequest().getData("flight", Integer.class);
@@ -70,8 +75,10 @@ public class CustomerBookingCreateService extends AbstractGuiService<Customer, B
 		super.state(locatorIsNotValid, "locatorCode", "customer.booking.form.error.duplicateLocatorCode");
 
 		Flight flight = booking.getFlight();
-		boolean validFlight = flight != null && !flight.isDraftMode() && flight.getScheduledDeparture() != null && flight.getScheduledDeparture().after(MomentHelper.getCurrentMoment());
-		super.state(validFlight, "flight", "customer.booking.form.error.invalidFlight");
+		if (flight != null) {
+			boolean validFlight = !flight.isDraftMode() && flight.getScheduledDeparture() != null && flight.getScheduledDeparture().after(MomentHelper.getCurrentMoment());
+			super.state(validFlight, "flight", "customer.booking.form.error.invalidFlight");
+		}
 	}
 
 	@Override

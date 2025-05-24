@@ -36,21 +36,26 @@ public class CustomerBookingPublishService extends AbstractGuiService<Customer, 
 
 		else {
 			int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-			int bookingId = super.getRequest().getData("id", int.class);
-			Booking booking = this.repository.findBookingById(bookingId);
+			Integer bookingId = super.getRequest().getData("id", Integer.class);
 
-			Integer flightId = super.getRequest().getData("flight", Integer.class);
-			if (flightId == null)
+			if (bookingId == null)
 				status = false;
-			else if (flightId != 0) {
-				Flight flight = this.repository.findFlightById(flightId);
-				status = status && flight != null && !flight.isDraftMode() && flight.getScheduledDeparture() != null && flight.getScheduledDeparture().after(MomentHelper.getCurrentMoment());
-			}
+			else {
+				Booking booking = this.repository.findBookingById(bookingId);
+				if (booking == null || !booking.isDraftMode())
+					status = false;
 
-			status = status && customerId == booking.getCustomer().getId();
+				Integer flightId = super.getRequest().getData("flight", Integer.class);
+				if (flightId == null)
+					status = false;
+				else if (flightId != 0) {
+					Flight flight = this.repository.findFlightById(flightId);
+					status = status && flight != null && !flight.isDraftMode() && flight.getScheduledDeparture() != null && flight.getScheduledDeparture().after(MomentHelper.getCurrentMoment());
+				}
+				status = status && customerId == booking.getCustomer().getId();
+			}
 			super.getResponse().setAuthorised(status);
 		}
-
 	}
 
 	@Override
