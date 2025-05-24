@@ -31,12 +31,16 @@ public class ActivityLogPublishService extends AbstractGuiService<FlightCrewMemb
 		Id = super.getRequest().getData("id", Integer.class);
 		if (Id == null)
 			status = false;
+		else if (!super.getRequest().getMethod().equals("POST"))
+			status = false;
+
 		else {
 
 			activity = this.repository.findActivityLogById(Id);
 			FlightAssignment assignment = activity.getFlightAssignment();
 
-			boolean validassignment = assignment != null && !assignment.isDraftMode() && assignment != null && MomentHelper.isBefore(activity.getFlightAssignment().getLeg().getScheduledArrival(), activity.getRegistrationMoment());
+			boolean validassignment = !assignment.isDraftMode() && assignment != null && !assignment.isDraftMode() && assignment != null
+				&& MomentHelper.isBefore(activity.getFlightAssignment().getLeg().getScheduledArrival(), activity.getRegistrationMoment());
 
 			member = assignment == null ? null : assignment.getFlightCrewMembers();
 			status = super.getRequest().getPrincipal().hasRealm(member) && member != null && activity.isDraftMode() && activity != null && validassignment;

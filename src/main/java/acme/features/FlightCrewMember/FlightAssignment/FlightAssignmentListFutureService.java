@@ -32,6 +32,8 @@ public class FlightAssignmentListFutureService extends AbstractGuiService<Flight
 
 		if (!super.getRequest().getMethod().equals("GET"))
 			status = false;
+		else if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
+			status = false;
 		else
 			status = super.getRequest().getPrincipal().hasRealmOfType(FlightCrewMember.class);
 

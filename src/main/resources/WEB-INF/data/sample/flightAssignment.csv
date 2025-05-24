@@ -1,7 +1,7 @@
 key,duty,remarks,moment,currentStatus,key:flightCrewMembers,key:leg,draft_mode
 #duty,"","","","","","",""
 flightAssignment-01,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-06,false
-flightAssignment-02,CO_PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-02,leg-00,false
+flightAssignment-02,CO_PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-02,leg-00,true
 flightAssignment-03,LEAD_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-03,leg-00,false
 flightAssignment-04,PILOT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-04,leg-00,false
 #remarks,"","","","","","",""
@@ -11,19 +11,19 @@ flightAssignment-07,CABIN_ATTENDANT,Lo,2024/01/01 10:00,CONFIRMED,flightCrewMemb
 flightAssignment-08,CABIN_ATTENDANT,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-04,false
 flightAssignment-09,CABIN_ATTENDANT,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor*",2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-05,false
 flightAssignment-10,CABIN_ATTENDANT,洛伦·伊普森,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-00,true
-flightAssignment-11,CABIN_ATTENDANT,' or 'A' = 'A,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-07,true
+flightAssignment-11,CABIN_ATTENDANT,' or 'A' = 'A,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-07,false
 flightAssignment-12,CABIN_ATTENDANT,<script>alert(‘Hacked!’);</script>,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-08,true
-flightAssignment-25,CABIN_ATTENDANT,<marquee>Hacked</marquee>,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-37,true
-flightAssignment-26,CABIN_ATTENDANT,لوريم إيبسوم,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-36,true
+flightAssignment-25,CABIN_ATTENDANT,<marquee>Hacked</marquee>,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-37,false
+flightAssignment-26,CABIN_ATTENDANT,لوريم إيبسوم,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-36,false
 #moment,"","","","","","",""
 flightAssignment-13,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-09,true
-flightAssignment-14,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2025/01/01 00:00,CONFIRMED,flightCrewMember-01,leg-10,true
-flightAssignment-15,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/12/31 23:59,CONFIRMED,flightCrewMember-01,leg-11,true
-flightAssignment-16,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2000/01/01 00:00,CONFIRMED,flightCrewMember-01,leg-12,true
+flightAssignment-14,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2025/01/01 00:00,CONFIRMED,flightCrewMember-01,leg-10,false
+flightAssignment-15,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/12/31 23:59,CONFIRMED,flightCrewMember-01,leg-11,false
+flightAssignment-16,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2000/01/01 00:00,CONFIRMED,flightCrewMember-01,leg-12,false
 flightAssignment-17,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2000/01/01 00:01,CONFIRMED,flightCrewMember-01,leg-31,true
 #currentStatus,"","","","","","",""
 flightAssignment-18,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-15,true
-flightAssignment-19,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,PENDING,flightCrewMember-01,leg-19,true
-flightAssignment-23,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-18,true
+flightAssignment-19,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,PENDING,flightCrewMember-01,leg-19,false
+flightAssignment-23,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-18,false
 #others
-flightAssignment-24,LEAD_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-35,true
+flightAssignment-24,LEAD_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-35,false

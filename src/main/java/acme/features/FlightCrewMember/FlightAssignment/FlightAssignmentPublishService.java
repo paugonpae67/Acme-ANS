@@ -42,6 +42,7 @@ public class FlightAssignmentPublishService extends AbstractGuiService<FlightCre
 
 		if (!super.getRequest().getMethod().equals("POST"))
 			status = false;
+
 		else if (Id == null)
 			status = false;
 		else if (legId == null)

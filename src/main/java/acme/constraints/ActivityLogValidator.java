@@ -29,6 +29,8 @@ public class ActivityLogValidator extends AbstractValidator<ValidActivityLog, Ac
 
 		if (activity == null)
 			super.state(context, false, "nextInspection", "acme.validation.activityLog.NotNull");
+		if (activity.getFlightAssignment().isDraftMode())
+			super.state(context, false, "flightAssignment", "acme.validation.activityLog.notvalidAssignment");
 		if (activity.getFlightAssignment() == null || activity.getRegistrationMoment() == null)
 			super.state(context, false, "flightAssignment", "acme.validation.activityLog.nextInspectionNotNull");
 		if (activity.getFlightAssignment() != null && (leg == null || leg.isDraftMode()))
