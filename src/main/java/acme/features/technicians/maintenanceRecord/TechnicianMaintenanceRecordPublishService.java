@@ -97,6 +97,7 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 	@Override
 	public void perform(final MaintenanceRecord maintenanceRecord) {
 		maintenanceRecord.setDraftMode(false);
+		maintenanceRecord.setStatus(MaintenanceStatus.COMPLETED);
 		this.repository.save(maintenanceRecord);
 	}
 	@Override
