@@ -33,6 +33,8 @@ public class FlightAssignmentShow extends AbstractGuiService<FlightCrewMember, F
 		Id = super.getRequest().getData("id", Integer.class);
 		if (!super.getRequest().getMethod().equals("GET"))
 			status = false;
+		else if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("id", int.class))
+			status = false;
 		else if (Id == null)
 			status = false;
 		else {

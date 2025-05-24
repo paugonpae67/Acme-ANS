@@ -28,7 +28,10 @@ public class ActivityLogShowService extends AbstractGuiService<FlightCrewMember,
 
 		if (Id == null)
 			status = false;
-
+		else if (!super.getRequest().getMethod().equals("GET"))
+			status = false;
+		else if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("id", int.class))
+			status = false;
 		else {
 
 			activity = this.repository.findActivityLogById(Id);

@@ -31,6 +31,8 @@ public class ActivityLogUpdateService extends AbstractGuiService<FlightCrewMembe
 		Id = super.getRequest().getData("id", Integer.class);
 		if (Id == null)
 			status = false;
+		else if (!super.getRequest().getMethod().equals("POST"))
+			status = false;
 		else {
 
 			activity = this.repository.findActivityLogById(Id);
