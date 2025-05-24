@@ -27,18 +27,27 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 	@Override
 	public void authorise() {
 		boolean status;
-		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
+		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", Integer.class))
 			status = false;
 		else {
-			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
-
-			if (super.getRequest().hasData("id")) {
-				Integer legId = super.getRequest().getData("leg", Integer.class);
-				if (legId == null || legId != 0) {
-					Leg leg = this.repository.findLegById(legId);
-					status = status && leg != null && !leg.isDraftMode();
+			if (super.getRequest().getMethod().equals("POST")) {
+				Integer id = super.getRequest().getData("id", Integer.class);
+				if (super.getRequest().getData("id", Integer.class) == null || id != 0) {
+					super.getResponse().setAuthorised(false);
+					return;
 				}
 			}
+			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+
+			if (super.getRequest().hasData("id"))
+				if (super.getRequest().getData("id", Integer.class) != null && super.getRequest().getData("leg", Integer.class) != null) {
+					Integer legId = super.getRequest().getData("leg", Integer.class);
+					if (legId == null || legId != 0) {
+						Leg leg = this.repository.findLegById(legId);
+						status = status && leg != null && !leg.isDraftMode();
+					}
+				} else
+					super.getResponse().setAuthorised(false);
 			super.getResponse().setAuthorised(status);
 		}
 

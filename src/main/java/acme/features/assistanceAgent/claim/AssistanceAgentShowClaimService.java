@@ -24,7 +24,7 @@ public class AssistanceAgentShowClaimService extends AbstractGuiService<Assistan
 
 	@Override
 	public void authorise() {
-		if (!super.getRequest().getMethod().equals("GET")) {
+		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("id", int.class)) {
 			super.getResponse().setAuthorised(false);
 			return;
 		}

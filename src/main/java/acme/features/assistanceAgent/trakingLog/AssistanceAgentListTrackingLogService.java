@@ -21,25 +21,35 @@ public class AssistanceAgentListTrackingLogService extends AbstractGuiService<As
 
 	@Override
 	public void authorise() {
-		if (!super.getRequest().getMethod().equals("GET")) {
+		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", Integer.class)) {
 			super.getResponse().setAuthorised(false);
 			return;
+		} else {
+			boolean status;
+			int masterId;
+			Claim claim;
+
+			masterId = super.getRequest().getData("masterId", Integer.class);
+			if (super.getRequest().getData("masterId", Integer.class) == null) {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
+			claim = this.repository.findClaimById(masterId);
+			if (claim == null) {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
+
+			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+
+			int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+
+			if (agentId != claim.getAssistanceAgent().getId())
+				status = false;
+
+			super.getResponse().setAuthorised(status);
 		}
 
-		boolean status;
-		int masterId;
-		Claim claim;
-
-		masterId = super.getRequest().getData("masterId", int.class);
-		claim = this.repository.findClaimById(masterId);
-		if (claim == null) {
-			super.getResponse().setAuthorised(false);
-			return;
-		}
-
-		status = claim != null && super.getRequest().getPrincipal().hasRealm(claim.getAssistanceAgent());
-
-		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
@@ -48,7 +58,7 @@ public class AssistanceAgentListTrackingLogService extends AbstractGuiService<As
 		int masterId;
 
 		masterId = super.getRequest().getData("masterId", int.class);
-		trackingLogs = this.repository.findTrackingLogOfClaim(masterId);
+		trackingLogs = this.repository.findTrackingLogOfClaimByPercentage(masterId);
 
 		super.getBuffer().addData(trackingLogs);
 	}
