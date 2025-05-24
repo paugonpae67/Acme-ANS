@@ -25,10 +25,20 @@ public class ManagerFlightDeleteService extends AbstractGuiService<Manager, Flig
 
 	@Override
 	public void authorise() {
+		// Solo permitir método POST para eliminar (DELETE se simula comúnmente con POST)
+		String method = super.getRequest().getMethod();
+		if (!"POST".equalsIgnoreCase(method)) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
+
+		// Verificar existencia, estado y propiedad del vuelo
 		int flightId = super.getRequest().getData("id", int.class);
 		Flight flight = this.repository.findById(flightId);
 		int managerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+
 		boolean status = flight != null && flight.isDraftMode() && flight.getManager().getId() == managerId;
+
 		super.getResponse().setAuthorised(status);
 	}
 
