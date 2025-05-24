@@ -12,8 +12,8 @@ import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidEmail;
+import acme.client.components.validation.ValidString;
 import acme.client.components.validation.ValidUrl;
-import acme.constraints.ValidIataCode;
 import acme.constraints.ValidPhone;
 import acme.constraints.ValidShortText;
 import lombok.Getter;
@@ -35,7 +35,7 @@ public class Airport extends AbstractEntity {
 	private String				name;
 
 	@Mandatory
-	@ValidIataCode
+	@ValidString(pattern = "^[A-Z]{3}$")
 	@Column(unique = true)
 	private String				iataCode;
 
