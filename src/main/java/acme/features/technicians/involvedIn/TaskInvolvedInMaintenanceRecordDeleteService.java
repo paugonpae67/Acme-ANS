@@ -30,7 +30,7 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 		MaintenanceRecord maintenanceRecord;
 		int technician1 = super.getRequest().getPrincipal().getActiveRealm().getId();
 		boolean status1 = true;
-		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
+		if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("masterId", int.class))
 			status1 = false;
 		if (super.getRequest().hasData("masterId", int.class)) {
 			masterId = super.getRequest().getData("masterId", int.class);
