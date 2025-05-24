@@ -58,10 +58,10 @@ public class CustomerBookingRecordDeleteService extends AbstractGuiService<Custo
 							status = false;
 						else if (passenger.getCustomer().getId() == customerId) {
 							BookingRecord br = this.repository.findBookingRecordByPassengerIdAndBookingId(passengerId, bookingId);
-							status = status && passenger != null && br == null;
+							status = status && passenger != null && br != null;
 						} else {
 							BookingRecord br = this.repository.findBookingRecordByPassengerIdAndBookingId(passengerId, bookingId);
-							status = status && passenger != null && !passenger.isDraftMode() && br == null;
+							status = status && passenger != null && !passenger.isDraftMode() && br != null;
 						}
 
 					}
@@ -69,6 +69,7 @@ public class CustomerBookingRecordDeleteService extends AbstractGuiService<Custo
 				}
 			}
 		}
+
 	}
 
 	@Override
