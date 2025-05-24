@@ -21,7 +21,16 @@ public class AssistanceAgentListUndergoingClaimService extends AbstractGuiServic
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		boolean status;
+		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class)) {
+			super.getResponse().setAuthorised(false);
+			return;
+		} else {
+			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+
+			super.getResponse().setAuthorised(status);
+		}
+
 	}
 
 	@Override

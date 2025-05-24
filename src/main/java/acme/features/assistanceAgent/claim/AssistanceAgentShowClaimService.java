@@ -24,27 +24,34 @@ public class AssistanceAgentShowClaimService extends AbstractGuiService<Assistan
 
 	@Override
 	public void authorise() {
-		if (!super.getRequest().getMethod().equals("GET"))
+		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("id", int.class)) {
 			super.getResponse().setAuthorised(false);
-		else {
-			boolean status;
-			Claim claim;
-
-			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
-
-			super.getResponse().setAuthorised(status);
-
-			int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
-			Integer claimId = super.getRequest().getData("id", Integer.class);
-			if (claimId == null)
-				super.getResponse().setAuthorised(false);
-			else {
-				claim = this.repository.findClaimById(claimId);
-
-				super.getResponse().setAuthorised(assistanceAgentId == claim.getAssistanceAgent().getId());
-			}
+			return;
 		}
 
+		boolean status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+
+		if (!status) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
+
+		Integer claimId = super.getRequest().getData("id", Integer.class);
+		if (claimId == null) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
+
+		Claim claim = this.repository.findClaimById(claimId);
+		if (claim == null) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
+
+		int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		status = assistanceAgentId == claim.getAssistanceAgent().getId();
+
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override

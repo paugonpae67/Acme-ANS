@@ -31,21 +31,34 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 		boolean status;
 		TrackingLog trackingLog;
 		int id;
-		AssistanceAgent assistanceAgent;
 		Claim claim;
+
 		if (!super.getRequest().getMethod().equals("POST"))
 			super.getResponse().setAuthorised(false);
 		else {
 
-			id = super.getRequest().getData("id", int.class);
+			if (super.getRequest().getData("id", Integer.class) == null) {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
+			id = super.getRequest().getData("id", Integer.class);
 			trackingLog = this.repository.findTrackingLogById(id);
-			claim = this.repository.findClaimByTrackingLogId(trackingLog.getId());
+			if (trackingLog != null) {
+				claim = this.repository.findClaimByTrackingLogId(trackingLog.getId());
 
-			assistanceAgent = trackingLog == null ? null : trackingLog.getClaim().getAssistanceAgent();
+				status = claim != null && super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class) && trackingLog != null;
 
-			status = claim != null && super.getRequest().getPrincipal().hasRealm(assistanceAgent) && trackingLog != null;
+				int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
-			super.getResponse().setAuthorised(status);
+				if (claim == null || agentId != claim.getAssistanceAgent().getId())
+					status = false;
+
+				super.getResponse().setAuthorised(status);
+			} else {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
+
 		}
 	}
 
@@ -69,6 +82,7 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 	public void validate(final TrackingLog trackingLog) {
 		List<TrackingLog> trackingLogs = this.repository.findLatestTrackingLogByClaimExceptItself(trackingLog.getClaim().getId(), trackingLog.getId()).orElse(List.of());
 		List<TrackingLog> beforeActual = trackingLogs.stream().filter(t -> t.getId() != trackingLog.getId()).filter(t -> !t.getLastUpdateMoment().after(trackingLog.getLastUpdateMoment())).collect(Collectors.toList());
+		List<TrackingLog> allTrackingLogs = this.repository.findTrackingLogOfClaim(trackingLog.getClaim().getId());
 
 		if (trackingLog.getResolutionPercentage() != null && trackingLog.getStatus() != null && trackingLog.getResolution() != null) {
 			Double percentage = trackingLog.getResolutionPercentage();
@@ -94,11 +108,13 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 			if (!beforeActual.isEmpty()) {
 				beforeActual.sort(Comparator.comparing(TrackingLog::getResolutionPercentage).reversed());
 				TrackingLog previous = beforeActual.get(0);
+				TrackingLog original = allTrackingLogs.stream().filter(t -> Objects.equals(t.getId(), trackingLog.getId())).findFirst().orElse(null);
 
-				morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
+				if (original != null && !Objects.equals(original.getResolutionPercentage(), trackingLog.getResolutionPercentage())) {
+					morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
 
-				super.state(morePercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
-
+					super.state(morePercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
+				}
 				Long maxComplete = beforeActual.stream().filter(x -> x.getResolutionPercentage() != null && x.getResolutionPercentage().equals(100.00)).count();
 
 				if (percentage.equals(100.00))
