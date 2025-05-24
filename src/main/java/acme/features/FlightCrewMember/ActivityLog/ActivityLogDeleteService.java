@@ -36,7 +36,7 @@ public class ActivityLogDeleteService extends AbstractGuiService<FlightCrewMembe
 			activity = this.repository.findActivityLogById(Id);
 			FlightAssignment assignment = activity.getFlightAssignment();
 
-			boolean validassignment = assignment != null && MomentHelper.isBefore(activity.getFlightAssignment().getLeg().getScheduledArrival(), activity.getRegistrationMoment());
+			boolean validassignment = !assignment.isDraftMode() && assignment != null && MomentHelper.isBefore(activity.getFlightAssignment().getLeg().getScheduledArrival(), activity.getRegistrationMoment());
 
 			member = assignment == null ? null : assignment.getFlightCrewMembers();
 			status = super.getRequest().getPrincipal().hasRealm(member) && member != null && activity.isDraftMode() && activity != null && validassignment;
