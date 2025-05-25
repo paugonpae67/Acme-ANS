@@ -136,7 +136,10 @@ public class ManagerLegUpdateService extends AbstractGuiService<Manager, Leg> {
 			boolean validOrder = leg.getScheduledDeparture().before(leg.getScheduledArrival());
 			super.state(validOrder, "scheduledDeparture", "manager.leg.error.departureBeforeArrival");
 		}
-
+		if (leg.getDepartureAirport() != null && leg.getArrivalAirport() != null) {
+			boolean valid = !(leg.getDepartureAirport().getId() == leg.getArrivalAirport().getId());
+			super.state(valid, "arrivalAirport", "manager.leg.error.sameAirport");
+		}
 		// Validación de flightNumber duplicado
 		Leg existing = this.repository.findLegByFlightNumber(leg.getFlightNumber());
 		boolean validFlightNumber = existing == null || existing.getId() == leg.getId();
