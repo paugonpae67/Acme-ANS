@@ -19,14 +19,27 @@ public class CustomerBookingRecordShowService extends AbstractGuiService<Custome
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
-		super.getResponse().setAuthorised(status);
 
-		int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		int bookingRecordId = super.getRequest().getData("id", int.class);
-		Booking booking = this.repository.findBookingByBookingRecordId(bookingRecordId);
+		if (!super.getRequest().getMethod().equals("GET"))
+			super.getResponse().setAuthorised(false);
 
-		super.getResponse().setAuthorised(customerId == booking.getCustomer().getId());
+		else if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("id", int.class))
+			super.getResponse().setAuthorised(false);
+
+		else {
+			boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+			super.getResponse().setAuthorised(status);
+
+			int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+			Integer bookingRecordId = super.getRequest().getData("id", Integer.class);
+			if (bookingRecordId == null)
+				super.getResponse().setAuthorised(false);
+			else {
+				Booking booking = this.repository.findBookingByBookingRecordId(bookingRecordId);
+				super.getResponse().setAuthorised(booking != null && customerId == booking.getCustomer().getId());
+			}
+		}
+
 	}
 
 	@Override

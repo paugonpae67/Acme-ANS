@@ -48,8 +48,8 @@ public class FlightAssignmentValidator extends AbstractValidator<ValidFlightAssi
 		if (leg != null && !this.dutymember(assignment, assignment.getDuty()))
 			super.state(context, false, "duty", "acme.validation.assignment.dutyIncorrect");
 
-		if (assignment.getFlightCrewMembers() != null && !this.MemberAvaible(assignment))
-			super.state(context, false, "FlightCrewMembers", "acme.validation.assignment.statusIncorrect");
+		//if (assignment.getFlightCrewMembers() != null && !this.MemberAvaible(assignment))
+		//super.state(context, false, "FlightCrewMembers", "acme.validation.assignment.statusIncorrect");
 
 		if (assignment.getFlightCrewMembers() != null && leg != null && !this.legsimultaneo(assignment, assignment.getFlightCrewMembers().getId()))
 			super.state(context, false, "leg", "acme.validation.assignment.legIncorrect");

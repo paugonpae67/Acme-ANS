@@ -1,6 +1,6 @@
 
-administrator.involved-in.list.title = Listing of Involved In
-administrator.involved-in.form.title = Task Form
+administrator.involved-in.list.title = Association list 
+administrator.involved-in.form.title = Association Form
 
 administrator.involved-in.form.label.ticker = Ticker
 administrator.involved-in.form.label.type = Task Type

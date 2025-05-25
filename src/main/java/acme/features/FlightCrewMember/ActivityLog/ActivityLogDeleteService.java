@@ -4,6 +4,7 @@ package acme.features.FlightCrewMember.ActivityLog;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.activityLog.ActivityLog;
@@ -27,17 +28,18 @@ public class ActivityLogDeleteService extends AbstractGuiService<FlightCrewMembe
 		Integer Id;
 		ActivityLog activity;
 		FlightCrewMember member;
-		Integer assignmentId = super.getRequest().getData("flightAssignment", Integer.class);
 		Id = super.getRequest().getData("id", Integer.class);
 		if (Id == null)
 			status = false;
-		else if (assignmentId == null)
+		else if (!super.getRequest().getMethod().equals("POST"))
 			status = false;
 		else {
-			FlightAssignment assignment = this.repository.findFlightAssignmentById(assignmentId);
-			boolean validassignment = assignment != null && !assignment.isDraftMode(); //aqui poner mas restriccion??
 
 			activity = this.repository.findActivityLogById(Id);
+			FlightAssignment assignment = activity.getFlightAssignment();
+
+			boolean validassignment = !assignment.isDraftMode() && assignment != null && MomentHelper.isBefore(activity.getFlightAssignment().getLeg().getScheduledArrival(), activity.getRegistrationMoment());
+
 			member = assignment == null ? null : assignment.getFlightCrewMembers();
 			status = super.getRequest().getPrincipal().hasRealm(member) && member != null && activity.isDraftMode() && activity != null && validassignment;
 
@@ -76,7 +78,7 @@ public class ActivityLogDeleteService extends AbstractGuiService<FlightCrewMembe
 	public void unbind(final ActivityLog activityLog) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(activityLog, "registrationMoment", "typeOfIncident", "description", "severityLevel", "draftMode");
+		dataset = super.unbindObject(activityLog, "registrationMoment", "typeOfIncident", "description", "saverityLevel", "draftMode");
 		dataset.put("flightAssignment", activityLog.getFlightAssignment().getId());
 
 		super.getResponse().addData(dataset);

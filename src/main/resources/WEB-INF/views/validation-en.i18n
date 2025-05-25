@@ -1,42 +1,53 @@
 
 acme.validation.maintenanceRecord.NotNull = The maintenance record cannot be null
-acme.validation.maintenanceRecord.nextInspectionNotNull = Needs a next inspection
+acme.validation.maintenanceRecord.nextInspectionNotNull = Must have a next inspection date
 acme.validation.maintenanceRecord.DateCorrect = Next inspection date must be after moment date
 
-acme.validation.involved-in.task = To publish a maintenance record it must have at least one task and all his task must be publish
+acme.validation.involved-in.task = To publish a maintenance record it must have at least one published task and all his tasks must be published
 
 acme.validation.airport.form.error.duplicateIata = This IATA code already exists
-acme.validation.error.phoneNumber= It is not a valid phone number
+acme.validation.error.phoneNumber= It is not a valid phone number. It must have between 6 and 15 characters
+
+administrator.aircraft.form.error.invalidAirline = The selected airline is not available
 
 acme.validation.longText= The length must be between 1 and 255 characters
 acme.validation.shortText= The length must be between 1 and 50 characters
 
-acme.validation.job.ticker.message = invalid Ticker
+acme.validation.job.ticker.message = invalid Ticker. It must have between 5 and 15 characters
 acme.validation.form.error.duplicateTicker = Duplicated Ticker 
-
 
 acme.validation.claim.form.error.registrationMomentNotPast = Registration Moment must be in the past
 acme.validation.claim.form.error.type = You can only choose a type from the selection 
 acme.validation.claim.form.error.leg = You can only choose a leg from the selection 
 acme.validation.claim.form.error.leg2 = Leg can not be null, you must select one
-acme.validation.claim.form.error.draftMode = You can not update o delete a claim if it is not in draft mode
+acme.validation.claim.form.error.draftMode = You can not update o delete a claim if it is not in draft mode´
+assistanceAgent.claim.form.error.trackingLogAssociated = The record cannot be deleted until all associated trackingLogs have been removed
 
-assistance-agent.tracking-log.form.error.wrongStatus = Status must be PENDING
-assistanceAgent.trackingLog.form.error.wrongStatus2. = Status must be ACCEPTED or REJECTED
-assistanceAgent.trackingLog.form.error.resolutionNeeded = Resolution can not be null
-assistanceAgent.trackingLog.form.error.complatePercentage = You can only have two tracking Log in 100 percentage
-assistanceAgent.trackingLog.form.error.wrongNewPercentage = The new Percentage must be higher than the last one
-assistanceAgent.trackingLog.form.error.statusNewPercentageTotal = The status of the new tracking log with 100 of percentage must be the same than the other tracking log with 100 of percentage 
+assistanceAgent.trackingLog.form.error.statusWrongNotFinished = Status must be PENDING
+assistanceAgent.trackingLog.form.error.statusWrongFinished = Status must be ACCEPTED or REJECTED
+assistanceAgent.trackingLog.form.error.resolutionNeeded = Resolution can not be empty for finished trackingLogs (REJECTED or ACCEPTED)
+assistanceAgent.trackingLog.form.error.completePercentage = No additional tracking logs with a 100% resolution can be created
+assistanceAgent.trackingLog.form.error.wrongNewPercentage = The resolution percentage must be greater than the previous tracking log; it must increase progressively
+assistanceAgent.trackingLog.form.error.statusNewPercentageFinished = The status of the new tracking log with a 100% resolution percentage must match the status of the previous tracking log that also has a 100% resolution percentage 
 assistanceAgent.trackingLog.form.error.draftModeClaim = The claim must be publish before publishing a tracking log
-assistanceAgent.trackingLog.form.error.wrongPercentage = You can not create two trackingLogs with the same resolution percentage
+assistanceAgent.trackingLog.form.error.notSamePercentage = Two trackingLogs with the same resolution percentage can not exists
+assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished = You cannot create two tracking logs with a 100% resolution if the claim has not been published
+assistanceAgent.trackingLog.form.error.claimPublished = We can not associate a trackingLog with a claim in draft mode
+assistanceAgent.trackingLog.form.error.onlyOneCompleteAllowed = You cannot publish this tracking log because a finished one created later has already been published
+assistanceAgent.trackingLog.form.error.lastUpdateMoment = To create a trackingLog, the claim must have been created before
+assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedTheBeforePublished = The other tracking log whit 100% of resolution percentage must be published
+assistanceAgent.trackingLog.form.error.beforePublishingOtherPublished = To publish, previous trackLogs must be published
 
 acme.validation.leg.message = This aircraft has pending flight legs, it cannot be disabled
 
 customer.booking.form.error.duplicateLocatorCode = This locator code is already in use
+customer.booking.form.error.invalidFlight = The selected flight is not available
+customer.bookingRecord.form.error.invalidPassenger = The selected passenger is not available
 acme.validation.lastNibble.message  = This field is required to publish a booking
 acme.validation.passengersNumber.message = The booking must have at least one passenger in order to be published
 acme.validation.passengersNotPublished.message = All passengers must be published in order to publish the booking
 acme.validation.passengerBookingRecords.message = There are bookings associated with this passenger. Remove the passenger from these bookings to proceed
+acme.validation.bookingBookingRecords.message = There are passengers associated to this booking. Please remove them to proceed
 
 acme.validation.validCurrency = This currency is invalid
 acme.validation.form.error.NotNull= It must not be null
@@ -52,7 +63,13 @@ acme.validation.FlightAssignment.memberHasIncompatibleLegs.message = They cannot
 acme.validation.FlightAssignment.memberHasIncompatibleDuty.message = Each leg can only have one pilot and one co-pilot. 
 acme.validation.FlightAssignment.HasIncompatibleLeg = The associated leg should be published.
 
+
 acme.validation.leg.flightNumber.message=The flight number must start with the airline IATA code and be 7 characters long.
 acme.validation.leg.scheduledArrival.message=The arrival must be at least 1 minute after the departure.
 acme.validation.leg.overlapping.message=There are overlapping legs in the same flight.
+
+acme.validator.licenseNumber = The format must be 2 or 3 capital letters and 6 digits
+acme.validator.iata = The format must be 3 capital letters
+
+acme.validation.assignment.deleteleg = The leg should be in future
 

@@ -25,16 +25,16 @@ public class ActivityLogCreateService extends AbstractGuiService<FlightCrewMembe
 	@Override
 	public void authorise() {
 		boolean status;
-		int masterId;
+		Integer masterId;
 		FlightAssignment flightAssignment;
-		masterId = super.getRequest().getData("masterId", int.class);
-		Integer Id = super.getRequest().getData("id", Integer.class);
-		ActivityLog activity = this.repository.findActivityLogById(Id);
-
-		flightAssignment = this.repository.findFlightAssignmentById(masterId);
-		Boolean correctAssignment = MomentHelper.isBefore(activity.getFlightAssignment().getMoment(), activity.getRegistrationMoment());
-		status = correctAssignment && !flightAssignment.isDraftMode() && flightAssignment != null && super.getRequest().getPrincipal().hasRealm(flightAssignment.getFlightCrewMembers());
-
+		masterId = super.getRequest().getData("masterId", Integer.class);
+		if (!super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
+			status = false;
+		else {
+			flightAssignment = this.repository.findFlightAssignmentById(masterId);
+			boolean correctAssignment = !flightAssignment.isDraftMode() && MomentHelper.isPast(flightAssignment.getLeg().getScheduledArrival());
+			status = masterId != null && correctAssignment && flightAssignment != null && super.getRequest().getPrincipal().hasRealm(flightAssignment.getFlightCrewMembers());
+		}
 		super.getResponse().setAuthorised(status);
 
 	}
@@ -65,8 +65,8 @@ public class ActivityLogCreateService extends AbstractGuiService<FlightCrewMembe
 
 	@Override
 	public void validate(final ActivityLog activityLog) {
+		super.state(super.getRequest().getData("confirmation", boolean.class), "confirmation", "acme.validation.confirmation.message");
 
-		;
 	}
 
 	@Override
@@ -81,8 +81,6 @@ public class ActivityLogCreateService extends AbstractGuiService<FlightCrewMembe
 		dataset = super.unbindObject(activityLog, "typeOfIncident", "description", "saverityLevel", "draftMode");
 		dataset.put("masterId", super.getRequest().getData("masterId", int.class));
 		dataset.put("registrationMoment", activityLog.getRegistrationMoment());
-
-		//dataset.put("draftMode", activityLog.getFlightAssignment().isDraftMode());
 
 		super.getResponse().addData(dataset);
 	}

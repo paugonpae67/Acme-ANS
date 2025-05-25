@@ -27,8 +27,10 @@ public class TaskInvolvedInMaintenanceRecordListService extends AbstractGuiServi
 
 		masterId = super.getRequest().getData("masterId", int.class);
 		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
-		status = maintenanceRecord != null && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician()) || !maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
-
+		if (maintenanceRecord != null)
+			status = super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician()) || !maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
+		else
+			status = false;
 		super.getResponse().setAuthorised(status);
 	}
 
