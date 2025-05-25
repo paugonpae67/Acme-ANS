@@ -65,8 +65,6 @@ public class FlightAssignmentShow extends AbstractGuiService<FlightCrewMember, F
 		Collection<Leg> legsOfMember;
 		SelectChoices legChoices = null;
 
-		Collection<FlightCrewMember> members;
-		SelectChoices memberChoices;
 		Dataset dataset;
 
 		SelectChoices currentStatus;
@@ -75,6 +73,9 @@ public class FlightAssignmentShow extends AbstractGuiService<FlightCrewMember, F
 		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		legs = this.repository.findAllLegsFuturePublished(MomentHelper.getCurrentMoment());
 		legsOfMember = this.repository.findLegsByFlightCrewMember(memberId, assignment.getId());
+		FlightCrewMember member;
+
+		member = (FlightCrewMember) super.getRequest().getPrincipal().getActiveRealm();
 
 		for (Leg l : legsOfMember)
 			if (legs.contains(l))
@@ -83,12 +84,8 @@ public class FlightAssignmentShow extends AbstractGuiService<FlightCrewMember, F
 		if (!legs.contains(assignment.getLeg()))
 			legs.add(assignment.getLeg());
 
-		members = this.repository.findAllAvailableMembers();
-
 		currentStatus = SelectChoices.from(FlightAssignmentStatus.class, assignment.getCurrentStatus());
 		duty = SelectChoices.from(FlightAssignmentDuty.class, assignment.getDuty());
-
-		memberChoices = SelectChoices.from(members, "employeeCode", assignment.getFlightCrewMembers());
 
 		dataset = super.unbindObject(assignment, "remarks", "moment", "currentStatus", "duty", "draftMode");
 		dataset.put("currentStatus", currentStatus);
@@ -97,8 +94,7 @@ public class FlightAssignmentShow extends AbstractGuiService<FlightCrewMember, F
 		dataset.put("duty", duty);
 		dataset.put("leg", legChoices.getSelected().getKey());
 		dataset.put("legs", legChoices == null ? "" : legChoices);
-		dataset.put("flightCrewMember", memberChoices.getSelected().getKey());
-		dataset.put("flightCrewMember", memberChoices);
+		dataset.put("flightCrewMembers", assignment.getFlightCrewMembers().getEmployeeCode());
 		super.getResponse().addData(dataset);
 
 	}

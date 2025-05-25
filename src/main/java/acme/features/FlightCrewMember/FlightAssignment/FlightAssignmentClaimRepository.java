@@ -52,4 +52,6 @@ public interface FlightAssignmentClaimRepository extends AbstractRepository {
 	@Query("select l from FlightAssignment l where l.leg.id = :id")
 	Collection<FlightAssignment> findFlightAssignmentByLegId(int id);
 
+	@Query("select m from FlightCrewMember m where m.employeeCode = :employeeCode")
+	FlightCrewMember findMemberByEmployeeCode(String employeeCode);
 }

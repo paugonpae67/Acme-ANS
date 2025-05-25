@@ -34,10 +34,10 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 		boolean status;
 		Integer Id;
 		FlightAssignment assignment;
-		FlightCrewMember member;
+		FlightCrewMember member2;
 		Integer legId = super.getRequest().getData("leg", Integer.class);
 		Id = super.getRequest().getData("id", Integer.class);
-		Integer memberId = super.getRequest().getData("flightCrewMember", Integer.class);
+		Integer memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
 		if (!super.getRequest().getMethod().equals("POST"))
 			status = false;
@@ -53,9 +53,15 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 			FlightCrewMember m = this.repository.findFlightCrewMemberById(memberId);
 			boolean validMember = m != null && m.getAvailabilityStatus() == FlightCrewMemberStatus.AVAILABLE;
 
+			boolean correctMember = true;
+			String employeeCode = super.getRequest().getData("flightCrewMembers", String.class);
+
+			FlightCrewMember member = this.repository.findMemberByEmployeeCode(employeeCode);
+			correctMember = member != null && memberId == member.getId();
+
 			assignment = this.repository.findAssignmentById(Id);
-			member = assignment == null ? null : assignment.getFlightCrewMembers();
-			status = validMember && super.getRequest().getPrincipal().hasRealm(member) && member != null && validLeg && assignment != null && assignment.isDraftMode();
+			member2 = assignment == null ? null : assignment.getFlightCrewMembers();
+			status = correctMember && validMember && super.getRequest().getPrincipal().hasRealm(member2) && member2 != null && validLeg && assignment != null && assignment.isDraftMode();
 
 		}
 
@@ -78,7 +84,15 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 	@Override
 	public void bind(final FlightAssignment flightAssignment) {
 
-		super.bindObject(flightAssignment, "remarks", "moment", "currentStatus", "duty", "leg");
+		int legId;
+		Leg leg;
+
+		legId = super.getRequest().getData("leg", int.class);
+		leg = this.repository.findLegById(legId);
+
+		super.bindObject(flightAssignment, "duty", "remarks", "currentStatus");
+		flightAssignment.setLeg(leg);
+		flightAssignment.setMoment(MomentHelper.getCurrentMoment());
 	}
 
 	@Override
@@ -86,14 +100,16 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 		Collection<ActivityLog> act = this.repository.getActivityLogByFlight(flightAssignment.getId());
 		if (!act.isEmpty())
 			super.state(false, "*", "acme.validation.assignment.delete");
+		Integer memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
+
+		FlightCrewMember m = this.repository.findFlightCrewMemberById(memberId);
+		boolean validMember = m != null && m.getAvailabilityStatus() == FlightCrewMemberStatus.AVAILABLE;
+		super.state(validMember, "*", "acme.validation.assignment.statusIncorrect");
 
 	}
 
 	@Override
 	public void perform(final FlightAssignment flightAssignment) {
-		Collection<ActivityLog> act = this.repository.getActivityLogByFlight(flightAssignment.getId());
-		for (ActivityLog activity : act)
-			this.activityLogRepository.delete(activity);
 		this.repository.delete(flightAssignment);
 
 	}
@@ -104,8 +120,6 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 		Collection<Leg> legs;
 		SelectChoices legChoices = null;
 
-		Collection<FlightCrewMember> members;
-		SelectChoices memberChoices;
 		Dataset dataset;
 
 		SelectChoices currentStatus;
@@ -123,13 +137,11 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 
 		if (!legs.contains(assignment.getLeg()))
 			legs.add(assignment.getLeg());
+		FlightCrewMember member;
 
-		members = this.repository.findAllAvailableMembers();
-
+		member = (FlightCrewMember) super.getRequest().getPrincipal().getActiveRealm();
 		currentStatus = SelectChoices.from(FlightAssignmentStatus.class, assignment.getCurrentStatus());
 		duty = SelectChoices.from(FlightAssignmentDuty.class, assignment.getDuty());
-
-		memberChoices = SelectChoices.from(members, "employeeCode", assignment.getFlightCrewMembers());
 
 		dataset = super.unbindObject(assignment, "remarks", "moment", "currentStatus", "duty", "draftMode");
 		dataset.put("currentStatus", currentStatus);
@@ -138,8 +150,7 @@ public class FlightAssignmentDeleteService extends AbstractGuiService<FlightCrew
 		dataset.put("duty", duty);
 		dataset.put("leg", legChoices.getSelected().getKey());
 		dataset.put("legs", legChoices == null ? "" : legChoices);
-		dataset.put("flightCrewMember", memberChoices.getSelected().getKey());
-		dataset.put("flightCrewMember", memberChoices);
+		dataset.put("flightCrewMembers", assignment.getFlightCrewMembers().getEmployeeCode());
 		super.getResponse().addData(dataset);
 	}
 
