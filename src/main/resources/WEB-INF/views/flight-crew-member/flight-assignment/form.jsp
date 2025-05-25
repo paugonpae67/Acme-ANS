@@ -11,7 +11,7 @@
 	<acme:input-select code="FlightCrewMember.FlightAssignment.form.label.duty" path="duty" choices="${duty}"/>
 	<acme:input-textarea code="FlightCrewMember.FlightAssignment.form.label.remarks" path="remarks"/>
 	<acme:input-select code="FlightCrewMember.FlightAssignment.form.label.leg" path="leg" choices="${legs}"/>	
-	<acme:input-select code="FlightCrewMember.FlightAssignment.form.label.flightCrewMember" path="flightCrewMember" choices="${flightCrewMember}"/>	
+	<acme:input-textbox code="FlightCrewMember.FlightAssignment.form.label.flightCrewMember" path="flightCrewMembers" readonly="true"/>	
 	
 	
 	
