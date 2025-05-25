@@ -26,30 +26,51 @@ public class AssistanceAgentUpdateClaimService extends AbstractGuiService<Assist
 
 	@Override
 	public void authorise() {
-		boolean status;
-		int masterId;
+		boolean status = false;
+		Integer masterId;
 		Claim claim;
 		AssistanceAgent assistanceAgent;
 
 		if (!super.getRequest().getMethod().equals("POST"))
 			super.getResponse().setAuthorised(false);
-		else {
-			masterId = super.getRequest().getData("id", Integer.class);
-			claim = this.repository.findClaimById(masterId);
-			assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
-			status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) && (claim == null || claim.isDraftMode());
+		else if (super.getRequest().hasData("id")) {
+			if (super.getRequest().getData("id", Integer.class) != null) {
+				masterId = super.getRequest().getData("id", Integer.class);
+				claim = this.repository.findClaimById(masterId);
+				assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
 
-			if (super.getRequest().hasData("id")) {
-				Integer legId = super.getRequest().getData("leg", Integer.class);
-				if (legId == null || legId != 0) {
-					Leg leg = this.repository.findLegByLegId(legId);
-					Collection<Leg> legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
+				status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class) && claim != null;
+				if (claim != null) {
+					int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
-					if (legs.isEmpty())
-						status = false;
-					else
-						status = legs.contains(leg);
-					status = status && leg != null && !leg.isDraftMode();
+					if (agentId != claim.getAssistanceAgent().getId()) {
+						super.getResponse().setAuthorised(false);
+						return;
+					}
+					Integer legId = super.getRequest().getData("leg", Integer.class);
+					if (super.getRequest().getData("leg", Integer.class) != null) {
+						if (legId != 0) {
+							Leg leg = this.repository.findLegByLegId(legId);
+							Collection<Leg> legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
+							if (!claim.isDraftMode()) {
+								super.getResponse().setAuthorised(false);
+								return;
+							}
+
+							if (legs.isEmpty())
+								status = false;
+							else
+								status = legs.contains(leg);
+							status = status && leg != null && !leg.isDraftMode();
+						}
+					} else {
+						super.getResponse().setAuthorised(false);
+						return;
+					}
+
+				} else {
+					super.getResponse().setAuthorised(false);
+					return;
 				}
 			}
 			super.getResponse().setAuthorised(status);

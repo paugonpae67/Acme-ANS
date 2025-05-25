@@ -27,18 +27,55 @@ public class AssistanceAgentDeleteClaimService extends AbstractGuiService<Assist
 	@Override
 	public void authorise() {
 		boolean status;
-		int masterId;
+		Integer masterId;
 		Claim claim;
 		AssistanceAgent assistanceAgent;
 
 		if (!super.getRequest().getMethod().equals("POST"))
 			super.getResponse().setAuthorised(false);
-		else {
-			masterId = super.getRequest().getData("id", int.class);
-			claim = this.repository.findClaimById(masterId);
-			assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
-			status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) && (claim == null || claim.isDraftMode());
+		else if (super.getRequest().getData("id", Integer.class) != null) {
 
+			masterId = super.getRequest().getData("id", Integer.class);
+			claim = this.repository.findClaimById(masterId);
+			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class) && claim != null;
+
+			if (claim != null) {
+				int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+
+				if (agentId != claim.getAssistanceAgent().getId()) {
+					super.getResponse().setAuthorised(false);
+					return;
+				}
+
+				masterId = super.getRequest().getData("id", Integer.class);
+				claim = this.repository.findClaimById(masterId);
+				assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
+
+				status = status && claim.isDraftMode();
+				if (!claim.isDraftMode()) {
+					super.getResponse().setAuthorised(false);
+					return;
+				}
+				if (super.getRequest().getData("leg", Integer.class) != null) {
+					Integer legId = super.getRequest().getData("leg", Integer.class);
+					if (legId != 0) {
+						Leg leg = this.repository.findLegById(legId);
+						Collection<Leg> legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
+						if (legs.isEmpty())
+							status = false;
+						else
+							status = legs.contains(leg);
+						status = status && leg != null && !leg.isDraftMode();
+					} else {
+						super.getResponse().setAuthorised(false);
+						return;
+					}
+
+				} else {
+					super.getResponse().setAuthorised(false);
+					return;
+				}
+			}
 			super.getResponse().setAuthorised(status);
 		}
 

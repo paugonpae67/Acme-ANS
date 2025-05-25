@@ -37,6 +37,7 @@ assistanceAgent.trackingLog.form.error.claimPublished = No podemos asociar un re
 assistanceAgent.trackingLog.form.error.onlyOneCompleteAllowed= Este tracking log no puede ser publicado porque ya existe otro posterior que ha sido publicado como finalizado
 assistanceAgent.trackingLog.form.error.lastUpdateMoment = La fecha del trackingLog no puede ser anterior al especificado en el claim
 assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedTheBeforePublished = El otro registro de seguimiento con un 100% de porcentaje de resolución debe estar publicado
+assistanceAgent.trackingLog.form.error.beforePublishingOtherPublished = Para publicarlo, los trackingLogs anteriores deben de estar publicados
 
 acme.validation.leg.message = Este avión tiene tramos de vuelo pendientes, no es posible deshabilitarlo
 
@@ -69,5 +70,13 @@ acme.validation.assignment.deleteleg = El leg debe de ser en futuro
 acme.validation.FlightAssignment.memberHasIncompatibleLegs.message = No se pueden asignar a varios tramos simultáneamente.
 acme.validation.FlightAssignment.memberHasIncompatibleDuty.message = Cada etapa solo puede tener un piloto y un copiloto.
 acme.validation.FlightAssignment.HasIncompatibleLeg = El leg asociado debe estar publicado
+
+
+acme.validation.leg.flightNumber.message=El número de vuelo debe comenzar con el código IATA de la aerolínea y tener 7 caracteres.
+acme.validation.leg.scheduledArrival.message=La llegada debe ser al menos 1 minuto después de la salida.
+acme.validation.leg.overlapping.message=Existen tramos que se solapan en el mismo vuelo.
+
+
 acme.validator.licenseNumber = El formato debe ser 2 o 3 letras mayúsculas y 6 dígitos
 acme.validator.iata= El formato debe ser 3 letras mayúsculas
+

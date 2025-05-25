@@ -25,18 +25,30 @@ public class CustomerBookingRecordListService extends AbstractGuiService<Custome
 
 		if (!super.getRequest().getMethod().equals("GET"))
 			super.getResponse().setAuthorised(false);
+
+		else if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("bookingId", int.class))
+			super.getResponse().setAuthorised(false);
+
 		else if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
 			super.getResponse().setAuthorised(false);
+
 		else {
 			status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
 			super.getResponse().setAuthorised(status);
 
 			int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-			int bookingId = super.getRequest().getData("bookingId", int.class);
-			Booking booking = this.repository.findBookingById(bookingId);
+			Integer bookingId = super.getRequest().getData("bookingId", Integer.class);
 
-			if (booking != null)
-				super.getResponse().setAuthorised(customerId == booking.getCustomer().getId());
+			if (bookingId == null)
+				status = false;
+			else {
+				Booking booking = this.repository.findBookingById(bookingId);
+				if (booking == null)
+					status = false;
+
+				if (booking != null && customerId != booking.getCustomer().getId())
+					status = false;
+			}
 			super.getResponse().setAuthorised(status);
 
 		}

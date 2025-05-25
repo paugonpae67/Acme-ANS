@@ -33,26 +33,43 @@ public class CustomerBookingRecordDeleteService extends AbstractGuiService<Custo
 		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
 			super.getResponse().setAuthorised(false);
 
-		if (super.getRequest().hasData("bookingId", int.class)) {
+		if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("bookingId", int.class))
+			super.getResponse().setAuthorised(false);
+
+		if (super.getRequest().hasData("bookingId", Integer.class)) {
 			int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-			int bookingId = super.getRequest().getData("bookingId", int.class);
-			Booking booking = this.repository.findBookingById(bookingId);
+			Integer bookingId = super.getRequest().getData("bookingId", Integer.class);
 
-			status = status && booking != null && customerId == booking.getCustomer().getId() && booking.isDraftMode();
-			super.getResponse().setAuthorised(status);
+			if (bookingId == null)
+				super.getResponse().setAuthorised(false);
+			else {
+				Booking booking = this.repository.findBookingById(bookingId);
+				status = status && booking != null && customerId == booking.getCustomer().getId() && booking.isDraftMode();
 
-			if (super.getRequest().hasData("passenger", Integer.class)) {
-				Integer passengerId = super.getRequest().getData("passenger", Integer.class);
-				if (passengerId == null)
-					status = false;
-				else if (passengerId != 0) {
-					Passenger passenger = this.repository.findPassengerById(passengerId);
-					BookingRecord br = this.repository.findBookingRecordByPassengerIdAndBookingId(passengerId, bookingId);
-					status = status && passenger != null && br != null;
-				}
 				super.getResponse().setAuthorised(status);
+
+				if (super.getRequest().hasData("passenger", Integer.class)) {
+					Integer passengerId = super.getRequest().getData("passenger", Integer.class);
+					if (passengerId == null)
+						status = false;
+					else if (passengerId != 0) {
+						Passenger passenger = this.repository.findPassengerById(passengerId);
+						if (passenger == null)
+							status = false;
+						else if (passenger.getCustomer().getId() == customerId) {
+							BookingRecord br = this.repository.findBookingRecordByPassengerIdAndBookingId(passengerId, bookingId);
+							status = status && passenger != null && br != null;
+						} else {
+							BookingRecord br = this.repository.findBookingRecordByPassengerIdAndBookingId(passengerId, bookingId);
+							status = status && passenger != null && !passenger.isDraftMode() && br != null;
+						}
+
+					}
+					super.getResponse().setAuthorised(status);
+				}
 			}
 		}
+
 	}
 
 	@Override

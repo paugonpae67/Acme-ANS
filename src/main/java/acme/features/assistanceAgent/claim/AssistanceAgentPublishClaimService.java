@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
+import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.airports.Airport;
@@ -25,17 +26,53 @@ public class AssistanceAgentPublishClaimService extends AbstractGuiService<Assis
 
 	@Override
 	public void authorise() {
-		boolean status;
+		boolean status = false;
+		Integer masterId;
+		Claim claim;
+		AssistanceAgent assistanceAgent;
+
 		if (!super.getRequest().getMethod().equals("POST"))
 			super.getResponse().setAuthorised(false);
-		else {
-			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+		else if (super.getRequest().hasData("id")) {
+			if (super.getRequest().getData("id", Integer.class) != null) {
+				masterId = super.getRequest().getData("id", Integer.class);
+				claim = this.repository.findClaimById(masterId);
+				assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
 
-			if (super.getRequest().hasData("id")) {
-				Integer legId = super.getRequest().getData("leg", Integer.class);
-				if (legId == null || legId != 0) {
-					Leg leg = this.repository.findLegById(legId);
-					status = status && leg != null && !leg.isDraftMode();
+				status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class) && claim != null;
+				if (claim != null) {
+					int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+
+					if (agentId != claim.getAssistanceAgent().getId()) {
+						super.getResponse().setAuthorised(false);
+						return;
+					}
+					if (super.getRequest().getData("leg", Integer.class) != null) {
+						Integer legId = super.getRequest().getData("leg", Integer.class);
+						if (legId != null)
+							if (legId == null || legId != 0) {
+								Leg leg = this.repository.findLegByLegId(legId);
+								Collection<Leg> legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
+								if (!claim.isDraftMode()) {
+									super.getResponse().setAuthorised(false);
+									return;
+								}
+
+								if (legs.isEmpty())
+									status = false;
+								else
+									status = legs.contains(leg);
+								status = status && leg != null && !leg.isDraftMode();
+							}
+
+					} else {
+						super.getResponse().setAuthorised(false);
+						return;
+					}
+
+				} else {
+					super.getResponse().setAuthorised(false);
+					return;
 				}
 			}
 			super.getResponse().setAuthorised(status);
@@ -88,9 +125,11 @@ public class AssistanceAgentPublishClaimService extends AbstractGuiService<Assis
 		if (legs.isEmpty())
 			isNullLeg = false;
 		else {
-			legId = super.getRequest().getData("leg", int.class);
+			legId = super.getRequest().getData("leg", Integer.class);
+
 			leg = this.repository.findLegById(legId);
 			legCorrect = legs.contains(leg);
+
 		}
 
 		super.state(isCorrectType, "type", "acme.validation.claim.form.error.type");
@@ -102,6 +141,7 @@ public class AssistanceAgentPublishClaimService extends AbstractGuiService<Assis
 	@Override
 	public void perform(final Claim claim) {
 		claim.setDraftMode(false);
+		claim.setRegistrationMoment(MomentHelper.getCurrentMoment());
 		this.repository.save(claim);
 	}
 

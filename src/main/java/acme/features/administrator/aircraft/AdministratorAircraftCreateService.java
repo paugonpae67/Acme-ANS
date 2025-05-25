@@ -33,8 +33,13 @@ public class AdministratorAircraftCreateService extends AbstractGuiService<Admin
 		if (!super.getRequest().getMethod().equals("POST") && super.getRequest().hasData("id", int.class))
 			status1 = false;
 
+		if (super.getRequest().getMethod().equals("POST")) {
+			int id = super.getRequest().getData("id", int.class);
+			status1 = id == 0;
+		}
+
 		boolean status2 = true;
-		if (super.getRequest().hasData("flight", Integer.class)) {
+		if (super.getRequest().hasData("airline", Integer.class)) {
 			Integer airlineId = super.getRequest().getData("airline", Integer.class);
 			if (airlineId == null)
 				status2 = false;

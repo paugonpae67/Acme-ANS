@@ -20,7 +20,16 @@ public class ManagerFlightListService extends AbstractGuiService<Manager, Flight
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		// Solo permitir método GET para listar recursos
+		String method = super.getRequest().getMethod();
+		if (!"GET".equalsIgnoreCase(method)) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
+
+		// Verificar que el usuario activo es un Manager
+		boolean isManager = super.getRequest().getPrincipal().hasRealmOfType(Manager.class);
+		super.getResponse().setAuthorised(isManager);
 	}
 
 	@Override

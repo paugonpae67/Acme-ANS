@@ -36,6 +36,7 @@ assistanceAgent.trackingLog.form.error.claimPublished = We can not associate a t
 assistanceAgent.trackingLog.form.error.onlyOneCompleteAllowed = You cannot publish this tracking log because a finished one created later has already been published
 assistanceAgent.trackingLog.form.error.lastUpdateMoment = To create a trackingLog, the claim must have been created before
 assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedTheBeforePublished = The other tracking log whit 100% of resolution percentage must be published
+assistanceAgent.trackingLog.form.error.beforePublishingOtherPublished = To publish, previous trackLogs must be published
 
 acme.validation.leg.message = This aircraft has pending flight legs, it cannot be disabled
 
@@ -63,6 +64,7 @@ acme.validation.FlightAssignment.memberHasIncompatibleDuty.message = Each leg ca
 acme.validation.FlightAssignment.HasIncompatibleLeg = The associated leg should be published.
 
 
+
 acme.validation.assignment.NotNull = The assignation is null
 acme.validation.assignment.nextInspectionNotNullleg = The leg is null
 acme.validation.assignment.nextInspectionNotNull = The flightCRewMember is null
@@ -70,7 +72,13 @@ acme.validation.assignment.legIncorrect = It can´t be assignated more that one 
 acme.validation.assignment.legDraft = The leg selected is not published
 acme.validation.assignment.delete = Yo can´t dalete this flight assignment, it already hace activity logs asociated.
 
+acme.validation.leg.flightNumber.message=The flight number must start with the airline IATA code and be 7 characters long.
+acme.validation.leg.scheduledArrival.message=The arrival must be at least 1 minute after the departure.
+acme.validation.leg.overlapping.message=There are overlapping legs in the same flight.
+
+
 acme.validator.licenseNumber = The format must be 2 or 3 capital letters and 6 digits
 acme.validator.iata = The format must be 3 capital letters
 
 acme.validation.assignment.deleteleg = The leg should be in future
+

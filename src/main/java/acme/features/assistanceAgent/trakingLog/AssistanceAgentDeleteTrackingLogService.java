@@ -23,22 +23,34 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 	public void authorise() {
 		boolean status;
 		TrackingLog trackingLog;
-		int id;
-		AssistanceAgent assistanceAgent;
+		Integer id;
 		Claim claim;
 
 		if (!super.getRequest().getMethod().equals("POST"))
 			super.getResponse().setAuthorised(false);
 		else {
-			id = super.getRequest().getData("id", int.class);
+			id = super.getRequest().getData("id", Integer.class);
+			if (super.getRequest().getData("id", Integer.class) == null || id != 0) {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
 			trackingLog = this.repository.findTrackingLogById(id);
-			claim = this.repository.findClaimByTrackingLogId(trackingLog.getId());
+			if (trackingLog != null) {
+				claim = this.repository.findClaimByTrackingLogId(trackingLog.getId());
 
-			assistanceAgent = trackingLog == null ? null : trackingLog.getClaim().getAssistanceAgent();
+				status = claim != null && super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class) && trackingLog != null;
 
-			status = claim != null && super.getRequest().getPrincipal().hasRealm(assistanceAgent) && trackingLog != null;
+				int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
-			super.getResponse().setAuthorised(status);
+				if (claim == null || agentId != claim.getAssistanceAgent().getId())
+					status = false;
+
+				super.getResponse().setAuthorised(status);
+			} else {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
+
 		}
 
 	}

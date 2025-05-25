@@ -32,3 +32,4 @@ manager.leg.form.button.delete = Eliminar
 manager.leg.error.sameAirport = El aeropuerto de salida y de llegada no pueden ser el mismo
 manager.leg.error.duplicateFlightNumber = Ya existe un tramo con este número de vuelo
 manager.leg.error.departureBeforeArrival = La salida debe ser anterior a la llegada
+manager.flight.form.error.invalid-currency=La moneda debe ser EUR, GBP o USD
