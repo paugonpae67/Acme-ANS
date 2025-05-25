@@ -23,3 +23,12 @@
 	</c:if>
 </body>
 </html>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const table = document.querySelector('#list');
+    if (table && $.fn.DataTable) {
+      $(table).DataTable().order([3, 'asc']).draw(); // Asegúrate que la columna 3 es "Scheduled Departure"
+    }
+  });
+</script>

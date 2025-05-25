@@ -18,9 +18,23 @@ public class ManagerLegPublishService extends AbstractGuiService<Manager, Leg> {
 
 	@Override
 	public void authorise() {
+		// Verificar el método HTTP (sólo permitir POST)
+		String method = super.getRequest().getMethod();
+		if (!"POST".equalsIgnoreCase(method)) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
+
+		// Obtener y validar los datos del leg
 		int legId = super.getRequest().getData("id", int.class);
 		Leg leg = this.repository.findLegById(legId);
-		boolean status = leg != null && leg.isDraftMode();
+
+		// Obtener el manager autenticado
+		Manager manager = (Manager) super.getRequest().getPrincipal().getActiveRealm();
+
+		// Verificar que el leg esté en modo borrador y pertenezca al manager
+		boolean status = leg != null && leg.isDraftMode() && leg.getFlight().getManager().getId() == manager.getId();
+
 		super.getResponse().setAuthorised(status);
 	}
 

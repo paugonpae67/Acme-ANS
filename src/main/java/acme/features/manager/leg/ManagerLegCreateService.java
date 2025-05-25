@@ -39,14 +39,23 @@ public class ManagerLegCreateService extends AbstractGuiService<Manager, Leg> {
 
 	@Override
 	public void authorise() {
+		// Verificar método HTTP: permitir GET (mostrar formulario) y POST (procesar)
+		String method = super.getRequest().getMethod();
+		boolean allowedMethod = "GET".equalsIgnoreCase(method) || "POST".equalsIgnoreCase(method);
+
+		// Obtener el parámetro "flightId"
 		Integer flightId = super.getRequest().getData("flightId", Integer.class);
-		if (flightId == null) {
+		if (flightId == null || !allowedMethod) {
 			super.getResponse().setAuthorised(false);
 			return;
 		}
+
+		// Verificar propiedad del vuelo y que esté en modo borrador
 		Flight flight = this.flightRepository.findFlightById(flightId);
 		Manager manager = (Manager) super.getRequest().getPrincipal().getActiveRealm();
+
 		boolean status = flight != null && flight.isDraftMode() && flight.getManager().getId() == manager.getId();
+
 		super.getResponse().setAuthorised(status);
 	}
 
