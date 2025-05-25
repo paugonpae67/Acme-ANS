@@ -41,7 +41,7 @@ public class FlightAssignmentValidator extends AbstractValidator<ValidFlightAssi
 			super.state(context, false, "FlightCrewMembers", "acme.validation.assignment.NotNull");
 
 		if (leg == null)
-			super.state(context, false, "leg", "acme.validation.assignment.nextInspectionNotNull");
+			super.state(context, false, "leg", "acme.validation.assignment.nextInspectionNotNullleg");
 		if (assignment.getFlightCrewMembers() == null)
 			super.state(context, false, "FlightCrewMembers", "acme.validation.assignment.nextInspectionNotNull");
 

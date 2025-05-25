@@ -62,6 +62,14 @@ acme.validation.FlightAssignment.memberHasIncompatibleLegs.message = They cannot
 acme.validation.FlightAssignment.memberHasIncompatibleDuty.message = Each leg can only have one pilot and one co-pilot. 
 acme.validation.FlightAssignment.HasIncompatibleLeg = The associated leg should be published.
 
+
+acme.validation.assignment.NotNull = The assignation is null
+acme.validation.assignment.nextInspectionNotNullleg = The leg is null
+acme.validation.assignment.nextInspectionNotNull = The flightCRewMember is null
+acme.validation.assignment.legIncorrect = It can´t be assignated more that one leg at same time
+acme.validation.assignment.legDraft = The leg selected is not published
+acme.validation.assignment.delete = Yo can´t dalete this flight assignment, it already hace activity logs asociated.
+
 acme.validator.licenseNumber = The format must be 2 or 3 capital letters and 6 digits
 acme.validator.iata = The format must be 3 capital letters
 
