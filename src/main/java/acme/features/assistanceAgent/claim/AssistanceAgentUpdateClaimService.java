@@ -41,26 +41,20 @@ public class AssistanceAgentUpdateClaimService extends AbstractGuiService<Assist
 
 				status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class) && claim != null;
 				if (claim != null) {
-					int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+					int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+					status = status && assistanceAgentId == claim.getAssistanceAgent().getId();
 
-					if (agentId != claim.getAssistanceAgent().getId()) {
-						super.getResponse().setAuthorised(false);
-						return;
-					}
+					assistanceAgent = claim.getAssistanceAgent();
+
+					status = status && claim.isDraftMode();
+
 					Integer legId = super.getRequest().getData("leg", Integer.class);
 					if (super.getRequest().getData("leg", Integer.class) != null) {
 						if (legId != 0) {
 							Leg leg = this.repository.findLegByLegId(legId);
 							Collection<Leg> legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
-							if (!claim.isDraftMode()) {
-								super.getResponse().setAuthorised(false);
-								return;
-							}
-
-							if (legs.isEmpty())
-								status = false;
-							else
-								status = legs.contains(leg);
+							
+							status = legs.contains(leg);
 							status = status && leg != null && !leg.isDraftMode();
 						}
 					} else {
@@ -126,13 +120,9 @@ public class AssistanceAgentUpdateClaimService extends AbstractGuiService<Assist
 		assistanceAgent = this.repository.findAssistanceAgentById(agentId);
 		legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
 
-		if (legs.isEmpty())
-			isNullLeg = false;
-		else {
-			legId = super.getRequest().getData("leg", int.class);
-			leg = this.repository.findLegById(legId);
-			legCorrect = legs.contains(leg);
-		}
+		legId = super.getRequest().getData("leg", int.class);
+		leg = this.repository.findLegById(legId);
+		legCorrect = legs.contains(leg);
 
 		super.state(isCorrectType, "type", "acme.validation.claim.form.error.type");
 		super.state(legCorrect, "leg", "acme.validation.claim.form.error.leg");
