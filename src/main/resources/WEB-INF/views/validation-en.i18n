@@ -40,6 +40,7 @@ assistanceAgent.trackingLog.form.error.beforePublishingOtherPublished = To publi
 
 acme.validation.leg.message = This aircraft has pending flight legs, it cannot be disabled
 
+acme.validation.lastNibble.notPattern.message = Last card nibble must be 4 digits
 customer.booking.form.error.duplicateLocatorCode = This locator code is already in use
 customer.booking.form.error.invalidFlight = The selected flight is not available
 customer.bookingRecord.form.error.invalidPassenger = The selected passenger is not available

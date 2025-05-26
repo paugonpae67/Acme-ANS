@@ -43,6 +43,7 @@ acme.validation.leg.message = Este avión tiene tramos de vuelo pendientes, no e
 
 acme.validation.validCurrency = Esta moneda es incorrecta
 
+acme.validation.lastNibble.notPattern.message = Los 4 últimos digitos de la tarjeta deben ser numéricos
 customer.booking.form.error.duplicateLocatorCode = Este código localizador ya está en uso
 customer.booking.form.error.invalidFlight = El vuelo seleccionado no está disponible
 customer.bookingRecord.form.error.invalidPassenger = El pasajero seleccionado no está disponible
