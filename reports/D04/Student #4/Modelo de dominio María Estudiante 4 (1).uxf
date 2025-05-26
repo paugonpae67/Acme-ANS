@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <help_text>lt=x-&gt;
+m1=   *
+m2=1
+
+About ►
+
+</help_text>
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>920</x>
+      <y>500</y>
+      <w>670</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+Claim {ValidClaims}
+--
++registrationMoment: Date {Mandatory, ValidMoment(past = true), Temporal(TemporalType.TIMESTAMP} 
++passengerEmail: String {Mandatory, ValidEmail, Automapped}
++description: String {Mandatory, ValidLongText, Automapped}
++type: ClaimType {Mandatory, Valid, Automapped}
+--
++getStatus(): TrackingLogStatus
+
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>890</x>
+      <y>210</y>
+      <w>730</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Role&gt;&gt;
+AssistanceAgent (ValidAssistanceAgent)
+--
++employeeCode: String {Mandatory, ValidString(pattern = "^[A-Z]{2,3}\\d{6}$"), Column(unique=true)} 
++spokenLanguages: String {Mandatory, ValidLongText, Automapped}
++moment: Dateb{Mandatory, ValidMoment(past = true), Temporal(TemporalType.TIMESTAMP)}
++briefBio: String {Optional, ValidString(min = 0, max = 255), Automapped}
++salary: Money {Optional, ValidMoney, Automapped}
++photo: String {Optional,ValidUrl, Automapped}
+
+bg=PINK</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>500</y>
+      <w>670</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+TrackingLog (ValidTrackingLogs)
+--
++lastUpdateMoment: Date {Mandatory, ValidMoment(past = true), Temporal(TemporalType.TIMESTAMP)} 
++step: String {Mandatory, ValidShortText, Automapped}
++resolutionPercentage: Double {Mandatory, ValidScore, Automapped}
++status: TrackingLogStatus {Mandatory, Valid, Automapped}
++resolution: String {Optional, ValidString(min = 0, max = 255), Automapped}
+
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1830</x>
+      <y>540</y>
+      <w>210</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+Leg
+--
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>250</y>
+      <w>210</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+Airline
+--
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>550</y>
+      <w>280</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=   *
+m2=1
+
+About ►
+
+</panel_attributes>
+    <additional_attributes>10.0;20.0;260.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1580</x>
+      <y>560</y>
+      <w>270</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=   *
+m2=1
+
+About ►
+
+</panel_attributes>
+    <additional_attributes>10.0;20.0;250.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1250</x>
+      <y>350</y>
+      <w>130</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=   *
+m2=1
+
+Registered by ▲
+
+</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>670</x>
+      <y>280</y>
+      <w>240</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=   *
+m2=1
+
+Works for ◄
+
+</panel_attributes>
+    <additional_attributes>220.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>580</x>
+      <y>0</y>
+      <w>210</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+ClaimType
+--
+FLIGHT_ISSUES
+LUGGAGE_ISSUES
+SECURITY_INCIDENT
+OTHER_ISSUES
+bg=GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>920</x>
+      <y>0</y>
+      <w>210</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+TrackingLogStatus
+--
+PENDING
+ACCEPTED
+REJECTED
+bg=GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

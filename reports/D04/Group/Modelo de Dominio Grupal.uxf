@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <help_text>lt=x-&gt;
+m1=*
+m2=1
+
+is about
+</help_text>
+  <zoom_level>9</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>657</x>
+      <y>288</y>
+      <w>630</w>
+      <h>171</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+Airport
+--
++name: String {Mandatory, ValidShortText, Automapped} 
++iataCode: String {Mandatory, ValidString(pattern = "^[A-Z]{3}$") ,Column(unique=true)}
++operationalScope: OperationalType {Mandatory, Valid, Automapped}
++country: String {Mandatory, ValidShortText, Automapped}
++city: String{Mandatory, ValidShortText, Automapped}
++website: String {Optional, ValidUrl, Automapped} 
++email: String {Optional, ValidEmail, Automapped}
++phoneNumber: String {Optional, ValidPhone, Automapped}
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1098</x>
+      <y>558</y>
+      <w>621</w>
+      <h>171</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+Airline
+--
++name: String {Mandatory, ValidShortText, Automapped} 
++iataCode: String {Mandatory, ValidString(pattern= "^[A-Z]{3}$"), Column(unique=true)}
++website: String {Mandatory, ValidUrl, Automapped} 
++type: AirlineType {Mandatory, Valid, Automapped}
++foundationMoment: Date {Mandatory, ValidMoment(past=true), @Temporal(TemporalType.TIMESTAMP)}
++email: String {Optional, ValidEmail, Automapped}
++phoneNumber: String {Optional, ValidString(pattern= " ^\+?\d{6,15}$"), Automapped}
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>891</x>
+      <y>873</y>
+      <w>531</w>
+      <h>171</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+Aircraft
+--
++model: String {Mandatory, ValidShortText, Automapped} 
++registrationNumber: String {Mandatory, ValidShortText, Column(unique=true)}
++capacity: Integer {Mandatory, ValidNumber (min = 1, max=255), Automapped}
++cargoWeight: Integer {Mandatory, ValidNumber(min=2000, max=50000), Automapped}
++status: AircraftStatus {Mandatory, Valid, Automapped}
++details: String {Optional, ValidString(min=0, max=255), Automapped}
++disabled: boolean {Mandatory, Automapped}
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>153</x>
+      <y>855</y>
+      <w>513</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+Review
+--
++namePerson: String {Mandatory, ValidShortText, Automapped} 
++moment: Date {Mandatory, ValidMoment(past=true), Automapped}
++subject: String {Mandatory, ValidShortText, Automapped}
++text: String {Mandatory, ValidLongText, Automapped}
++score: Double {Optional, ValidNumber(min=0, max=10, fraction=true), Automapped}
++recommended: Boolean {Mandatory, Valid, Automapped}
+
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>531</y>
+      <w>576</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+Service {ValidService}
+--
++name: String {Mandatory, ValidShortText, Automapped} 
++picture: String {Mandatory, ValidUrl, Automapped}
++averageDwellTime: double {Mandatory, ValidScore, Automapped}
++promotionCode: String {Optional, ValidString(pattern="^[A-Z]{4}-[0-9]{2}$"), Column(unique=true)}
++money: Money {Optional, ValidMoney, Automapped}
+
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>333</x>
+      <y>9</y>
+      <w>189</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+OperationalType
+--
+INTERNATIONAL 
+DOMESTIC 
+REGIONAL
+bg=GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>549</x>
+      <y>18</y>
+      <w>189</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+AircraftStatus
+--
+ACTIVE_SERVICE
+UNDER_MAINTENANCE
+bg=GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>783</x>
+      <y>0</y>
+      <w>189</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+AirlineType
+--
+LUXURY
+STANDARD 
+LOW_COST
+bg=GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>558</x>
+      <y>450</y>
+      <w>261</w>
+      <h>171</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=*
+m2=1
+
+</panel_attributes>
+    <additional_attributes>10.0;160.0;240.0;150.0;270.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1278</x>
+      <y>405</y>
+      <w>108</w>
+      <h>171</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=*
+m2=1
+
+</panel_attributes>
+    <additional_attributes>100.0;170.0;100.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1278</x>
+      <y>720</y>
+      <w>36</w>
+      <h>171</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=*
+m2=1
+
+</panel_attributes>
+    <additional_attributes>20.0;170.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>657</x>
+      <y>603</y>
+      <w>459</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>10.0;380.0;490.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>324</x>
+      <y>666</y>
+      <w>36</w>
+      <h>207</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>10.0;210.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>
