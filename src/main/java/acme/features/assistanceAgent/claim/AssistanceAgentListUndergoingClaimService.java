@@ -22,7 +22,7 @@ public class AssistanceAgentListUndergoingClaimService extends AbstractGuiServic
 	@Override
 	public void authorise() {
 		boolean status;
-		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class)) {
+		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && (super.getRequest().hasData("id", int.class) || super.getRequest().hasData("masterId", int.class))) {
 			super.getResponse().setAuthorised(false);
 			return;
 		} else {

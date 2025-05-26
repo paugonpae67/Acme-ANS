@@ -2,6 +2,7 @@
 package acme.features.assistanceAgent.trakingLog;
 
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -29,36 +30,32 @@ public class AssistanceAgentPublishTrackingLogService extends AbstractGuiService
 	public void authorise() {
 		boolean status;
 		Claim claim;
-		int id;
+		Integer id;
 		TrackingLog trackingLog;
 
-		if (!super.getRequest().getMethod().equals("POST"))
+		if (!super.getRequest().getMethod().equals("POST") || super.getRequest().getMethod().equals("POST") && super.getRequest().hasData("masterId", Integer.class))
 			super.getResponse().setAuthorised(false);
-		else if (super.getRequest().hasData("id"))
-			if (super.getRequest().getData("id", Integer.class) != null) {
-				id = super.getRequest().getData("id", Integer.class);
-				trackingLog = this.repository.findTrackingLogById(id);
-				if (trackingLog != null) {
-					claim = this.repository.findClaimByTrackingLogId(id);
+		else {
+			id = super.getRequest().getData("id", Integer.class);
+			if (id == null) {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
+			trackingLog = this.repository.findTrackingLogById(id);
+			if (trackingLog != null) {
+				claim = this.repository.findClaimByTrackingLogId(id);
 
-					status = claim != null && !claim.isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class) && trackingLog != null;
+				status = claim != null && !claim.isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class) && trackingLog != null;
 
-					int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+				int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+				status = status && assistanceAgentId == claim.getAssistanceAgent().getId();
 
-					if (claim == null || agentId != claim.getAssistanceAgent().getId())
-						status = false;
-
-					super.getResponse().setAuthorised(status);
-				} else {
-					super.getResponse().setAuthorised(false);
-					return;
-				}
-
+				super.getResponse().setAuthorised(status);
 			} else {
 				super.getResponse().setAuthorised(false);
 				return;
 			}
-
+		}
 	}
 
 	@Override
@@ -75,18 +72,20 @@ public class AssistanceAgentPublishTrackingLogService extends AbstractGuiService
 	@Override
 	public void bind(final TrackingLog trackingLog) {
 		super.bindObject(trackingLog, "step", "resolutionPercentage", "status", "resolution");
+		Date currentMoment = MomentHelper.getCurrentMoment();
+		trackingLog.setLastUpdateMoment(currentMoment);
 	}
 
 	@Override
 	public void validate(final TrackingLog trackingLog) {
 		List<TrackingLog> trackingLogs = this.repository.findTrackingLogOfClaim(trackingLog.getClaim().getId());
 		List<TrackingLog> beforeActual = trackingLogs.stream().filter(t -> t.getId() != trackingLog.getId()).filter(t -> !t.getLastUpdateMoment().after(trackingLog.getLastUpdateMoment())).collect(Collectors.toList());
-		List<TrackingLog> allTrackingLogs = this.repository.findTrackingLogOfClaim(trackingLog.getClaim().getId());
 
 		if (trackingLog.getResolutionPercentage() != null && trackingLog.getStatus() != null && trackingLog.getResolution() != null) {
 			Double percentage = trackingLog.getResolutionPercentage();
 			TrackingLogStatus status = trackingLog.getStatus();
 			String resolution = trackingLog.getResolution();
+
 			Long countPercentage = trackingLogs.stream().filter(x -> x.getResolutionPercentage() != null && !x.getResolutionPercentage().equals(100.00)).filter(x -> !Objects.equals(x.getId(), trackingLog.getId()))
 				.filter(x -> Objects.equals(x.getResolutionPercentage(), trackingLog.getResolutionPercentage())).count();
 
@@ -107,11 +106,11 @@ public class AssistanceAgentPublishTrackingLogService extends AbstractGuiService
 			if (!beforeActual.isEmpty()) {
 				beforeActual.sort(Comparator.comparing(TrackingLog::getResolutionPercentage).reversed());
 				TrackingLog previous = beforeActual.get(0);
-				TrackingLog original = allTrackingLogs.stream().filter(t -> Objects.equals(t.getId(), trackingLog.getId())).findFirst().orElse(null);
 
-				if (original != null && !Objects.equals(original.getResolutionPercentage(), trackingLog.getResolutionPercentage())) {
+				TrackingLog oldTrackingLog = this.repository.findTrackingLogById(super.getRequest().getData("id", int.class));
+
+				if (oldTrackingLog != null && Math.abs(oldTrackingLog.getResolutionPercentage() - trackingLog.getResolutionPercentage()) > 0.001) {
 					morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
-
 					super.state(morePercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
 				}
 				Long maxComplete = beforeActual.stream().filter(x -> x.getResolutionPercentage() != null && x.getResolutionPercentage().equals(100.00)).count();
@@ -119,9 +118,9 @@ public class AssistanceAgentPublishTrackingLogService extends AbstractGuiService
 				if (percentage.equals(100.00))
 					if (maxComplete == 1) {
 						super.state(status.equals(previous.getStatus()), "status", "assistanceAgent.trackingLog.form.error.statusNewPercentageFinished");
-						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "draftMode", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished");
-					} else if (maxComplete >= 2)
-						super.state(false, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.completePercentage");
+						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "*", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished");
+						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00) && !previous.isDraftMode(), "*", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedTheBeforePublished");
+					}
 			}
 
 			if (percentage.equals(100.00))
@@ -131,7 +130,6 @@ public class AssistanceAgentPublishTrackingLogService extends AbstractGuiService
 						break;
 					}
 		}
-
 	}
 
 	@Override
@@ -152,6 +150,7 @@ public class AssistanceAgentPublishTrackingLogService extends AbstractGuiService
 		dataset.put("statuses", statuses);
 		dataset.put("claimId", trackingLog.getClaim().getId());
 		dataset.put("draftMode", trackingLog.isDraftMode());
+		dataset.put("claimDraftMode", trackingLog.getClaim().isDraftMode());
 
 		super.getResponse().addData(dataset);
 	}

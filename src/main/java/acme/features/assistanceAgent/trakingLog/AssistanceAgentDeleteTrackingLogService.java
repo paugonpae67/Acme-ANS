@@ -3,13 +3,10 @@ package acme.features.assistanceAgent.trakingLog;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import acme.client.components.models.Dataset;
-import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.claim.Claim;
 import acme.entities.trackingLogs.TrackingLog;
-import acme.entities.trackingLogs.TrackingLogStatus;
 import acme.realms.AssistanceAgent;
 
 @GuiService
@@ -25,12 +22,13 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 		TrackingLog trackingLog;
 		Integer id;
 		Claim claim;
+		AssistanceAgent agent;
 
 		if (!super.getRequest().getMethod().equals("POST"))
 			super.getResponse().setAuthorised(false);
 		else {
 			id = super.getRequest().getData("id", Integer.class);
-			if (super.getRequest().getData("id", Integer.class) == null || id != 0) {
+			if (id == null) {
 				super.getResponse().setAuthorised(false);
 				return;
 			}
@@ -42,8 +40,12 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 
 				int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
-				if (claim == null || agentId != claim.getAssistanceAgent().getId())
-					status = false;
+				int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+				status = status && assistanceAgentId == claim.getAssistanceAgent().getId();
+
+				agent = claim.getAssistanceAgent();
+
+				status = status && claim.isDraftMode();
 
 				super.getResponse().setAuthorised(status);
 			} else {
@@ -58,9 +60,9 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 	@Override
 	public void load() {
 		TrackingLog trackingLog;
-		int id;
+		Integer id;
 
-		id = super.getRequest().getData("id", int.class);
+		id = super.getRequest().getData("id", Integer.class);
 		trackingLog = this.repository.findTrackingLogById(id);
 
 		super.getBuffer().addData(trackingLog);
@@ -83,17 +85,5 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 
 	@Override
 	public void unbind(final TrackingLog trackingLog) {
-		SelectChoices statuses;
-		Dataset dataset;
-
-		dataset = super.unbindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "resolution");
-
-		statuses = SelectChoices.from(TrackingLogStatus.class, trackingLog.getStatus());
-		dataset.put("statuses", statuses);
-		dataset.put("masterId", trackingLog.getClaim().getId());
-		dataset.put("draftMode", trackingLog.isDraftMode());
-
-		super.getResponse().addData(dataset);
 	}
-
 }
