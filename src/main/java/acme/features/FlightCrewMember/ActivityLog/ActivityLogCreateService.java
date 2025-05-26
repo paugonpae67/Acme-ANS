@@ -24,13 +24,23 @@ public class ActivityLogCreateService extends AbstractGuiService<FlightCrewMembe
 
 	@Override
 	public void authorise() {
-		boolean status;
-		Integer masterId;
-		FlightAssignment flightAssignment;
-		masterId = super.getRequest().getData("masterId", Integer.class);
-		if (!super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
+		boolean status = true;
+
+		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
 			status = false;
-		else {
+		if (super.getRequest().getMethod().equals("POST")) {
+			int id = super.getRequest().getData("id", int.class);
+			status = status && id == 0;
+		} else if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("masterId", int.class))
+			status = false;
+
+		else
+
+		{
+			Integer masterId;
+			FlightAssignment flightAssignment;
+			masterId = super.getRequest().getData("masterId", Integer.class);
+
 			flightAssignment = this.repository.findFlightAssignmentById(masterId);
 			boolean correctAssignment = !flightAssignment.isDraftMode() && MomentHelper.isPast(flightAssignment.getLeg().getScheduledArrival());
 			status = masterId != null && correctAssignment && flightAssignment != null && super.getRequest().getPrincipal().hasRealm(flightAssignment.getFlightCrewMembers());
