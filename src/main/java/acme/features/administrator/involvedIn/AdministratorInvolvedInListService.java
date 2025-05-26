@@ -22,12 +22,14 @@ public class AdministratorInvolvedInListService extends AbstractGuiService<Admin
 	@Override
 	public void authorise() {
 		boolean status;
-
-		int masterId = super.getRequest().getData("masterId", int.class);
-		MaintenanceRecord mr = this.repository.findMaintenanceRecord(masterId);
-		if (mr != null)
-			status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class) && !mr.isDraftMode();
-		else
+		if (super.getRequest().hasData("masterId", int.class)) {
+			int masterId = super.getRequest().getData("masterId", int.class);
+			MaintenanceRecord mr = this.repository.findMaintenanceRecord(masterId);
+			if (mr != null)
+				status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class) && !mr.isDraftMode();
+			else
+				status = false;
+		} else
 			status = false;
 		super.getResponse().setAuthorised(status);
 	}

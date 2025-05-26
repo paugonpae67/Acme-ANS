@@ -39,23 +39,20 @@ public class ManagerLegCreateService extends AbstractGuiService<Manager, Leg> {
 
 	@Override
 	public void authorise() {
-		// Verificar método HTTP: permitir GET (mostrar formulario) y POST (procesar)
+		boolean status = true;
 		String method = super.getRequest().getMethod();
-		boolean allowedMethod = "GET".equalsIgnoreCase(method) || "POST".equalsIgnoreCase(method);
-
-		// Obtener el parámetro "flightId"
-		Integer flightId = super.getRequest().getData("flightId", Integer.class);
-		if (flightId == null || !allowedMethod) {
-			super.getResponse().setAuthorised(false);
-			return;
+		if (method.equals("GET") && super.getRequest().hasData("id", int.class))
+			status = false;
+		else {
+			Integer flightId = super.getRequest().getData("flightId", Integer.class);
+			if (flightId == null) {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
+			Flight flight = this.flightRepository.findFlightById(flightId);
+			Manager manager = (Manager) super.getRequest().getPrincipal().getActiveRealm();
+			status = flight != null && flight.isDraftMode() && flight.getManager().getId() == manager.getId();
 		}
-
-		// Verificar propiedad del vuelo y que esté en modo borrador
-		Flight flight = this.flightRepository.findFlightById(flightId);
-		Manager manager = (Manager) super.getRequest().getPrincipal().getActiveRealm();
-
-		boolean status = flight != null && flight.isDraftMode() && flight.getManager().getId() == manager.getId();
-
 		super.getResponse().setAuthorised(status);
 	}
 

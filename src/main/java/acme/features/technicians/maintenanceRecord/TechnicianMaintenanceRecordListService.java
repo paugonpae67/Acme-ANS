@@ -21,6 +21,8 @@ public class TechnicianMaintenanceRecordListService extends AbstractGuiService<T
 	@Override
 	public void authorise() {
 		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
+		if (super.getRequest().hasData("id", int.class))
+			status = false;
 		super.getResponse().setAuthorised(status);
 	}
 

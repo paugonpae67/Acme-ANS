@@ -24,19 +24,25 @@ public class TaskInvolvedInMaintenanceRecordShowService extends AbstractGuiServi
 
 	@Override
 	public void authorise() {
-		boolean status;
+		boolean status = true;
 		int id;
 		InvolvedIn involvedIn;
 		int technician1 = super.getRequest().getPrincipal().getActiveRealm().getId();
+		boolean status1 = true;
+		if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("id", int.class))
+			status1 = false;
+		if (!super.getRequest().getMethod().equals("GET"))
+			status1 = false;
+		if (super.getRequest().hasData("id", int.class)) {
+			id = super.getRequest().getData("id", int.class);
+			involvedIn = this.repository.findInvolvedInById(id);
 
-		id = super.getRequest().getData("id", int.class);
-		involvedIn = this.repository.findInvolvedInById(id);
-
-		if (involvedIn != null)
-			status = technician1 == involvedIn.getMaintenanceRecord().getTechnician().getId() || !involvedIn.getMaintenanceRecord().isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
-		else
-			status = false;
-		super.getResponse().setAuthorised(status);
+			if (involvedIn != null)
+				status = technician1 == involvedIn.getMaintenanceRecord().getTechnician().getId() || !involvedIn.getMaintenanceRecord().isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
+			else
+				status = false;
+		}
+		super.getResponse().setAuthorised(status && status1);
 	}
 	@Override
 	public void load() {

@@ -4,8 +4,8 @@ package acme.features.manager.flight;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
-import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.flights.Flight;
@@ -25,19 +25,21 @@ public class ManagerFlightDeleteService extends AbstractGuiService<Manager, Flig
 
 	@Override
 	public void authorise() {
-		// Solo permitir método POST para eliminar (DELETE se simula comúnmente con POST)
+		boolean status = true;
 		String method = super.getRequest().getMethod();
-		if (!"POST".equalsIgnoreCase(method)) {
-			super.getResponse().setAuthorised(false);
-			return;
+		if (method.equals("GET"))
+			status = false;
+		else {
+			int flightId;
+			Flight flight;
+
+			flightId = super.getRequest().getData("id", int.class);
+			flight = this.repository.findById(flightId);
+
+			int managerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+
+			status = flight != null && flight.isDraftMode() && flight.getManager().getId() == managerId;
 		}
-
-		// Verificar existencia, estado y propiedad del vuelo
-		int flightId = super.getRequest().getData("id", int.class);
-		Flight flight = this.repository.findById(flightId);
-		int managerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-
-		boolean status = flight != null && flight.isDraftMode() && flight.getManager().getId() == managerId;
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -58,18 +60,37 @@ public class ManagerFlightDeleteService extends AbstractGuiService<Manager, Flig
 	public void validate(final Flight flight) {
 	}
 
+	@Transactional
 	@Override
 	public void perform(final Flight flight) {
-		Collection<Leg> legs = this.managerLegRepository.findLegsByflightId(flight.getId());
-		for (Leg leg : legs)
+		Integer flightId = flight.getId();
+
+		Collection<Leg> legs = this.managerLegRepository.findLegsByflightId(flightId);
+		if (legs == null)
+			throw new IllegalStateException("managerLegRepository.findLegsByflightId(" + flightId + ") returned NULL");
+
+		for (Leg leg : legs) {
+			// Borrar logs relacionados a FlightAssignments del Leg
+			this.managerLegRepository.deleteActivityLogsByLegId(leg.getId());
+
+			// Borrar logs relacionados a Claims del Leg
+			this.managerLegRepository.deleteTrackingLogsByLegId(leg.getId());
+
+			// Borrar Claims del Leg
+			this.managerLegRepository.deleteClaimsByLegId(leg.getId());
+
+			// Borrar FlightAssignments del Leg
+			this.managerLegRepository.deleteAssignmentsByLegId(leg.getId());
+
+			// Finalmente borrar el Leg
 			this.managerLegRepository.delete(leg);
-		this.repository.delete(flight);
+		}
+
+		// Finalmente borrar el vuelo
+		this.repository.deleteById(flightId);
 	}
 
 	@Override
 	public void unbind(final Flight flight) {
-		Dataset dataset = super.unbindObject(flight, "tag", "indication", "cost", "description");
-		dataset.put("draftMode", flight.isDraftMode());
-		super.getResponse().addData(dataset);
 	}
 }

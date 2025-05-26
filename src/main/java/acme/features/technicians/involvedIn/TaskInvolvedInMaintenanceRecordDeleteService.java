@@ -32,6 +32,10 @@ public class TaskInvolvedInMaintenanceRecordDeleteService extends AbstractGuiSer
 		boolean status1 = true;
 		if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("masterId", int.class))
 			status1 = false;
+		if (super.getRequest().getMethod().equals("POST")) {
+			int id = super.getRequest().getData("id", int.class);
+			status1 = id == 0;
+		}
 		if (super.getRequest().hasData("masterId", int.class)) {
 			masterId = super.getRequest().getData("masterId", int.class);
 			maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
