@@ -32,10 +32,16 @@ public class ManagerLegUpdateService extends AbstractGuiService<Manager, Leg> {
 
 	@Override
 	public void authorise() {
-		int legId = super.getRequest().getData("id", int.class);
-		Leg leg = this.repository.findLegById(legId);
-		Manager manager = (Manager) super.getRequest().getPrincipal().getActiveRealm();
-		boolean status = leg != null && leg.isDraftMode() && leg.getFlight().getManager().getId() == manager.getId();
+		boolean status = true;
+		String method = super.getRequest().getMethod();
+		if (method.equals("GET"))
+			status = false;
+		else {
+			int legId = super.getRequest().getData("id", int.class);
+			Leg leg = this.repository.findOneLegByIdAndManager(legId, super.getRequest().getPrincipal().getActiveRealm().getId());
+			status = leg != null && leg.isDraftMode();
+		}
+
 		super.getResponse().setAuthorised(status);
 	}
 
@@ -108,8 +114,28 @@ public class ManagerLegUpdateService extends AbstractGuiService<Manager, Leg> {
 
 	@Override
 	public void validate(final Leg leg) {
-		super.state(leg.getScheduledDeparture().before(leg.getScheduledArrival()), "scheduledDeparture", "manager.leg.error.departureBeforeArrival");
+		super.getResponse().setAuthorised(true);
 
+		// Validar campos nulos primero para evitar NullPointerException
+		boolean hasDeparture = leg.getScheduledDeparture() != null;
+		boolean hasArrival = leg.getScheduledArrival() != null;
+
+		if (!hasDeparture)
+			super.state(false, "scheduledDeparture", "manager.leg.form.error.scheduled-departure-not-null");
+
+		if (!hasArrival)
+			super.state(false, "scheduledArrival", "manager.leg.form.error.scheduled-arrival-not-null");
+
+		// Solo comparar fechas si ambas están presentes
+		if (hasDeparture && hasArrival) {
+			boolean validOrder = leg.getScheduledDeparture().before(leg.getScheduledArrival());
+			super.state(validOrder, "scheduledDeparture", "manager.leg.error.departureBeforeArrival");
+		}
+		if (leg.getDepartureAirport() != null && leg.getArrivalAirport() != null) {
+			boolean valid = !(leg.getDepartureAirport().getId() == leg.getArrivalAirport().getId());
+			super.state(valid, "arrivalAirport", "manager.leg.error.sameAirport");
+		}
+		// Validación de flightNumber duplicado
 		Leg existing = this.repository.findLegByFlightNumber(leg.getFlightNumber());
 		boolean validFlightNumber = existing == null || existing.getId() == leg.getId();
 		super.state(validFlightNumber, "flightNumber", "manager.leg.error.duplicateFlightNumber");

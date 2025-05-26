@@ -20,4 +20,3 @@ booking-14,ABC133,2012/06/24 14:30,ECONOMY,1234,customer-02,flight-20,true
 booking-15,ABC138,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-21,true
 #Variaciones del atributo draftMode
 booking-16,ABC139,2012/06/24 14:30,ECONOMY,1234,customer-01,flight-20,false
-

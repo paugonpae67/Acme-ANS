@@ -21,7 +21,16 @@ public class AssistanceAgentListFinishClaimService extends AbstractGuiService<As
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		boolean status;
+		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && (super.getRequest().hasData("id", int.class) || super.getRequest().hasData("masterId", int.class))) {
+			super.getResponse().setAuthorised(false);
+			return;
+		} else {
+			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+
+			super.getResponse().setAuthorised(status);
+		}
+
 	}
 
 	@Override
@@ -44,10 +53,7 @@ public class AssistanceAgentListFinishClaimService extends AbstractGuiService<As
 		status = claim.getStatus();
 		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "type", "status");
 
-		if (claim.getLeg() != null)
-			dataset.put("leg.flightNumber", claim.getLeg().getFlightNumber());
-		else
-			dataset.put("leg.flightNumber", "No asignado");
+		dataset.put("leg.flightNumber", claim.getLeg().getFlightNumber());
 
 		dataset.put("status", status);
 		super.addPayload(dataset, claim, "description");

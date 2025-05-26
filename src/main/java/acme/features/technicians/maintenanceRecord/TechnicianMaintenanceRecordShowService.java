@@ -23,17 +23,26 @@ public class TechnicianMaintenanceRecordShowService extends AbstractGuiService<T
 
 	@Override
 	public void authorise() {
-		boolean status;
+		boolean status = true;
 		int masterId;
 		MaintenanceRecord maintenanceRecord;
-		Technician technician;
+		int technician;
 
-		masterId = super.getRequest().getData("id", int.class);
-		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
-		technician = maintenanceRecord == null ? null : maintenanceRecord.getTechnician();
-		status = super.getRequest().getPrincipal().hasRealm(technician) && maintenanceRecord != null || !maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
-
-		super.getResponse().setAuthorised(status);
+		boolean status1 = true;
+		if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("id", int.class))
+			status1 = false;
+		if (!super.getRequest().getMethod().equals("GET"))
+			status1 = false;
+		if (super.getRequest().hasData("id", int.class)) {
+			masterId = super.getRequest().getData("id", int.class);
+			maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
+			technician = super.getRequest().getPrincipal().getActiveRealm().getId();
+			if (maintenanceRecord != null)
+				status = technician == maintenanceRecord.getTechnician().getId() || !maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
+			else
+				status = false;
+		}
+		super.getResponse().setAuthorised(status && status1);
 	}
 
 	@Override

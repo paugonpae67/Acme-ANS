@@ -1,14 +1,17 @@
 
 package acme.features.customer.bookingRecord;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.bookings.Booking;
 import acme.entities.bookings.BookingRecord;
-import acme.entities.passengers.Passenger;
+import acme.entities.bookings.Passenger;
 import acme.realms.Customer;
 
 @GuiService
@@ -20,33 +23,77 @@ public class CustomerBookingRecordDeleteService extends AbstractGuiService<Custo
 
 	@Override
 	public void authorise() {
+
 		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
 		super.getResponse().setAuthorised(status);
+
+		if (!super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("passenger"))
+			super.getResponse().setAuthorised(false);
+
+		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
+			super.getResponse().setAuthorised(false);
+
+		if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("bookingId", int.class))
+			super.getResponse().setAuthorised(false);
+
+		if (super.getRequest().getMethod().equals("POST") && !super.getRequest().hasData("bookingId", int.class))
+			super.getResponse().setAuthorised(false);
+
+		if (super.getRequest().getMethod().equals("POST") && super.getRequest().hasData("bookingId", int.class)) {
+			int id = super.getRequest().getData("id", int.class);
+			status = id == 0;
+		}
+
+		if (super.getRequest().hasData("bookingId", Integer.class)) {
+			int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+			Integer bookingId = super.getRequest().getData("bookingId", Integer.class);
+
+			if (bookingId == null)
+				super.getResponse().setAuthorised(false);
+			else {
+				Booking booking = this.repository.findBookingById(bookingId);
+				status = status && booking != null && customerId == booking.getCustomer().getId() && booking.isDraftMode();
+
+				super.getResponse().setAuthorised(status);
+
+				if (super.getRequest().hasData("passenger", Integer.class)) {
+					Integer passengerId = super.getRequest().getData("passenger", Integer.class);
+					if (passengerId == null)
+						status = false;
+					else if (passengerId != 0) {
+						Passenger passenger = this.repository.findPassengerById(passengerId);
+						if (passenger == null)
+							status = false;
+						else if (passenger.getCustomer().getId() == customerId) {
+							BookingRecord br = this.repository.findBookingRecordByPassengerIdAndBookingId(passengerId, bookingId);
+							status = status && passenger != null && br != null;
+						} else {
+							BookingRecord br = this.repository.findBookingRecordByPassengerIdAndBookingId(passengerId, bookingId);
+							status = status && passenger != null && !passenger.isDraftMode() && br != null;
+						}
+
+					}
+					super.getResponse().setAuthorised(status);
+				}
+			}
+		}
+
 	}
 
 	@Override
 	public void load() {
-		int bookingRecordId = super.getRequest().getData("id", int.class);
-		BookingRecord bookingRecord = this.repository.findBookingRecordById(bookingRecordId);
+		BookingRecord bookingRecord = new BookingRecord();
+
+		int bookingId = super.getRequest().getData("bookingId", int.class);
+		Booking booking = this.repository.findBookingById(bookingId);
+		bookingRecord.setBooking(booking);
 
 		super.getBuffer().addData(bookingRecord);
 	}
 
 	@Override
 	public void bind(final BookingRecord bookingRecord) {
-		Booking booking;
-		Passenger passenger;
-
-		int bookingId = super.getRequest().getData("bookingId", int.class);
-
-		booking = this.repository.findBookingById(bookingId);
-
-		int passengerId = super.getRequest().getData("passengerId", int.class);
-		passenger = this.repository.findPassengerById(passengerId);
-
-		super.bindObject(bookingRecord);
-		bookingRecord.setBooking(booking);
-		bookingRecord.setPassenger(passenger);
+		super.bindObject(bookingRecord, "passenger");
 	}
 
 	@Override
@@ -55,27 +102,34 @@ public class CustomerBookingRecordDeleteService extends AbstractGuiService<Custo
 
 		confirmation = super.getRequest().getData("confirmation", boolean.class);
 		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
+
+		boolean valid = bookingRecord.getPassenger() != null;
+		super.state(valid, "passenger", "acme.validation.form.error.NotNull");
+
+		boolean validPassenger = bookingRecord.getPassenger() != null;
+		super.state(validPassenger, "passenger", "customer.bookingRecord.form.error.invalidPassenger");
+
 	}
 
 	@Override
 	public void perform(final BookingRecord bookingRecord) {
-		this.repository.delete(bookingRecord);
+		BookingRecord bookingRecordToDelete = this.repository.findBookingRecordByPassengerIdAndBookingId(bookingRecord.getPassenger().getId(), bookingRecord.getBooking().getId());
+
+		this.repository.delete(bookingRecordToDelete);
 	}
 
 	@Override
 	public void unbind(final BookingRecord bookingRecord) {
 		Dataset dataset;
+		SelectChoices passengerChoices;
+		Collection<Passenger> bookingPassengers;
 
-		boolean isPassengerPublished = bookingRecord.getPassenger().isDraftMode() ? false : true;
+		bookingPassengers = this.repository.findPassengersByBookingId(bookingRecord.getBooking().getId());
 
-		dataset = super.unbindObject(bookingRecord);
-		dataset.put("bookingLocatorCode", bookingRecord.getBooking().getLocatorCode());
-		dataset.put("bookingId", bookingRecord.getBooking().getId());
-		dataset.put("passengerId", bookingRecord.getPassenger().getId());
-		dataset.put("passengerName", bookingRecord.getPassenger().getFullName());
-		dataset.put("passengerEmail", bookingRecord.getPassenger().getEmail());
-		dataset.put("customerCreator", bookingRecord.getPassenger().getCustomer().getIdentifier());
-		dataset.put("passengerPublished", isPassengerPublished);
+		passengerChoices = SelectChoices.from(bookingPassengers, "fullName", bookingRecord.getPassenger());
+
+		dataset = super.unbindObject(bookingRecord, "passenger", "booking");
+		dataset.put("passengersChoices", passengerChoices);
 
 		super.getResponse().addData(dataset);
 	}

@@ -20,7 +20,9 @@ public class ManagerFlightListService extends AbstractGuiService<Manager, Flight
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		// Only the manager may list their own flights
+		boolean isManager = super.getRequest().getPrincipal().hasRealmOfType(Manager.class);
+		super.getResponse().setAuthorised(isManager);
 	}
 
 	@Override

@@ -23,8 +23,21 @@ public class AdministratorMaintenanceRecordShowService extends AbstractGuiServic
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class);
-		super.getResponse().setAuthorised(status);
+		boolean status = true;
+		boolean status1 = true;
+		if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("id", int.class))
+			status1 = false;
+		if (!super.getRequest().getMethod().equals("GET"))
+			status1 = false;
+		if (super.getRequest().hasData("id", int.class)) {
+			int masterId = super.getRequest().getData("id", int.class);
+			MaintenanceRecord mr = this.repository.findMaintenanceRecordById(masterId);
+			if (mr != null)
+				status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class) && !mr.isDraftMode();
+			else
+				status = false;
+		}
+		super.getResponse().setAuthorised(status && status1);
 	}
 
 	@Override

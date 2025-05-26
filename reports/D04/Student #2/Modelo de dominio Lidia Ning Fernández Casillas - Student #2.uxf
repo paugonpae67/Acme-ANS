@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>11</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>220</x>
+      <y>363</y>
+      <w>748</w>
+      <h>165</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+Booking {ValidBooking}
+--
++ locatorCode: String {Mandatory, ValidString (pattern = "^[A-Z0-9]{6,8}$"), Column (unique=true)}
++ purchaseMoment: Date {Mandatory, ValidMoment (past = true), Temporal (TemporalType.TIMESTAMP}
++ travelClass: TravelClass {Mandatory, Valid, Automapped}
++ lastNibble: String {Optional, ValidString (min = 4, max = 4, pattern = "[0-9]{4}"), Automapped}
++ draftMode: boolean {Mandatory, Automapped}
+--
++ getPrice(): Money
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>253</x>
+      <y>0</y>
+      <w>693</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Role&gt;&gt;
+Customer {ValidUserIdentifier}
+--
++ identifier: String {Mandatory, ValidString (pattern = "^[A-Z]{2,3}\\d{6}$"), Column (unique=true)}
++ phoneNumber: String {Mandatory, ValidPhone, Automapped}
++ physicalAddress: String {Mandatory, ValidLongText, Automapped}
++ city: String {Mandatory, ValidShortText, Automapped}
++ country: String {Mandatory, ValidShortText, Automapped}
++ earnedPoints: Integer {Optional, ValidNumber (min = 0, max = 500000), Automapped}
+
+bg=PINK</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1199</x>
+      <y>11</y>
+      <w>704</w>
+      <h>165</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+Passenger
+--
++ fullName: String {Mandatory, ValidLongText, Automapped}
++ email: String {Mandatory, ValidEmail, Automapped}
++ passportNumber: String {Mandatory, ValidString (pattern = "^[A-Z0-9]{6,9}$"), Automapped}
++ dateOfBirth: Date {Mandatory, ValidMoment (past = true), Temporal (TemporalType.TIMESTAMP)}
++ specialNeeds: String {Optional, ValidString (min = 0, max = 50), Automapped}
++ draftMode: boolean {Mandatory, Automapped}
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1529</x>
+      <y>363</y>
+      <w>231</w>
+      <h>154</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+BookingRecord
+--
+
+bg=GREEN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>154</y>
+      <w>231</w>
+      <h>143</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+TravelClass
+--
++ ECONOMY
++ BUSINESS
+
+bg=LIGHT_GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>583</x>
+      <y>165</y>
+      <w>132</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=     *
+m2=   1
+
+  Is made by ^
+</panel_attributes>
+    <additional_attributes>10.0;180.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1628</x>
+      <y>165</y>
+      <w>121</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=     *
+m2=   1
+
+  Refers to ^
+</panel_attributes>
+    <additional_attributes>10.0;180.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>957</x>
+      <y>440</y>
+      <w>594</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=     *
+m2=   1
+
+
+&lt; Belongs to 
+</panel_attributes>
+    <additional_attributes>520.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>935</x>
+      <y>77</y>
+      <w>286</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=x-&gt;
+m1=     *
+m2=   1
+
+
+&lt; Belongs to 
+</panel_attributes>
+    <additional_attributes>240.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+</diagram>

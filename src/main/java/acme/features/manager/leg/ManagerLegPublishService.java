@@ -18,9 +18,15 @@ public class ManagerLegPublishService extends AbstractGuiService<Manager, Leg> {
 
 	@Override
 	public void authorise() {
-		int legId = super.getRequest().getData("id", int.class);
-		Leg leg = this.repository.findLegById(legId);
-		boolean status = leg != null && leg.isDraftMode();
+		boolean status = true;
+		String method = super.getRequest().getMethod();
+		if (method.equals("GET"))
+			status = false;
+		else {
+			int legId = super.getRequest().getData("id", int.class);
+			Leg leg = this.repository.findOneLegByIdAndManager(legId, super.getRequest().getPrincipal().getActiveRealm().getId());
+			status = leg != null && leg.isDraftMode();
+		}
 		super.getResponse().setAuthorised(status);
 	}
 

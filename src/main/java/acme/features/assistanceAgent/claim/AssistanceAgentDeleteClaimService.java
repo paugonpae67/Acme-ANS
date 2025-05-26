@@ -9,7 +9,6 @@ import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
-import acme.entities.airports.Airport;
 import acme.entities.claim.Claim;
 import acme.entities.claim.ClaimType;
 import acme.entities.legs.Leg;
@@ -27,14 +26,47 @@ public class AssistanceAgentDeleteClaimService extends AbstractGuiService<Assist
 	@Override
 	public void authorise() {
 		boolean status;
-		int masterId;
+		Integer masterId;
 		Claim claim;
 		AssistanceAgent assistanceAgent;
 
-		masterId = super.getRequest().getData("id", int.class);
+		if (!super.getRequest().getMethod().equals("POST")) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
+
+		masterId = super.getRequest().getData("id", Integer.class);
+		if (masterId == null) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
+
 		claim = this.repository.findClaimById(masterId);
-		assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
-		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) && (claim == null || claim.isDraftMode());
+		status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class) && claim != null;
+
+		if (claim != null) {
+			int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+			status = status && assistanceAgentId == claim.getAssistanceAgent().getId();
+
+			assistanceAgent = claim.getAssistanceAgent();
+
+			status = status && claim.isDraftMode();
+
+			Integer legId = super.getRequest().getData("leg", Integer.class);
+			if (legId != null && legId != 0) {
+				Leg leg = this.repository.findLegById(legId);
+				Collection<Leg> legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
+
+				if (leg == null || leg.isDraftMode() || !legs.contains(leg)) {
+					super.getResponse().setAuthorised(false);
+					return;
+				}
+			}
+			if (legId == null) {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
+		}
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -52,20 +84,21 @@ public class AssistanceAgentDeleteClaimService extends AbstractGuiService<Assist
 
 	@Override
 	public void bind(final Claim claim) {
-		super.bindObject(claim, "registrationMoment", "passengerEmail", "description", "type", "leg");
+		super.bindObject(claim, "passengerEmail", "description", "type", "leg");
 	}
 
 	@Override
 	public void validate(final Claim claim) {
+		Collection<TrackingLog> trackingLog;
+
+		trackingLog = this.repository.findTrackingLogsOfClaim(claim.getId());
+		if (!trackingLog.isEmpty())
+			super.state(false, "*", "assistanceAgent.claim.form.error.trackingLogAssociated");
 		;
 	}
 
 	@Override
 	public void perform(final Claim claim) {
-		Collection<TrackingLog> trackingLog;
-
-		trackingLog = this.repository.findTrackingLogsOfClaim(claim.getId());
-		this.repository.deleteAll(trackingLog);
 		this.repository.delete(claim);
 	}
 
@@ -84,8 +117,7 @@ public class AssistanceAgentDeleteClaimService extends AbstractGuiService<Assist
 
 		assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		AssistanceAgent assistanceAgent = this.repository.findAssistanceAgentById(assistanceAgentId);
-		Airport a = this.repository.findAirportOfAirlineByAssistanceAgentId(assistanceAgent.getAirline().getId());
-		legs = this.repository.findLegByAirport(a.getId());
+		legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
 
 		choicesLeg = SelectChoices.from(legs, "flightNumber", claim.getLeg());
 

@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import acme.client.repositories.AbstractRepository;
-import acme.entities.airports.Airport;
 import acme.entities.claim.Claim;
 import acme.entities.legs.Leg;
 import acme.entities.trackingLogs.TrackingLog;
@@ -26,12 +25,6 @@ public interface AssistanceAgentClaimRepository extends AbstractRepository {
 	@Query("SELECT l FROM Leg l WHERE l.id = :legId")
 	Leg findLegByLegId(int legId);
 
-	@Query("SELECT l FROM Leg l WHERE (l.departureAirport.id = :airportId OR l.arrivalAirport.id = :airportId)")
-	Collection<Leg> findLegByAirport(int airportId);
-
-	@Query("SELECT distinct(a.airport) FROM Airline a WHERE a.id = :id")
-	Airport findAirportOfAirlineByAssistanceAgentId(int id);
-
 	@Query("SELECT a FROM AssistanceAgent a WHERE a.id = :id")
 	AssistanceAgent findAssistanceAgentById(int id);
 
@@ -47,7 +40,7 @@ public interface AssistanceAgentClaimRepository extends AbstractRepository {
 	@Query("select l from Leg l where l.id = :id")
 	Leg findLegById(int id);
 
-	@Query("SELECT l FROM Leg l WHERE l.draftMode = false AND l.scheduledArrival <= :now AND l.aircraft.airline.id = :agentAirlineId")
-	Collection<Leg> findAllPublishedLegs(Date now, int agentAirlineId);
+	@Query("SELECT l FROM Leg l WHERE l.draftMode = false AND l.scheduledArrival <= :registrationMoment AND l.aircraft.airline.id = :agentAirlineId")
+	Collection<Leg> findAllPublishedLegs(Date registrationMoment, int agentAirlineId);
 
 }

@@ -27,14 +27,28 @@ public class TechnicianMaintenanceRecordDeleteService extends AbstractGuiService
 	@Override
 	public void authorise() {
 		boolean status;
-		int masterId;
-		MaintenanceRecord maintenanceRecord;
-		Technician technician;
+		String method = super.getRequest().getMethod();
 
-		masterId = super.getRequest().getData("id", int.class);
-		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
-		technician = maintenanceRecord == null ? null : maintenanceRecord.getTechnician();
-		status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealm(technician);
+		if (method.equals("GET"))
+			status = false;
+		else {
+			int masterId;
+			MaintenanceRecord maintenanceRecord;
+			int technician;
+
+			masterId = super.getRequest().getData("id", int.class);
+			maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
+			technician = technician = super.getRequest().getPrincipal().getActiveRealm().getId();
+			status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && technician == maintenanceRecord.getTechnician().getId();
+
+			Integer aircraftId = super.getRequest().getData("aircraft", Integer.class);
+			if (aircraftId == null)
+				status = false;
+			else if (aircraftId != 0) {
+				Aircraft existingAircraft = this.repository.findAircraftById(aircraftId);
+				status = status && existingAircraft != null;
+			}
+		}
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -62,14 +76,15 @@ public class TechnicianMaintenanceRecordDeleteService extends AbstractGuiService
 
 	@Override
 	public void validate(final MaintenanceRecord maintenanceRecord) {
-		;
+		Collection<InvolvedIn> relationsInvolvedIn;
+		relationsInvolvedIn = this.repository.findMaintenanceRecordInvolvedIn(maintenanceRecord.getId());
+		boolean valid = relationsInvolvedIn.isEmpty();
+		super.state(valid, "*", "acme.validation.form.error.TaskInvolvedMR");
+		valid = maintenanceRecord.getAircraft() != null;
+		super.state(valid, "aircraft", "acme.validation.form.error.invalidAircraft");
 	}
 	@Override
 	public void perform(final MaintenanceRecord maintenanceRecord) {
-		Collection<InvolvedIn> relationsInvolvedIn;
-
-		relationsInvolvedIn = this.repository.findMaintenanceRecordInvolvedIn(maintenanceRecord.getId());
-		this.repository.deleteAll(relationsInvolvedIn);
 		this.repository.delete(maintenanceRecord);
 	}
 	@Override

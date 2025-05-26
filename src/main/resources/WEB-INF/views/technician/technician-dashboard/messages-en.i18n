@@ -19,3 +19,8 @@ technician.dashboard.form.label.sTDDEVEstimatedDurationTask=The standard deviati
 
 technician.dashboard.form.label.maintenanceRecord-statuses = Number maintenance records
 
+technician.dashboard.form.label.general=General Indicators
+technician.dashboard.form.label.eur=EUR
+technician.dashboard.form.label.usd=USD
+technician.dashboard.form.label.gbp=GBP
+technician.dashboard.form.label.duration = Task Duration

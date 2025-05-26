@@ -37,11 +37,17 @@ public interface FlightAssignmentClaimRepository extends AbstractRepository {
 	@Query("select l from Leg l")
 	Collection<Leg> findAllLegs();
 
-	@Query("select l from Leg l where l.scheduledArrival > :date")
+	@Query("select l from Leg l where l.scheduledArrival > :date AND l.scheduledDeparture > :date ")
 	Collection<Leg> findAllLegsFuture(Date date);
 
-	@Query("select DISTINCT l.leg from FlightAssignment l where l.flightCrewMembers.id = :id")
-	Collection<Leg> findLegsByFlightCrewMember(int id);
+	@Query("select l from Leg l where l.scheduledArrival > :date AND l.scheduledDeparture > :date AND l.draftMode = false")
+	Collection<Leg> findAllLegsFuturePublished(Date date);
+
+	@Query("select DISTINCT l.leg from FlightAssignment l where l.flightCrewMembers.id = :id AND l.id != :assignemnet")
+	Collection<Leg> findLegsByFlightCrewMember(int id, int assignemnet);
+
+	@Query("SELECT DISTINCT fa.leg FROM FlightAssignment fa WHERE fa.flightCrewMembers.id = :memberId")
+	Collection<Leg> findLegsByMemberId(int memberId);
 
 	@Query("select l from ActivityLog l where l.flightAssignment.id = :id")
 	Collection<ActivityLog> getActivityLogByFlight(int id);
@@ -49,4 +55,6 @@ public interface FlightAssignmentClaimRepository extends AbstractRepository {
 	@Query("select l from FlightAssignment l where l.leg.id = :id")
 	Collection<FlightAssignment> findFlightAssignmentByLegId(int id);
 
+	@Query("select m from FlightCrewMember m where m.employeeCode = :employeeCode")
+	FlightCrewMember findMemberByEmployeeCode(String employeeCode);
 }

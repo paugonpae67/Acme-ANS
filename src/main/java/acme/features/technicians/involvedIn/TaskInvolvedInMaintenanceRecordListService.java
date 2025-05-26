@@ -24,11 +24,15 @@ public class TaskInvolvedInMaintenanceRecordListService extends AbstractGuiServi
 		boolean status;
 		int masterId;
 		MaintenanceRecord maintenanceRecord;
-
-		masterId = super.getRequest().getData("masterId", int.class);
-		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
-		status = maintenanceRecord != null && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician()) || !maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
-
+		if (super.getRequest().hasData("masterId", int.class)) {
+			masterId = super.getRequest().getData("masterId", int.class);
+			maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
+			if (maintenanceRecord != null)
+				status = super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician()) || !maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(Technician.class);
+			else
+				status = false;
+		} else
+			status = false;
 		super.getResponse().setAuthorised(status);
 	}
 
@@ -50,6 +54,7 @@ public class TaskInvolvedInMaintenanceRecordListService extends AbstractGuiServi
 		dataset.put("task", involvedIn.getTask().getType());
 		dataset.put("ticker", involvedIn.getTask().getTicker());
 		dataset.put("priority", involvedIn.getTask().getPriority());
+
 		super.addPayload(dataset, involvedIn);
 		super.getResponse().addData(dataset);
 	}
@@ -59,10 +64,11 @@ public class TaskInvolvedInMaintenanceRecordListService extends AbstractGuiServi
 		int masterId;
 		MaintenanceRecord maintenanceRecord;
 		final boolean showCreate;
+		boolean coleccionInvolvedIn = !involvedIns.isEmpty();
 		masterId = super.getRequest().getData("masterId", int.class);
 		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
 		showCreate = maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealm(maintenanceRecord.getTechnician());
-
+		super.getResponse().addGlobal("hayInvolucrados", coleccionInvolvedIn);
 		super.getResponse().addGlobal("masterId", masterId);
 		super.getResponse().addGlobal("showCreate", showCreate);
 	}

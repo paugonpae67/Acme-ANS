@@ -1,7 +1,6 @@
 
 package acme.features.assistanceAgent.claim;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
@@ -27,17 +26,49 @@ public class AssistanceAgentUpdateClaimService extends AbstractGuiService<Assist
 
 	@Override
 	public void authorise() {
-		boolean status;
-		int masterId;
+		boolean status = false;
+		Integer masterId;
 		Claim claim;
 		AssistanceAgent assistanceAgent;
 
-		masterId = super.getRequest().getData("id", int.class);
-		claim = this.repository.findClaimById(masterId);
-		assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
-		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent) && (claim == null || claim.isDraftMode());
+		if (!super.getRequest().getMethod().equals("POST"))
+			super.getResponse().setAuthorised(false);
+		else if (super.getRequest().hasData("id")) {
+			if (super.getRequest().getData("id", Integer.class) != null) {
+				masterId = super.getRequest().getData("id", Integer.class);
+				claim = this.repository.findClaimById(masterId);
+				assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
 
-		super.getResponse().setAuthorised(status);
+				status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class) && claim != null;
+				if (claim != null) {
+					int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+					status = status && assistanceAgentId == claim.getAssistanceAgent().getId();
+
+					assistanceAgent = claim.getAssistanceAgent();
+
+					status = status && claim.isDraftMode();
+
+					Integer legId = super.getRequest().getData("leg", Integer.class);
+					if (super.getRequest().getData("leg", Integer.class) != null) {
+						if (legId != 0) {
+							Leg leg = this.repository.findLegByLegId(legId);
+							Collection<Leg> legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
+							
+							status = legs.contains(leg);
+							status = status && leg != null && !leg.isDraftMode();
+						}
+					} else {
+						super.getResponse().setAuthorised(false);
+						return;
+					}
+
+				} else {
+					super.getResponse().setAuthorised(false);
+					return;
+				}
+			}
+			super.getResponse().setAuthorised(status);
+		}
 	}
 
 	@Override
@@ -55,13 +86,10 @@ public class AssistanceAgentUpdateClaimService extends AbstractGuiService<Assist
 	public void bind(final Claim claim) {
 		int legId;
 		Leg leg;
-		Date currentMoment;
 
 		legId = super.getRequest().getData("leg", int.class);
 		leg = this.repository.findLegByLegId(legId);
-		currentMoment = MomentHelper.getCurrentMoment();
-		super.bindObject(claim, "registrationMoment", "passengerEmail", "description", "type");
-		claim.setRegistrationMoment(currentMoment);
+		super.bindObject(claim, "passengerEmail", "description", "type");
 		claim.setLeg(leg);
 
 	}
@@ -77,23 +105,24 @@ public class AssistanceAgentUpdateClaimService extends AbstractGuiService<Assist
 		AssistanceAgent assistanceAgent;
 		boolean legCorrect = true;
 		boolean isNullLeg = true;
-		boolean isCorrectType;
+		boolean isCorrectType = false;
 
-		types = Arrays.asList(ClaimType.values());
-		type = super.getRequest().getData("type", ClaimType.class);
-		isCorrectType = types.contains(type);
+		String typeStr = super.getRequest().getData("type", String.class);
+
+		for (ClaimType ct : ClaimType.values())
+			if (ct.name().equals(typeStr)) {
+				type = ct;
+				isCorrectType = true;
+				break;
+			}
 
 		agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		assistanceAgent = this.repository.findAssistanceAgentById(agentId);
-		legs = this.repository.findAllPublishedLegs(MomentHelper.getCurrentMoment(), assistanceAgent.getAirline().getId());
+		legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
 
-		if (legs.isEmpty())
-			isNullLeg = false;
-		else {
-			legId = super.getRequest().getData("leg", int.class);
-			leg = this.repository.findLegById(legId);
-			legCorrect = legs.contains(leg);
-		}
+		legId = super.getRequest().getData("leg", int.class);
+		leg = this.repository.findLegById(legId);
+		legCorrect = legs.contains(leg);
 
 		super.state(isCorrectType, "type", "acme.validation.claim.form.error.type");
 		super.state(legCorrect, "leg", "acme.validation.claim.form.error.leg");
@@ -103,6 +132,10 @@ public class AssistanceAgentUpdateClaimService extends AbstractGuiService<Assist
 
 	@Override
 	public void perform(final Claim claim) {
+		Date currentMoment;
+
+		currentMoment = MomentHelper.getCurrentMoment();
+		claim.setRegistrationMoment(currentMoment);
 		this.repository.save(claim);
 	}
 
@@ -121,7 +154,7 @@ public class AssistanceAgentUpdateClaimService extends AbstractGuiService<Assist
 		assistanceAgent = this.repository.findAssistanceAgentById(agentId);
 		status = claim.getStatus();
 
-		legs = this.repository.findAllPublishedLegs(MomentHelper.getCurrentMoment(), assistanceAgent.getAirline().getId());
+		legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
 		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "description", "draftMode");
 		dataset.put("types", choices);
 

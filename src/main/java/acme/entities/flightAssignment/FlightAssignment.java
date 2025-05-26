@@ -4,7 +4,9 @@ package acme.entities.flightAssignment;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -14,6 +16,7 @@ import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoment;
+import acme.constraints.ValidFlightAssignemnt;
 import acme.constraints.ValidLongText;
 import acme.entities.legs.Leg;
 import acme.realms.FlightCrewMember;
@@ -23,6 +26,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@ValidFlightAssignemnt
+@Table(indexes = {
+	@Index(columnList = "draftMode"), @Index(columnList = "leg_id"), @Index(columnList = "flight_crew_members_id")
+
+})
 public class FlightAssignment extends AbstractEntity {
 
 	private static final long		serialVersionUID	= 1L;
@@ -60,6 +68,7 @@ public class FlightAssignment extends AbstractEntity {
 	private Leg						leg;
 
 	@Mandatory
+	@Valid
 	@Automapped
 	private boolean					draftMode;
 }
