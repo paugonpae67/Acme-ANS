@@ -23,7 +23,7 @@ technician.dashboard.form.label.sTDDEVEstimatedDurationTask=Desviación estánda
 
 technician.dashboard.form.label.maintenanceRecord-statuses = Número de registros de mantenimiento
 technician.dashboard.form.label.general= Indicadores generales
-technician.dashboard.form.label.general=EUR
+technician.dashboard.form.label.eur=EUR
 technician.dashboard.form.label.usd=USD
 technician.dashboard.form.label.gbp=GBP
 technician.dashboard.form.label.duration = Duración Tareas

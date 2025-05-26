@@ -21,14 +21,11 @@ public class ManagerFlightCreateService extends AbstractGuiService<Manager, Flig
 
 	@Override
 	public void authorise() {
-		// Permitir GET (mostrar formulario) y POST (enviar formulario)
+		boolean status = true;
 		String method = super.getRequest().getMethod();
-		boolean allowed = "GET".equalsIgnoreCase(method) || "POST".equalsIgnoreCase(method);
-
-		// Verificar que el usuario activo sea un Manager
-		boolean isManager = super.getRequest().getPrincipal().hasRealmOfType(Manager.class);
-
-		super.getResponse().setAuthorised(allowed && isManager);
+		if (method.equals("GET") && super.getRequest().hasData("id", int.class))
+			status = false;
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override

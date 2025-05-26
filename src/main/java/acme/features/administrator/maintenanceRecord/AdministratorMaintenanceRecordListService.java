@@ -21,6 +21,8 @@ public class AdministratorMaintenanceRecordListService extends AbstractGuiServic
 	@Override
 	public void authorise() {
 		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class);
+		if (super.getRequest().hasData("id", int.class))
+			status = false;
 		super.getResponse().setAuthorised(status);
 	}
 
