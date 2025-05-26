@@ -26,28 +26,22 @@ public class FlightAssignmentShow extends AbstractGuiService<FlightCrewMember, F
 	@Override
 	public void authorise() {
 		boolean status;
+		Integer Id;
+		FlightAssignment assignment;
+		FlightCrewMember member;
 
-		// Asegúrate de que sea GET y que tenga el parámetro id
-		boolean isGet = super.getRequest().getMethod().equals("GET");
-		boolean hasId = super.getRequest().hasData("id", int.class);
-
-		if (!isGet || !hasId)
+		Id = super.getRequest().getData("id", Integer.class);
+		if (!super.getRequest().getMethod().equals("GET"))
+			status = false;
+		else if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("id", int.class))
+			status = false;
+		else if (Id == null)
 			status = false;
 		else {
-			status = super.getRequest().getPrincipal().hasRealmOfType(FlightCrewMember.class);
-			if (status) {
-				int memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
-				Integer assignmentId = super.getRequest().getData("id", Integer.class);
-				if (assignmentId == null)
-					status = false;
-				else {
-					FlightAssignment assignment = this.repository.findAssignmentById(assignmentId);
-					if (assignment == null)
-						status = false;
-					else
-						status = memberId == assignment.getFlightCrewMembers().getId() || !assignment.isDraftMode() && super.getRequest().getPrincipal().hasRealmOfType(FlightCrewMember.class);
-				}
-			}
+			assignment = this.repository.findAssignmentById(Id);
+			member = assignment == null ? null : assignment.getFlightCrewMembers();
+			status = (super.getRequest().getPrincipal().hasRealm(member) || !assignment.isDraftMode()) && assignment != null;
+
 		}
 
 		super.getResponse().setAuthorised(status);
@@ -99,7 +93,7 @@ public class FlightAssignmentShow extends AbstractGuiService<FlightCrewMember, F
 
 		dataset.put("duty", duty);
 		dataset.put("leg", legChoices.getSelected().getKey());
-		dataset.put("legs", legChoices);
+		dataset.put("legs", legChoices == null ? "" : legChoices);
 		dataset.put("flightCrewMembers", assignment.getFlightCrewMembers().getEmployeeCode());
 		super.getResponse().addData(dataset);
 

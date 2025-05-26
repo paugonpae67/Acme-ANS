@@ -30,26 +30,21 @@ public class FlightAssignmentCreate extends AbstractGuiService<FlightCrewMember,
 	public void authorise() {
 		boolean statusfinal = true;
 
-		if (super.getRequest().getMethod().equals("POST")) {
-			int id = super.getRequest().getData("id", int.class);
-			statusfinal = statusfinal && id == 0;
-		} else if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
-			statusfinal = statusfinal && false;
-
-		else if (super.getRequest().hasData("FlightCrewMember", Leg.class)) {
-
+		if (!super.getRequest().getMethod().equals("GET"))
+			statusfinal = false;
+		else if (!super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
+			statusfinal = false;
+		else {
 			Integer memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
-			boolean correctMember = true;
-			String employeeCode = super.getRequest().getData("member", String.class);
+			FlightCrewMember mem = this.repository.findFlightCrewMemberById(memberId);
 
-			FlightCrewMember member = this.repository.findMemberByEmployeeCode(employeeCode);
-			correctMember = member != null && memberId == member.getId();
+			boolean membertype = super.getRequest().getPrincipal().hasRealmOfType(FlightCrewMember.class);
 
-			statusfinal = statusfinal && correctMember;
+			statusfinal = mem != null && membertype && super.getRequest().getPrincipal().hasRealm(mem);
 		}
-
 		super.getResponse().setAuthorised(statusfinal);
+
 	}
 
 	@Override
@@ -68,12 +63,14 @@ public class FlightAssignmentCreate extends AbstractGuiService<FlightCrewMember,
 
 	@Override
 	public void bind(final FlightAssignment flightAssignment) {
-		Leg legId;
+		int legId;
+		Leg leg;
 
-		legId = super.getRequest().getData("leg", Leg.class);
+		legId = super.getRequest().getData("leg", int.class);
+		leg = this.repository.findLegById(legId);
 
 		super.bindObject(flightAssignment, "duty", "remarks", "currentStatus");
-		flightAssignment.setLeg(legId);
+		flightAssignment.setLeg(leg);
 	}
 
 	@Override
@@ -106,9 +103,6 @@ public class FlightAssignmentCreate extends AbstractGuiService<FlightCrewMember,
 		legs = this.repository.findAllLegsFuturePublished(MomentHelper.getCurrentMoment());
 		FlightCrewMember member;
 
-		if (assignment.getLeg() != null && !legs.contains(assignment.getLeg()))
-			legs.add(assignment.getLeg());
-
 		member = (FlightCrewMember) super.getRequest().getPrincipal().getActiveRealm();
 		currentStatus = SelectChoices.from(FlightAssignmentStatus.class, assignment.getCurrentStatus());
 		duty = SelectChoices.from(FlightAssignmentDuty.class, assignment.getDuty());
@@ -125,4 +119,5 @@ public class FlightAssignmentCreate extends AbstractGuiService<FlightCrewMember,
 
 		super.getResponse().addData(dataset);
 	}
+
 }

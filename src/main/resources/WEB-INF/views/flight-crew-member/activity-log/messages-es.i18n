@@ -20,6 +20,3 @@ FlightCrewMember.ActivityLog.form.label.typeOfIncident = Tipo de Incidente
 FlightCrewMember.ActivityLog.form.label.registrationMoment= Momento de Registro
 FlightCrewMember.ActivityLog.form.label.saverityLevel = Nivel de Severidad
 FlightCrewMember.ActivityLog.form.label.description= Descrición
-member.activity-log.form.button.update = Actualizar
-member.activity-log.form.button.delete = Borrar
-flight-crew-member.activity-log.list.button.create = Crear
