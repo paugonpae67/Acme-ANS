@@ -4,8 +4,8 @@ package acme.features.manager.flight;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
-import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.flights.Flight;
@@ -58,18 +58,37 @@ public class ManagerFlightDeleteService extends AbstractGuiService<Manager, Flig
 	public void validate(final Flight flight) {
 	}
 
+	@Transactional
 	@Override
 	public void perform(final Flight flight) {
-		Collection<Leg> legs = this.managerLegRepository.findLegsByflightId(flight.getId());
-		for (Leg leg : legs)
+		Integer flightId = flight.getId();
+
+		Collection<Leg> legs = this.managerLegRepository.findLegsByflightId(flightId);
+		if (legs == null)
+			throw new IllegalStateException("managerLegRepository.findLegsByflightId(" + flightId + ") returned NULL");
+
+		for (Leg leg : legs) {
+			// Borrar logs relacionados a FlightAssignments del Leg
+			this.managerLegRepository.deleteActivityLogsByLegId(leg.getId());
+
+			// Borrar logs relacionados a Claims del Leg
+			this.managerLegRepository.deleteTrackingLogsByLegId(leg.getId());
+
+			// Borrar Claims del Leg
+			this.managerLegRepository.deleteClaimsByLegId(leg.getId());
+
+			// Borrar FlightAssignments del Leg
+			this.managerLegRepository.deleteAssignmentsByLegId(leg.getId());
+
+			// Finalmente borrar el Leg
 			this.managerLegRepository.delete(leg);
-		this.repository.delete(flight);
+		}
+
+		// Finalmente borrar el vuelo
+		this.repository.deleteById(flightId);
 	}
 
 	@Override
 	public void unbind(final Flight flight) {
-		Dataset dataset = super.unbindObject(flight, "tag", "indication", "cost", "description");
-		dataset.put("draftMode", flight.isDraftMode());
-		super.getResponse().addData(dataset);
 	}
 }
