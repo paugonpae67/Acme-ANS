@@ -40,6 +40,14 @@ public class TechnicianMaintenanceRecordDeleteService extends AbstractGuiService
 			maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
 			technician = technician = super.getRequest().getPrincipal().getActiveRealm().getId();
 			status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && technician == maintenanceRecord.getTechnician().getId();
+
+			Integer aircraftId = super.getRequest().getData("aircraft", Integer.class);
+			if (aircraftId == null)
+				status = false;
+			else if (aircraftId != 0) {
+				Aircraft existingAircraft = this.repository.findAircraftById(aircraftId);
+				status = status && existingAircraft != null;
+			}
 		}
 
 		super.getResponse().setAuthorised(status);
@@ -72,6 +80,8 @@ public class TechnicianMaintenanceRecordDeleteService extends AbstractGuiService
 		relationsInvolvedIn = this.repository.findMaintenanceRecordInvolvedIn(maintenanceRecord.getId());
 		boolean valid = relationsInvolvedIn.isEmpty();
 		super.state(valid, "*", "acme.validation.form.error.TaskInvolvedMR");
+		valid = maintenanceRecord.getAircraft() != null;
+		super.state(valid, "aircraft", "acme.validation.form.error.invalidAircraft");
 	}
 	@Override
 	public void perform(final MaintenanceRecord maintenanceRecord) {
