@@ -32,20 +32,15 @@ public class ManagerLegUpdateService extends AbstractGuiService<Manager, Leg> {
 
 	@Override
 	public void authorise() {
-		// Solo permitir métodos de modificación (por ejemplo POST o PUT)
+		boolean status = true;
 		String method = super.getRequest().getMethod();
-		if (!"POST".equalsIgnoreCase(method) && !"PUT".equalsIgnoreCase(method)) {
-			super.getResponse().setAuthorised(false);
-			return;
+		if (method.equals("GET"))
+			status = false;
+		else {
+			int legId = super.getRequest().getData("id", int.class);
+			Leg leg = this.repository.findOneLegByIdAndManager(legId, super.getRequest().getPrincipal().getActiveRealm().getId());
+			status = leg != null && leg.isDraftMode();
 		}
-
-		// Obtener datos necesarios
-		int legId = super.getRequest().getData("id", int.class);
-		Leg leg = this.repository.findLegById(legId);
-		Manager manager = (Manager) super.getRequest().getPrincipal().getActiveRealm();
-
-		// Verificar que el leg esté en draft y pertenezca al manager
-		boolean status = leg != null && leg.isDraftMode() && leg.getFlight().getManager().getId() == manager.getId();
 
 		super.getResponse().setAuthorised(status);
 	}

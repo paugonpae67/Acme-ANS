@@ -57,4 +57,7 @@ public interface ManagerLegRepository extends AbstractRepository {
 		""")
 	void deleteActivityLogsByLegId(int legId);
 
+	@Query("SELECT l FROM Leg l WHERE l.id = :legId AND l.flight.manager.id = :managerId")
+	Leg findOneLegByIdAndManager(int legId, int managerId);
+
 }
