@@ -30,28 +30,25 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 	public void authorise() {
 		boolean status;
 		TrackingLog trackingLog;
-		int id;
+		Integer id;
 		Claim claim;
 
-		if (!super.getRequest().getMethod().equals("POST"))
+		if (!super.getRequest().getMethod().equals("POST") || super.getRequest().getMethod().equals("POST") && super.getRequest().hasData("masterId", Integer.class))
 			super.getResponse().setAuthorised(false);
 		else {
-
-			if (super.getRequest().getData("id", Integer.class) == null) {
+			id = super.getRequest().getData("id", Integer.class);
+			if (id == null) {
 				super.getResponse().setAuthorised(false);
 				return;
 			}
-			id = super.getRequest().getData("id", Integer.class);
 			trackingLog = this.repository.findTrackingLogById(id);
 			if (trackingLog != null) {
 				claim = this.repository.findClaimByTrackingLogId(trackingLog.getId());
 
 				status = claim != null && super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class) && trackingLog != null;
 
-				int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
-
-				if (claim == null || agentId != claim.getAssistanceAgent().getId())
-					status = false;
+				int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+				status = status && assistanceAgentId == claim.getAssistanceAgent().getId();
 
 				super.getResponse().setAuthorised(status);
 			} else {
@@ -76,6 +73,8 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 	@Override
 	public void bind(final TrackingLog trackingLog) {
 		super.bindObject(trackingLog, "step", "resolutionPercentage", "status", "resolution");
+		Date currentMoment = MomentHelper.getCurrentMoment();
+		trackingLog.setLastUpdateMoment(currentMoment);
 	}
 
 	@Override
@@ -108,9 +107,9 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 			if (!beforeActual.isEmpty()) {
 				beforeActual.sort(Comparator.comparing(TrackingLog::getResolutionPercentage).reversed());
 				TrackingLog previous = beforeActual.get(0);
-				TrackingLog original = allTrackingLogs.stream().filter(t -> Objects.equals(t.getId(), trackingLog.getId())).findFirst().orElse(null);
+				TrackingLog oldTrackingLog = this.repository.findTrackingLogById(super.getRequest().getData("id", int.class));
 
-				if (original != null && !Objects.equals(original.getResolutionPercentage(), trackingLog.getResolutionPercentage())) {
+				if (oldTrackingLog != null && !Objects.equals(oldTrackingLog.getResolutionPercentage(), trackingLog.getResolutionPercentage())) {
 					morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
 
 					super.state(morePercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
@@ -120,9 +119,9 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 				if (percentage.equals(100.00))
 					if (maxComplete == 1) {
 						super.state(status.equals(previous.getStatus()), "status", "assistanceAgent.trackingLog.form.error.statusNewPercentageFinished");
-						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "draftMode", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished");
-					} else if (maxComplete >= 2)
-						super.state(false, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.completePercentage");
+						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "*", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished");
+						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00) && !previous.isDraftMode(), "*", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedTheBeforePublished");
+					}
 			}
 
 		}
@@ -149,6 +148,7 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 		dataset.put("statuses", statuses);
 		dataset.put("masterId", trackingLog.getClaim().getId());
 		dataset.put("draftMode", trackingLog.isDraftMode());
+		dataset.put("claimDraftMode", trackingLog.getClaim().isDraftMode());
 
 		super.getResponse().addData(dataset);
 	}

@@ -26,31 +26,45 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 
 	@Override
 	public void authorise() {
-		boolean status;
-		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", Integer.class))
-			status = false;
-		else {
-			if (super.getRequest().getMethod().equals("POST")) {
-				Integer id = super.getRequest().getData("id", Integer.class);
-				if (super.getRequest().getData("id", Integer.class) == null || id != 0) {
-					super.getResponse().setAuthorised(false);
-					return;
-				}
-			}
-			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+		boolean status = false;
 
-			if (super.getRequest().hasData("id"))
-				if (super.getRequest().getData("id", Integer.class) != null && super.getRequest().getData("leg", Integer.class) != null) {
-					Integer legId = super.getRequest().getData("leg", Integer.class);
-					if (legId == null || legId != 0) {
-						Leg leg = this.repository.findLegById(legId);
-						status = status && leg != null && !leg.isDraftMode();
-					}
-				} else
-					super.getResponse().setAuthorised(false);
-			super.getResponse().setAuthorised(status);
+		String method = super.getRequest().getMethod();
+
+		if ("GET".equals(method) && super.getRequest().hasData("id", Integer.class)) {
+			super.getResponse().setAuthorised(false);
+			return;
 		}
 
+		if ("POST".equals(method)) {
+			Integer id = super.getRequest().getData("id", Integer.class);
+			if (id == null || id != 0) {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
+		}
+
+		status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+
+		if (super.getRequest().hasData("id", Integer.class) && super.getRequest().hasData("leg", Integer.class)) {
+			Integer legId = super.getRequest().getData("leg", Integer.class);
+
+			if (legId == null) {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
+
+			if (legId != 0) {
+				AssistanceAgent assistanceAgent = (AssistanceAgent) super.getRequest().getPrincipal().getActiveRealm();
+				Leg leg = this.repository.findLegById(legId);
+				Collection<Leg> legs = this.repository.findAllPublishedLegs(MomentHelper.getCurrentMoment(), assistanceAgent.getAirline().getId());
+
+				status = legs.contains(leg);
+				status = status && leg != null && !leg.isDraftMode();
+
+			}
+		}
+
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
@@ -91,9 +105,9 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 		Collection<Leg> legs;
 		Collection<ClaimType> types;
 		ClaimType type;
-		int legId;
+		Integer legId;
 		Leg leg;
-		int agentId;
+		Integer agentId;
 		AssistanceAgent assistanceAgent;
 		boolean isCorrectLeg = true;
 		boolean isNullLeg = true;
@@ -112,13 +126,9 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 		assistanceAgent = this.repository.findAssistanceAgentById(agentId);
 		legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
 
-		if (legs.isEmpty())
-			isNullLeg = false;
-		else {
-			legId = super.getRequest().getData("leg", int.class);
-			leg = this.repository.findLegById(legId);
-			isCorrectLeg = legs.contains(leg);
-		}
+		legId = super.getRequest().getData("leg", Integer.class);
+		leg = this.repository.findLegById(legId);
+		isCorrectLeg = legs.contains(leg);
 
 		super.state(isCorrectType, "type", "acme.validation.claim.form.error.type");
 		super.state(isCorrectLeg, "leg", "acme.validation.claim.form.error.leg");
@@ -139,7 +149,7 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 		SelectChoices choices2;
 		TrackingLogStatus status;
 		Dataset dataset;
-		int agentId;
+		Integer agentId;
 
 		choices = SelectChoices.from(ClaimType.class, claim.getType());
 		agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
