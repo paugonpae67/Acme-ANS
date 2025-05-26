@@ -24,26 +24,28 @@ public class ActivityLogUpdateService extends AbstractGuiService<FlightCrewMembe
 
 	@Override
 	public void authorise() {
-		boolean status;
-		Integer Id;
-		ActivityLog activity;
-		FlightCrewMember member;
-		Id = super.getRequest().getData("id", Integer.class);
-		if (Id == null)
-			status = false;
-		else if (!super.getRequest().getMethod().equals("POST"))
-			status = false;
-		else {
+		boolean status = true;
 
+		if (!super.getRequest().getMethod().equals("POST"))
+			status = false;
+
+		else {
+			Integer Id;
+			ActivityLog activity;
+			FlightCrewMember member;
+			Id = super.getRequest().getData("id", Integer.class);
+			if (Id == null)
+				status = false;
 			activity = this.repository.findActivityLogById(Id);
 			FlightAssignment assignment = activity.getFlightAssignment();
-			boolean validassignment = !assignment.isDraftMode() && assignment != null && MomentHelper.isBefore(activity.getFlightAssignment().getLeg().getScheduledArrival(), activity.getRegistrationMoment());
+
+			boolean validassignment = !assignment.isDraftMode() && assignment != null && !assignment.isDraftMode() && assignment != null
+				&& MomentHelper.isBefore(activity.getFlightAssignment().getLeg().getScheduledArrival(), activity.getRegistrationMoment());
 
 			member = assignment == null ? null : assignment.getFlightCrewMembers();
-			status = super.getRequest().getPrincipal().hasRealm(member) && member != null && activity.isDraftMode() && activity != null && validassignment;
+			status = status && super.getRequest().getPrincipal().hasRealm(member) && member != null && activity.isDraftMode() && activity != null && validassignment;
 
 		}
-
 		super.getResponse().setAuthorised(status);
 
 	}
