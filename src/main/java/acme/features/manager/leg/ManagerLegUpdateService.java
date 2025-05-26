@@ -32,10 +32,21 @@ public class ManagerLegUpdateService extends AbstractGuiService<Manager, Leg> {
 
 	@Override
 	public void authorise() {
+		// Solo permitir métodos de modificación (por ejemplo POST o PUT)
+		String method = super.getRequest().getMethod();
+		if (!"POST".equalsIgnoreCase(method) && !"PUT".equalsIgnoreCase(method)) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
+
+		// Obtener datos necesarios
 		int legId = super.getRequest().getData("id", int.class);
 		Leg leg = this.repository.findLegById(legId);
 		Manager manager = (Manager) super.getRequest().getPrincipal().getActiveRealm();
+
+		// Verificar que el leg esté en draft y pertenezca al manager
 		boolean status = leg != null && leg.isDraftMode() && leg.getFlight().getManager().getId() == manager.getId();
+
 		super.getResponse().setAuthorised(status);
 	}
 
@@ -108,8 +119,25 @@ public class ManagerLegUpdateService extends AbstractGuiService<Manager, Leg> {
 
 	@Override
 	public void validate(final Leg leg) {
-		super.state(leg.getScheduledDeparture().before(leg.getScheduledArrival()), "scheduledDeparture", "manager.leg.error.departureBeforeArrival");
+		super.getResponse().setAuthorised(true);
 
+		// Validar campos nulos primero para evitar NullPointerException
+		boolean hasDeparture = leg.getScheduledDeparture() != null;
+		boolean hasArrival = leg.getScheduledArrival() != null;
+
+		if (!hasDeparture)
+			super.state(false, "scheduledDeparture", "manager.leg.form.error.scheduled-departure-not-null");
+
+		if (!hasArrival)
+			super.state(false, "scheduledArrival", "manager.leg.form.error.scheduled-arrival-not-null");
+
+		// Solo comparar fechas si ambas están presentes
+		if (hasDeparture && hasArrival) {
+			boolean validOrder = leg.getScheduledDeparture().before(leg.getScheduledArrival());
+			super.state(validOrder, "scheduledDeparture", "manager.leg.error.departureBeforeArrival");
+		}
+
+		// Validación de flightNumber duplicado
 		Leg existing = this.repository.findLegByFlightNumber(leg.getFlightNumber());
 		boolean validFlightNumber = existing == null || existing.getId() == leg.getId();
 		super.state(validFlightNumber, "flightNumber", "manager.leg.error.duplicateFlightNumber");

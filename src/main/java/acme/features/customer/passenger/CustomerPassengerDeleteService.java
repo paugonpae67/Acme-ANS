@@ -9,7 +9,7 @@ import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.bookings.BookingRecord;
-import acme.entities.passengers.Passenger;
+import acme.entities.bookings.Passenger;
 import acme.realms.Customer;
 
 @GuiService
@@ -21,14 +21,26 @@ public class CustomerPassengerDeleteService extends AbstractGuiService<Customer,
 
 	@Override
 	public void authorise() {
+
 		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
 		super.getResponse().setAuthorised(status);
 
-		int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		int passengerId = super.getRequest().getData("id", int.class);
-		Passenger passenger = this.repository.findPassengerById(passengerId);
+		if (!super.getRequest().getMethod().equals("POST"))
+			super.getResponse().setAuthorised(false);
+		else {
+			int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+			Integer passengerId = super.getRequest().getData("id", Integer.class);
 
-		super.getResponse().setAuthorised(customerId == passenger.getCustomer().getId());
+			if (passengerId == null)
+				super.getResponse().setAuthorised(false);
+			else {
+				Passenger passenger = this.repository.findPassengerById(passengerId);
+				if (passenger == null || !passenger.isDraftMode())
+					super.getResponse().setAuthorised(false);
+				else
+					super.getResponse().setAuthorised(customerId == passenger.getCustomer().getId());
+			}
+		}
 	}
 
 	@Override
@@ -46,10 +58,14 @@ public class CustomerPassengerDeleteService extends AbstractGuiService<Customer,
 
 	@Override
 	public void validate(final Passenger passenger) {
-		boolean confirmation;
 
-		confirmation = super.getRequest().getData("confirmation", boolean.class);
+		boolean confirmation = super.getRequest().getData("confirmation", boolean.class);
 		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
+
+		Collection<BookingRecord> bookingRecordAssociatedToPassenger = this.repository.findPassengerBookingRecordsByPassengerId(passenger.getId());
+		if (!bookingRecordAssociatedToPassenger.isEmpty())
+			super.state(false, "*", "acme.validation.passengerBookingRecords.message");
+
 	}
 
 	@Override

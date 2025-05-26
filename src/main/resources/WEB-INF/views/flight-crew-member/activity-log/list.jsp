@@ -9,6 +9,6 @@
 </acme:list>
 
 
-<jstl:if test="${_command == 'list'}">
+<jstl:if test="${_command == 'list' && showCreate}">
 	<acme:button code="flight-crew-member.activity-log.list.button.create" action="/flight-crew-member/activity-log/create?masterId=${masterId}"/>
 </jstl:if>

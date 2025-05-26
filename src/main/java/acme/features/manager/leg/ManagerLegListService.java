@@ -24,7 +24,20 @@ public class ManagerLegListService extends AbstractGuiService<Manager, Leg> {
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		// Verificar que el método HTTP sea GET
+		String method = super.getRequest().getMethod();
+		if (!"GET".equalsIgnoreCase(method)) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
+
+		// Validar existencia del vuelo y propiedad por parte del manager
+		int flightId = super.getRequest().getData("flightId", int.class);
+		var flight = this.flightRepository.findFlightById(flightId);
+		var manager = (Manager) super.getRequest().getPrincipal().getActiveRealm();
+
+		boolean authorised = flight != null && flight.getManager().getId() == manager.getId();
+		super.getResponse().setAuthorised(authorised);
 	}
 
 	@Override

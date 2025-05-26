@@ -26,4 +26,7 @@ public interface AdministratorAircraftRepository extends AbstractRepository {
 	@Query("SELECT l FROM Leg l WHERE l.aircraft.id = :aircraftId AND (l.scheduledDeparture >= CURRENT_TIMESTAMP OR (l.scheduledDeparture <= CURRENT_TIMESTAMP AND l.scheduledArrival >= CURRENT_TIMESTAMP))")
 	Collection<Leg> findActiveAndUpcomingLegsByAircraftId(int aircraftId);
 
+	@Query("SELECT air FROM Airline air WHERE air.id = :id")
+	Airline findAirlineById(int id);
+
 }

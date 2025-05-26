@@ -18,10 +18,20 @@ public class ManagerLegDeleteService extends AbstractGuiService<Manager, Leg> {
 
 	@Override
 	public void authorise() {
+		// Verificar el método HTTP
+		String method = super.getRequest().getMethod();
+		if (!"POST".equalsIgnoreCase(method)) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
+
+		// Obtener datos y validar propiedad y estado
 		int legId = super.getRequest().getData("id", int.class);
 		Leg leg = this.repository.findLegById(legId);
 		Manager manager = (Manager) super.getRequest().getPrincipal().getActiveRealm();
+
 		boolean status = leg != null && leg.isDraftMode() && leg.getFlight().getManager().getId() == manager.getId();
+
 		super.getResponse().setAuthorised(status);
 	}
 

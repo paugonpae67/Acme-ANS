@@ -6,15 +6,12 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import acme.client.components.models.Dataset;
-import acme.client.components.views.SelectChoices;
 import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.aircrafts.Aircraft;
 import acme.entities.aircrafts.InvolvedIn;
 import acme.entities.aircrafts.MaintenanceRecord;
-import acme.entities.aircrafts.MaintenanceStatus;
 import acme.realms.Technician;
 
 @GuiService
@@ -27,14 +24,20 @@ public class TechnicianMaintenanceRecordDeleteService extends AbstractGuiService
 	@Override
 	public void authorise() {
 		boolean status;
-		int masterId;
-		MaintenanceRecord maintenanceRecord;
-		Technician technician;
+		String method = super.getRequest().getMethod();
 
-		masterId = super.getRequest().getData("id", int.class);
-		maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
-		technician = maintenanceRecord == null ? null : maintenanceRecord.getTechnician();
-		status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealm(technician);
+		if (method.equals("GET"))
+			status = false;
+		else {
+			int masterId;
+			MaintenanceRecord maintenanceRecord;
+			int technician;
+
+			masterId = super.getRequest().getData("id", int.class);
+			maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
+			technician = technician = super.getRequest().getPrincipal().getActiveRealm().getId();
+			status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && technician == maintenanceRecord.getTechnician().getId();
+		}
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -62,34 +65,18 @@ public class TechnicianMaintenanceRecordDeleteService extends AbstractGuiService
 
 	@Override
 	public void validate(final MaintenanceRecord maintenanceRecord) {
-		;
+		Collection<InvolvedIn> relationsInvolvedIn;
+		relationsInvolvedIn = this.repository.findMaintenanceRecordInvolvedIn(maintenanceRecord.getId());
+		boolean valid = relationsInvolvedIn.isEmpty();
+		super.state(valid, "*", "acme.validation.form.error.TaskInvolvedMR");
 	}
 	@Override
 	public void perform(final MaintenanceRecord maintenanceRecord) {
-		Collection<InvolvedIn> relationsInvolvedIn;
-
-		relationsInvolvedIn = this.repository.findMaintenanceRecordInvolvedIn(maintenanceRecord.getId());
-		this.repository.deleteAll(relationsInvolvedIn);
 		this.repository.delete(maintenanceRecord);
 	}
 	@Override
 	public void unbind(final MaintenanceRecord maintenanceRecord) {
-		Dataset dataset;
-		SelectChoices choices;
 
-		SelectChoices aircrafts;
-		Collection<Aircraft> aircraftsCollection;
-		aircraftsCollection = this.repository.findAircrafts();
-		aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
-
-		choices = SelectChoices.from(MaintenanceStatus.class, maintenanceRecord.getStatus());
-		dataset = super.unbindObject(maintenanceRecord, "ticker", "maintenanceMoment", "nextInspection", "estimatedCost", "notes", "draftMode");
-		dataset.put("status", choices.getSelected().getKey());
-		dataset.put("statuses", choices);
-
-		dataset.put("aircrafts", aircrafts);
-		dataset.put("aircraft", aircrafts.getSelected().getKey());
-		super.getResponse().addData(dataset);
 	}
 
 }

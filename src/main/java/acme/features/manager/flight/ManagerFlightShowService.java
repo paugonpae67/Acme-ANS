@@ -20,9 +20,19 @@ public class ManagerFlightShowService extends AbstractGuiService<Manager, Flight
 
 	@Override
 	public void authorise() {
+		// Solo permitir método GET para mostrar información
+		String method = super.getRequest().getMethod();
+		if (!"GET".equalsIgnoreCase(method)) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
+
+		// Verificar existencia y propiedad del vuelo
 		int flightId = super.getRequest().getData("id", int.class);
 		Flight flight = this.repository.findById(flightId);
-		boolean status = flight != null && flight.getManager().getId() == super.getRequest().getPrincipal().getActiveRealm().getId();
+		int managerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+
+		boolean status = flight != null && flight.getManager().getId() == managerId;
 		super.getResponse().setAuthorised(status);
 	}
 
@@ -40,7 +50,9 @@ public class ManagerFlightShowService extends AbstractGuiService<Manager, Flight
 		dataset.put("scheduledArrival", flight.getScheduledArrival());
 		dataset.put("originCity", flight.getOriginCity());
 		dataset.put("destinationCity", flight.getDestinationCity());
-		dataset.put("numberOfLayovers", flight.getNumberOfLayovers());
+		int layovers = flight.getNumberOfLayovers();
+		dataset.put("numberOfLayovers", layovers >= 0 ? layovers : 0);
+
 		dataset.put("draftMode", flight.isDraftMode());
 		dataset.put("indications", SelectChoices.from(FlightIndication.class, flight.getIndication()));
 		super.getResponse().addData(dataset);

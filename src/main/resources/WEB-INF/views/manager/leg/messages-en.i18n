@@ -30,3 +30,4 @@ manager.leg.form.button.delete = Delete
 manager.leg.error.sameAirport = Departure and arrival airports cannot be the same
 manager.leg.error.duplicateFlightNumber = A leg with this flight number already exists
 manager.leg.error.departureBeforeArrival = Departure time must be before arrival time
+manager.flight.form.error.invalid-currency=Currency must be one of: EUR, GBP or USD

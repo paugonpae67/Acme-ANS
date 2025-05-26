@@ -12,6 +12,11 @@ manager.flight.form.label.scheduledDeparture = Salida programada
 manager.flight.form.label.scheduledArrival = Llegada programada
 manager.flight.form.label.draftMode = Modo borrador
 manager.flight.form.label.confirmation = Confirmar
+manager.flight.form.label.scheduledDeparture=Salida Programada
+manager.flight.form.label.scheduledArrival=Llegada Programada
+manager.flight.form.label.originCity=Ciudad de Origen
+manager.flight.form.label.destinationCity=Ciudad de Destino
+manager.flight.form.label.numberOfLayovers=Número de Escalas
 
 manager.flight.list.label.tag = Etiqueta
 manager.flight.list.label.indication = Indicación
@@ -40,3 +45,12 @@ manager.flight.form.error.duplicateTag = Ya existe un vuelo con esta etiqueta
 manager.flight.form.error.invalidCost = Coste no válido
 flight.publish.error.unpublishedLegs = Todos los tramos deben estar publicados para publicar el vuelo
 flight.publish.error.noLegs = El vuelo debe tener al menos un tramo para poder publicarse
+
+java.validation.leg.flightNumber.message = El número de vuelo debe comenzar con el código IATA de la aerolínea y tener 7 caracteres.
+java.validation.leg.scheduledArrival.message = La llegada debe ser al menos un minuto después de la salida.
+java.validation.leg.overlapping.message = Este tramo se solapa con otro en el mismo vuelo.
+
+manager.leg.form.error.scheduled-departure-not-null = La fecha de salida no puede estar vacía.
+manager.leg.form.error.scheduled-arrival-not-null = La fecha de llegada no puede estar vacía.
+
+

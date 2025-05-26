@@ -27,16 +27,19 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 	@Override
 	public void authorise() {
 		boolean status;
-		try {
+		String method = super.getRequest().getMethod();
+		if (method.equals("GET"))
+			status = false;
+		else {
 			int masterId;
 			MaintenanceRecord maintenanceRecord;
-			Technician technician;
+			int technician;
 
 			masterId = super.getRequest().getData("id", int.class);
 			maintenanceRecord = this.repository.findMaintenanceRecordById(masterId);
-			technician = maintenanceRecord == null ? null : maintenanceRecord.getTechnician();
+			technician = super.getRequest().getPrincipal().getActiveRealm().getId();
 
-			status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && super.getRequest().getPrincipal().hasRealm(technician);
+			status = maintenanceRecord != null && maintenanceRecord.isDraftMode() && technician == maintenanceRecord.getTechnician().getId();
 			super.getResponse().setAuthorised(status);
 
 			Integer aircraftId = super.getRequest().getData("aircraft", Integer.class);
@@ -46,10 +49,8 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 				Aircraft existingAircraft = this.repository.findAircraftById(aircraftId);
 				status = status && existingAircraft != null;
 			}
-
-		} catch (Exception e) {
-			status = false;
 		}
+
 		super.getResponse().setAuthorised(status);
 	}
 	@Override
@@ -88,15 +89,6 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 		if (!valid)
 			super.state(valid, "*", "acme.validation.involved-in.task");
 
-		MaintenanceRecord existMaintenanceRecord = this.repository.findMaintenanceRecordByTicker(maintenanceRecord.getTicker());
-		boolean valid2 = existMaintenanceRecord == null || existMaintenanceRecord.getId() == maintenanceRecord.getId();
-		super.state(valid2, "ticker", "acme.validation.form.error.duplicateTicker");
-
-		if (maintenanceRecord.getEstimatedCost() != null) {
-			boolean validCurrency = maintenanceRecord.getEstimatedCost().getCurrency().equals("EUR") || maintenanceRecord.getEstimatedCost().getCurrency().equals("USD") || maintenanceRecord.getEstimatedCost().getCurrency().equals("GBP");
-			super.state(validCurrency, "estimatedCost", "acme.validation.validCurrency");
-		}
-
 		valid = maintenanceRecord.getAircraft() != null;
 		super.state(valid, "aircraft", "acme.validation.form.error.invalidAircraft");
 
@@ -105,6 +97,7 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 	@Override
 	public void perform(final MaintenanceRecord maintenanceRecord) {
 		maintenanceRecord.setDraftMode(false);
+		maintenanceRecord.setStatus(MaintenanceStatus.COMPLETED);
 		this.repository.save(maintenanceRecord);
 	}
 	@Override
@@ -115,11 +108,8 @@ public class TechnicianMaintenanceRecordPublishService extends AbstractGuiServic
 		SelectChoices aircrafts;
 		Collection<Aircraft> aircraftsCollection;
 		aircraftsCollection = this.repository.findAircrafts();
-		try {
-			aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
-		} catch (NullPointerException e) {
-			throw new IllegalArgumentException("The selected aircraft is not available");
-		}
+
+		aircrafts = SelectChoices.from(aircraftsCollection, "registrationNumber", maintenanceRecord.getAircraft());
 
 		choices = SelectChoices.from(MaintenanceStatus.class, maintenanceRecord.getStatus());
 		dataset = super.unbindObject(maintenanceRecord, "ticker", "maintenanceMoment", "nextInspection", "estimatedCost", "notes", "draftMode");

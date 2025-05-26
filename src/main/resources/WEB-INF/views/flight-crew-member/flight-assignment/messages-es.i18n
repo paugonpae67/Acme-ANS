@@ -12,12 +12,15 @@ flight-crew-member.flight-assignment.list.title = Lista de Asignaciones de Vuelo
 flight-crew-member.flight-assignment.list-past.title = Lista de Asignaciones de vuelo completadas
 flight-crew-member.flight-assignment.list-future.title = Lista de Asignaciones de vuelo planeadas
 flight-crew-member.flight-assignment.form.title = Detalles de la Asignación
+flight-crew-member.flight-assignment.form.label.confirmation = Confirmar
+flight-crew-member.flight-assignment.form.label.public = Publicar
 
 
 FlightCrewMember.FlightAssignment.list-past.label.payload = Fecha tramo vuelo
 FlightCrewMember.FlightAssignment.list-past.label.duty = Rol
 FlightCrewMember.FlightAssignment.list-past.label.currentStatus = Estado Actual Asignación Vuelo
-
+FlightCrewMember.FlightAssignment.form.label.leg = Tramo
+FlightCrewMember.FlightAssignment.form.label.flightCrewMember = Miembro de la tripulación
 
 flight.message.assignment= ASIGNACIÓN
 
@@ -25,6 +28,10 @@ FlightCrewMember.FlightAssignment.form.label.remarks = Observaciones
 FlightCrewMember.FlightAssignment.form.label.moment = Momento
 FlightCrewMember.FlightAssignment.form.label.currentStatus = Estado Actual
 FlightCrewMember.FlightAssignment.form.label.duty = Rol
+flight-crew-member.flight-assignment.form.button.update = Actualizar
+flight-crew-member.flight-assignment.form.button.create = Crear
+FlightCrewMember.FlightAssignment.list.button.create= Crear
+member.activity-log.form.button.publish = Publicar
 
 
 
