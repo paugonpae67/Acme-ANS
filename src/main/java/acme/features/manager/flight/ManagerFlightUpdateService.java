@@ -20,21 +20,20 @@ public class ManagerFlightUpdateService extends AbstractGuiService<Manager, Flig
 
 	@Override
 	public void authorise() {
-		// Solo permitir métodos de modificación: POST o PUT
+		boolean status = true;
 		String method = super.getRequest().getMethod();
-		if (!"POST".equalsIgnoreCase(method) && !"PUT".equalsIgnoreCase(method)) {
-			super.getResponse().setAuthorised(false);
-			return;
+		if (method.equals("GET"))
+			status = false;
+		else {
+			int flightId = super.getRequest().getData("id", int.class);
+			Flight flight = this.repository.findById(flightId);
+			Manager manager = (Manager) super.getRequest().getPrincipal().getActiveRealm();
+
+			status = flight != null && flight.isDraftMode() && flight.getManager().getId() == manager.getId();
 		}
 
-		// Verificar existencia, borrador y propiedad
-		int flightId = super.getRequest().getData("id", int.class);
-		Flight flight = this.repository.findById(flightId);
-		Manager manager = (Manager) super.getRequest().getPrincipal().getActiveRealm();
-
-		boolean status = flight != null && flight.isDraftMode() && flight.getManager().getId() == manager.getId();
-
 		super.getResponse().setAuthorised(status);
+
 	}
 
 	@Override
