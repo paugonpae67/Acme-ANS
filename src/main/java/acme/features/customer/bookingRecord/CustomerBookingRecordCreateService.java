@@ -37,7 +37,10 @@ public class CustomerBookingRecordCreateService extends AbstractGuiService<Custo
 		if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("bookingId", int.class))
 			super.getResponse().setAuthorised(false);
 
-		if (super.getRequest().getMethod().equals("POST")) {
+		if (super.getRequest().getMethod().equals("POST") && !super.getRequest().hasData("bookingId", int.class))
+			super.getResponse().setAuthorised(false);
+
+		if (super.getRequest().getMethod().equals("POST") && super.getRequest().hasData("bookingId", int.class)) {
 			int id = super.getRequest().getData("id", int.class);
 			status = id == 0;
 		}
