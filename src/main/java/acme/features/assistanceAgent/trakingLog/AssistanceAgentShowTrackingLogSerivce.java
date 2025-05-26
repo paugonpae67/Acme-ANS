@@ -25,14 +25,18 @@ public class AssistanceAgentShowTrackingLogSerivce extends AbstractGuiService<As
 			super.getResponse().setAuthorised(false);
 			return;
 		}
+		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("masterId", Integer.class)) {
+			super.getResponse().setAuthorised(false);
+			return;
+		}
 
 		boolean status;
 		TrackingLog trackingLog;
-		int id;
+		Integer id;
 		Claim claim;
 
 		id = super.getRequest().getData("id", Integer.class);
-		if (super.getRequest().getData("id", Integer.class) == null) {
+		if (id == null) {
 			super.getResponse().setAuthorised(false);
 			return;
 		}
@@ -43,16 +47,10 @@ public class AssistanceAgentShowTrackingLogSerivce extends AbstractGuiService<As
 		}
 
 		claim = this.repository.findClaimByTrackingLogId(trackingLog.getId());
-		if (claim == null) {
-			super.getResponse().setAuthorised(false);
-			return;
-		}
 
 		status = claim != null && super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
-		int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
-
-		if (claim == null || agentId != claim.getAssistanceAgent().getId())
-			status = false;
+		int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		status = status && assistanceAgentId == claim.getAssistanceAgent().getId();
 
 		super.getResponse().setAuthorised(status);
 	}

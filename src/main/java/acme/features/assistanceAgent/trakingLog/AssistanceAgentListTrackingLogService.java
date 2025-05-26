@@ -21,31 +21,26 @@ public class AssistanceAgentListTrackingLogService extends AbstractGuiService<As
 
 	@Override
 	public void authorise() {
-		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", Integer.class)) {
+		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && (super.getRequest().hasData("id", Integer.class) || !super.getRequest().hasData("masterId", Integer.class))) {
 			super.getResponse().setAuthorised(false);
 			return;
 		} else {
 			boolean status;
-			int masterId;
+			Integer masterId;
 			Claim claim;
 
 			masterId = super.getRequest().getData("masterId", Integer.class);
-			if (super.getRequest().getData("masterId", Integer.class) == null) {
+			if (masterId == null) {
 				super.getResponse().setAuthorised(false);
 				return;
 			}
 			claim = this.repository.findClaimById(masterId);
-			if (claim == null) {
-				super.getResponse().setAuthorised(false);
-				return;
-			}
+			status = claim != null;
 
-			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+			status = status && super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
 
-			int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
-
-			if (agentId != claim.getAssistanceAgent().getId())
-				status = false;
+			int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+			status = status && assistanceAgentId == claim.getAssistanceAgent().getId();
 
 			super.getResponse().setAuthorised(status);
 		}
