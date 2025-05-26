@@ -73,8 +73,9 @@ public class CustomerPassengerDeleteService extends AbstractGuiService<Customer,
 		Collection<BookingRecord> bookingRecordRelations;
 
 		bookingRecordRelations = this.repository.findPassengerBookingRecordsByPassengerId(passenger.getId());
-		if (bookingRecordRelations.isEmpty())
-			this.repository.delete(passenger);
+		if (!bookingRecordRelations.isEmpty())
+			this.repository.deleteAll(bookingRecordRelations);
+		this.repository.delete(passenger);
 	}
 
 	@Override

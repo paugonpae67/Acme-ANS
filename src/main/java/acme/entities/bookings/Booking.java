@@ -5,9 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Index;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -31,9 +29,6 @@ import lombok.Setter;
 @Setter
 @Entity
 @ValidBooking
-@Table(indexes = {
-	@Index(columnList = "customer_id"), @Index(columnList = "locatorCode")
-})
 public class Booking extends AbstractEntity {
 
 	private static final long	serialVersionUID	= 1L;
@@ -54,7 +49,7 @@ public class Booking extends AbstractEntity {
 	private TravelClass			travelClass;
 
 	@Optional
-	@ValidString(min = 4, max = 4, pattern = "[0-9]{4}", message = "{acme.validation.lastNibble.notPattern.message}")
+	@ValidString(min = 4, max = 4)
 	@Automapped
 	private String				lastNibble;
 
