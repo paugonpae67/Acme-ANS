@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
-import acme.entities.passengers.Passenger;
+import acme.entities.bookings.Passenger;
 import acme.realms.Customer;
 
 @GuiService
@@ -18,8 +18,20 @@ public class CustomerPassengerCreateService extends AbstractGuiService<Customer,
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+		boolean status = true;
+
+		status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+
+		if (super.getRequest().getMethod().equals("POST")) {
+			int id = super.getRequest().getData("id", int.class);
+			status = id == 0;
+		}
+
 		super.getResponse().setAuthorised(status);
+
+		if (!super.getRequest().getMethod().equals("POST") && super.getRequest().hasData("id", int.class))
+			super.getResponse().setAuthorised(false);
+
 	}
 
 	@Override

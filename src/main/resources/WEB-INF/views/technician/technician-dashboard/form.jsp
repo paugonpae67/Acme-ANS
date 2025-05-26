@@ -11,7 +11,8 @@
 
     <table class="table table-bordered table-striped text-center mb-5">
         <thead class="table-dark">
-            <tr><th colspan="2">General Indicators</th></tr>
+            <tr><th colspan="2">
+            <acme:print code="technician.dashboard.form.label.general"/></th></tr>
         </thead>
         <tbody>
             <tr><th><acme:print code="technician.dashboard.form.label.recordWithNearestInspection"/></th><td><acme:print value="${recordWithNearestInspection}"/></td></tr>
@@ -28,7 +29,7 @@
 
     <table class="table table-bordered table-striped text-center mb-5">
         <thead class="table-dark">
-            <tr><th colspan="2">EUR</th></tr>
+            <tr><th colspan="2"><acme:print code="technician.dashboard.form.label.eur"/></th></tr>
         </thead>
         <tbody>
             <tr><th><acme:print code="technician.dashboard.form.label.averageEstimatedCostLastYear"/></th><td><acme:print value="${averageEstimatedCostLastYearEUR}"/></td></tr>
@@ -41,7 +42,7 @@
 
     <table class="table table-bordered table-striped text-center mb-5">
         <thead class="table-dark">
-            <tr><th colspan="2">USD</th></tr>
+            <tr><th colspan="2"><acme:print code="technician.dashboard.form.label.usd"/></th></tr>
         </thead>
         <tbody>
             <tr><th><acme:print code="technician.dashboard.form.label.averageEstimatedCostLastYear"/></th><td><acme:print value="${averageEstimatedCostLastYearUSD}"/></td></tr>
@@ -54,7 +55,7 @@
 
     <table class="table table-bordered table-striped text-center mb-5">
         <thead class="table-dark">
-            <tr><th colspan="2">GBP</th></tr>
+            <tr><th colspan="2"><acme:print code="technician.dashboard.form.label.gbp"/></th></tr>
         </thead>
         <tbody>
             <tr><th><acme:print code="technician.dashboard.form.label.averageEstimatedCostLastYear"/></th><td><acme:print value="${averageEstimatedCostLastYearGBP}"/></td></tr>
@@ -67,7 +68,7 @@
 
     <table class="table table-bordered text-center mb-5">
         <thead class="table-dark">
-            <tr><th colspan="2">Task Duration</th></tr>
+            <tr><th colspan="2"><acme:print code="technician.dashboard.form.label.duration"/></th></tr>
         </thead>
         <tbody>
             <tr><th><acme:print code="technician.dashboard.form.label.averageEstimatedDurationTask"/></th><td><acme:print value="${averageEstimatedDurationTask}"/></td></tr>

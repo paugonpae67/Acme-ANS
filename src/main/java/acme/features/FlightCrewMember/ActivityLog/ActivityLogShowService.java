@@ -4,9 +4,11 @@ package acme.features.FlightCrewMember.ActivityLog;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.activityLog.ActivityLog;
+import acme.entities.flightAssignment.FlightAssignment;
 import acme.realms.FlightCrewMember;
 
 @GuiService
@@ -18,13 +20,29 @@ public class ActivityLogShowService extends AbstractGuiService<FlightCrewMember,
 
 	@Override
 	public void authorise() {
-		boolean status;
-		int id;
-		ActivityLog activityLog;
+		boolean status = true;
 
-		id = super.getRequest().getData("id", int.class);
-		activityLog = this.repository.findActivityLogById(id);
-		status = activityLog != null;
+		if (!super.getRequest().getMethod().equals("GET"))
+			status = false;
+		else if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("id", int.class))
+			status = false;
+
+		else {
+			Integer Id;
+			ActivityLog activity;
+			FlightCrewMember member;
+			Id = super.getRequest().getData("id", Integer.class);
+			if (Id == null)
+				status = false;
+			activity = this.repository.findActivityLogById(Id);
+			FlightAssignment assignment = activity.getFlightAssignment();
+
+			boolean validassignment = !assignment.isDraftMode() && assignment != null && MomentHelper.isBefore(activity.getFlightAssignment().getLeg().getScheduledArrival(), activity.getRegistrationMoment());
+
+			member = assignment == null ? null : assignment.getFlightCrewMembers();
+			status = status && super.getRequest().getPrincipal().hasRealm(member) && member != null && activity != null && validassignment;
+
+		}
 
 		super.getResponse().setAuthorised(status);
 	}

@@ -22,12 +22,20 @@ public class FlightAssignmentListPastService extends AbstractGuiService<FlightCr
 	@Autowired
 	private FlightAssignmentClaimRepository repository;
 
+
 	// AbstractGuiService interface -------------------------------------------
-
-
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		boolean status;
+
+		if (!super.getRequest().getMethod().equals("GET"))
+			status = false;
+		else if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", int.class))
+			status = false;
+		else
+			status = super.getRequest().getPrincipal().hasRealmOfType(FlightCrewMember.class);
+
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override

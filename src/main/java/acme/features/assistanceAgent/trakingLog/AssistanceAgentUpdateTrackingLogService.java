@@ -1,9 +1,11 @@
 
 package acme.features.assistanceAgent.trakingLog;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,19 +31,35 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 		boolean status;
 		TrackingLog trackingLog;
 		int id;
-		AssistanceAgent assistanceAgent;
 		Claim claim;
 
-		id = super.getRequest().getData("id", int.class);
-		trackingLog = this.repository.findTrackingLogById(id);
-		claim = this.repository.findClaimByTrackingLogId(trackingLog.getId());
+		if (!super.getRequest().getMethod().equals("POST"))
+			super.getResponse().setAuthorised(false);
+		else {
 
-		assistanceAgent = trackingLog == null ? null : trackingLog.getClaim().getAssistanceAgent();
+			if (super.getRequest().getData("id", Integer.class) == null) {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
+			id = super.getRequest().getData("id", Integer.class);
+			trackingLog = this.repository.findTrackingLogById(id);
+			if (trackingLog != null) {
+				claim = this.repository.findClaimByTrackingLogId(trackingLog.getId());
 
-		status = claim != null && claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(assistanceAgent) && trackingLog != null;
+				status = claim != null && super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class) && trackingLog != null;
 
-		super.getResponse().setAuthorised(status);
+				int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
+				if (claim == null || agentId != claim.getAssistanceAgent().getId())
+					status = false;
+
+				super.getResponse().setAuthorised(status);
+			} else {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
+
+		}
 	}
 
 	@Override
@@ -49,86 +67,74 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 		TrackingLog trackingLog;
 		int id;
 
-		Date moment;
-
-		moment = MomentHelper.getCurrentMoment();
-
 		id = super.getRequest().getData("id", int.class);
 		trackingLog = this.repository.findTrackingLogById(id);
-		trackingLog.setLastUpdateMoment(moment);
 
 		super.getBuffer().addData(trackingLog);
 	}
 
 	@Override
 	public void bind(final TrackingLog trackingLog) {
-		super.bindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "resolution");
+		super.bindObject(trackingLog, "step", "resolutionPercentage", "status", "resolution");
 	}
 
 	@Override
 	public void validate(final TrackingLog trackingLog) {
 		List<TrackingLog> trackingLogs = this.repository.findLatestTrackingLogByClaimExceptItself(trackingLog.getClaim().getId(), trackingLog.getId()).orElse(List.of());
+		List<TrackingLog> beforeActual = trackingLogs.stream().filter(t -> t.getId() != trackingLog.getId()).filter(t -> !t.getLastUpdateMoment().after(trackingLog.getLastUpdateMoment())).collect(Collectors.toList());
+		List<TrackingLog> allTrackingLogs = this.repository.findTrackingLogOfClaim(trackingLog.getClaim().getId());
 
-		TrackingLog latestTrackingLog = trackingLogs.stream().findFirst().orElse(null);
+		if (trackingLog.getResolutionPercentage() != null && trackingLog.getStatus() != null && trackingLog.getResolution() != null) {
+			Double percentage = trackingLog.getResolutionPercentage();
+			TrackingLogStatus status = trackingLog.getStatus();
+			String resolution = trackingLog.getResolution();
+			Long countPercentage = trackingLogs.stream().filter(x -> x.getResolutionPercentage() != null && !x.getResolutionPercentage().equals(100.00)).filter(x -> !Objects.equals(x.getId(), trackingLog.getId()))
+				.filter(x -> Objects.equals(x.getResolutionPercentage(), trackingLog.getResolutionPercentage())).count();
 
-		if (!trackingLogs.isEmpty()) {
-			Double minPercentage = trackingLogs.stream().map(TrackingLog::getResolutionPercentage).filter(p -> p != null).min(Double::compare).orElse(0.00);
+			if (countPercentage > 0)
+				super.state(false, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.notSamePercentage");
 
-			long maximumTrackingLogs = trackingLogs.stream().filter(x -> x.getResolutionPercentage() != null && x.getResolutionPercentage().equals(100.00)).count();
+			if (percentage != 100)
+				super.state(status.equals(TrackingLogStatus.PENDING), "status", "assistanceAgent.trackingLog.form.error.statusWrongNotFinished");
+			else
+				super.state(!status.equals(TrackingLogStatus.PENDING), "status", "assistanceAgent.trackingLog.form.error.statusWrongFinished");
 
-			Long countPercentage = trackingLogs.stream().filter(x -> Objects.equals(x.getResolutionPercentage(), trackingLog.getResolutionPercentage())).count();
-			super.state(countPercentage == 0, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongPercentage");
+			if (status.equals(TrackingLogStatus.ACCEPTED) || status.equals(TrackingLogStatus.REJECTED)) {
+				boolean hasResolution = resolution != null && !resolution.isBlank();
+				super.state(hasResolution, "resolution", "assistanceAgent.trackingLog.form.error.resolutionNeeded");
+			}
 
-			if (!trackingLog.getClaim().isDraftMode() && !trackingLog.isDraftMode())
-				if (trackingLog.getResolutionPercentage() == 100.00) {
-					Long publishedtrackingLog = trackingLogs.stream().filter(x -> !x.isDraftMode()).filter(x -> x.getLastUpdateMoment().compareTo(trackingLog.getLastUpdateMoment()) < 0).filter(x -> x.getResolutionPercentage() == 100.00).count();
-					super.state(publishedtrackingLog > 0, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.resolutionPercentagePublishTotal");
-				} else {
-					Long publishedtrackingLogAfter = trackingLogs.stream().filter(x -> !x.isDraftMode()).count();
-					super.state(publishedtrackingLogAfter > 0, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.resolutionPercentagePublish");
+			boolean morePercentage = true;
+			if (!beforeActual.isEmpty()) {
+				beforeActual.sort(Comparator.comparing(TrackingLog::getResolutionPercentage).reversed());
+				TrackingLog previous = beforeActual.get(0);
+				TrackingLog original = allTrackingLogs.stream().filter(t -> Objects.equals(t.getId(), trackingLog.getId())).findFirst().orElse(null);
+
+				if (original != null && !Objects.equals(original.getResolutionPercentage(), trackingLog.getResolutionPercentage())) {
+					morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
+
+					super.state(morePercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
 				}
-			if (maximumTrackingLogs == 0) {
-				if (trackingLog.getResolutionPercentage() != null && trackingLog.getResolutionPercentage() < 100.0) {
-					boolean badStatus = !trackingLog.getStatus().equals(TrackingLogStatus.PENDING);
-					super.state(!badStatus, "status", "assistanceAgent.trackingLog.form.error.wrongStatus");
-				} else if (trackingLog.getStatus() != null) {
-					boolean badStatus = trackingLog.getStatus().equals(TrackingLogStatus.PENDING);
-					super.state(!badStatus, "status", "assistanceAgent.trackingLog.form.error.wrongStatus2");
-				}
+				Long maxComplete = beforeActual.stream().filter(x -> x.getResolutionPercentage() != null && x.getResolutionPercentage().equals(100.00)).count();
 
-				if (trackingLog.getStatus() != null && !trackingLog.getStatus().equals(TrackingLogStatus.PENDING)) {
-					boolean hasResolution = trackingLog.getResolution() != null && !trackingLog.getResolution().isBlank();
-					super.state(hasResolution, "resolution", "assistanceAgent.trackingLog.form.error.resolutionNeeded");
-				}
+				if (percentage.equals(100.00))
+					if (maxComplete == 1) {
+						super.state(status.equals(previous.getStatus()), "status", "assistanceAgent.trackingLog.form.error.statusNewPercentageFinished");
+						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "draftMode", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished");
+					} else if (maxComplete >= 2)
+						super.state(false, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.completePercentage");
+			}
 
-			} else if (maximumTrackingLogs == 1) {
-
-				if (trackingLog.getResolutionPercentage() != null && trackingLog.getResolutionPercentage() < 100.0) {
-					boolean badStatus = !trackingLog.getStatus().equals(TrackingLogStatus.PENDING);
-					super.state(!badStatus, "status", "assistanceAgent.trackingLog.form.error.wrongStatus");
-				} else {
-					boolean badStatus = trackingLog.getStatus() != null && trackingLog.getStatus().equals(TrackingLogStatus.PENDING);
-					super.state(!badStatus, "status", "assistanceAgent.trackingLog.form.error.wrongStatus2");
-
-					boolean sameStatus = latestTrackingLog != null && trackingLog.getResolutionPercentage().equals(100.00) && trackingLog.getStatus().equals(latestTrackingLog.getStatus());
-					super.state(sameStatus, "status", "assistanceAgent.trackingLog.form.error.statusNewPercentageTotal");
-
-					boolean claimPublished = latestTrackingLog != null && !trackingLog.getClaim().isDraftMode() && latestTrackingLog.getResolutionPercentage() != null && latestTrackingLog.getResolutionPercentage().equals(100.00);
-					super.state(claimPublished, "draftMode", "No se puede crear dos trackingLog con 100% si la claim no se ha publicado.");
-				}
-
-				if (trackingLog.getStatus() != null && !trackingLog.getStatus().equals(TrackingLogStatus.PENDING)) {
-					boolean hasResolution = trackingLog.getResolution() != null && !trackingLog.getResolution().isBlank();
-					super.state(hasResolution, "resolution", "assistanceAgent.trackingLog.form.error.resolutionNeeded");
-				}
-
-			} else if (maximumTrackingLogs >= 2)
-				super.state(false, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.complatePercentage");
 		}
+
 	}
 
 	@Override
 	public void perform(final TrackingLog trackingLog) {
+		Date currentMoment;
+
+		currentMoment = MomentHelper.getCurrentMoment();
+		trackingLog.setLastUpdateMoment(currentMoment);
 		this.repository.save(trackingLog);
 	}
 
