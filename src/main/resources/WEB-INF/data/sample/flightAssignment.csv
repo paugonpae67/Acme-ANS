@@ -14,7 +14,7 @@ flightAssignment-10,CABIN_ATTENDANT,洛伦·伊普森,2024/01/01 10:00,CONFIRMED
 flightAssignment-11,CABIN_ATTENDANT,' or 'A' = 'A,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-07,false
 flightAssignment-12,CABIN_ATTENDANT,<script>alert(‘Hacked!’);</script>,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-08,true
 flightAssignment-25,CABIN_ATTENDANT,<marquee>Hacked</marquee>,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-37,false
-flightAssignment-26,CABIN_ATTENDANT,لوريم إيبسوم,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-36,false
+flightAssignment-26,CABIN_ATTENDANT,لوريم إيبسوم,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-36,true
 #moment,"","","","","","",""
 flightAssignment-13,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2024/01/01 10:00,CONFIRMED,flightCrewMember-01,leg-09,true
 flightAssignment-14,CABIN_ATTENDANT,Lorem ipsum dolor sit ame,2025/01/01 00:00,CONFIRMED,flightCrewMember-01,leg-10,false
