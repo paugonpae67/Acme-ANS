@@ -31,11 +31,6 @@ public class AssistanceAgentShowClaimService extends AbstractGuiService<Assistan
 
 		boolean status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
 
-		if (!status) {
-			super.getResponse().setAuthorised(false);
-			return;
-		}
-
 		Integer claimId = super.getRequest().getData("id", Integer.class);
 		if (claimId == null) {
 			super.getResponse().setAuthorised(false);
@@ -49,7 +44,7 @@ public class AssistanceAgentShowClaimService extends AbstractGuiService<Assistan
 		}
 
 		int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		status = assistanceAgentId == claim.getAssistanceAgent().getId();
+		status = status && assistanceAgentId == claim.getAssistanceAgent().getId();
 
 		super.getResponse().setAuthorised(status);
 	}

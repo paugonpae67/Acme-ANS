@@ -79,10 +79,16 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 			if (!beforeActual.isEmpty()) {
 				beforeActual.sort(Comparator.comparing(TrackingLog::getResolutionPercentage).reversed());
 				TrackingLog previous = beforeActual.get(0);
+				TrackingLog oldTrackingLog = this.trackingLogsRepository.findTrackingLogById(trackingLog.getId());
+
+				if (oldTrackingLog != null && Math.abs(oldTrackingLog.getResolutionPercentage() - trackingLog.getResolutionPercentage()) > 0.001) {
+					morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
+					super.state(context, morePercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
+				}
 
 				Long maxComplete = beforeActual.stream().filter(x -> x.getResolutionPercentage() != null && x.getResolutionPercentage().equals(100.00)).count();
 
-				if (percentage.equals(100.00)) {
+				if (percentage.equals(100.00))
 					if (maxComplete == 1) {
 						super.state(context, status.equals(previous.getStatus()), "Status",
 							"The status of the new tracking log with a 100% resolution percentage must match the status of the previous tracking log that also has a 100% resolution percentage ");
@@ -90,12 +96,6 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 						super.state(context, !trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00) && !previous.isDraftMode(), "DraftMode", "The other tracking log whit 100% of resolution percentage must be published");
 					} else if (maxComplete >= 2)
 						super.state(context, false, "ResolutionPercentage", "No additional tracking logs with a 100% resolution can be created");
-
-				} else {
-					morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
-					super.state(context, morePercentage, "ResolutionPercentage", "The resolution percentage must be greater than the previous tracking log; it must increase progressively");
-
-				}
 			}
 		}
 		return !super.hasErrors(context);
