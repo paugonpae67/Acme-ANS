@@ -21,23 +21,23 @@ leg-12,AAA1007,2020/01/01 0:02,2020/02/01 0:03,ON_TIME,false,flight-01,Airport-0
 leg-13,AAA1008,2200/12/31 23:56,2200/12/31 23:57,ON_TIME,false,flight-01,Airport-01,Airport-03,Aircraft-01
 # status
 leg-15,AAA1010,2025/02/01 16:01,2025/02/01 17:00,DELAYED,false,flight-01,Airport-01,Airport-03,Aircraft-01
-leg-16,AAA1011,2025/02/01 17:01,2025/02/01 18:00,CANCELLED,true,flight-01,Airport-01,Airport-03,Aircraft-01
-leg-17,AAA1012,2025/02/01 18:01,2025/02/01 19:00,LANDED,true,flight-01,Airport-01,Airport-03,Aircraft-01
+leg-16,AAA1011,2025/02/01 17:01,2025/02/01 18:00,CANCELLED,false,flight-01,Airport-01,Airport-03,Aircraft-01
+leg-17,AAA1012,2025/02/01 18:01,2025/02/01 19:00,LANDED,false,flight-01,Airport-01,Airport-03,Aircraft-01
 # flight
-leg-20,AAA1013,2025/02/01 01:05,2025/02/01 01:07,ON_TIME,true,flight-02,Airport-01,Airport-03,Aircraft-01
+leg-20,AAA1013,2025/02/01 01:05,2025/02/01 01:07,ON_TIME,false,flight-02,Airport-01,Airport-03,Aircraft-01
 # departure-Airport,"","","","",""
-leg-23,AAA1014,2025/02/01 21:01,2025/02/01 22:00,ON_TIME,true,flight-01,Airport-02,Airport-03,Aircraft-01
+leg-23,AAA1014,2025/02/01 21:01,2025/02/01 22:00,ON_TIME,false,flight-01,Airport-02,Airport-03,Aircraft-01
 # arrival-Airport
-leg-24,AAA1015,2025/02/01 22:01,2025/02/01 23:00,ON_TIME,true,flight-01,Airport-01,Airport-04,Aircraft-01
+leg-24,AAA1015,2025/02/01 22:01,2025/02/01 23:00,ON_TIME,false,flight-01,Airport-01,Airport-04,Aircraft-01
 # Aircraft
-leg-25,AAA1016,2025/02/01 06:00,2025/02/01 07:00,ON_TIME,true,flight-01,Airport-01,Airport-03,Aircraft-02
+leg-25,AAA1016,2025/02/01 06:00,2025/02/01 07:00,ON_TIME,false,flight-01,Airport-01,Airport-03,Aircraft-02
 leg-21,AAA4044,2025/06/30 05:30,2025/06/30 07:40,ON_TIME,false,flight-20,Airport-10,Airport-01,Aircraft-03
 #others
 leg-22,AAA4045,2025/02/19 07:30,2025/2/19 11:40,ON_TIME,false,flight-21,Airport-10,Airport-01,Aircraft-03
-leg-26,AAA2016,2026/02/01 06:00,2026/02/01 06:30,ON_TIME,true,flight-01,Airport-01,Airport-03,Aircraft-02
-leg-27,AAA2017,2026/02/01 07:00,2026/02/01 08:00,ON_TIME,true,flight-01,Airport-01,Airport-03,Aircraft-02
-leg-28,AAA2018,2026/02/01 09:00,2026/02/01 10:00,ON_TIME,true,flight-01,Airport-01,Airport-03,Aircraft-02
-leg-29,AAA2019,2026/02/01 09:05,2026/02/01 10:03,ON_TIME,true,flight-02,Airport-01,Airport-03,Aircraft-02
+leg-26,AAA2016,2026/02/01 06:00,2026/02/01 06:30,ON_TIME,false,flight-01,Airport-01,Airport-03,Aircraft-02
+leg-27,AAA2017,2026/02/01 07:00,2026/02/01 08:00,ON_TIME,false,flight-01,Airport-01,Airport-03,Aircraft-02
+leg-28,AAA2018,2026/02/01 09:00,2026/02/01 10:00,ON_TIME,false,flight-01,Airport-01,Airport-03,Aircraft-02
+leg-29,AAA2019,2026/02/01 09:05,2026/02/01 10:03,ON_TIME,false,flight-02,Airport-01,Airport-03,Aircraft-02
 leg-30,AAA2020,2027/02/01 09:05,2027/02/01 10:03,ON_TIME,false,flight-02,Airport-01,Airport-03,Aircraft-02
 leg-31,AAA2021,2027/03/01 09:05,2027/03/01 10:03,ON_TIME,false,flight-02,Airport-01,Airport-03,Aircraft-02
 leg-32,AAA2022,2027/04/01 09:05,2027/04/01 10:03,ON_TIME,false,flight-02,Airport-01,Airport-03,Aircraft-02

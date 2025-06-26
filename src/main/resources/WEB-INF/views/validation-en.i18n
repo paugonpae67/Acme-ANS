@@ -83,3 +83,5 @@ acme.validator.iata = The format must be 3 capital letters
 
 acme.validation.assignment.deleteleg = The leg should be in future
 
+manager.flight.form.error.published-leg=Cannot delete the flight because it has one or more published legs
+
