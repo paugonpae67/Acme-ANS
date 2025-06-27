@@ -81,3 +81,4 @@ acme.validation.leg.overlapping.message=Existen tramos que se solapan en el mism
 acme.validator.licenseNumber = El formato debe ser 2 o 3 letras mayúsculas y 6 dígitos
 acme.validator.iata= El formato debe ser 3 letras mayúsculas
 
+manager.flight.form.error.published-leg=No se puede eliminar el vuelo porque tiene una o más etapas publicadas.
