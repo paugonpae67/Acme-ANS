@@ -17,11 +17,7 @@ acme.validation.shortText= La longitud debe estar entre 1 y 50 caracteres
 acme.validation.job.ticker.message = Ticker inválido. Debe tener entre 5 y 15 caracteres
 acme.validation.form.error.duplicateTicker = Ticker duplicado
 
-acme.validation.claim.form.error.registrationMomentNotPast = El momento del registro debe de ser pasado
-acme.validation.claim.form.error.type = Solo puedes elegir los tipos que aparecen en el desplegable 
-acme.validation.claim.form.error.leg = Solo puedes elegir la traza que aparecen en el desplegable 
-acme.validation.claim.form.error.leg2 = La traza no puede ser nulo, 
-acme.validation.claim.form.error.draftMode = No puedes eliminar ni modificar un registro si no está en modo borrado
+assistanceAgent.claim.form.error.draftMode = No puedes eliminar ni modificar un registro si no está en modo borrado
 assistanceAgent.claim.form.error.trackingLogAssociated = No se puede eliminar el registro hasta que se hayan eliminado todos los trackingLogs asociados
 
 assistanceAgent.trackingLog.form.error.statusWrongNotFinished = El estado debe ser PENDING

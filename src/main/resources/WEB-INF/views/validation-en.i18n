@@ -17,10 +17,7 @@ acme.validation.job.ticker.message = invalid Ticker. It must have between 5 and 
 acme.validation.form.error.duplicateTicker = Duplicated Ticker 
 
 acme.validation.claim.form.error.registrationMomentNotPast = Registration Moment must be in the past
-acme.validation.claim.form.error.type = You can only choose a type from the selection 
-acme.validation.claim.form.error.leg = You can only choose a leg from the selection 
-acme.validation.claim.form.error.leg2 = Leg can not be null, you must select one
-acme.validation.claim.form.error.draftMode = You can not update o delete a claim if it is not in draft mode´
+assistanceAgent.claim.form.error.draftMode = You can not update o delete a claim if it is not in draft mode´
 assistanceAgent.claim.form.error.trackingLogAssociated = The record cannot be deleted until all associated trackingLogs have been removed
 
 assistanceAgent.trackingLog.form.error.statusWrongNotFinished = Status must be PENDING

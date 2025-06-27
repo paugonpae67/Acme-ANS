@@ -30,7 +30,7 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 
 		String method = super.getRequest().getMethod();
 
-		if ("GET".equals(method) && super.getRequest().hasData("id", Integer.class)) {
+		if ("GET".equals(method) && !super.getRequest().getData().isEmpty()) {
 			super.getResponse().setAuthorised(false);
 			return;
 		}
@@ -58,7 +58,7 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 				Leg leg = this.repository.findLegById(legId);
 				Collection<Leg> legs = this.repository.findAllPublishedLegs(MomentHelper.getCurrentMoment(), assistanceAgent.getAirline().getId());
 
-				status = legs.contains(leg);
+				status = status && legs.contains(leg);
 				status = status && leg != null && !leg.isDraftMode();
 
 			}
@@ -102,37 +102,7 @@ public class AssistanceAgentCreateClaimService extends AbstractGuiService<Assist
 
 	@Override
 	public void validate(final Claim claim) {
-		Collection<Leg> legs;
-		Collection<ClaimType> types;
-		ClaimType type;
-		Integer legId;
-		Leg leg;
-		Integer agentId;
-		AssistanceAgent assistanceAgent;
-		boolean isCorrectLeg = true;
-		boolean isNullLeg = true;
-		boolean isCorrectType = false;
 
-		String typeStr = super.getRequest().getData("type", String.class);
-
-		for (ClaimType ct : ClaimType.values())
-			if (ct.name().equals(typeStr)) {
-				type = ct;
-				isCorrectType = true;
-				break;
-			}
-
-		agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		assistanceAgent = this.repository.findAssistanceAgentById(agentId);
-		legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
-
-		legId = super.getRequest().getData("leg", Integer.class);
-		leg = this.repository.findLegById(legId);
-		isCorrectLeg = legs.contains(leg);
-
-		super.state(isCorrectType, "type", "acme.validation.claim.form.error.type");
-		super.state(isCorrectLeg, "leg", "acme.validation.claim.form.error.leg");
-		super.state(isNullLeg, "leg", "acme.validation.claim.form.error.leg2");
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class AssistanceAgentDeleteClaimService extends AbstractGuiService<Assist
 		}
 
 		claim = this.repository.findClaimById(masterId);
-		status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class) && claim != null;
+		status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
 
 		if (claim != null) {
 			int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
@@ -94,7 +94,10 @@ public class AssistanceAgentDeleteClaimService extends AbstractGuiService<Assist
 		trackingLog = this.repository.findTrackingLogsOfClaim(claim.getId());
 		if (!trackingLog.isEmpty())
 			super.state(false, "*", "assistanceAgent.claim.form.error.trackingLogAssociated");
-		;
+
+		if (!claim.isDraftMode())
+			super.state(false, "*", "assistanceAgent.claim.form.error.draftMode");
+
 	}
 
 	@Override
