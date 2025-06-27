@@ -46,3 +46,5 @@ leg-34,AAA2024,2027/06/01 09:05,2027/06/01 10:03,ON_TIME,false,flight-02,Airport
 leg-35,AAA2025,2000/06/01 09:05,2000/06/01 10:03,ON_TIME,false,flight-02,Airport-01,Airport-03,Aircraft-02
 leg-36,AAA2026,2000/07/01 09:05,2000/07/01 10:03,ON_TIME,false,flight-02,Airport-01,Airport-03,Aircraft-02
 leg-37,AAA2027,2000/08/01 09:05,2000/08/01 10:03,ON_TIME,false,flight-02,Airport-01,Airport-03,Aircraft-02
+leg-38,AAA7777,2000/01/01 09:05,2000/01/01 10:03,ON_TIME,true,flight-03,Airport-01,Airport-03,Aircraft-04
+leg-39,AAA1666,2000/01/02 11:05,2000/01/02 12:08,ON_TIME,true,flight-03,Airport-01,Airport-03,Aircraft-04
