@@ -22,4 +22,7 @@
 	<acme:list-payload path="trackingLog"/>
 </acme:list>
 
-<acme:button code="assistanceAgent.trackingLog.list.button.create" action="/assistance-agent/tracking-log/create?masterId=${masterId}"/>
+<jstl:if test="${showCreate}">
+	<acme:button code="assistanceAgent.trackingLog.list.button.create" action="/assistance-agent/tracking-log/create?masterId=${masterId}"/>
+</jstl:if>
+

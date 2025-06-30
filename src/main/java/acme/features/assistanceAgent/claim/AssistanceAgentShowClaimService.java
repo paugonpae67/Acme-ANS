@@ -24,12 +24,12 @@ public class AssistanceAgentShowClaimService extends AbstractGuiService<Assistan
 
 	@Override
 	public void authorise() {
+		boolean status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
+
 		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("id", int.class)) {
 			super.getResponse().setAuthorised(false);
 			return;
 		}
-
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
 
 		Integer claimId = super.getRequest().getData("id", Integer.class);
 		if (claimId == null) {

@@ -13,18 +13,18 @@ trackingLog-09,2012/07/02 0:00,Lorem ipsum dolor sit amet. consectetur adipiscin
 trackingLog-10,2012/07/02 0:01,Lorem ipsum dolor sit amet. consectetur adipiscing,77.77,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-01
 trackingLog-12,2012/07/02 0:00,Lorem ipsum dolor sit ame,0.03,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-10
 #resolutionPercentage
-trackingLog-13,2012/07/02 0:00,Lorem ipsum dolor sit ame,50.00,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-09
+trackingLog-13,2012/07/02 0:00,Lorem ipsum dolor sit ame,50.00,PENDING,null,true,Claim-09
 trackingLog-16,2012/07/02 0:01,Lorem ipsum dolor sit amet,50.00,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-14
 trackingLog-14,2012/07/02 0:20,Lorem ipsum dolor sit ame,99.99,PENDING,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-15
-trackingLog-24,2012/07/02 0:03,Lorem ipsum dolor sit amet,80.00,PENDING,null,true,Claim-01
+trackingLog-24,2012/07/02 0:03,Lorem ipsum dolor sit amet,100.00,REJECTED,L,false,Claim-01
 trackingLog-15,2012/07/02 0:04,Lorem ipsum dolor sit ame,100.00,ACCEPTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-16
 #status
 trackingLog-17,2012/07/03 0:00,Lorem ipsum dolor sit amet,100.00,ACCEPTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-10
-trackingLog-18,2012/07/03 0:00,Lorem ipsum dolor sit amet,100.00,REJECTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-01
+trackingLog-18,2012/07/03 0:00,Lorem ipsum dolor sit amet,100.00,REJECTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,false,Claim-01
 #resolution
 trackingLog-19,2012/07/02 0:00,Lorem ipsum dolor sit amet,100.00,ACCEPTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,true,Claim-17
 trackingLog-20,2012/07/02 0:00,Lorem ipsum dolor sit amet,100.00,ACCEPTED,L,true,Claim-02
-trackingLog-21,2012/07/02 0:00,Lorem ipsum dolor sit amet,100.00,ACCEPTED,Lo,true,Claim-03
+trackingLog-21,2024/07/02 0:00,Lorem ipsum dolor sit amet,100.00,ACCEPTED,Lo,true,Claim-03
 trackingLog-22,2024/12/31 20:00,Lorem ipsum dolor sit amet,100.00,ACCEPTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor,true,Claim-23
 trackingLog-23,2012/07/02 0:00,Lorem ipsum dolor sit amet,100.00,ACCEPTED,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor*,true,Claim-21
 #key:claim

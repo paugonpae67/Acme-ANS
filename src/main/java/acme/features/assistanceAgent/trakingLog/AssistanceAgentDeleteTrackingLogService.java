@@ -1,12 +1,18 @@
 
 package acme.features.assistanceAgent.trakingLog;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
+import acme.client.components.models.Dataset;
+import acme.client.components.views.SelectChoices;
+import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.claim.Claim;
 import acme.entities.trackingLogs.TrackingLog;
+import acme.entities.trackingLogs.TrackingLogStatus;
 import acme.realms.AssistanceAgent;
 
 @GuiService
@@ -22,9 +28,8 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 		TrackingLog trackingLog;
 		Integer id;
 		Claim claim;
-		AssistanceAgent agent;
 
-		if (!super.getRequest().getMethod().equals("POST"))
+		if (!super.getRequest().getMethod().equals("POST") || !super.getRequest().hasData("id"))
 			super.getResponse().setAuthorised(false);
 		else {
 			id = super.getRequest().getData("id", Integer.class);
@@ -36,16 +41,12 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 			if (trackingLog != null) {
 				claim = this.repository.findClaimByTrackingLogId(trackingLog.getId());
 
-				status = claim != null && super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class) && trackingLog != null;
-
-				int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
+				status = claim != null && super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
 
 				int assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 				status = status && assistanceAgentId == claim.getAssistanceAgent().getId();
 
-				agent = claim.getAssistanceAgent();
-
-				status = status && claim.isDraftMode();
+				status = status && trackingLog.isDraftMode();
 
 				super.getResponse().setAuthorised(status);
 			} else {
@@ -70,7 +71,9 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 
 	@Override
 	public void bind(final TrackingLog trackingLog) {
+		Date moment = MomentHelper.getCurrentMoment();
 		super.bindObject(trackingLog, "step", "resolutionPercentage", "status", "resolution");
+		trackingLog.setLastUpdateMoment(moment);
 	}
 
 	@Override
@@ -85,5 +88,18 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 
 	@Override
 	public void unbind(final TrackingLog trackingLog) {
+		Dataset dataset;
+		int masterId;
+		SelectChoices choicesStatus;
+
+		choicesStatus = SelectChoices.from(TrackingLogStatus.class, trackingLog.getStatus());
+		masterId = trackingLog.getClaim().getId();
+		dataset = super.unbindObject(trackingLog, "step", "resolutionPercentage", "status", "resolution", "lastUpdateMoment");
+		dataset.put("masterId", masterId);
+		dataset.put("draftMode", trackingLog.isDraftMode());
+		dataset.put("statuses", choicesStatus);
+		dataset.put("claimDraftMode", trackingLog.getClaim().isDraftMode());
+
+		super.getResponse().addData(dataset);
 	}
 }

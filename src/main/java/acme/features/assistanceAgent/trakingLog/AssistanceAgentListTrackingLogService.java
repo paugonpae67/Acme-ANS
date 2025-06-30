@@ -21,7 +21,7 @@ public class AssistanceAgentListTrackingLogService extends AbstractGuiService<As
 
 	@Override
 	public void authorise() {
-		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && (super.getRequest().hasData("id", Integer.class) || !super.getRequest().hasData("masterId", Integer.class))) {
+		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && super.getRequest().getData().isEmpty()) {
 			super.getResponse().setAuthorised(false);
 			return;
 		} else {
@@ -34,6 +34,7 @@ public class AssistanceAgentListTrackingLogService extends AbstractGuiService<As
 				super.getResponse().setAuthorised(false);
 				return;
 			}
+
 			claim = this.repository.findClaimById(masterId);
 			status = claim != null;
 
@@ -53,7 +54,7 @@ public class AssistanceAgentListTrackingLogService extends AbstractGuiService<As
 		int masterId;
 
 		masterId = super.getRequest().getData("masterId", int.class);
-		trackingLogs = this.repository.findTrackingLogOfClaimByPercentage(masterId);
+		trackingLogs = this.repository.findTrackingLogOfClaimOrderByPercentage(masterId);
 
 		super.getBuffer().addData(trackingLogs);
 	}
@@ -62,8 +63,14 @@ public class AssistanceAgentListTrackingLogService extends AbstractGuiService<As
 	public void unbind(final TrackingLog trackingLog) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status", "draftMode");
+		dataset = super.unbindObject(trackingLog, "lastUpdateMoment", "step", "resolutionPercentage", "status");
 		super.addPayload(dataset, trackingLog, "resolution");
+		Claim claim;
+		int masterId;
+
+		masterId = super.getRequest().getData("masterId", int.class);
+		claim = this.repository.findClaimById(masterId);
+		dataset.put("claim", claim);
 
 		super.getResponse().addData(dataset);
 	}
@@ -71,13 +78,12 @@ public class AssistanceAgentListTrackingLogService extends AbstractGuiService<As
 	@Override
 	public void unbind(final Collection<TrackingLog> trackingLog) {
 		int masterId;
-		Claim claim;
-		final boolean showCreate;
+		boolean showCreate;
 
 		masterId = super.getRequest().getData("masterId", int.class);
-		claim = this.repository.findClaimById(masterId);
-		Long maximumTrackingLogs = trackingLog.stream().filter(t -> t.getResolutionPercentage().equals(100.00)).count();
-		showCreate = !claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(claim.getAssistanceAgent()) && maximumTrackingLogs < 2;
+
+		Long maximumTrackingLogs = this.repository.findTrackingLogs100PercentageByMasterId(masterId).stream().count();
+		showCreate = maximumTrackingLogs < 2;
 
 		super.getResponse().addGlobal("masterId", masterId);
 		super.getResponse().addGlobal("showCreate", showCreate);
