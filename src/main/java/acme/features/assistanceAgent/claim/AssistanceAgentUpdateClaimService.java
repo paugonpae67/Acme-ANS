@@ -95,8 +95,6 @@ public class AssistanceAgentUpdateClaimService extends AbstractGuiService<Assist
 
 	@Override
 	public void validate(final Claim claim) {
-		if (!claim.isDraftMode())
-			super.state(false, "*", "assistanceAgent.claim.form.error.draftMode");
 	}
 
 	@Override

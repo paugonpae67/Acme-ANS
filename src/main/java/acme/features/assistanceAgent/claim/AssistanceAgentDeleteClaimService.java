@@ -36,7 +36,7 @@ public class AssistanceAgentDeleteClaimService extends AbstractGuiService<Assist
 		}
 
 		masterId = super.getRequest().getData("id", Integer.class);
-		if (masterId == null) {
+		if (masterId == null || masterId == 0) {
 			super.getResponse().setAuthorised(false);
 			return;
 		}
@@ -52,20 +52,9 @@ public class AssistanceAgentDeleteClaimService extends AbstractGuiService<Assist
 
 			status = status && claim.isDraftMode();
 
-			Integer legId = super.getRequest().getData("leg", Integer.class);
-			if (legId != null && legId != 0) {
-				Leg leg = this.repository.findLegById(legId);
-				Collection<Leg> legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
-
-				if (leg == null || leg.isDraftMode() || !legs.contains(leg)) {
-					super.getResponse().setAuthorised(false);
-					return;
-				}
-			}
-			if (legId == null) {
-				super.getResponse().setAuthorised(false);
-				return;
-			}
+		} else {
+			super.getResponse().setAuthorised(false);
+			return;
 		}
 
 		super.getResponse().setAuthorised(status);
@@ -94,9 +83,6 @@ public class AssistanceAgentDeleteClaimService extends AbstractGuiService<Assist
 		trackingLog = this.repository.findTrackingLogsOfClaim(claim.getId());
 		if (!trackingLog.isEmpty())
 			super.state(false, "*", "assistanceAgent.claim.form.error.trackingLogAssociated");
-
-		if (!claim.isDraftMode())
-			super.state(false, "*", "assistanceAgent.claim.form.error.draftMode");
 
 	}
 

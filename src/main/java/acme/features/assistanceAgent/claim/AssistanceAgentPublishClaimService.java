@@ -88,7 +88,6 @@ public class AssistanceAgentPublishClaimService extends AbstractGuiService<Assis
 
 	@Override
 	public void validate(final Claim claim) {
-		super.state(claim.isDraftMode(), "*", "acme.validation.claim.form.error.draftMode");
 	}
 
 	@Override

@@ -4,7 +4,6 @@ package acme.features.assistanceAgent.trakingLog;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -34,13 +33,11 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", Integer.class)) {
 			super.getResponse().setAuthorised(false);
 			return;
+		} else if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("masterId", Integer.class)) {
+			super.getResponse().setAuthorised(false);
+			return;
 		} else {
 			if (super.getRequest().getMethod().equals("POST")) {
-
-				if (!super.getRequest().hasData("masterId", Integer.class)) {
-					super.getResponse().setAuthorised(false);
-					return;
-				}
 
 				if (super.getRequest().getData("id", Integer.class) == null) {
 					super.getResponse().setAuthorised(false);
@@ -53,18 +50,29 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 				}
 			}
 
-			if (super.getRequest().getData("masterId", Integer.class) == null) {
+			if (super.getRequest().getMethod().equals("GET") && super.getRequest().getData("masterId", Integer.class) == null) {
 				super.getResponse().setAuthorised(false);
 				return;
 			}
+
 			claimId = super.getRequest().getData("masterId", Integer.class);
 			claim = this.repository.findClaimById(claimId);
+			if (claim == null) {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
 			status = claim != null && super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
 
 			int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
-			if (claim == null || agentId != claim.getAssistanceAgent().getId())
-				status = status && false;
+			status = status && agentId == claim.getAssistanceAgent().getId();
+
+			Date moment = MomentHelper.getCurrentMoment();
+			Long maxComplete = this.repository.findNumberLatestTrackingLogByClaimFinish(claim.getId(), moment);
+			if (maxComplete >= 2) {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
 
 			super.getResponse().setAuthorised(status);
 		}
@@ -113,38 +121,25 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 			if (countPercentage > 0)
 				super.state(false, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.notSamePercentage");
 
-			if (trackingLog.getLastUpdateMoment().compareTo(trackingLog.getClaim().getRegistrationMoment()) < 0)
-				super.state(false, "lastUpdateMoment", "assistanceAgent.trackingLog.form.error.lastUpdateMoment");
-
 			boolean morePercentage = true;
 			if (!beforeActual.isEmpty()) {
 				beforeActual.sort(Comparator.comparing(TrackingLog::getResolutionPercentage).reversed());
 				TrackingLog previous = beforeActual.get(0);
 
-				TrackingLog oldTrackingLog = this.repository.findTrackingLogById(super.getRequest().getData("id", int.class));
-
-				if (oldTrackingLog != null && !Objects.equals(oldTrackingLog.getResolutionPercentage(), trackingLog.getResolutionPercentage())) {
-					morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
-
-					super.state(morePercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
-				}
-
 				Long maxComplete = this.repository.findNumberLatestTrackingLogByClaimFinishExceptHimself(trackingLog.getClaim().getId(), trackingLog.getId(), moment);
 
-				if (percentage.equals(100.00)) {
+				if (percentage.equals(100.00))
 					if (maxComplete == 1) {
 						super.state(status.equals(previous.getStatus()), "status", "assistanceAgent.trackingLog.form.error.statusNewPercentageFinished");
 						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "*", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished");
 						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00) && !previous.isDraftMode(), "*", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedTheBeforePublished");
-					} else if (maxComplete >= 2)
-						super.state(false, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.completePercentage");
-
-				} else {
+					}
+				if (!percentage.equals(100.00)) {
 					morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
 					super.state(morePercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
-
 				}
 			}
+
 		}
 
 	}

@@ -15,14 +15,14 @@ assistanceAgent.claim.list-finish.label.registrationMoment = Momento del Registr
 assistanceAgent.claim.list-finish.label.passengerEmail = Correo del Pasajero
 assistanceAgent.claim.list-finish.label.description = Descripción
 assistanceAgent.claim.list-finish.label.type = Tipo
-assistanceAgent.claim.list-finish.label.status = Estados
+assistanceAgent.claim.list-finish.label.status = Estado
 assistanceAgent.claim.list-finish.label.leg.flightNumber = Numero de Vuelo
 
 assistanceAgent.claim.form.label.registrationMoment = Momento del Registro:
 assistanceAgent.claim.form.label.passengerEmail = Correo del Pasajero:
 assistanceAgent.claim.form.label.description = Descripción:
 assistanceAgent.claim.form.label.type = Tipo:
-assistanceAgent.claim.form.label.status = Estados:
+assistanceAgent.claim.form.label.status = Estado:
 assistanceAgent.claim.form.label.leg = Trazo:
 
 assistanceAgent.claim.list-finish.button.create = Crear

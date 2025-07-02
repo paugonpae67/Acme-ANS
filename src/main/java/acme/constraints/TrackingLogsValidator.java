@@ -43,10 +43,8 @@ public class TrackingLogsValidator extends AbstractValidator<ValidTrackingLogs, 
 				return false;
 			}
 
-			Long countPercentage = this.trackingLogsRepository.findNumberLatestTrackingLogByClaimNotFinishExceptHimself(trackingLog.getClaim().getId(), trackingLog.getId(), percentage);
-
-			if (countPercentage > 0)
-				super.state(context, false, "resolutionPercentage", "Two trackingLogs with the same resolution percentage can not exists");
+			if (trackingLog.getLastUpdateMoment().compareTo(trackingLog.getClaim().getRegistrationMoment()) < 0)
+				super.state(context, false, "lastUpdateMoment", " To create a trackingLog, the claim must have been created before");
 
 			if (!percentage.equals(100.00))
 				super.state(context, status.equals(TrackingLogStatus.PENDING), "status", "Status must be PENDING");
