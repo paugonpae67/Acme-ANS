@@ -21,7 +21,7 @@ public class AssistanceAgentListTrackingLogService extends AbstractGuiService<As
 
 	@Override
 	public void authorise() {
-		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && super.getRequest().getData().isEmpty()) {
+		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("masterId", Integer.class)) {
 			super.getResponse().setAuthorised(false);
 			return;
 		} else {

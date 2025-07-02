@@ -54,6 +54,12 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 				super.getResponse().setAuthorised(false);
 				return;
 			}
+			Date moment = MomentHelper.getCurrentMoment();
+			Long maxComplete = this.repository.findNumberLatestTrackingLogByClaimFinish(claim.getId(), moment);
+			if (maxComplete >= 2) {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
 
 		}
 	}
@@ -90,9 +96,6 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 			if (countPercentage > 0)
 				super.state(false, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.notSamePercentage");
 
-			if (trackingLog.getLastUpdateMoment().compareTo(trackingLog.getClaim().getRegistrationMoment()) < 0)
-				super.state(false, "lastUpdateMoment", "assistanceAgent.trackingLog.form.error.lastUpdateMoment");
-
 			boolean morePercentage = true;
 			if (!beforeActual.isEmpty()) {
 				beforeActual.sort(Comparator.comparing(TrackingLog::getResolutionPercentage).reversed());
@@ -113,13 +116,6 @@ public class AssistanceAgentUpdateTrackingLogService extends AbstractGuiService<
 						super.state(status.equals(previous.getStatus()), "status", "assistanceAgent.trackingLog.form.error.statusNewPercentageFinished");
 						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "*", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished");
 						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00) && !previous.isDraftMode(), "*", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedTheBeforePublished");
-					} else if (maxComplete >= 2)
-						super.state(false, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.completePercentage");
-
-					else {
-						morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
-						super.state(morePercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
-
 					}
 			}
 		}

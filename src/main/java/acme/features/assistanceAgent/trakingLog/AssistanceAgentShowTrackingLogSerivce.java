@@ -25,10 +25,6 @@ public class AssistanceAgentShowTrackingLogSerivce extends AbstractGuiService<As
 			super.getResponse().setAuthorised(false);
 			return;
 		}
-		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("masterId", Integer.class)) {
-			super.getResponse().setAuthorised(false);
-			return;
-		}
 
 		boolean status;
 		TrackingLog trackingLog;

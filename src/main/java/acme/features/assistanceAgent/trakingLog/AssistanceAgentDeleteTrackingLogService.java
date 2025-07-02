@@ -5,14 +5,11 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import acme.client.components.models.Dataset;
-import acme.client.components.views.SelectChoices;
 import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.claim.Claim;
 import acme.entities.trackingLogs.TrackingLog;
-import acme.entities.trackingLogs.TrackingLogStatus;
 import acme.realms.AssistanceAgent;
 
 @GuiService
@@ -88,18 +85,5 @@ public class AssistanceAgentDeleteTrackingLogService extends AbstractGuiService<
 
 	@Override
 	public void unbind(final TrackingLog trackingLog) {
-		Dataset dataset;
-		int masterId;
-		SelectChoices choicesStatus;
-
-		choicesStatus = SelectChoices.from(TrackingLogStatus.class, trackingLog.getStatus());
-		masterId = trackingLog.getClaim().getId();
-		dataset = super.unbindObject(trackingLog, "step", "resolutionPercentage", "status", "resolution", "lastUpdateMoment");
-		dataset.put("masterId", masterId);
-		dataset.put("draftMode", trackingLog.isDraftMode());
-		dataset.put("statuses", choicesStatus);
-		dataset.put("claimDraftMode", trackingLog.getClaim().isDraftMode());
-
-		super.getResponse().addData(dataset);
 	}
 }

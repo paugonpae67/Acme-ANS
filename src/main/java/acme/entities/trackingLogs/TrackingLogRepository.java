@@ -13,22 +13,22 @@ import acme.client.repositories.AbstractRepository;
 @Repository
 public interface TrackingLogRepository extends AbstractRepository {
 
-	@Query("SELECT t FROM TrackingLog t WHERE t.claim.id = :claimId ORDER BY t.lastUpdateMoment DESC")
+	@Query("select t from TrackingLog t where t.claim.id = :claimId order by t.lastUpdateMoment DESC")
 	Optional<List<TrackingLog>> findLatestTrackingLogByClaim(Integer claimId);
 
-	@Query("SELECT COUNT(t) FROM TrackingLog t WHERE t.claim.id = :claimId AND t.resolutionPercentage != 100.00 AND t.id != :excludedId AND t.resolutionPercentage = :resolutionPercentage")
+	@Query("select count(t) from TrackingLog t where t.claim.id = :claimId and t.resolutionPercentage != 100.00 and t.id != :excludedId and t.resolutionPercentage = :resolutionPercentage")
 	Long findNumberLatestTrackingLogByClaimNotFinishExceptHimself(Integer claimId, Integer excludedId, Double resolutionPercentage);
 
-	@Query("SELECT t FROM TrackingLog t WHERE t.claim.id = :claimId AND t.id != :currentId AND t.lastUpdateMoment < :lastUpdateMoment ORDER BY t.resolutionPercentage DESC")
+	@Query("select t from TrackingLog t where t.claim.id = :claimId and t.id != :currentId and t.lastUpdateMoment < :lastUpdateMoment order by t.resolutionPercentage DESC")
 	List<TrackingLog> findOtherTrackingLogsBeforeCurrentOrderByPercentage(Integer claimId, Integer currentId, Date lastUpdateMoment);
 
-	@Query("SELECT t FROM TrackingLog t WHERE t.claim.id = :claimId AND t.id <> :currentId AND t.lastUpdateMoment < :lastUpdateMoment ORDER BY t.lastUpdateMoment DESC")
+	@Query("select t from TrackingLog t where t.claim.id = :claimId and t.id <> :currentId and t.lastUpdateMoment < :lastUpdateMoment order by t.lastUpdateMoment DESC")
 	List<TrackingLog> findOtherTrackingLogsBeforeCurrent(Integer claimId, Integer currentId, Date lastUpdateMoment);
 
-	@Query("SELECT t FROM TrackingLog t WHERE t.id = :trackingLogId")
+	@Query("select t from TrackingLog t where t.id = :trackingLogId")
 	TrackingLog findTrackingLogById(Integer trackingLogId);
 
-	@Query("SELECT COUNT(t) FROM TrackingLog t WHERE t.claim.id = :claimId AND t.id <> :excludedId AND t.lastUpdateMoment < :lastUpdateMoment AND t.resolutionPercentage = 100.00")
+	@Query("select count(t) from TrackingLog t where t.claim.id = :claimId and t.id <> :excludedId and t.lastUpdateMoment < :lastUpdateMoment and t.resolutionPercentage = 100.00")
 	Long findNumberOtherTrackingLogsFinishedBeforeCurrent(Integer claimId, Integer excludedId, Date lastUpdateMoment);
 
 }
