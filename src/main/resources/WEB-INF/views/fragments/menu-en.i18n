@@ -29,6 +29,7 @@ master.menu.administrator.list-airlines = Airline list
 master.menu.administrator.maintenanceRecord.list= MaintenanceRecord List
 master.menu.administrator.aircraft.list = Aircraft list
 master.menu.administrator.list = Airport list
+master.menu.administrator.claim.list = List claims
 
 # master.menu.customer ###################################################
 
@@ -51,6 +52,9 @@ master.menu.consumer.favourite-link = Favourite link
 master.menu.claim = Agent
 master.menu.claim.list-finish = List of Finished Claim
 master.menu.claim.list-undergoing = List of Undergoing Claim
+master.menu.claim.list-trackingLog = List all tracking logs
+master.menu.claim.show-dashboard = Show dashboard
+master.menu.claim.delay= Show Flight Status dashboard
 
 # master.menu.FlightAssignment ##########################################################
 
@@ -77,6 +81,8 @@ master.menu.user-account.become-consumer = Become a consumer
 master.menu.user-account.consumer-profile = Consumer profile
 master.menu.user-account.become-technician = Become a technician
 master.menu.user-account.technician-profile = Technician profile
+master.menu.user-account.become-assistance-agent = Become an assistance agent
+master.menu.user-account.assistance-agent-profile = Assistance agent profile
 
 # master.menu.manager ####################################################
 master.menu.manager = Manager

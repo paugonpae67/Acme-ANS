@@ -1,7 +1,7 @@
 
 package acme.forms;
 
-import java.util.List;
+import java.util.Collection;
 
 import acme.client.components.basis.AbstractForm;
 import lombok.Getter;
@@ -15,13 +15,13 @@ public class AssistanceAgentDashboard extends AbstractForm {
 
 	Double						numberofClaimsResolvedSuccessfully;
 	Double						numberofClaimsRejected;
-	List<String>				top3MonthsHighestNumberClaims;
+	Collection<String>			top3MonthsHighestNumberClaims;
 	Double						avergeNumberLogsClaimsHave;
-	Integer						minimumNumberLogsClaimsHave;
-	Integer						maximumNumberLogsClaimsHave;
+	Long						minimumNumberLogsClaimsHave;
+	Long						maximumNumberLogsClaimsHave;
 	Double						standardDeviationNumberLogsClaimsHave;
 	Double						avergeNumberClaimsAssistedLastMonth;
-	Integer						NumberClaimsAssistedLastMonth;
+	Integer						minimumNumberClaimsAssistedLastMonth;
 	Integer						maximumNumberClaimsAssistedLastMonth;
 	Double						standardDeviationNumberClaimsAssistedLastMonth;
 }
