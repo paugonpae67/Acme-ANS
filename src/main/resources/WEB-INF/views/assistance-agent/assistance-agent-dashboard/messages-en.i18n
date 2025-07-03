@@ -1,0 +1,23 @@
+# messages-en.i18n
+#
+# Copyright (C) 2012-2025 Rafael Corchuelo.
+#
+# In keeping with the traditional purpose of furthering education and research, it is
+# the policy of the copyright owner to permit non-commercial use and redistribution of
+# this software. It has been tested carefully, but it is not guaranteed for any particular
+# purposes.  The copyright owner does not offer any warranties or representations, nor do
+# they accept any liabilities with respect to them.
+
+assistance-agent.assistance-agent-dashboard.form.title = Assistance agent dashboard
+
+assistanceAgent.dashboard.form.label.numberofClaimsResolvedSuccessfully = Claims Resolved Successfully Ratio:
+assistanceAgent.dashboard.form.label.numberofClaimsRejected = Claims Rejected Ratio:
+assistanceAgent.dashboard.form.label.top3MonthsHighestNumberClaims = Top 3 months with the highest claim counts:
+assistanceAgent.dashboard.form.label.avergeNumberLogsClaimsHave = Average Number Logs per Claim:
+assistanceAgent.dashboard.form.label.minimumNumberLogsClaimsHave = Minimum Number Logs per Claim:
+assistanceAgent.dashboard.form.label.maximumNumberLogsClaimsHave = Maximum Number Logs per Claim:
+assistanceAgent.dashboard.form.label.standardDeviationNumberLogsClaimsHave = Standard Deviation of Number Logs per Claim:
+assistanceAgent.dashboard.form.label.avergeNumberClaimsAssistedLastMonth = Average Number Claims Last Month:
+assistanceAgent.dashboard.form.label.minimumNumberClaimsAssistedLastMonth = Minimum Number Claims Last Month:
+assistanceAgent.dashboard.form.label.maximumNumberClaimsAssistedLastMonth = Maximum Number Claims Last Month:
+assistanceAgent.dashboard.form.label.standardDeviationNumberClaimsAssistedLastMonth = Standard Deviation of Number Claims Last Month:

@@ -56,7 +56,7 @@ public class AssistanceAgentPublishTrackingLogService extends AbstractGuiService
 				return;
 			}
 			Date moment = MomentHelper.getCurrentMoment();
-			Long maxComplete = this.repository.findNumberLatestTrackingLogByClaimFinish(claim.getId(), moment);
+			Long maxComplete = this.repository.findNumberLatestTrackingLogByClaimFinishExceptHimself(claim.getId(), trackingLog.getId(), moment);
 			if (maxComplete >= 2) {
 				super.getResponse().setAuthorised(false);
 				return;
