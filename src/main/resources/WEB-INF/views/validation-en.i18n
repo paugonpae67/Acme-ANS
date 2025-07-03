@@ -17,10 +17,7 @@ acme.validation.job.ticker.message = invalid Ticker. It must have between 5 and 
 acme.validation.form.error.duplicateTicker = Duplicated Ticker 
 
 acme.validation.claim.form.error.registrationMomentNotPast = Registration Moment must be in the past
-acme.validation.claim.form.error.type = You can only choose a type from the selection 
-acme.validation.claim.form.error.leg = You can only choose a leg from the selection 
-acme.validation.claim.form.error.leg2 = Leg can not be null, you must select one
-acme.validation.claim.form.error.draftMode = You can not update o delete a claim if it is not in draft mode´
+assistanceAgent.claim.form.error.draftMode = You can not update o delete a claim if it is not in draft mode´
 assistanceAgent.claim.form.error.trackingLogAssociated = The record cannot be deleted until all associated trackingLogs have been removed
 
 assistanceAgent.trackingLog.form.error.statusWrongNotFinished = Status must be PENDING
@@ -37,6 +34,8 @@ assistanceAgent.trackingLog.form.error.onlyOneCompleteAllowed = You cannot publi
 assistanceAgent.trackingLog.form.error.lastUpdateMoment = To create a trackingLog, the claim must have been created before
 assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedTheBeforePublished = The other tracking log whit 100% of resolution percentage must be published
 assistanceAgent.trackingLog.form.error.beforePublishingOtherPublished = To publish, previous trackLogs must be published
+
+assistanceAgent.validation.employeeCode.invalidEmployeeCode = Is not valid
 
 acme.validation.leg.message = This aircraft has pending flight legs, it cannot be disabled
 
@@ -77,9 +76,13 @@ acme.validation.leg.flightNumber.message=The flight number must start with the a
 acme.validation.leg.scheduledArrival.message=The arrival must be at least 1 minute after the departure.
 acme.validation.leg.overlapping.message=There are overlapping legs in the same flight.
 
+acme.validation.identifier.initial-mismatch = The employee Code the first two or three letters correspond to their initial
+acme.validation.identifier.format = The format of the employee Code must be 2 o 3 upper letters and 6 digits
 
 acme.validator.licenseNumber = The format must be 2 or 3 capital letters and 6 digits
 acme.validator.iata = The format must be 3 capital letters
 
 acme.validation.assignment.deleteleg = The leg should be in future
+
+manager.flight.form.error.published-leg=Cannot delete the flight because it has one or more published legs
 

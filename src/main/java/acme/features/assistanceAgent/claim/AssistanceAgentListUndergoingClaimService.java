@@ -1,7 +1,9 @@
 
 package acme.features.assistanceAgent.claim;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,26 +24,29 @@ public class AssistanceAgentListUndergoingClaimService extends AbstractGuiServic
 	@Override
 	public void authorise() {
 		boolean status;
-		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && (super.getRequest().hasData("id", int.class) || super.getRequest().hasData("masterId", int.class))) {
+		if (!super.getRequest().getMethod().equals("GET") || super.getRequest().getMethod().equals("GET") && !super.getRequest().getData().isEmpty()) {
 			super.getResponse().setAuthorised(false);
 			return;
 		} else {
 			status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
-
 			super.getResponse().setAuthorised(status);
 		}
-
 	}
 
 	@Override
 	public void load() {
 		Collection<Claim> claims;
 		int assistanceAgentId;
+		List<Claim> undergoingClaim = new ArrayList<>();
 
 		assistanceAgentId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		claims = this.repository.findCompletedClaimsByAssistanceAgent(assistanceAgentId).stream().filter(x -> x.getStatus() == TrackingLogStatus.PENDING).toList();
+		claims = this.repository.findUndergoingClaimsByAssistanceAgent(assistanceAgentId);
 
-		super.getBuffer().addData(claims);
+		for (Claim c : claims)
+			if (c.getStatus() == TrackingLogStatus.PENDING)
+				undergoingClaim.add(c);
+
+		super.getBuffer().addData(undergoingClaim);
 	}
 
 	@Override
@@ -50,11 +55,12 @@ public class AssistanceAgentListUndergoingClaimService extends AbstractGuiServic
 		TrackingLogStatus status;
 
 		status = claim.getStatus();
-		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "type", "status", "leg.flightNumber");
+		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "type", "status");
+		dataset.put("leg.flightNumber", claim.getLeg().getFlightNumber());
+
 		dataset.put("status", status);
-		super.addPayload(dataset, claim, "description", "leg.flightNumber");
+		super.addPayload(dataset, claim, "description");
 
 		super.getResponse().addData(dataset);
 	}
-
 }

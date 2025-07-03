@@ -4,8 +4,6 @@ package acme.features.assistanceAgent.trakingLog;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,9 +30,13 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 		int claimId;
 		Claim claim;
 
-		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", Integer.class))
-			status = false;
-		else {
+		if (super.getRequest().getMethod().equals("GET") && super.getRequest().hasData("id", Integer.class)) {
+			super.getResponse().setAuthorised(false);
+			return;
+		} else if (super.getRequest().getMethod().equals("GET") && !super.getRequest().hasData("masterId", Integer.class)) {
+			super.getResponse().setAuthorised(false);
+			return;
+		} else {
 			if (super.getRequest().getMethod().equals("POST")) {
 
 				if (super.getRequest().getData("id", Integer.class) == null) {
@@ -48,18 +50,29 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 				}
 			}
 
-			if (super.getRequest().getData("masterId", Integer.class) == null) {
+			if (super.getRequest().getMethod().equals("GET") && super.getRequest().getData("masterId", Integer.class) == null) {
 				super.getResponse().setAuthorised(false);
 				return;
 			}
+
 			claimId = super.getRequest().getData("masterId", Integer.class);
 			claim = this.repository.findClaimById(claimId);
+			if (claim == null) {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
 			status = claim != null && super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class);
 
 			int agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
-			if (claim == null || agentId != claim.getAssistanceAgent().getId())
-				status = false;
+			status = status && agentId == claim.getAssistanceAgent().getId();
+
+			Date moment = MomentHelper.getCurrentMoment();
+			Long maxComplete = this.repository.findNumberLatestTrackingLogByClaimFinish(claim.getId(), moment);
+			if (maxComplete >= 2) {
+				super.getResponse().setAuthorised(false);
+				return;
+			}
 
 			super.getResponse().setAuthorised(status);
 		}
@@ -95,53 +108,38 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 
 	@Override
 	public void validate(final TrackingLog trackingLog) {
-		List<TrackingLog> trackingLogs = this.repository.findTrackingLogOfClaim(trackingLog.getClaim().getId());
-		List<TrackingLog> beforeActual = trackingLogs.stream().filter(t -> t.getId() != trackingLog.getId()).filter(t -> !t.getLastUpdateMoment().after(trackingLog.getLastUpdateMoment())).collect(Collectors.toList());
+
+		Date moment = MomentHelper.getCurrentMoment();
+
+		List<TrackingLog> beforeActual = this.repository.findLatestTrackingLogByClaim(trackingLog.getClaim().getId(), trackingLog.getId(), moment);
 
 		if (trackingLog.getResolutionPercentage() != null && trackingLog.getStatus() != null && trackingLog.getResolution() != null) {
 			Double percentage = trackingLog.getResolutionPercentage();
 			TrackingLogStatus status = trackingLog.getStatus();
-			String resolution = trackingLog.getResolution();
-			Long countPercentage = trackingLogs.stream().filter(x -> !x.getResolutionPercentage().equals(100.00)).filter(x -> !Objects.equals(x.getId(), trackingLog.getId()))
-				.filter(x -> Objects.equals(x.getResolutionPercentage(), trackingLog.getResolutionPercentage())).count();
+			Long countPercentage = this.repository.findNumberLatestTrackingLogByClaimNotFinishExceptHimself(trackingLog.getClaim().getId(), trackingLog.getId(), trackingLog.getResolutionPercentage());
 
 			if (countPercentage > 0)
 				super.state(false, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.notSamePercentage");
-
-			if (!percentage.equals(100.00))
-				super.state(status.equals(TrackingLogStatus.PENDING), "status", "assistanceAgent.trackingLog.form.error.statusWrongNotFinished");
-			else
-				super.state(!status.equals(TrackingLogStatus.PENDING), "status", "assistanceAgent.trackingLog.form.error.statusWrongFinished");
-
-			if (status.equals(TrackingLogStatus.ACCEPTED) || status.equals(TrackingLogStatus.REJECTED)) {
-				boolean hasResolution = resolution != null && !resolution.isBlank();
-				super.state(hasResolution, "resolution", "assistanceAgent.trackingLog.form.error.resolutionNeeded");
-			}
-
-			if (trackingLog.getLastUpdateMoment().compareTo(trackingLog.getClaim().getRegistrationMoment()) < 0)
-				super.state(false, "lastUpdateMoment", "assistanceAgent.trackingLog.form.error.lastUpdateMoment");
 
 			boolean morePercentage = true;
 			if (!beforeActual.isEmpty()) {
 				beforeActual.sort(Comparator.comparing(TrackingLog::getResolutionPercentage).reversed());
 				TrackingLog previous = beforeActual.get(0);
 
-				Long maxComplete = beforeActual.stream().filter(x -> x.getResolutionPercentage() != null && x.getResolutionPercentage().equals(100.00)).count();
+				Long maxComplete = this.repository.findNumberLatestTrackingLogByClaimFinishExceptHimself(trackingLog.getClaim().getId(), trackingLog.getId(), moment);
 
-				if (percentage.equals(100.00)) {
+				if (percentage.equals(100.00))
 					if (maxComplete == 1) {
 						super.state(status.equals(previous.getStatus()), "status", "assistanceAgent.trackingLog.form.error.statusNewPercentageFinished");
 						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00), "*", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedClaimPublished");
 						super.state(!trackingLog.getClaim().isDraftMode() && previous.getResolutionPercentage().equals(100.00) && !previous.isDraftMode(), "*", "assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedTheBeforePublished");
-					} else if (maxComplete >= 2)
-						super.state(false, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.completePercentage");
-
-				} else {
+					}
+				if (!percentage.equals(100.00)) {
 					morePercentage = trackingLog.getResolutionPercentage() > previous.getResolutionPercentage();
 					super.state(morePercentage, "resolutionPercentage", "assistanceAgent.trackingLog.form.error.wrongNewPercentage");
-
 				}
 			}
+
 		}
 
 	}

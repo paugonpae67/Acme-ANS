@@ -19,6 +19,7 @@ Link planning dashboard Lidia: https://github.com/users/paugonpae67/projects/6/v
 Link planning dashboard Iratxe: https://github.com/users/paugonpae67/projects/4/views/1
 Link planning dashboard Fernando: https://github.com/users/paugonpae67/projects/7/views/1
 Link planning dashboard Maria: https://github.com/users/paugonpae67/projects/5/views/1
+Link video informal testing María: https://uses0-my.sharepoint.com/:v:/g/personal/marquifer_alum_us_es/EVaWON9Hi9JErjMsSM1zz48BbpLGfiei2UVWTdwZSJLq9w?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=SUxdG0
 
 # Copyright (C) 2012-2025 Rafael Corchuelo.
 #

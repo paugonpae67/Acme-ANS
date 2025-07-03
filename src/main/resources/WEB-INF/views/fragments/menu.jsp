@@ -38,7 +38,8 @@
 
 			<acme:menu-suboption code="master.menu.administrator.list-airlines" action="/administrator/airline/list"/>
 			<acme:menu-separator/>
-
+			<acme:menu-suboption code="master.menu.administrator.claim.list" action="/administrator/claim/list"/>
+			<acme:menu-separator/>
 			<acme:menu-suboption code="master.menu.administrator.aircraft.list" action="/administrator/aircraft/list"/>
 			<acme:menu-separator/>
 			<acme:menu-suboption code="master.menu.administrator.list" action="/administrator/airport/list"/>
@@ -64,6 +65,7 @@
 		<acme:menu-option code="master.menu.claim" access="hasRealm('AssistanceAgent')">		
     		<acme:menu-suboption code="master.menu.claim.list-finish" action="/assistance-agent/claim/list-finish" />
     		<acme:menu-suboption code="master.menu.claim.list-undergoing" action="/assistance-agent/claim/list-undergoing" />
+    		<acme:menu-suboption code="master.menu.claim.show-dashboard" action="/assistance-agent/assistance-agent-dashboard/show"/>	
 		</acme:menu-option>
 
 
@@ -94,9 +96,11 @@
 			<acme:menu-suboption code="master.menu.user-account.become-provider" action="/authenticated/provider/create" access="!hasRealm('Provider')"/>
 			<acme:menu-suboption code="master.menu.user-account.provider-profile" action="/authenticated/provider/update" access="hasRealm('Provider')"/>
 			<acme:menu-suboption code="master.menu.user-account.become-consumer" action="/authenticated/consumer/create" access="!hasRealm('Consumer')"/>
+			<acme:menu-suboption code="master.menu.user-account.become-assistance-agent" action="/authenticated/assistance-agent/create" access="!hasRealm('AssistanceAgent')"/>
 			<acme:menu-suboption code="master.menu.user-account.consumer-profile" action="/authenticated/consumer/update" access="hasRealm('Consumer')"/>
 			<acme:menu-suboption code="master.menu.user-account.become-technician" action="/authenticated/technician/create" access="!hasRealm('Technician')"/>
 			<acme:menu-suboption code="master.menu.user-account.technician-profile" action="/authenticated/technician/update" access="hasRealm('Technician')"/>
+			<acme:menu-suboption code="master.menu.user-account.assistance-agent-profile" action="/authenticated/assistance-agent/update" access="hasRealm('AssistanceAgent')"/>
 		</acme:menu-option>
 		
 		

@@ -2,7 +2,6 @@
 package acme.entities.claim;
 
 import java.beans.Transient;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +35,7 @@ import lombok.Setter;
 @Entity
 @ValidClaims
 @Table(indexes = {
-	@Index(columnList = "id"), @Index(columnList = "assistance_agent_id")
+	@Index(columnList = "assistance_agent_id")
 })
 public class Claim extends AbstractEntity {
 
@@ -73,7 +72,7 @@ public class Claim extends AbstractEntity {
 		Optional<List<TrackingLog>> optionalList = repository.findLatestTrackingLogByClaim(this.getId());
 
 		if (optionalList.isPresent())
-			return optionalList.get().stream().sorted(Comparator.comparing(TrackingLog::getLastUpdateMoment).reversed().thenComparing(TrackingLog::getId, Comparator.reverseOrder())).findFirst().map(TrackingLog::getStatus).orElse(TrackingLogStatus.PENDING);
+			return optionalList.get().stream().findFirst().map(TrackingLog::getStatus).orElse(TrackingLogStatus.PENDING);
 
 		return TrackingLogStatus.PENDING;
 	}

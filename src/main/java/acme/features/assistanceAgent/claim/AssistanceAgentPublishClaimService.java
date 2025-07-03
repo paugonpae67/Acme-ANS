@@ -36,7 +36,6 @@ public class AssistanceAgentPublishClaimService extends AbstractGuiService<Assis
 			if (super.getRequest().getData("id", Integer.class) != null) {
 				masterId = super.getRequest().getData("id", Integer.class);
 				claim = this.repository.findClaimById(masterId);
-				assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
 
 				status = super.getRequest().getPrincipal().hasRealmOfType(AssistanceAgent.class) && claim != null;
 				if (claim != null) {
@@ -46,16 +45,16 @@ public class AssistanceAgentPublishClaimService extends AbstractGuiService<Assis
 					assistanceAgent = claim.getAssistanceAgent();
 
 					status = status && claim.isDraftMode();
-					if (super.getRequest().getData("leg", Integer.class) != null) {
-						Integer legId = super.getRequest().getData("leg", Integer.class);
-						if (legId != null)
-							if (legId == null || legId != 0) {
-								Leg leg = this.repository.findLegByLegId(legId);
-								Collection<Leg> legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
 
-								status = legs.contains(leg);
-								status = status && leg != null && !leg.isDraftMode();
-							}
+					Integer legId = super.getRequest().getData("leg", Integer.class);
+					if (super.getRequest().getData("leg", Integer.class) != null) {
+						if (legId != 0) {
+							Leg leg = this.repository.findLegByLegId(legId);
+							Collection<Leg> legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
+
+							status = status && legs.contains(leg);
+							status = status && leg != null && !leg.isDraftMode();
+						}
 
 					} else {
 						super.getResponse().setAuthorised(false);
@@ -89,40 +88,6 @@ public class AssistanceAgentPublishClaimService extends AbstractGuiService<Assis
 
 	@Override
 	public void validate(final Claim claim) {
-
-		Collection<Leg> legs;
-		Collection<ClaimType> types;
-		ClaimType type;
-		int legId;
-		Leg leg;
-		int agentId;
-		AssistanceAgent assistanceAgent;
-		boolean legCorrect = true;
-		boolean isNullLeg = true;
-		boolean isCorrectType = false;
-
-		String typeStr = super.getRequest().getData("type", String.class);
-
-		for (ClaimType ct : ClaimType.values())
-			if (ct.name().equals(typeStr)) {
-				type = ct;
-				isCorrectType = true;
-				break;
-			}
-
-		agentId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		assistanceAgent = this.repository.findAssistanceAgentById(agentId);
-		legs = this.repository.findAllPublishedLegs(claim.getRegistrationMoment(), assistanceAgent.getAirline().getId());
-
-		legId = super.getRequest().getData("leg", Integer.class);
-
-		leg = this.repository.findLegById(legId);
-		legCorrect = legs.contains(leg);
-
-		super.state(isCorrectType, "type", "acme.validation.claim.form.error.type");
-		super.state(legCorrect, "leg", "acme.validation.claim.form.error.leg");
-		super.state(isNullLeg, "leg", "acme.validation.claim.form.error.leg2");
-		super.state(claim.isDraftMode(), "draftMode", "acme.validation.claim.form.error.draftMode");
 	}
 
 	@Override

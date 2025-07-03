@@ -17,11 +17,7 @@ acme.validation.shortText= La longitud debe estar entre 1 y 50 caracteres
 acme.validation.job.ticker.message = Ticker inválido. Debe tener entre 5 y 15 caracteres
 acme.validation.form.error.duplicateTicker = Ticker duplicado
 
-acme.validation.claim.form.error.registrationMomentNotPast = El momento del registro debe de ser pasado
-acme.validation.claim.form.error.type = Solo puedes elegir los tipos que aparecen en el desplegable 
-acme.validation.claim.form.error.leg = Solo puedes elegir la traza que aparecen en el desplegable 
-acme.validation.claim.form.error.leg2 = La traza no puede ser nulo, 
-acme.validation.claim.form.error.draftMode = No puedes eliminar ni modificar un registro si no está en modo borrado
+assistanceAgent.claim.form.error.draftMode = No puedes eliminar ni modificar un registro si no está en modo borrado
 assistanceAgent.claim.form.error.trackingLogAssociated = No se puede eliminar el registro hasta que se hayan eliminado todos los trackingLogs asociados
 
 assistanceAgent.trackingLog.form.error.statusWrongNotFinished = El estado debe ser PENDING
@@ -38,6 +34,8 @@ assistanceAgent.trackingLog.form.error.onlyOneCompleteAllowed= Este tracking log
 assistanceAgent.trackingLog.form.error.lastUpdateMoment = La fecha del trackingLog no puede ser anterior al especificado en el claim
 assistanceAgent.trackingLog.form.error.createTwoTrackingLogFinishedTheBeforePublished = El otro registro de seguimiento con un 100% de porcentaje de resolución debe estar publicado
 assistanceAgent.trackingLog.form.error.beforePublishingOtherPublished = Para publicarlo, los trackingLogs anteriores deben de estar publicados
+
+assistanceAgent.validation.employeeCode.invalidEmployeeCode = No es válido
 
 acme.validation.leg.message = Este avión tiene tramos de vuelo pendientes, no es posible deshabilitarlo
 
@@ -77,7 +75,11 @@ acme.validation.leg.flightNumber.message=El número de vuelo debe comenzar con e
 acme.validation.leg.scheduledArrival.message=La llegada debe ser al menos 1 minuto después de la salida.
 acme.validation.leg.overlapping.message=Existen tramos que se solapan en el mismo vuelo.
 
+acme.validation.identifier.initial-mismatch = El código de empleado, sus dos o tres primeras letras corresponden a su inicial
+acme.validation.identifier.format = El formato del código de empleado debe ser 2 o 3 letras mayúsculas y 6 dígitos
+
 
 acme.validator.licenseNumber = El formato debe ser 2 o 3 letras mayúsculas y 6 dígitos
 acme.validator.iata= El formato debe ser 3 letras mayúsculas
 
+manager.flight.form.error.published-leg=No se puede eliminar el vuelo porque tiene una o más etapas publicadas.
